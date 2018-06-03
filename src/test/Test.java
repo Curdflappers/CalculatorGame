@@ -18,7 +18,7 @@ public class Test {
                 .println("Unexpected NoSuchMethodException in Test.testParse");
             e.printStackTrace();
         }
-        // assert rule.getOperand().equals(1);
+        assert rule.getOperand() == 1;
         System.out.println("testParse passed");
     }
 }
