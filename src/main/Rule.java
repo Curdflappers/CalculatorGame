@@ -8,7 +8,7 @@ public class Rule {
 
     public Rule(String rule) {
         String[] input = rule.split(" ");
-        setOperator(input[0]);
+        setOperator(toOperator(input[0]));
         if (input.length > 1) {
             setOperand(input[1]);
         }
@@ -16,6 +16,27 @@ public class Rule {
 
     public int add(Integer start) {
         return start + operand;
+    }
+
+    /**
+     * Transform given synonym into the method name of the corresponding
+     * operator
+     * 
+     * @param synonym a potential synonym for an operator method name
+     * @return the method name if the synonym is recognized
+     * @throws RuntimeException when synonym is not recognized
+     */
+    private static String toOperator(String synonym) {
+        switch (synonym) {
+            case ("add"):
+                return "add";
+            case ("plus"):
+                return "add";
+            case ("+"):
+                return "add";
+            default:
+                throw new RuntimeException("Invalid operator: " + synonym);
+        }
     }
 
     private void setOperator(String methodName) {
@@ -33,8 +54,8 @@ public class Rule {
         try {
             this.operand = Integer.parseInt(operand);
         } catch (NumberFormatException e) {
-            System.out
-                .println("Unexpected NumberFormatException in Rule.setOperand");
+            System.out.println(
+                "Unexpected NumberFormatException in Rule.setOperand");
             e.printStackTrace();
         }
     }

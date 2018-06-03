@@ -8,17 +8,25 @@ public class Test {
         System.out.println("Success, all tests passed");
     }
 
-    public static void testParse() {
+    private static void testParse() {
         Rule rule = new Rule("add 1");
+        testOperator(rule, "add");
+        assert rule.getOperand() == 1;
+
+        rule = new Rule("+ 1");
+        testOperator(rule, "add");
+
+        System.out.println("testParse passed");
+    }
+
+    private static void testOperator(Rule rule, String operatorName) {
         try {
-            assert rule.getOperator().equals(Rule.class.getDeclaredMethod("add",
-                new Class[] {Integer.class}));
+            assert rule.getOperator().equals(Rule.class
+                .getDeclaredMethod(operatorName, new Class[] {Integer.class}));
         } catch (NoSuchMethodException e) {
             System.out
                 .println("Unexpected NoSuchMethodException in Test.testParse");
             e.printStackTrace();
         }
-        assert rule.getOperand() == 1;
-        System.out.println("testParse passed");
     }
 }
