@@ -1,10 +1,9 @@
 package main;
 
-import java.lang.reflect.Method;
-
 public class Rule {
     private int operand;
-    Method operator;
+    /** The index associated with the operator */
+    private int operator;
 
     public Rule(String rule) {
         String[] input = rule.split(" ");
@@ -12,10 +11,6 @@ public class Rule {
         if (input.length > 1) {
             setOperand(input[1]);
         }
-    }
-
-    public int add(Integer start) {
-        return start + operand;
     }
 
     /**
@@ -26,28 +21,24 @@ public class Rule {
      * @return the method name if the synonym is recognized
      * @throws RuntimeException when synonym is not recognized
      */
-    private static String toOperator(String synonym) {
+    private static int toOperator(String synonym) {
         switch (synonym) {
             case ("add"):
-                return "add";
             case ("plus"):
-                return "add";
             case ("+"):
-                return "add";
+                return Config.ADD;
+            case ("subtract"):
+            case ("sub"):
+            case ("minus"):
+            case ("-"):
+                return Config.SUBTRACT;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }
     }
 
-    private void setOperator(String methodName) {
-        try {
-            this.operator = Rule.class.getDeclaredMethod(methodName,
-                new Class[] {Integer.class});
-        } catch (NoSuchMethodException e) {
-            System.out.println(
-                "Unexpected NoSuchMethodException in Rule.setOperator");
-            e.printStackTrace();
-        }
+    private void setOperator(int operatorIndex) {
+        this.operator = operatorIndex;
     }
 
     private void setOperand(String operand) {
@@ -60,7 +51,7 @@ public class Rule {
         }
     }
 
-    public Method getOperator() {
+    public int getOperator() {
         return operator;
     }
 
