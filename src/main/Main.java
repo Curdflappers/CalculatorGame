@@ -42,13 +42,11 @@ public class Main {
                 System.out.println("Game unsolvable");
                 return;
             }
-            
             for (State successor : successors(stack.pop())) {
                 if (successor.getValue() == successor.getGoal()) {
                     printSolution(successor);
                     return;
                 }
-                
                 stack.push(successor);
             }
         }
@@ -65,7 +63,9 @@ public class Main {
     private static void printSolution(State state) {
         List<State> states = orderedStates(state);
         for(State element : states) {
-            System.out.println(element.getRule());
+            if (element.getRule() != null) {
+                System.out.println(element.getRule());
+            }
         }
     }
     
