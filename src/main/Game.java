@@ -37,10 +37,12 @@ public class Game {
         return rules[rule.getOperator()][rule.getOperand()];
     }
     
-    public void makeMove(int operator, int operand) {
-        if (0 <= operator && operator < Config.NUM_OPERATORS
-                && 0 < operand && operand <= Config.NUM_OPERANDS
-                && rules[operator][operand]) {
+    public void makeMove(Rule rule) {
+        makeMove(rule.getOperator(), rule.getOperand());
+    }
+    
+    private void makeMove(int operator, int operand) {
+        if (rules[operator][operand]) {
             switch(operator) {
                 case Config.ADD:
                     state += operand;
