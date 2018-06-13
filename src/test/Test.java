@@ -1,11 +1,13 @@
 package test;
 
+import java.util.Scanner;
 import main.*;
 
 public class Test {
     public static void main(String[] args) {
         testRule();
         testGame();
+        testMain();
         System.out.println("SUCCESS: All tests passed");
     }
 
@@ -42,6 +44,15 @@ public class Test {
     }
     
     /**
+     * Tests all methods within the Main class
+     */
+    private static void testMain() {
+        testParseRules();
+        testParseInput();
+        System.out.println("testMain passed");
+    }
+    
+    /**
      * Test the Rule.parse operation
      */
     private static void testParse() {
@@ -60,4 +71,21 @@ public class Test {
         System.out.println("testParse passed");
     }
     
+    private static void testParseRules() {
+        Main.parseRules(new String[] {"add1", "+2", "sub 3"});
+        Rule[] rules = Main.getRules();
+        assert rules[0].getOperator() == Config.ADD;
+        assert rules[0].getOperand() == 1;
+        assert rules[1].getOperator() == Config.ADD;
+        assert rules[1].getOperand() == 2;
+        assert rules[2].getOperator() == Config.SUBTRACT;
+        assert rules[2].getOperand() == 3;
+    }
+    
+    private static void testParseInput() {
+        Main.parseInput(new Scanner("1 2 1 +1,sub 2, add 1 "));
+        assert Main.getState() == 1;
+        assert Main.getGoal() == 2;
+        assert Main.getMoves() == 1;
+    }
 }
