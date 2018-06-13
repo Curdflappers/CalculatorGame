@@ -1,16 +1,21 @@
 package test;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 import main.*;
 
 public class Test {
     public static void main(String[] args) {
+        PrintStream out = System.out;
+        System.setOut(new PrintStream(new ByteArrayOutputStream()));
         testRule();
         testGame();
         testMain();
         testState();
+        System.setOut(out);
         System.out.println("SUCCESS: All tests passed");
     }
 
@@ -43,8 +48,6 @@ public class Test {
         assert game.getGoal() == 2;
         assert game.getMovesLeft() == 0;
         assert game.isValidRule(rule);
-
-        System.out.println("testGame passed");
     }
 
     /**
@@ -55,7 +58,6 @@ public class Test {
         testParseInput();
         testMainMethod();
         testState();
-        System.out.println("testMain passed");
     }
 
     /**
@@ -72,7 +74,6 @@ public class Test {
 
         State state2 = new State(null, 4, 5, 6, state);
         assert state2.getParent() == state;
-        System.out.println("testState passed");
 
         Rule rule = new Rule("+1");
         State state3 = new State(state, rule);
@@ -121,8 +122,6 @@ public class Test {
         assert rule.getOperator() == Config.DIVIDE;
         rule = new Rule("/ 2");
         assert rule.getOperator() == Config.DIVIDE;
-
-        System.out.println("testParse passed");
     }
 
     private static void testOperand() {
