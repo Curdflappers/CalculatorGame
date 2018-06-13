@@ -10,6 +10,7 @@ public class Test {
         testRule();
         testGame();
         testMain();
+        testState();
         System.out.println("SUCCESS: All tests passed");
     }
 
@@ -27,7 +28,7 @@ public class Test {
         // Test constructor
         Rule rule = new Rule("add1");
         Game game = new Game(1, 2, 1, new Rule[] {rule});
-        assert game.getState() == 1;
+        assert game.getValue() == 1;
         assert game.getGoal() == 2;
         assert game.getMovesLeft() == 1;
         assert game.isValidRule(rule);
@@ -37,7 +38,7 @@ public class Test {
 
         // Test makeMove
         game.makeMove(rule);
-        assert game.getState() == 2;
+        assert game.getValue() == 2;
         assert game.getGoal() == 2;
         assert game.getMovesLeft() == 0;
         assert game.isValidRule(rule);
@@ -52,9 +53,27 @@ public class Test {
         testParseRules();
         testParseInput();
         testMainMethod();
+        testState();
         System.out.println("testMain passed");
     }
 
+    /**
+     * Tests the constructor of the Move class
+     */
+    public static void testState() {
+        State state = new State(new Rule("+1"), 1, 2, 3, null);
+        assert state.getRule().getOperator() == Config.ADD;
+        assert state.getRule().getOperand() == 1;
+        assert state.getValue() == 1;
+        assert state.getGoal() == 2;
+        assert state.getMovesLeft() == 3;
+        assert state.getParent() == null;
+        
+        State secondMove = new State(null, 4, 5, 6, state);
+        assert secondMove.getParent() == state;
+        System.out.println("testState passed");
+    }
+    
     /**
      * Test the Rule.parse operation
      */
@@ -65,8 +84,8 @@ public class Test {
         assert rule.getOperand() == 1;
 
         // Test synonyms
-        rule = new Rule("+1");
-        assert rule.getOperator() == Config.ADD;
+        rule = new Rule("-1");
+        assert rule.getOperator() == Config.SUBTRACT;
 
         rule = new Rule("plus 4");
         assert rule.getOperator() == Config.ADD;
@@ -87,7 +106,7 @@ public class Test {
 
     private static void testParseInput() {
         Main.parseInput(new Scanner("1 2 1 +1,sub 2, add 1 "));
-        assert Main.getState() == 1;
+        assert Main.getValue() == 1;
         assert Main.getGoal() == 2;
         assert Main.getMoves() == 1;
     }
@@ -99,7 +118,7 @@ public class Test {
         System.setIn(in);
         Main.main(new String[0]); // with no input
         Game game = Main.getGame();
-        assert game.getState() == 1;
+        assert game.getValue() == 1;
         assert game.getGoal() == 2;
         assert game.getMovesLeft() == 1;
         for (Rule rule : Main.getRules()) {
@@ -110,7 +129,7 @@ public class Test {
         System.setIn(consoleIn);
         Main.main(new String[] {"4", "3", "2", "+2,-1,add3"});
         game = Main.getGame();
-        assert game.getState() == 4;
+        assert game.getValue() == 4;
         assert game.getGoal() == 3;
         assert game.getMovesLeft() == 2;
         for (Rule rule : Main.getRules()) {

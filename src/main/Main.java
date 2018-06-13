@@ -1,6 +1,7 @@
 package main;
 
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * Runs the Calculator Game solver
@@ -9,7 +10,7 @@ import java.util.Scanner;
  *
  */
 public class Main {
-    private static int state = 0, goal = 0, moves = 0;
+    private static int value = 0, goal = 0, moves = 0;
     private static Rule[] rules = new Rule[0];
     private static Game game;
     
@@ -22,14 +23,14 @@ public class Main {
             parseInput(args);
         }
         
-        game = new Game(state, goal, moves, rules);
+        game = new Game(value, goal, moves, rules);
     }
     
     public static Game getGame() {
         return game;
     }
     
-    public static int getState() { return state; }
+    public static int getValue() { return value; }
     public static int getGoal() { return goal; }
     public static int getMoves() { return moves; }
     public static Rule[] getRules() { return rules; }
@@ -40,7 +41,7 @@ public class Main {
      */
     public static void parseInput(Scanner scanner) {
         System.out.print("Enter start state: ");
-        state = scanner.nextInt();
+        value = scanner.nextInt();
 
         System.out.print("Enter goal state: ");
         goal = scanner.nextInt();
@@ -60,7 +61,7 @@ public class Main {
      */
     public static void parseInput(String[] args) {
         try {
-            state = Integer.parseInt(args[0]);
+            value = Integer.parseInt(args[0]);
             goal = Integer.parseInt(args[1]);
             moves = Integer.parseInt(args[2]);
             parseRules(args[3].split(","));
