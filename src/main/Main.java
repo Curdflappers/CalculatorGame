@@ -55,7 +55,10 @@ public class Main {
     private static List<State> successors(State state) {
         List<State> successors = new ArrayList<>();
         for (Rule rule : game.getRules()) {
-            successors.add(new State(state, rule));
+            State successor = new State(state, rule);
+            if (state.getMovesLeft() >= 0) {
+                successors.add(successor);
+            }
         }
         return successors;
     }
@@ -111,16 +114,16 @@ public class Main {
      * @param scanner
      */
     public static void parseInput(Scanner scanner) {
-        System.out.print("Enter start state: ");
+        System.out.print(Config.START_PROMPT);
         value = scanner.nextInt();
 
-        System.out.print("Enter goal state: ");
+        System.out.print(Config.GOAL_PROMPT);
         goal = scanner.nextInt();
 
-        System.out.print("Enter number of moves: ");
+        System.out.print(Config.MOVES_PROMPT);
         moves = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Enter comma-separated rules: ");
+        System.out.print(Config.RULES_PROMPT);
         parseRules(scanner.nextLine().split(","));
 
         scanner.close();

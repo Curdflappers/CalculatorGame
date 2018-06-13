@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import main.*;
 
@@ -56,8 +57,8 @@ public class Test {
     private static void testMain() {
         testParseRules();
         testParseInput();
-        testMainMethod();
-        testState();
+        testMainGame();
+        testMainSolve();
     }
 
     /**
@@ -157,7 +158,10 @@ public class Test {
         assert Main.getMoves() == 1;
     }
 
-    private static void testMainMethod() {
+    /**
+     * Tests integration within Main by ensuring the game is set up correctly
+     */
+    private static void testMainGame() {
         InputStream in =
             new ByteArrayInputStream("1\n2\n1\n+1,sub 2, add 1 ".getBytes());
         InputStream consoleIn = System.in;
@@ -182,5 +186,23 @@ public class Test {
             assert game.isValidRule(rule);
         }
         assert !game.isValidRule(new Rule("+1"));
+    }
+
+    private static void testMainSolve() {
+        PrintStream out = System.out;
+        String lineEnd = "\r\n";
+        String expectedOutput = "";
+        String actualOutput = "";
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        System.setOut(ps);
+        Rule rule = new Rule("+1");
+        Main.main(new String[] {"0", "2", "2", rule.toString() + ",+3"});
+        expectedOutput +=
+            rule.toString() + lineEnd + rule.toString() + lineEnd;
+        actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        assert actualOutput.equals(expectedOutput);
+
+        System.setOut(out);
     }
 }
