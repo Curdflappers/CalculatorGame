@@ -63,6 +63,10 @@ public class Game {
                 return value + rule.getOperand();
             case Config.SUBTRACT:
                 return value - rule.getOperand();
+            case Config.MULTIPLY:
+                return value * rule.getOperand();
+            case Config.DIVIDE:
+                return value / rule.getOperand();
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());

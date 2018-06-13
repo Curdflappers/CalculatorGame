@@ -35,6 +35,18 @@ public class Rule {
             case ("minus"):
             case ("-"):
                 return Config.SUBTRACT;
+            case ("multiply"):
+            case ("mul"):
+            case ("mult"):
+            case ("multiply by"):
+            case ("times"):
+            case ("*"):
+                return Config.MULTIPLY;
+            case ("divide"):
+            case ("div"):
+            case ("divide by"):
+            case ("/"):
+                return Config.DIVIDE;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }
@@ -47,7 +59,8 @@ public class Rule {
     private void setOperand(String operand) {
         try {
             this.operand = Integer.parseInt(operand);
-            if (this.operand > Config.NUM_OPERANDS) {
+            if (this.operand > Config.NUM_OPERANDS
+                || this.operand <= 0) {
                 throw new RuntimeException(
                     "Operand out of range: " + this.operand);
             }
@@ -66,15 +79,26 @@ public class Rule {
         return operand;
     }
     
+    /**
+     * Returns a string representation of this rule.
+     * <p> In the form [operator][operand] (no spaces) e.g. "+1", "*2"
+     * <p> Operators are: ADD: "+", SUBTRACT: "-", MULTIPLY: "*", DIVIDE: "/"
+     */
     public String toString() {
         String s = "";
         switch (operator) {
-            case (Config.ADD):
+            case Config.ADD:
                 s += "+";
                 break;
-            case (Config.SUBTRACT):
+            case Config.SUBTRACT:
                 s += "-";
-                break; 
+                break;
+            case Config.MULTIPLY:
+                s += "*";
+                break;
+            case Config.DIVIDE:
+                s += "/";
+                break;
         }
         s += operand;
         return s;

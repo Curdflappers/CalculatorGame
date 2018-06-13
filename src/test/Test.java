@@ -18,7 +18,8 @@ public class Test {
      * Test all methods within the Rule class
      */
     private static void testRule() {
-        testParse();
+        testOperator();
+        testOperand();
     }
 
     /**
@@ -82,22 +83,61 @@ public class Test {
     /**
      * Test the Rule.parse operation
      */
-    private static void testParse() {
-        // Test constructor
-        Rule rule = new Rule("add1");
+    private static void testOperator() {
+        Rule rule = new Rule("add 1");
         assert rule.getOperator() == Config.ADD;
-        assert rule.getOperand() == 1;
-
-        // Test synonyms
+        rule = new Rule("plus 1");
+        assert rule.getOperator() == Config.ADD;
+        rule = new Rule("+1");
+        assert rule.getOperator() == Config.ADD;
+        
+        rule  = new Rule("subtract 1");
+        assert rule.getOperator() == Config.SUBTRACT;
+        rule = new Rule("sub 1");
+        assert rule.getOperator() == Config.SUBTRACT;
+        rule = new Rule("minus 1");
+        assert rule.getOperator() == Config.SUBTRACT;
         rule = new Rule("-1");
         assert rule.getOperator() == Config.SUBTRACT;
 
-        rule = new Rule("plus 4");
-        assert rule.getOperator() == Config.ADD;
-
+        rule = new Rule("multiply 2");
+        assert rule.getOperator() == Config.MULTIPLY;
+        rule = new Rule("mul 2");
+        assert rule.getOperator() == Config.MULTIPLY;
+        rule = new Rule("mult 2");
+        assert rule.getOperator() == Config.MULTIPLY;
+        rule = new Rule("multiply by 2");
+        assert rule.getOperator() == Config.MULTIPLY;
+        rule = new Rule("times 2");
+        assert rule.getOperator() == Config.MULTIPLY;
+        rule = new Rule("* 2");
+        assert rule.getOperator() == Config.MULTIPLY;
+        
+        rule = new Rule("divide 2");
+        assert rule.getOperator() == Config.DIVIDE;
+        rule = new Rule("div 2");
+        assert rule.getOperator() == Config.DIVIDE;
+        rule = new Rule("divide by 2");
+        assert rule.getOperator() == Config.DIVIDE;
+        rule = new Rule("/ 2");
+        assert rule.getOperator() == Config.DIVIDE;
+        
         System.out.println("testParse passed");
     }
 
+    private static void testOperand() {
+        Rule rule = new Rule("add 1");
+        assert rule.getOperand() == 1;
+        try {
+            rule = new Rule("add 0");
+            assert false; // exception should be thrown at this point
+        } catch (RuntimeException e) { }
+        try {
+            rule = new Rule("add " + (Config.NUM_OPERANDS + 1));
+            assert false;
+        } catch (RuntimeException e) { }
+    }
+    
     private static void testParseRules() {
         Main.parseRules(new String[] {"add1", "+2", "sub 3"});
         Rule[] rules = Main.getRules();
