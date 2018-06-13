@@ -69,9 +69,14 @@ public class Test {
         assert state.getMovesLeft() == 3;
         assert state.getParent() == null;
         
-        State secondMove = new State(null, 4, 5, 6, state);
-        assert secondMove.getParent() == state;
+        State state2 = new State(null, 4, 5, 6, state);
+        assert state2.getParent() == state;
         System.out.println("testState passed");
+        
+        Rule rule = new Rule("+1");
+        State state3 = new State(state, rule);
+        assert state3.getValue() == state.getValue() + 1;
+        assert state3.getRule() == rule;
     }
     
     /**
@@ -105,7 +110,7 @@ public class Test {
     }
 
     private static void testParseInput() {
-        Main.parseInput(new Scanner("1 2 1 +1,sub 2, add 1 "));
+        Main.parseInput(new Scanner("1\n2\n1\n+1,sub 2, add 1 "));
         assert Main.getValue() == 1;
         assert Main.getGoal() == 2;
         assert Main.getMoves() == 1;
@@ -113,7 +118,7 @@ public class Test {
 
     private static void testMainMethod() {
         InputStream in =
-            new ByteArrayInputStream("1 2 1 +1,sub 2, add 1 ".getBytes());
+            new ByteArrayInputStream("1\n2\n1\n+1,sub 2, add 1 ".getBytes());
         InputStream consoleIn = System.in;
         System.setIn(in);
         Main.main(new String[0]); // with no input
@@ -136,6 +141,5 @@ public class Test {
             assert game.isValidRule(rule);
         }
         assert !game.isValidRule(new Rule("+1"));
-
     }
 }

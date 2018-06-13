@@ -65,4 +65,18 @@ public class Rule {
     public int getOperand() {
         return operand;
     }
+    
+    public String toString() {
+        String s = "";
+        switch (operator) {
+            case (Config.ADD):
+                s += "+";
+                break;
+            case (Config.SUBTRACT):
+                s += "-";
+                break; 
+        }
+        s += operand;
+        return s;
+    }
 }

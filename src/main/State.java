@@ -13,6 +13,14 @@ public class State {
         this.parent = parent;
     }
     
+    public State(State state, Rule rule) {
+        this.movesLeft = state.getMovesLeft() - 1;
+        this.goal = state.goal;
+        this.value = Game.applyRule(rule, state.getValue());
+        this.rule = rule;
+        this.parent = state;
+    }
+    
     public Rule getRule() { return rule; }
     public int getValue() { return value; }
     public int getGoal() { return goal; }

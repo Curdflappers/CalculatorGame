@@ -3,17 +3,19 @@ package main;
 public class Game {
     /** The current number for this game */
     private int value;
-    
+
     /** The goal number for this game */
     private int goal;
-    
+
     /** The moves left in this game */
     private int movesLeft;
-    
+
     /** The rules that can be used in this game */
     private boolean[][] rules;
-    
-    /** Create a game of the given parameters
+    private Rule[] validRules;
+
+    /**
+     * Create a game of the given parameters
      * 
      * @param value The start state
      * @param goal The end state
@@ -25,37 +27,51 @@ public class Game {
         this.goal = goal;
         this.movesLeft = moves;
         this.rules = Config.blankRules();
-        for(Rule rule : rules) {
+        for (Rule rule : rules) {
             this.rules[rule.getOperator()][rule.getOperand()] = true;
         }
+        this.validRules = rules;
     }
-    
-    public int getValue() { return value; }
-    public int getGoal() { return goal; }
-    public int getMovesLeft() { return movesLeft; }
+
+    public int getValue() {
+        return value;
+    }
+
+    public int getGoal() {
+        return goal;
+    }
+
+    public int getMovesLeft() {
+        return movesLeft;
+    }
+
     public boolean isValidRule(Rule rule) {
         return rules[rule.getOperator()][rule.getOperand()];
     }
+
     public State getState() {
         return new State(null, getValue(), getGoal(), getMovesLeft(), null);
     }
-    
-    public void makeMove(Rule rule) {
-        makeMove(rule.getOperator(), rule.getOperand());
+
+    public Rule[] getRules() {
+        return validRules;
     }
-    
-    private void makeMove(int operator, int operand) {
-        if (rules[operator][operand]) {
-            switch(operator) {
-                case Config.ADD:
-                    value += operand;
-                    break;
-                case Config.SUBTRACT:
-                    value -= operand;
-                    break;
-                default:
-                    throw new RuntimeException("Unexpected operator: " + operator);
-            }
+
+    public static int applyRule(Rule rule, int value) {
+        switch (rule.getOperator()) {
+            case Config.ADD:
+                return value + rule.getOperand();
+            case Config.SUBTRACT:
+                return value - rule.getOperand();
+            default:
+                throw new RuntimeException(
+                    "Unexpected operator: " + rule.getOperator());
+        }
+    }
+
+    public void makeMove(Rule rule) {
+        if (rules[rule.getOperator()][rule.getOperand()]) {
+            value = applyRule(rule, value);
             movesLeft--;
         }
     }
