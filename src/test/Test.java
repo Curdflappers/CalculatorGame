@@ -1,5 +1,7 @@
 package test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Scanner;
 import main.*;
 
@@ -32,26 +34,27 @@ public class Test {
         assert !game.isValidRule(new Rule("subtract 1"));
         assert !game.isValidRule(new Rule("add 2"));
         assert !game.isValidRule(new Rule("subtract 2"));
-        
+
         // Test makeMove
         game.makeMove(rule);
         assert game.getState() == 2;
         assert game.getGoal() == 2;
         assert game.getMovesLeft() == 0;
         assert game.isValidRule(rule);
-        
+
         System.out.println("testGame passed");
     }
-    
+
     /**
      * Tests all methods within the Main class
      */
     private static void testMain() {
         testParseRules();
         testParseInput();
+        testMainMethod();
         System.out.println("testMain passed");
     }
-    
+
     /**
      * Test the Rule.parse operation
      */
@@ -67,10 +70,10 @@ public class Test {
 
         rule = new Rule("plus 4");
         assert rule.getOperator() == Config.ADD;
-        
+
         System.out.println("testParse passed");
     }
-    
+
     private static void testParseRules() {
         Main.parseRules(new String[] {"add1", "+2", "sub 3"});
         Rule[] rules = Main.getRules();
@@ -81,11 +84,39 @@ public class Test {
         assert rules[2].getOperator() == Config.SUBTRACT;
         assert rules[2].getOperand() == 3;
     }
-    
+
     private static void testParseInput() {
         Main.parseInput(new Scanner("1 2 1 +1,sub 2, add 1 "));
         assert Main.getState() == 1;
         assert Main.getGoal() == 2;
         assert Main.getMoves() == 1;
+    }
+
+    private static void testMainMethod() {
+        InputStream in =
+            new ByteArrayInputStream("1 2 1 +1,sub 2, add 1 ".getBytes());
+        InputStream consoleIn = System.in;
+        System.setIn(in);
+        Main.main(new String[0]); // with no input
+        Game game = Main.getGame();
+        assert game.getState() == 1;
+        assert game.getGoal() == 2;
+        assert game.getMovesLeft() == 1;
+        for (Rule rule : Main.getRules()) {
+            assert game.isValidRule(rule);
+        }
+        assert !game.isValidRule(new Rule("+2"));
+
+        System.setIn(consoleIn);
+        Main.main(new String[] {"4", "3", "2", "+2,-1,add3"});
+        game = Main.getGame();
+        assert game.getState() == 4;
+        assert game.getGoal() == 3;
+        assert game.getMovesLeft() == 2;
+        for (Rule rule : Main.getRules()) {
+            assert game.isValidRule(rule);
+        }
+        assert !game.isValidRule(new Rule("+1"));
+
     }
 }
