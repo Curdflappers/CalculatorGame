@@ -13,7 +13,9 @@ public class Rule {
         boolean hasInt = matcher.find();
         String operator = hasInt ? rule.substring(0, matcher.start()) : rule;
         setOperator(toOperator(operator));
-        if (hasInt) { setOperand(matcher.group()); }
+        if (hasInt) {
+            setOperand(matcher.group());
+        }
     }
 
     /**
@@ -59,8 +61,7 @@ public class Rule {
     private void setOperand(String operand) {
         try {
             this.operand = Integer.parseInt(operand);
-            if (this.operand > Config.NUM_OPERANDS
-                || this.operand <= 0) {
+            if (this.operand > Config.NUM_OPERANDS || this.operand <= 0) {
                 throw new RuntimeException(
                     "Operand out of range: " + this.operand);
             }
@@ -78,11 +79,13 @@ public class Rule {
     public int getOperand() {
         return operand;
     }
-    
+
     /**
      * Returns a string representation of this rule.
-     * <p> In the form [operator][operand] (no spaces) e.g. "+1", "*2"
-     * <p> Operators are: ADD: "+", SUBTRACT: "-", MULTIPLY: "*", DIVIDE: "/"
+     * <p>
+     * In the form [operator][operand] (no spaces) e.g. "+1", "*2"
+     * <p>
+     * Operators are: ADD: "+", SUBTRACT: "-", MULTIPLY: "*", DIVIDE: "/"
      */
     public String toString() {
         String s = "";

@@ -69,17 +69,17 @@ public class Test {
         assert state.getGoal() == 2;
         assert state.getMovesLeft() == 3;
         assert state.getParent() == null;
-        
+
         State state2 = new State(null, 4, 5, 6, state);
         assert state2.getParent() == state;
         System.out.println("testState passed");
-        
+
         Rule rule = new Rule("+1");
         State state3 = new State(state, rule);
         assert state3.getValue() == state.getValue() + 1;
         assert state3.getRule() == rule;
     }
-    
+
     /**
      * Test the Rule.parse operation
      */
@@ -90,8 +90,8 @@ public class Test {
         assert rule.getOperator() == Config.ADD;
         rule = new Rule("+1");
         assert rule.getOperator() == Config.ADD;
-        
-        rule  = new Rule("subtract 1");
+
+        rule = new Rule("subtract 1");
         assert rule.getOperator() == Config.SUBTRACT;
         rule = new Rule("sub 1");
         assert rule.getOperator() == Config.SUBTRACT;
@@ -112,7 +112,7 @@ public class Test {
         assert rule.getOperator() == Config.MULTIPLY;
         rule = new Rule("* 2");
         assert rule.getOperator() == Config.MULTIPLY;
-        
+
         rule = new Rule("divide 2");
         assert rule.getOperator() == Config.DIVIDE;
         rule = new Rule("div 2");
@@ -121,7 +121,7 @@ public class Test {
         assert rule.getOperator() == Config.DIVIDE;
         rule = new Rule("/ 2");
         assert rule.getOperator() == Config.DIVIDE;
-        
+
         System.out.println("testParse passed");
     }
 
@@ -131,13 +131,15 @@ public class Test {
         try {
             rule = new Rule("add 0");
             assert false; // exception should be thrown at this point
-        } catch (RuntimeException e) { }
+        } catch (RuntimeException e) {
+        }
         try {
             rule = new Rule("add " + (Config.NUM_OPERANDS + 1));
             assert false;
-        } catch (RuntimeException e) { }
+        } catch (RuntimeException e) {
+        }
     }
-    
+
     private static void testParseRules() {
         Main.parseRules(new String[] {"add1", "+2", "sub 3"});
         Rule[] rules = Main.getRules();
