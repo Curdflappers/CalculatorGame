@@ -2,7 +2,7 @@ package main;
 
 public class Game {
     /** The current number for this game */
-    private int value;
+    private double value;
 
     /** The goal number for this game */
     private int goal;
@@ -33,7 +33,7 @@ public class Game {
         this.validRules = rules;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
@@ -57,16 +57,16 @@ public class Game {
         return validRules;
     }
 
-    public static int applyRule(Rule rule, int value) {
+    public static double applyRule(Rule rule, double initialValue) {
         switch (rule.getOperator()) {
             case Config.ADD:
-                return value + rule.getOperand();
+                return initialValue + rule.getOperand();
             case Config.SUBTRACT:
-                return value - rule.getOperand();
+                return initialValue - rule.getOperand();
             case Config.MULTIPLY:
-                return value * rule.getOperand();
+                return initialValue * rule.getOperand();
             case Config.DIVIDE:
-                return value / rule.getOperand();
+                return initialValue / rule.getOperand();
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());

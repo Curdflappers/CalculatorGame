@@ -54,10 +54,12 @@ public class Main {
 
     private static List<State> successors(State state) {
         List<State> successors = new ArrayList<>();
-        for (Rule rule : game.getRules()) {
-            State successor = new State(state, rule);
-            if (state.getMovesLeft() >= 0) {
-                successors.add(successor);
+        if (state.getMovesLeft() > 0) {
+            for (Rule rule : game.getRules()) {
+                State successor = new State(state, rule);
+                if (successor.getValue() % 1 == 0) { // cannot have decimals!
+                    successors.add(successor);
+                }
             }
         }
         return successors;

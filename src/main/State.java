@@ -2,10 +2,11 @@ package main;
 
 public class State {
     private Rule rule;
-    private int value, goal, movesLeft;
+    private double value;
+    private int goal, movesLeft;
     private State parent;
 
-    public State(Rule rule, int value, int goal, int movesLeft, State parent) {
+    public State(Rule rule, double value, int goal, int movesLeft, State parent) {
         this.rule = rule;
         this.value = value;
         this.goal = goal;
@@ -25,7 +26,7 @@ public class State {
         return rule;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 

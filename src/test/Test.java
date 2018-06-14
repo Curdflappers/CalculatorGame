@@ -203,6 +203,14 @@ public class Test {
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
         assert actualOutput.equals(expectedOutput);
 
+        baos = new ByteArrayOutputStream();
+        ps = new PrintStream(baos);
+        System.setOut(ps);
+        Main.main(new String[] {"3", "4", "3", "+4,*4,/4"});
+        expectedOutput = "*4" + lineEnd + "+4" + lineEnd + "/4" + lineEnd;
+        actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        assert actualOutput.equals(expectedOutput);
+
         System.setOut(out);
     }
 }
