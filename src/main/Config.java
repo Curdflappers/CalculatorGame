@@ -5,7 +5,7 @@ public class Config {
         PAD = 4, SIGN = 5, DELETE = 6;
 
     public static final int NUM_OPERATORS = 7;
-    public static final int NUM_OPERANDS = 20;
+    public static final int MIN_OPERAND = -15, MAX_OPERAND = 15;
 
     public static final String START_PROMPT = "Enter start value: ",
         GOAL_PROMPT = "Enter goal value: ",
@@ -14,6 +14,6 @@ public class Config {
         AGAIN_PROMPT = "Solve again (y/n):";
 
     public static boolean[][] blankRules() {
-        return new boolean[NUM_OPERATORS][NUM_OPERANDS];
+        return new boolean[NUM_OPERATORS][MAX_OPERAND - MIN_OPERAND + 1];
     }
 }

@@ -9,7 +9,7 @@ public class Rule {
     private int operator;
 
     public Rule(String rule) {
-        Matcher matcher = Pattern.compile("\\d+").matcher(rule);
+        Matcher matcher = Pattern.compile("-?\\d+").matcher(rule);
         boolean hasInt = matcher.find();
         String operator = hasInt ? rule.substring(0, matcher.start()) : rule;
         setOperator(toOperator(operator));
@@ -73,7 +73,8 @@ public class Rule {
     private void setOperand(String operand) {
         try {
             this.operand = Integer.parseInt(operand);
-            if (this.operand > Config.NUM_OPERANDS || this.operand <= 0) {
+            if (this.operand > Config.MAX_OPERAND
+                || this.operand < Config.MIN_OPERAND) {
                 throw new RuntimeException(
                     "Operand out of range: " + this.operand);
             }

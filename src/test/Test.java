@@ -37,12 +37,13 @@ public class Test {
     }
 
     private static void testGameConstructor() {
-        Rule rule = new Rule("add1");
-        Game game = new Game(1, 2, 1, new Rule[] {rule});
+        Rule add1 = new Rule("add1");
+        Rule timesNegative3 = new Rule("times -3");
+        Game game = new Game(1, 2, 1, new Rule[] {add1});
         assert game.getValue() == 1;
         assert game.getGoal() == 2;
         assert game.getMovesLeft() == 1;
-        assert game.isValidRule(rule);
+        assert game.isValidRule(add1);
         assert !game.isValidRule(new Rule("subtract 1"));
         assert !game.isValidRule(new Rule("add 2"));
         assert !game.isValidRule(new Rule("subtract 2"));
@@ -122,7 +123,7 @@ public class Test {
         assert rule.getOperator() == Config.SUBTRACT;
         rule = new Rule("minus 1");
         assert rule.getOperator() == Config.SUBTRACT;
-        rule = new Rule("-1");
+        rule = new Rule("- 1");
         assert rule.getOperator() == Config.SUBTRACT;
 
         rule = new Rule("multiply 2");
@@ -173,12 +174,12 @@ public class Test {
         Rule rule = new Rule("add 1");
         assert rule.getOperand() == 1;
         try {
-            rule = new Rule("add 0");
+            rule = new Rule("add " + (Config.MIN_OPERAND - 1));
             assert false; // exception should be thrown at this point
         } catch (RuntimeException e) {
         }
         try {
-            rule = new Rule("add " + (Config.NUM_OPERANDS + 1));
+            rule = new Rule("add " + (Config.MAX_OPERAND + 1));
             assert false;
         } catch (RuntimeException e) {
         }
@@ -223,7 +224,7 @@ public class Test {
         assert !game.isValidRule(new Rule("+2"));
 
         System.setIn(new ByteArrayInputStream("n ".getBytes()));
-        Main.main(new String[] {"4", "3", "2", "+2,-1,add3"});
+        Main.main(new String[] {"4", "3", "2", "+2,- 1,add3"});
         game = Main.getGame();
         assert game.getValue() == 4;
         assert game.getGoal() == 3;

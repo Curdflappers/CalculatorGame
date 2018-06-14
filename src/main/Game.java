@@ -28,7 +28,7 @@ public class Game {
         this.movesLeft = moves;
         this.rules = Config.blankRules();
         for (Rule rule : rules) {
-            this.rules[rule.getOperator()][rule.getOperand()] = true;
+            this.rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND] = true;
         }
         this.validRules = rules;
     }
@@ -46,7 +46,7 @@ public class Game {
     }
 
     public boolean isValidRule(Rule rule) {
-        return rules[rule.getOperator()][rule.getOperand()];
+        return rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND];
     }
 
     public State getState() {
@@ -97,7 +97,7 @@ public class Game {
     }
 
     public void makeMove(Rule rule) {
-        if (rules[rule.getOperator()][rule.getOperand()]) {
+        if (rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND]) {
             value = applyRule(rule, value);
             movesLeft--;
         }
