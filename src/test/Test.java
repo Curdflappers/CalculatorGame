@@ -81,6 +81,7 @@ public class Test {
         testParseInput();
         testMainGame();
         testMainSolve();
+        testMainAgain();
     }
 
     /**
@@ -207,8 +208,8 @@ public class Test {
      * Tests integration within Main by ensuring the game is set up correctly
      */
     private static void testMainGame() {
-        InputStream in =
-            new ByteArrayInputStream("1\n2\n1\n+1,sub 2, add 1 ".getBytes());
+        InputStream in = new ByteArrayInputStream(
+            "1\n2\n1\n+1,sub 2, add 1 \nn".getBytes());
         InputStream consoleIn = System.in;
         System.setIn(in);
         Main.main(new String[0]); // with no input
@@ -221,7 +222,7 @@ public class Test {
         }
         assert !game.isValidRule(new Rule("+2"));
 
-        System.setIn(consoleIn);
+        System.setIn(new ByteArrayInputStream("n ".getBytes()));
         Main.main(new String[] {"4", "3", "2", "+2,-1,add3"});
         game = Main.getGame();
         assert game.getValue() == 4;
@@ -231,6 +232,8 @@ public class Test {
             assert game.isValidRule(rule);
         }
         assert !game.isValidRule(new Rule("+1"));
+
+        System.setIn(consoleIn);
     }
 
     private static void testMainSolve() {
@@ -238,45 +241,70 @@ public class Test {
         String lineEnd = "\r\n";
         String expectedOutput = "";
         String actualOutput = "";
+        String notAgain = "n "; // input to not play again
 
         // Level 1: Go from 1 to 3 using "+1" twice
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        System.setOut(ps);
+        ByteArrayOutputStream baos = prepareEndToEndTest(notAgain);
         Rule rule = new Rule("+1");
         Main.main(new String[] {"0", "2", "2", rule.toString() + ",+3"});
         expectedOutput +=
             rule.toString() + lineEnd + rule.toString() + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput);
+        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
 
         // Level 4: 3 to 4 using *4, +4, /4 in three moves (in that order)
-        baos = new ByteArrayOutputStream();
-        ps = new PrintStream(baos);
-        System.setOut(ps);
+        baos = prepareEndToEndTest(notAgain);
         Main.main(new String[] {"3", "4", "3", "+4,*4,/4"});
         expectedOutput = "*4" + lineEnd + "+4" + lineEnd + "/4" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput);
+        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
 
         // Padding test: Go from 3 to 34 using pad4
-        baos = new ByteArrayOutputStream();
-        ps = new PrintStream(baos);
-        System.setOut(ps);
+        baos = prepareEndToEndTest(notAgain);
         Main.main(new String[] {"3", "34", "1", "4"});
         expectedOutput = "4" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput);
+        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
 
         // Delete test: go from 4321 to 4 using delete three times
-        baos = new ByteArrayOutputStream();
-        ps = new PrintStream(baos);
-        System.setOut(ps);
+        baos = prepareEndToEndTest(notAgain);
         Main.main(new String[] {"4321", "4", "3", "<<"});
         expectedOutput = "<<" + lineEnd + "<<" + lineEnd + "<<" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput);
+        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
 
         System.setOut(out);
+    }
+
+    /**
+     * Tests whether the "again" functionality works
+     */
+    private static void testMainAgain() {
+        ByteArrayOutputStream baos;
+        String expectedOutput = "", lineEnd = "\r\n", actualOutput = "";
+
+        // Padding test: Go from 3 to 34 using pad4
+        baos = prepareEndToEndTest("y\n4321\n4\n3\n<<\nn\n");
+        Main.main(new String[] {"3", "34", "1", "4"});
+        expectedOutput = "4" + lineEnd + Config.AGAIN_PROMPT;
+        expectedOutput += Config.START_PROMPT + Config.GOAL_PROMPT
+            + Config.MOVES_PROMPT + Config.RULES_PROMPT;
+        expectedOutput += "<<" + lineEnd + "<<" + lineEnd + "<<" + lineEnd;
+        actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
+    }
+
+    /**
+     * Sets output to print to BAOS, sets input to {@code input}
+     * 
+     * @param input the new input String
+     * @return the BAOS to which output is printed
+     */
+    private static ByteArrayOutputStream prepareEndToEndTest(String input) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        System.setOut(ps);
+        return baos;
     }
 }

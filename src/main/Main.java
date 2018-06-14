@@ -16,18 +16,29 @@ public class Main {
     private static int value = 0, goal = 0, moves = 0;
     private static Rule[] rules = new Rule[0];
     private static Game game;
+    private static boolean again;
 
     public static void main(String[] args) {
-        if (args.length == 0) {
-            Scanner scanner = new Scanner(System.in);
-            parseInput(scanner);
-            scanner.close();
-        } else {
-            parseInput(args);
-        }
+        Scanner scanner = new Scanner(System.in);
+        do {
+            if (args.length == 0) {
+                parseInput(scanner);
+            } else {
+                parseInput(args);
+            }
 
-        game = new Game(value, goal, moves, rules);
-        solveGame();
+            game = new Game(value, goal, moves, rules);
+            solveGame();
+            promptAgain(scanner);
+            args = new String[0]; // can't use the same args again
+        } while (again);
+        scanner.close();
+    }
+
+    private static void promptAgain(Scanner scanner) {
+        System.out.print(Config.AGAIN_PROMPT);
+        String answer = scanner.next();
+        again = answer.charAt(0) == 'y';
     }
 
     /**
@@ -127,8 +138,6 @@ public class Main {
         scanner.nextLine();
         System.out.print(Config.RULES_PROMPT);
         parseRules(scanner.nextLine().split(","));
-
-        scanner.close();
     }
 
     /**

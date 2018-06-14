@@ -10,7 +10,8 @@ public class Config {
     public static final String START_PROMPT = "Enter start value: ",
         GOAL_PROMPT = "Enter goal value: ",
         MOVES_PROMPT = "Enter the number of moves: ",
-        RULES_PROMPT = "Enter comma-separated rules: ";
+        RULES_PROMPT = "Enter comma-separated rules: ",
+        AGAIN_PROMPT = "Solve again (y/n):";
 
     public static boolean[][] blankRules() {
         return new boolean[NUM_OPERATORS][NUM_OPERANDS];
