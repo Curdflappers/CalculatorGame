@@ -52,7 +52,8 @@ public class Test {
         Rule pad2 = new Rule("2");
         Rule pad10 = new Rule("10");
         Rule sign = new Rule("sign");
-        Game game = new Game(1, 2, 10, new Rule[] {pad2, pad10, sign});
+        Rule delete = new Rule("<<");
+        Game game = new Game(1, 2, 10, new Rule[] {pad2, pad10, sign, delete});
 
         assert game.getValue() == 1;
 
@@ -67,6 +68,9 @@ public class Test {
 
         game.makeMove(sign);
         assert game.getValue() == 1210;
+
+        game.makeMove(delete);
+        assert game.getValue() == 121;
     }
 
     /**
@@ -144,9 +148,24 @@ public class Test {
 
         rule = new Rule("3");
         assert rule.getOperator() == Config.PAD;
-        
+
         rule = new Rule("sign");
         assert rule.getOperator() == Config.SIGN;
+
+        rule = new Rule("delete");
+        assert rule.getOperator() == Config.DELETE;
+        rule = new Rule("del");
+        assert rule.getOperator() == Config.DELETE;
+        rule = new Rule("shift");
+        assert rule.getOperator() == Config.DELETE;
+        rule = new Rule("rshift");
+        assert rule.getOperator() == Config.DELETE;
+        rule = new Rule("rightshift");
+        assert rule.getOperator() == Config.DELETE;
+        rule = new Rule("right shift");
+        assert rule.getOperator() == Config.DELETE;
+        rule = new Rule("<<");
+        assert rule.getOperator() == Config.DELETE;
     }
 
     private static void testOperand() {
@@ -219,6 +238,8 @@ public class Test {
         String lineEnd = "\r\n";
         String expectedOutput = "";
         String actualOutput = "";
+
+        // Level 1: Go from 1 to 3 using "+1" twice
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         System.setOut(ps);
@@ -229,6 +250,7 @@ public class Test {
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
         assert actualOutput.equals(expectedOutput);
 
+        // Level 4: 3 to 4 using *4, +4, /4 in three moves (in that order)
         baos = new ByteArrayOutputStream();
         ps = new PrintStream(baos);
         System.setOut(ps);
@@ -237,11 +259,21 @@ public class Test {
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
         assert actualOutput.equals(expectedOutput);
 
+        // Padding test: Go from 3 to 34 using pad4
         baos = new ByteArrayOutputStream();
         ps = new PrintStream(baos);
         System.setOut(ps);
         Main.main(new String[] {"3", "34", "1", "4"});
         expectedOutput = "4" + lineEnd;
+        actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        assert actualOutput.equals(expectedOutput);
+
+        // Delete test: go from 4321 to 4 using delete three times
+        baos = new ByteArrayOutputStream();
+        ps = new PrintStream(baos);
+        System.setOut(ps);
+        Main.main(new String[] {"4321", "4", "3", "<<"});
+        expectedOutput = "<<" + lineEnd + "<<" + lineEnd + "<<" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
         assert actualOutput.equals(expectedOutput);
 

@@ -53,6 +53,14 @@ public class Rule {
                 return Config.PAD;
             case "sign":
                 return Config.SIGN;
+            case "delete":
+            case "del":
+            case "shift":
+            case "rshift":
+            case "rightshift":
+            case "right shift":
+            case "<<":
+                return Config.DELETE;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }
@@ -108,6 +116,8 @@ public class Rule {
                 break;
             case Config.SIGN:
                 return "+/-";
+            case Config.DELETE:
+                return "<<";
         }
         s += operand;
         return s;

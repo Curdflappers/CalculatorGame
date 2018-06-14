@@ -58,6 +58,7 @@ public class Game {
     }
 
     public static double applyRule(Rule rule, double initialValue) {
+        String valString;
         switch (rule.getOperator()) {
             case Config.ADD:
                 return initialValue + rule.getOperand();
@@ -68,7 +69,7 @@ public class Game {
             case Config.DIVIDE:
                 return initialValue / rule.getOperand();
             case Config.PAD:
-                String valString = String.valueOf((int) initialValue);
+                valString = String.valueOf((int) initialValue);
                 valString += rule.getOperand();
                 try {
                     return Double.parseDouble(valString);
@@ -79,6 +80,16 @@ public class Game {
                 }
             case Config.SIGN:
                 return -initialValue;
+            case Config.DELETE:
+                valString = String.valueOf((int) initialValue);
+                valString = valString.substring(0, valString.length() - 1);
+                try {
+                    return Double.parseDouble(valString);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(
+                        "Unexpected NumberFormatException");
+                }
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());
