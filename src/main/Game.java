@@ -83,6 +83,9 @@ public class Game {
             case Config.DELETE:
                 valString = String.valueOf((int) initialValue);
                 valString = valString.substring(0, valString.length() - 1);
+                if (valString.length() == 0 || valString.equals("-")) {
+                    return 0;
+                }
                 try {
                     return Double.parseDouble(valString);
                 } catch (NumberFormatException e) {

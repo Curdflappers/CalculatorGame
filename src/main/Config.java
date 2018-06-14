@@ -11,7 +11,7 @@ public class Config {
         GOAL_PROMPT = "Enter goal value: ",
         MOVES_PROMPT = "Enter the number of moves: ",
         RULES_PROMPT = "Enter comma-separated rules: ",
-        AGAIN_PROMPT = "Solve again (y/n):";
+        AGAIN_PROMPT = "Solve again (y/n): ";
 
     public static boolean[][] blankRules() {
         return new boolean[NUM_OPERATORS][MAX_OPERAND - MIN_OPERAND + 1];

@@ -39,7 +39,7 @@ public class Test {
     private static void testGameConstructor() {
         Rule add1 = new Rule("add1");
         Rule timesNegative3 = new Rule("times -3");
-        Game game = new Game(1, 2, 1, new Rule[] {add1});
+        Game game = new Game(1, 2, 1, new Rule[] {add1, timesNegative3});
         assert game.getValue() == 1;
         assert game.getGoal() == 2;
         assert game.getMovesLeft() == 1;
@@ -54,6 +54,7 @@ public class Test {
         Rule pad10 = new Rule("10");
         Rule sign = new Rule("sign");
         Rule delete = new Rule("<<");
+        Rule sub1 = new Rule("sub1");
         Game game = new Game(1, 2, 10, new Rule[] {pad2, pad10, sign, delete});
 
         assert game.getValue() == 1;
@@ -72,6 +73,15 @@ public class Test {
 
         game.makeMove(delete);
         assert game.getValue() == 121;
+
+        game.makeMove(delete);
+        game.makeMove(delete);
+        game.makeMove(delete);
+        assert game.getValue() == 0;
+
+        game.makeMove(sub1);
+        game.makeMove(delete);
+        assert game.getValue() == 0;
     }
 
     /**
