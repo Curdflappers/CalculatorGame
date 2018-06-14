@@ -32,7 +32,11 @@ public class Test {
      * Test all methods within the Game class
      */
     private static void testGame() {
-        // Test constructor
+        testGameConstructor();
+        testApplyRule();
+    }
+
+    private static void testGameConstructor() {
         Rule rule = new Rule("add1");
         Game game = new Game(1, 2, 1, new Rule[] {rule});
         assert game.getValue() == 1;
@@ -42,13 +46,25 @@ public class Test {
         assert !game.isValidRule(new Rule("subtract 1"));
         assert !game.isValidRule(new Rule("add 2"));
         assert !game.isValidRule(new Rule("subtract 2"));
+    }
 
-        // Test makeMove
-        game.makeMove(rule);
+    private static void testApplyRule() {
+        Rule add1 = new Rule("+1");
+        Rule sub1 = new Rule("-1");
+        Rule mul2 = new Rule("*2");
+        Rule div2 = new Rule("/2");
+        Rule pad2 = new Rule("2");
+        Game game =
+            new Game(1, 2, 10, new Rule[] {add1, sub1, mul2, div2, pad2});
+
+        game.makeMove(add1);
         assert game.getValue() == 2;
         assert game.getGoal() == 2;
-        assert game.getMovesLeft() == 0;
-        assert game.isValidRule(rule);
+        assert game.getMovesLeft() == 9;
+        assert game.isValidRule(add1);
+
+        game.makeMove(pad2);
+        assert game.getValue() == 22;
     }
 
     /**
@@ -123,6 +139,9 @@ public class Test {
         assert rule.getOperator() == Config.DIVIDE;
         rule = new Rule("/ 2");
         assert rule.getOperator() == Config.DIVIDE;
+
+        rule = new Rule("3");
+        assert rule.getOperator() == Config.PAD;
     }
 
     private static void testOperand() {
@@ -138,6 +157,8 @@ public class Test {
             assert false;
         } catch (RuntimeException e) {
         }
+        rule = new Rule("2");
+        assert rule.getOperand() == 2;
     }
 
     private static void testParseRules() {
@@ -208,6 +229,14 @@ public class Test {
         System.setOut(ps);
         Main.main(new String[] {"3", "4", "3", "+4,*4,/4"});
         expectedOutput = "*4" + lineEnd + "+4" + lineEnd + "/4" + lineEnd;
+        actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        assert actualOutput.equals(expectedOutput);
+
+        baos = new ByteArrayOutputStream();
+        ps = new PrintStream(baos);
+        System.setOut(ps);
+        Main.main(new String[] {"3", "34", "1", "4"});
+        expectedOutput = "4" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
         assert actualOutput.equals(expectedOutput);
 

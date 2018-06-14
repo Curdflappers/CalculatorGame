@@ -67,6 +67,16 @@ public class Game {
                 return initialValue * rule.getOperand();
             case Config.DIVIDE:
                 return initialValue / rule.getOperand();
+            case Config.PAD:
+                String valString = String.valueOf((int) initialValue);
+                valString += rule.getOperand();
+                try {
+                    return Double.parseDouble(valString);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(
+                        "Unexpected NumberFormatException");
+                }
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());

@@ -28,27 +28,29 @@ public class Rule {
      */
     private static int toOperator(String synonym) {
         switch (synonym.trim()) {
-            case ("add"):
-            case ("plus"):
-            case ("+"):
+            case "add":
+            case "plus":
+            case "+":
                 return Config.ADD;
-            case ("subtract"):
-            case ("sub"):
-            case ("minus"):
-            case ("-"):
+            case "subtract":
+            case "sub":
+            case "minus":
+            case "-":
                 return Config.SUBTRACT;
-            case ("multiply"):
-            case ("mul"):
-            case ("mult"):
-            case ("multiply by"):
-            case ("times"):
-            case ("*"):
+            case "multiply":
+            case "mul":
+            case "mult":
+            case "multiply by":
+            case "times":
+            case "*":
                 return Config.MULTIPLY;
-            case ("divide"):
-            case ("div"):
-            case ("divide by"):
-            case ("/"):
+            case "divide":
+            case "div":
+            case "divide by":
+            case "/":
                 return Config.DIVIDE;
+            case "":
+                return Config.PAD;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }
