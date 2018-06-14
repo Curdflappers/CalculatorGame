@@ -49,22 +49,24 @@ public class Test {
     }
 
     private static void testApplyRule() {
-        Rule add1 = new Rule("+1");
-        Rule sub1 = new Rule("-1");
-        Rule mul2 = new Rule("*2");
-        Rule div2 = new Rule("/2");
         Rule pad2 = new Rule("2");
-        Game game =
-            new Game(1, 2, 10, new Rule[] {add1, sub1, mul2, div2, pad2});
+        Rule pad10 = new Rule("10");
+        Rule sign = new Rule("sign");
+        Game game = new Game(1, 2, 10, new Rule[] {pad2, pad10, sign});
 
-        game.makeMove(add1);
-        assert game.getValue() == 2;
-        assert game.getGoal() == 2;
-        assert game.getMovesLeft() == 9;
-        assert game.isValidRule(add1);
+        assert game.getValue() == 1;
 
         game.makeMove(pad2);
-        assert game.getValue() == 22;
+        assert game.getValue() == 12;
+
+        game.makeMove(pad10);
+        assert game.getValue() == 1210;
+
+        game.makeMove(sign);
+        assert game.getValue() == -1210;
+
+        game.makeMove(sign);
+        assert game.getValue() == 1210;
     }
 
     /**
@@ -142,6 +144,9 @@ public class Test {
 
         rule = new Rule("3");
         assert rule.getOperator() == Config.PAD;
+        
+        rule = new Rule("sign");
+        assert rule.getOperator() == Config.SIGN;
     }
 
     private static void testOperand() {

@@ -51,6 +51,8 @@ public class Rule {
                 return Config.DIVIDE;
             case "":
                 return Config.PAD;
+            case "sign":
+                return Config.SIGN;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }
@@ -104,6 +106,8 @@ public class Rule {
             case Config.DIVIDE:
                 s += "/";
                 break;
+            case Config.SIGN:
+                return "+/-";
         }
         s += operand;
         return s;

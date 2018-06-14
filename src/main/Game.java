@@ -77,6 +77,8 @@ public class Game {
                     throw new RuntimeException(
                         "Unexpected NumberFormatException");
                 }
+            case Config.SIGN:
+                return -initialValue;
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());

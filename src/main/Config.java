@@ -2,10 +2,10 @@ package main;
 
 public class Config {
     public static final int ADD = 0, SUBTRACT = 1, MULTIPLY = 2, DIVIDE = 3,
-        PAD = 4;
+        PAD = 4, SIGN = 5;
 
-    public static final int NUM_OPERATORS = 5;
-    public static final int NUM_OPERANDS = 10;
+    public static final int NUM_OPERATORS = 6;
+    public static final int NUM_OPERANDS = 20;
 
     public static final String START_PROMPT = "Enter start value: ",
         GOAL_PROMPT = "Enter goal value: ",
