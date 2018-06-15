@@ -22,7 +22,14 @@ public class Rule {
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(rule);
         boolean hasInt = matcher.find();
+
+        // Don't accidentally pad a negative
         String operator = hasInt ? rule.substring(0, matcher.start()) : rule;
+        if (operator.equals("") && rule.charAt(0) == '-') {
+            setOperator(toOperator("-")); // the minus was for subtraction
+            setOperand(rule.substring(1)); // skip the minus sign in the operand
+            return;
+        }
         setOperator(toOperator(operator));
         if (hasInt) {
             setOperand(matcher.group());

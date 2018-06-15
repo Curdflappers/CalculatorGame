@@ -1,2 +1,2 @@
-0001:   Entering "-3" (or "-X" in general) tries to pad "-3" as a rule, which breaks it. Workaround: "- 3"
-0002:   Entering "*-X" is read as operator "*-". Workaround: "* -X"
+[FIXED] 0001:   Entering "-3" (or "-X" in general) tries to pad "-3" as a rule, which breaks it. Workaround: "- 3"
+[FIXED] 0002:   Entering "*-X" is read as operator "*-". Workaround: "* -X"
