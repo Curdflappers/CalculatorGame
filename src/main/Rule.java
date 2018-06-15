@@ -86,6 +86,9 @@ public class Rule {
             case "x^":
             case "^":
                 return Config.POWER;
+            case "reverse":
+            case "rev":
+                return Config.REVERSE;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }

@@ -60,7 +60,7 @@ public class Game {
     }
 
     public static double applyRule(Rule rule, double initialValue) {
-        String valString;
+        String valString = String.valueOf((int) initialValue);
         switch (rule.getOperator()) {
             case Config.ADD:
                 return initialValue + rule.getOperand();
@@ -77,20 +77,26 @@ public class Game {
             case Config.SIGN:
                 return -initialValue;
             case Config.DELETE:
-                valString = String.valueOf((int) initialValue);
                 valString = valString.substring(0, valString.length() - 1);
                 if (valString.length() == 0 || valString.equals("-")) {
                     return 0;
                 }
                 return tryParse(valString);
             case Config.CONVERT:
-                valString = String.valueOf((int) initialValue);
                 String op1String = String.valueOf(rule.getOperand());
                 String op2String = String.valueOf(rule.getOperand2());
                 valString = valString.replace(op1String, op2String);
                 return tryParse(valString);
             case Config.POWER:
                 return Math.pow(initialValue, rule.getOperand());
+            case Config.REVERSE:
+                boolean negative = initialValue < 0;
+                if (negative) {
+                    valString = valString.substring(1); // shave off minus sign
+                }
+                valString = new StringBuilder(valString).reverse().toString();
+                double newValue = tryParse(valString);
+                return negative ? -newValue : newValue;
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());

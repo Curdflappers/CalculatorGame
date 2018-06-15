@@ -57,8 +57,9 @@ public class Test {
         Rule sub1 = new Rule("sub1");
         Rule conv1to2 = new Rule("1=>2");
         Rule squared = new Rule("x^2");
-        Game game = new Game(1, 2, 10,
-            new Rule[] {pad2, pad10, sign, delete, conv1to2, squared});
+        Rule reverse = new Rule("reverse");
+        Game game = new Game(1, 2, Integer.MAX_VALUE, new Rule[] {pad2, pad10,
+            sign, delete, conv1to2, squared, reverse});
 
         assert game.getValue() == 1;
 
@@ -94,6 +95,14 @@ public class Test {
 
         game.makeMove(squared);
         assert game.getValue() == 400;
+
+        game.makeMove(reverse);
+        assert game.getValue() == 4;
+        game.makeMove(sign);
+        game.makeMove(pad2);
+        assert game.getValue() == -42;
+        game.makeMove(reverse);
+        assert game.getValue() == -24;
     }
 
     /**
@@ -204,6 +213,11 @@ public class Test {
         assert rule.getOperator() == Config.POWER;
         rule = new Rule("^3");
         assert rule.getOperator() == Config.POWER;
+
+        rule = new Rule("reverse");
+        assert rule.getOperator() == Config.REVERSE;
+        rule = new Rule("rev");
+        assert rule.getOperator() == Config.REVERSE;
     }
 
     private static void testOperand() {
