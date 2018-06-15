@@ -45,7 +45,7 @@ public class Rule {
      * @throws RuntimeException when synonym is not recognized
      */
     private static int toOperator(String synonym) {
-        switch (synonym.trim()) {
+        switch (synonym.trim().toLowerCase()) {
             case "add":
             case "plus":
             case "+":
@@ -172,6 +172,8 @@ public class Rule {
                 return op1String + "=>" + op2String;
             case Config.POWER:
                 s += "x^";
+            case Config.REVERSE:
+                return "Reverse";
         }
         s += operand;
         return s;

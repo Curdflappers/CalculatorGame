@@ -218,6 +218,8 @@ public class Test {
         assert rule.getOperator() == Config.REVERSE;
         rule = new Rule("rev");
         assert rule.getOperator() == Config.REVERSE;
+        rule = new Rule("Reverse");
+        assert rule.getOperator() == Config.REVERSE;
     }
 
     private static void testOperand() {
