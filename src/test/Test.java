@@ -178,6 +178,8 @@ public class Test {
 
         rule = new Rule("sign");
         assert rule.getOperator() == Config.SIGN;
+        rule = new Rule("+/-");
+        assert rule.getOperator() == Config.SIGN;
 
         rule = new Rule("delete");
         assert rule.getOperator() == Config.DELETE;

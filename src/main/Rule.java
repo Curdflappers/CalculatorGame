@@ -70,6 +70,7 @@ public class Rule {
             case "":
                 return Config.PAD;
             case "sign":
+            case "+/-":
                 return Config.SIGN;
             case "delete":
             case "del":
