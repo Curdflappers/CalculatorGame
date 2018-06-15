@@ -105,6 +105,7 @@ public class Test {
         assert game.getValue() == -24;
 
         assert Game.applyRule(new Rule("sum"), 1234) == 1 + 2 + 3 + 4;
+        assert Game.applyRule(new Rule("sum"), -1234) == -1 + -2 + -3 + -4;
     }
 
     /**

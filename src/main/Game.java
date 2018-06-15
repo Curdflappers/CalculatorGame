@@ -98,9 +98,9 @@ public class Game {
                 double newValue = tryParse(valString);
                 return negative ? -newValue : newValue;
             case Config.SUM:
-                int absValue = (int) Math.abs(initialValue);
+                int absValue = (int) initialValue;
                 int sum = 0;
-                while(absValue > 0) {
+                while(absValue != 0) {
                     sum += absValue % 10;
                     absValue /= 10;
                 }
