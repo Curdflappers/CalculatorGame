@@ -89,6 +89,8 @@ public class Game {
                 String op2String = String.valueOf(rule.getOperand2());
                 valString = valString.replace(op1String, op2String);
                 return tryParse(valString);
+            case Config.POWER:
+                return Math.pow(initialValue, rule.getOperand());
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());

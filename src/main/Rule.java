@@ -81,6 +81,9 @@ public class Rule {
                 return Config.DELETE;
             case "=>":
                 return Config.CONVERT;
+            case "x^":
+            case "^":
+                return Config.POWER;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }
@@ -162,6 +165,8 @@ public class Rule {
                 String op1String = String.valueOf(getOperand());
                 String op2String = String.valueOf(getOperand2());
                 return op1String + "=>" + op2String;
+            case Config.POWER:
+                s += "x^";
         }
         s += operand;
         return s;
