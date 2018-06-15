@@ -5,10 +5,21 @@ import java.util.regex.Pattern;
 
 public class Rule {
     private int operand;
+    private int operand2; // for A=>B rules
     /** The index associated with the operator */
     private int operator;
 
     public Rule(String rule) {
+        Matcher convertMatcher = Pattern.compile("\\d+=>\\d+").matcher(rule);
+        boolean isConvertRule = convertMatcher.find();
+        if (isConvertRule) {
+            int arrowIndex = rule.indexOf("=>");
+            setOperand(rule.substring(0, arrowIndex));
+            setOperand2(rule.substring(arrowIndex + 2));
+            setOperator(Config.CONVERT);
+            return;
+        }
+
         Matcher matcher = Pattern.compile("-?\\d+").matcher(rule);
         boolean hasInt = matcher.find();
         String operator = hasInt ? rule.substring(0, matcher.start()) : rule;
@@ -61,6 +72,8 @@ public class Rule {
             case "right shift":
             case "<<":
                 return Config.DELETE;
+            case "=>":
+                return Config.CONVERT;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }
@@ -85,12 +98,31 @@ public class Rule {
         }
     }
 
+    private void setOperand2(String operand2) {
+        try {
+            this.operand2 = Integer.parseInt(operand2);
+            if (this.operand2 > Config.MAX_OPERAND
+                || this.operand2 < Config.MIN_OPERAND) {
+                throw new RuntimeException(
+                    "Operand out of range: " + this.operand2);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(
+                "Unexpected NumberFormatException in Rule.setOperand2");
+            e.printStackTrace();
+        }
+    }
+
     public int getOperator() {
         return operator;
     }
 
     public int getOperand() {
         return operand;
+    }
+
+    public int getOperand2() {
+        return operand2;
     }
 
     /**
@@ -119,6 +151,10 @@ public class Rule {
                 return "+/-";
             case Config.DELETE:
                 return "<<";
+            case Config.CONVERT:
+                String op1String = String.valueOf(getOperand());
+                String op2String = String.valueOf(getOperand2());
+                return op1String + "=>" + op2String;
         }
         s += operand;
         return s;

@@ -28,7 +28,8 @@ public class Game {
         this.movesLeft = moves;
         this.rules = Config.blankRules();
         for (Rule rule : rules) {
-            this.rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND] = true;
+            this.rules[rule.getOperator()][rule.getOperand()
+                - Config.MIN_OPERAND] = true;
         }
         this.validRules = rules;
     }
@@ -46,7 +47,8 @@ public class Game {
     }
 
     public boolean isValidRule(Rule rule) {
-        return rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND];
+        return rules[rule.getOperator()][rule.getOperand()
+            - Config.MIN_OPERAND];
     }
 
     public State getState() {
@@ -71,13 +73,7 @@ public class Game {
             case Config.PAD:
                 valString = String.valueOf((int) initialValue);
                 valString += rule.getOperand();
-                try {
-                    return Double.parseDouble(valString);
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(
-                        "Unexpected NumberFormatException");
-                }
+                return tryParse(valString);
             case Config.SIGN:
                 return -initialValue;
             case Config.DELETE:
@@ -86,21 +82,31 @@ public class Game {
                 if (valString.length() == 0 || valString.equals("-")) {
                     return 0;
                 }
-                try {
-                    return Double.parseDouble(valString);
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(
-                        "Unexpected NumberFormatException");
-                }
+                return tryParse(valString);
+            case Config.CONVERT:
+                valString = String.valueOf((int) initialValue);
+                String op1String = String.valueOf(rule.getOperand());
+                String op2String = String.valueOf(rule.getOperand2());
+                valString = valString.replace(op1String, op2String);
+                return tryParse(valString);
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());
         }
     }
 
+    private static double tryParse(String valString) {
+        try {
+            return Double.parseDouble(valString);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Unexpected NumberFormatException");
+        }
+    }
+
     public void makeMove(Rule rule) {
-        if (rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND]) {
+        if (rules[rule.getOperator()][rule.getOperand()
+            - Config.MIN_OPERAND]) {
             value = applyRule(rule, value);
             movesLeft--;
         }

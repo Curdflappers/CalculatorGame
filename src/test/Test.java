@@ -55,7 +55,9 @@ public class Test {
         Rule sign = new Rule("sign");
         Rule delete = new Rule("<<");
         Rule sub1 = new Rule("sub1");
-        Game game = new Game(1, 2, 10, new Rule[] {pad2, pad10, sign, delete});
+        Rule conv1to2 = new Rule("1=>2");
+        Game game = new Game(1, 2, 10,
+            new Rule[] {pad2, pad10, sign, delete, conv1to2});
 
         assert game.getValue() == 1;
 
@@ -82,6 +84,12 @@ public class Test {
         game.makeMove(sub1);
         game.makeMove(delete);
         assert game.getValue() == 0;
+
+        game.makeMove(pad10);
+
+        assert game.getValue() == 10;
+        game.makeMove(conv1to2);
+        assert game.getValue() == 20;
     }
 
     /**
@@ -178,6 +186,9 @@ public class Test {
         assert rule.getOperator() == Config.DELETE;
         rule = new Rule("<<");
         assert rule.getOperator() == Config.DELETE;
+
+        rule = new Rule("1=>2");
+        assert rule.getOperator() == Config.CONVERT;
     }
 
     private static void testOperand() {
@@ -195,6 +206,10 @@ public class Test {
         }
         rule = new Rule("2");
         assert rule.getOperand() == 2;
+
+        rule = new Rule("1=>2");
+        assert rule.getOperand() == 1;
+        assert rule.getOperand2() == 2;
     }
 
     private static void testParseRules() {
@@ -281,6 +296,14 @@ public class Test {
         baos = prepareEndToEndTest(notAgain);
         Main.main(new String[] {"4321", "4", "3", "<<"});
         expectedOutput = "<<" + lineEnd + "<<" + lineEnd + "<<" + lineEnd;
+        actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
+
+        // Convert test: 0 to 222 using 1 and 1=>2
+        baos = prepareEndToEndTest(notAgain);
+        Main.main(new String[] {"0", "222", "4", "1,1=>2"});
+        expectedOutput =
+            "1" + lineEnd + "1" + lineEnd + "1" + lineEnd + "1=>2" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
         assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
 
