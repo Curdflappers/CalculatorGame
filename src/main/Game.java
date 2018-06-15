@@ -97,6 +97,14 @@ public class Game {
                 valString = new StringBuilder(valString).reverse().toString();
                 double newValue = tryParse(valString);
                 return negative ? -newValue : newValue;
+            case Config.SUM:
+                int absValue = (int) Math.abs(initialValue);
+                int sum = 0;
+                while(absValue > 0) {
+                    sum += absValue % 10;
+                    absValue /= 10;
+                }
+                return sum;
             default:
                 throw new RuntimeException(
                     "Unexpected operator: " + rule.getOperator());

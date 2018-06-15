@@ -103,6 +103,8 @@ public class Test {
         assert game.getValue() == -42;
         game.makeMove(reverse);
         assert game.getValue() == -24;
+
+        assert Game.applyRule(new Rule("sum"), 1234) == 1 + 2 + 3 + 4;
     }
 
     /**
@@ -220,6 +222,9 @@ public class Test {
         assert rule.getOperator() == Config.REVERSE;
         rule = new Rule("Reverse");
         assert rule.getOperator() == Config.REVERSE;
+
+        rule = new Rule("sum");
+        assert rule.getOperator() == Config.SUM;
     }
 
     private static void testOperand() {

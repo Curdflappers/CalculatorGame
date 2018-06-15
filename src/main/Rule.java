@@ -89,6 +89,8 @@ public class Rule {
             case "reverse":
             case "rev":
                 return Config.REVERSE;
+            case "sum":
+                return Config.SUM;
             default:
                 throw new RuntimeException("Invalid operator: " + synonym);
         }
@@ -174,6 +176,8 @@ public class Rule {
                 s += "x^";
             case Config.REVERSE:
                 return "Reverse";
+            case Config.SUM:
+                return "SUM";
         }
         s += operand;
         return s;
