@@ -12,7 +12,6 @@ public class Test {
     public static void main(String[] args) {
         PrintStream out = System.out;
         System.setOut(new PrintStream(new ByteArrayOutputStream()));
-        Rule rule = new Rule("-3");
         testRule();
         testGame();
         testMain();
@@ -162,6 +161,8 @@ public class Test {
         rule = new Rule("* 2");
         assert rule.getOperator() == Config.MULTIPLY;
         rule = new Rule("*-3");
+        assert rule.getOperator() == Config.MULTIPLY;
+        rule = new Rule("x2");
         assert rule.getOperator() == Config.MULTIPLY;
 
         rule = new Rule("divide 2");

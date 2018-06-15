@@ -61,6 +61,7 @@ public class Rule {
             case "multiply by":
             case "times":
             case "*":
+            case "x":
                 return Config.MULTIPLY;
             case "divide":
             case "div":
