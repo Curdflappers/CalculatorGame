@@ -8,6 +8,7 @@ public class Rule {
     private int operand2; // for A=>B rules
     /** The index associated with the operator */
     private int operator;
+    private String string;
 
     public Rule(String rule) {
         Matcher convertMatcher = Pattern.compile("\\d+=>\\d+").matcher(rule);
@@ -17,6 +18,7 @@ public class Rule {
             setOperand(rule.substring(0, arrowIndex));
             setOperand2(rule.substring(arrowIndex + 2));
             setOperator(Config.CONVERT);
+            setString();
             return;
         }
 
@@ -28,12 +30,14 @@ public class Rule {
         if (operator.equals("") && rule.charAt(0) == '-') {
             setOperator(toOperator("-")); // the minus was for subtraction
             setOperand(rule.substring(1)); // skip the minus sign in the operand
+            setString();
             return;
         }
         setOperator(toOperator(operator));
         if (hasInt) {
             setOperand(matcher.group());
         }
+        setString();
     }
 
     /**
@@ -142,14 +146,7 @@ public class Rule {
         return operand2;
     }
 
-    /**
-     * Returns a string representation of this rule.
-     * <p>
-     * In the form [operator][operand] (no spaces) e.g. "+1", "*2"
-     * <p>
-     * Operators are: ADD: "+", SUBTRACT: "-", MULTIPLY: "*", DIVIDE: "/"
-     */
-    public String toString() {
+    private void setString() {
         String s = "";
         switch (operator) {
             case Config.ADD:
@@ -165,21 +162,38 @@ public class Rule {
                 s += "/";
                 break;
             case Config.SIGN:
-                return "+/-";
+                string = "+/-";
+                return;
             case Config.DELETE:
-                return "<<";
+                string = "<<";
+                return;
             case Config.CONVERT:
                 String op1String = String.valueOf(getOperand());
                 String op2String = String.valueOf(getOperand2());
-                return op1String + "=>" + op2String;
+                string = op1String + "=>" + op2String;
+                return;
             case Config.POWER:
                 s += "x^";
+                break;
             case Config.REVERSE:
-                return "Reverse";
+                string = "Reverse";
+                return;
             case Config.SUM:
-                return "SUM";
+                string = "SUM";
+                return;
         }
         s += operand;
-        return s;
+        string = s;
+    }
+    
+    /**
+     * Returns a string representation of this rule.
+     * <p>
+     * In the form [operator][operand] (no spaces) e.g. "+1", "*2"
+     * <p>
+     * Operators are: ADD: "+", SUBTRACT: "-", MULTIPLY: "*", DIVIDE: "/"
+     */
+    public String toString() {
+        return string;
     }
 }
