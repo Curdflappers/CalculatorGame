@@ -6,25 +6,26 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch)-Main<CalculatorGame>",
+            "name": "Main",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "externalTerminal",
             "stopOnEntry": false,
-            "mainClass": "main.Main",
+            "mainClass": "com.example.project.Main",
             "projectName": "CalculatorGame",
             "args": ""
         },
         {
             "type": "java",
-            "name": "Debug (Launch)-Test<CalculatorGame>",
+            "name": "AllTests",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopOnEntry": false,
-            "mainClass": "test.Test",
+            "mainClass": "com.example.project.AllTests",
             "projectName": "CalculatorGame",
-            "args": ""
+            "args": "",
+            "vmArgs": "-ea",
         }
     ]
 }

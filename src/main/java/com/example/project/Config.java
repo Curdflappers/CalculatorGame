@@ -1,4 +1,4 @@
-package main;
+package com.example.project;
 
 public class Config {
     public static final int ADD = 0, SUBTRACT = 1, MULTIPLY = 2, DIVIDE = 3,

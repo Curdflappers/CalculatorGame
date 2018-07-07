@@ -1,4 +1,4 @@
-package main;
+package com.example.project;
 
 public class Game {
     /** The current number for this game */

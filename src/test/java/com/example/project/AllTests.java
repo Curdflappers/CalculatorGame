@@ -1,4 +1,6 @@
-package test;
+package com.example.project;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -6,9 +8,10 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
-import main.*;
 
-public class Test {
+import org.junit.jupiter.api.Test;
+
+public class AllTests {
     public static void main(String[] args) {
         PrintStream out = System.out;
         System.setOut(new PrintStream(new ByteArrayOutputStream()));
@@ -18,6 +21,13 @@ public class Test {
         testState();
         System.setOut(out);
         System.out.println("SUCCESS: All tests passed");
+    }
+
+    @Test
+    void allTests() {
+        // assert keywords are not used
+        // this test just demonstrates new test format for now
+        assertTrue(true);
     }
 
     /**

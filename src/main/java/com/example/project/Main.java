@@ -1,4 +1,4 @@
-package main;
+package com.example.project;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

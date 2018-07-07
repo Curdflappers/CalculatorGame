@@ -1,4 +1,4 @@
-package main;
+package com.example.project;
 
 public class State {
     private Rule rule;
