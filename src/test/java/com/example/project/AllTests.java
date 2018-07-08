@@ -1,5 +1,6 @@
 package com.example.project;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -36,6 +37,50 @@ public class AllTests {
     void testGame() {
         testGameConstructor();
         testApplyRule();
+    }
+
+    /**
+     * Tests all methods within the Main class
+     */
+    @Test
+    void testMain() {
+        testParseRules();
+        testParseInput();
+        testMainGame();
+        testMainSolve();
+        testMainAgain();
+    }
+
+    // STATE
+
+    /**
+     * Tests the constructor of the Move class
+     */
+    @Test
+    void testState() {
+        testStateConstructors();
+    }
+
+    @Test
+    void testStateConstructors() {
+        Rule rule = new Rule("+1");
+        int value = 1, goal = 2, movesLeft = 3;
+        State parentState = new State(rule, value, goal, movesLeft, null);
+        assertEquals(parentState.getRule(), rule);
+        assertEquals(parentState.getValue(), value);
+        assertEquals(parentState.getGoal(), goal);
+        assertEquals(parentState.getMovesLeft(), movesLeft);
+        assertEquals(parentState.getParent(), null);
+
+        State childState = new State(parentState, rule);
+        assertEquals(childState.getRule(), rule);
+        assertEquals(
+            childState.getValue(),
+            Game.applyRule(rule, parentState.getValue())
+        );
+        assertEquals(childState.getGoal(), parentState.getGoal());
+        assertEquals(childState.getMovesLeft(), parentState.getMovesLeft() - 1);
+        assertEquals(childState.getParent(), parentState);
     }
 
     @Test
@@ -110,40 +155,6 @@ public class AllTests {
 
         assertTrue(Game.applyRule(new Rule("sum"), 1234) == 1 + 2 + 3 + 4);
         assertTrue(Game.applyRule(new Rule("sum"), -1234) == -1 + -2 + -3 + -4);
-    }
-
-    /**
-     * Tests all methods within the Main class
-     */
-    @Test
-    void testMain() {
-        testParseRules();
-        testParseInput();
-        testMainGame();
-        testMainSolve();
-        testMainAgain();
-    }
-
-    /**
-     * Tests the constructor of the Move class
-     */
-    @Test
-    void testState() {
-        State state = new State(new Rule("+1"), 1, 2, 3, null);
-        assertTrue(state.getRule().getOperator() == Config.ADD);
-        assertTrue(state.getRule().getOperand() == 1);
-        assertTrue(state.getValue() == 1);
-        assertTrue(state.getGoal() == 2);
-        assertTrue(state.getMovesLeft() == 3);
-        assertTrue(state.getParent() == null);
-
-        State state2 = new State(null, 4, 5, 6, state);
-        assertTrue(state2.getParent() == state);
-
-        Rule rule = new Rule("+1");
-        State state3 = new State(state, rule);
-        assertTrue(state3.getValue() == state.getValue() + 1);
-        assertTrue(state3.getRule() == rule);
     }
 
     /**
