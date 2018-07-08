@@ -25,9 +25,7 @@ public class AllTests {
 
     @Test
     void allTests() {
-        // assert keywords are not used
-        // this test just demonstrates new test format for now
-        assertTrue(true);
+        main(null);
     }
 
     /**
@@ -50,13 +48,13 @@ public class AllTests {
         Rule add1 = new Rule("add1");
         Rule timesNegative3 = new Rule("times -3");
         Game game = new Game(1, 2, 1, new Rule[] {add1, timesNegative3});
-        assert game.getValue() == 1;
-        assert game.getGoal() == 2;
-        assert game.getMovesLeft() == 1;
-        assert game.isValidRule(add1);
-        assert !game.isValidRule(new Rule("subtract 1"));
-        assert !game.isValidRule(new Rule("add 2"));
-        assert !game.isValidRule(new Rule("subtract 2"));
+        assertTrue(game.getValue() == 1);
+        assertTrue(game.getGoal() == 2);
+        assertTrue(game.getMovesLeft() == 1);
+        assertTrue(game.isValidRule(add1));
+        assertTrue(!game.isValidRule(new Rule("subtract 1")));
+        assertTrue(!game.isValidRule(new Rule("add 2")));
+        assertTrue(!game.isValidRule(new Rule("subtract 2")));
     }
 
     private static void testApplyRule() {
@@ -71,51 +69,51 @@ public class AllTests {
         Game game = new Game(1, 2, Integer.MAX_VALUE, new Rule[] {pad2, pad10,
             sign, delete, conv1to2, squared, reverse});
 
-        assert game.getValue() == 1;
+        assertTrue(game.getValue() == 1);
 
         game.makeMove(pad2);
-        assert game.getValue() == 12;
+        assertTrue(game.getValue() == 12);
 
         game.makeMove(pad10);
-        assert game.getValue() == 1210;
+        assertTrue(game.getValue() == 1210);
 
         game.makeMove(sign);
-        assert game.getValue() == -1210;
+        assertTrue(game.getValue() == -1210);
 
         game.makeMove(sign);
-        assert game.getValue() == 1210;
+        assertTrue(game.getValue() == 1210);
 
         game.makeMove(delete);
-        assert game.getValue() == 121;
+        assertTrue(game.getValue() == 121);
 
         game.makeMove(delete);
         game.makeMove(delete);
         game.makeMove(delete);
-        assert game.getValue() == 0;
+        assertTrue(game.getValue() == 0);
 
         game.makeMove(sub1);
         game.makeMove(delete);
-        assert game.getValue() == 0;
+        assertTrue(game.getValue() == 0);
 
         game.makeMove(pad10);
 
-        assert game.getValue() == 10;
+        assertTrue(game.getValue() == 10);
         game.makeMove(conv1to2);
-        assert game.getValue() == 20;
+        assertTrue(game.getValue() == 20);
 
         game.makeMove(squared);
-        assert game.getValue() == 400;
+        assertTrue(game.getValue() == 400);
 
         game.makeMove(reverse);
-        assert game.getValue() == 4;
+        assertTrue(game.getValue() == 4);
         game.makeMove(sign);
         game.makeMove(pad2);
-        assert game.getValue() == -42;
+        assertTrue(game.getValue() == -42);
         game.makeMove(reverse);
-        assert game.getValue() == -24;
+        assertTrue(game.getValue() == -24);
 
-        assert Game.applyRule(new Rule("sum"), 1234) == 1 + 2 + 3 + 4;
-        assert Game.applyRule(new Rule("sum"), -1234) == -1 + -2 + -3 + -4;
+        assertTrue(Game.applyRule(new Rule("sum"), 1234) == 1 + 2 + 3 + 4);
+        assertTrue(Game.applyRule(new Rule("sum"), -1234) == -1 + -2 + -3 + -4);
     }
 
     /**
@@ -134,20 +132,20 @@ public class AllTests {
      */
     public static void testState() {
         State state = new State(new Rule("+1"), 1, 2, 3, null);
-        assert state.getRule().getOperator() == Config.ADD;
-        assert state.getRule().getOperand() == 1;
-        assert state.getValue() == 1;
-        assert state.getGoal() == 2;
-        assert state.getMovesLeft() == 3;
-        assert state.getParent() == null;
+        assertTrue(state.getRule().getOperator() == Config.ADD);
+        assertTrue(state.getRule().getOperand() == 1);
+        assertTrue(state.getValue() == 1);
+        assertTrue(state.getGoal() == 2);
+        assertTrue(state.getMovesLeft() == 3);
+        assertTrue(state.getParent() == null);
 
         State state2 = new State(null, 4, 5, 6, state);
-        assert state2.getParent() == state;
+        assertTrue(state2.getParent() == state);
 
         Rule rule = new Rule("+1");
         State state3 = new State(state, rule);
-        assert state3.getValue() == state.getValue() + 1;
-        assert state3.getRule() == rule;
+        assertTrue(state3.getValue() == state.getValue() + 1);
+        assertTrue(state3.getRule() == rule);
     }
 
     /**
@@ -155,126 +153,126 @@ public class AllTests {
      */
     private static void testOperator() {
         Rule rule = new Rule("add 1");
-        assert rule.getOperator() == Config.ADD;
+        assertTrue(rule.getOperator() == Config.ADD);
         rule = new Rule("plus 1");
-        assert rule.getOperator() == Config.ADD;
+        assertTrue(rule.getOperator() == Config.ADD);
         rule = new Rule("+1");
-        assert rule.getOperator() == Config.ADD;
+        assertTrue(rule.getOperator() == Config.ADD);
 
         rule = new Rule("subtract 1");
-        assert rule.getOperator() == Config.SUBTRACT;
+        assertTrue(rule.getOperator() == Config.SUBTRACT);
         rule = new Rule("sub 1");
-        assert rule.getOperator() == Config.SUBTRACT;
+        assertTrue(rule.getOperator() == Config.SUBTRACT);
         rule = new Rule("minus 1");
-        assert rule.getOperator() == Config.SUBTRACT;
+        assertTrue(rule.getOperator() == Config.SUBTRACT);
         rule = new Rule("-1");
-        assert rule.getOperator() == Config.SUBTRACT;
+        assertTrue(rule.getOperator() == Config.SUBTRACT);
 
         rule = new Rule("multiply 2");
-        assert rule.getOperator() == Config.MULTIPLY;
+        assertTrue(rule.getOperator() == Config.MULTIPLY);
         rule = new Rule("mul 2");
-        assert rule.getOperator() == Config.MULTIPLY;
+        assertTrue(rule.getOperator() == Config.MULTIPLY);
         rule = new Rule("mult 2");
-        assert rule.getOperator() == Config.MULTIPLY;
+        assertTrue(rule.getOperator() == Config.MULTIPLY);
         rule = new Rule("multiply by 2");
-        assert rule.getOperator() == Config.MULTIPLY;
+        assertTrue(rule.getOperator() == Config.MULTIPLY);
         rule = new Rule("times 2");
-        assert rule.getOperator() == Config.MULTIPLY;
+        assertTrue(rule.getOperator() == Config.MULTIPLY);
         rule = new Rule("* 2");
-        assert rule.getOperator() == Config.MULTIPLY;
+        assertTrue(rule.getOperator() == Config.MULTIPLY);
         rule = new Rule("*-3");
-        assert rule.getOperator() == Config.MULTIPLY;
+        assertTrue(rule.getOperator() == Config.MULTIPLY);
         rule = new Rule("x2");
-        assert rule.getOperator() == Config.MULTIPLY;
+        assertTrue(rule.getOperator() == Config.MULTIPLY);
 
         rule = new Rule("divide 2");
-        assert rule.getOperator() == Config.DIVIDE;
+        assertTrue(rule.getOperator() == Config.DIVIDE);
         rule = new Rule("div 2");
-        assert rule.getOperator() == Config.DIVIDE;
+        assertTrue(rule.getOperator() == Config.DIVIDE);
         rule = new Rule("divide by 2");
-        assert rule.getOperator() == Config.DIVIDE;
+        assertTrue(rule.getOperator() == Config.DIVIDE);
         rule = new Rule("/ 2");
-        assert rule.getOperator() == Config.DIVIDE;
+        assertTrue(rule.getOperator() == Config.DIVIDE);
 
         rule = new Rule("3");
-        assert rule.getOperator() == Config.PAD;
+        assertTrue(rule.getOperator() == Config.PAD);
 
         rule = new Rule("sign");
-        assert rule.getOperator() == Config.SIGN;
+        assertTrue(rule.getOperator() == Config.SIGN);
         rule = new Rule("+/-");
-        assert rule.getOperator() == Config.SIGN;
+        assertTrue(rule.getOperator() == Config.SIGN);
 
         rule = new Rule("delete");
-        assert rule.getOperator() == Config.DELETE;
+        assertTrue(rule.getOperator() == Config.DELETE);
         rule = new Rule("del");
-        assert rule.getOperator() == Config.DELETE;
+        assertTrue(rule.getOperator() == Config.DELETE);
         rule = new Rule("shift");
-        assert rule.getOperator() == Config.DELETE;
+        assertTrue(rule.getOperator() == Config.DELETE);
         rule = new Rule("rshift");
-        assert rule.getOperator() == Config.DELETE;
+        assertTrue(rule.getOperator() == Config.DELETE);
         rule = new Rule("rightshift");
-        assert rule.getOperator() == Config.DELETE;
+        assertTrue(rule.getOperator() == Config.DELETE);
         rule = new Rule("right shift");
-        assert rule.getOperator() == Config.DELETE;
+        assertTrue(rule.getOperator() == Config.DELETE);
         rule = new Rule("<<");
-        assert rule.getOperator() == Config.DELETE;
+        assertTrue(rule.getOperator() == Config.DELETE);
 
         rule = new Rule("1=>2");
-        assert rule.getOperator() == Config.CONVERT;
+        assertTrue(rule.getOperator() == Config.CONVERT);
 
         rule = new Rule("x^2");
-        assert rule.getOperator() == Config.POWER;
+        assertTrue(rule.getOperator() == Config.POWER);
         rule = new Rule("^3");
-        assert rule.getOperator() == Config.POWER;
+        assertTrue(rule.getOperator() == Config.POWER);
 
         rule = new Rule("reverse");
-        assert rule.getOperator() == Config.REVERSE;
+        assertTrue(rule.getOperator() == Config.REVERSE);
         rule = new Rule("rev");
-        assert rule.getOperator() == Config.REVERSE;
+        assertTrue(rule.getOperator() == Config.REVERSE);
         rule = new Rule("Reverse");
-        assert rule.getOperator() == Config.REVERSE;
+        assertTrue(rule.getOperator() == Config.REVERSE);
 
         rule = new Rule("sum");
-        assert rule.getOperator() == Config.SUM;
+        assertTrue(rule.getOperator() == Config.SUM);
     }
 
     private static void testOperand() {
         Rule rule = new Rule("add 1");
-        assert rule.getOperand() == 1;
+        assertTrue(rule.getOperand() == 1);
         try {
             rule = new Rule("add " + (Config.MIN_OPERAND - 1));
-            assert false; // exception should be thrown at this point
+            assertTrue(false); // exception should be thrown at this point
         } catch (RuntimeException e) {
         }
         try {
             rule = new Rule("add " + (Config.MAX_OPERAND + 1));
-            assert false;
+            assertTrue(false);
         } catch (RuntimeException e) {
         }
         rule = new Rule("2");
-        assert rule.getOperand() == 2;
+        assertTrue(rule.getOperand() == 2);
 
         rule = new Rule("1=>2");
-        assert rule.getOperand() == 1;
-        assert rule.getOperand2() == 2;
+        assertTrue(rule.getOperand() == 1);
+        assertTrue(rule.getOperand2() == 2);
     }
 
     private static void testParseRules() {
         Main.parseRules(new String[] {"add1", "+2", "sub 3"});
         Rule[] rules = Main.getRules();
-        assert rules[0].getOperator() == Config.ADD;
-        assert rules[0].getOperand() == 1;
-        assert rules[1].getOperator() == Config.ADD;
-        assert rules[1].getOperand() == 2;
-        assert rules[2].getOperator() == Config.SUBTRACT;
-        assert rules[2].getOperand() == 3;
+        assertTrue(rules[0].getOperator() == Config.ADD);
+        assertTrue(rules[0].getOperand() == 1);
+        assertTrue(rules[1].getOperator() == Config.ADD);
+        assertTrue(rules[1].getOperand() == 2);
+        assertTrue(rules[2].getOperator() == Config.SUBTRACT);
+        assertTrue(rules[2].getOperand() == 3);
     }
 
     private static void testParseInput() {
         Main.parseInput(new Scanner("1\n2\n1\n+1,sub 2, add 1 "));
-        assert Main.getValue() == 1;
-        assert Main.getGoal() == 2;
-        assert Main.getMoves() == 1;
+        assertTrue(Main.getValue() == 1);
+        assertTrue(Main.getGoal() == 2);
+        assertTrue(Main.getMoves() == 1);
     }
 
     /**
@@ -287,24 +285,24 @@ public class AllTests {
         System.setIn(in);
         Main.main(new String[0]); // with no input
         Game game = Main.getGame();
-        assert game.getValue() == 1;
-        assert game.getGoal() == 2;
-        assert game.getMovesLeft() == 1;
+        assertTrue(game.getValue() == 1);
+        assertTrue(game.getGoal() == 2);
+        assertTrue(game.getMovesLeft() == 1);
         for (Rule rule : Main.getRules()) {
-            assert game.isValidRule(rule);
+            assertTrue(game.isValidRule(rule));
         }
-        assert !game.isValidRule(new Rule("+2"));
+        assertTrue(!game.isValidRule(new Rule("+2")));
 
         System.setIn(new ByteArrayInputStream("n ".getBytes()));
         Main.main(new String[] {"4", "3", "2", "+2,- 1,add3"});
         game = Main.getGame();
-        assert game.getValue() == 4;
-        assert game.getGoal() == 3;
-        assert game.getMovesLeft() == 2;
+        assertTrue(game.getValue() == 4);
+        assertTrue(game.getGoal() == 3);
+        assertTrue(game.getMovesLeft() == 2);
         for (Rule rule : Main.getRules()) {
-            assert game.isValidRule(rule);
+            assertTrue(game.isValidRule(rule));
         }
-        assert !game.isValidRule(new Rule("+1"));
+        assertTrue(!game.isValidRule(new Rule("+1")));
 
         System.setIn(consoleIn);
     }
@@ -323,28 +321,28 @@ public class AllTests {
         expectedOutput +=
             rule.toString() + lineEnd + rule.toString() + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
+        assertTrue(actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT));
 
         // Level 4: 3 to 4 using *4, +4, /4 in three moves (in that order)
         baos = prepareEndToEndTest(notAgain);
         Main.main(new String[] {"3", "4", "3", "+4,*4,/4"});
         expectedOutput = "*4" + lineEnd + "+4" + lineEnd + "/4" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
+        assertTrue(actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT));
 
         // Padding test: Go from 3 to 34 using pad4
         baos = prepareEndToEndTest(notAgain);
         Main.main(new String[] {"3", "34", "1", "4"});
         expectedOutput = "4" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
+        assertTrue(actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT));
 
         // Delete test: go from 4321 to 4 using delete three times
         baos = prepareEndToEndTest(notAgain);
         Main.main(new String[] {"4321", "4", "3", "<<"});
         expectedOutput = "<<" + lineEnd + "<<" + lineEnd + "<<" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
+        assertTrue(actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT));
 
         // Convert test: 0 to 222 using 1 and 1=>2
         baos = prepareEndToEndTest(notAgain);
@@ -352,7 +350,7 @@ public class AllTests {
         expectedOutput =
             "1" + lineEnd + "1" + lineEnd + "1" + lineEnd + "1=>2" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
+        assertTrue(actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT));
 
         System.setOut(out);
     }
@@ -372,7 +370,7 @@ public class AllTests {
             + Config.MOVES_PROMPT + Config.RULES_PROMPT;
         expectedOutput += "<<" + lineEnd + "<<" + lineEnd + "<<" + lineEnd;
         actualOutput = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        assert actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT);
+        assertTrue(actualOutput.equals(expectedOutput + Config.AGAIN_PROMPT));
     }
 
     /**
