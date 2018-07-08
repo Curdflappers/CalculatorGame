@@ -12,20 +12,12 @@ import java.util.Scanner;
 import org.junit.jupiter.api.Test;
 
 public class AllTests {
-    public static void main(String[] args) {
-        PrintStream out = System.out;
-        System.setOut(new PrintStream(new ByteArrayOutputStream()));
+    @Test
+    void allTests() {
         testRule();
         testGame();
         testMain();
         testState();
-        System.setOut(out);
-        System.out.println("SUCCESS: All tests passed");
-    }
-
-    @Test
-    void allTests() {
-        main(null);
     }
 
     /**
