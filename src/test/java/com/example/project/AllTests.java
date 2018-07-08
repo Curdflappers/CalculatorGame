@@ -23,7 +23,8 @@ public class AllTests {
     /**
      * Test all methods within the Rule class
      */
-    private static void testRule() {
+    @Test
+    void testRule() {
         testOperator();
         testOperand();
     }
@@ -31,12 +32,14 @@ public class AllTests {
     /**
      * Test all methods within the Game class
      */
-    private static void testGame() {
+    @Test
+    void testGame() {
         testGameConstructor();
         testApplyRule();
     }
 
-    private static void testGameConstructor() {
+    @Test
+    void testGameConstructor() {
         Rule add1 = new Rule("add1");
         Rule timesNegative3 = new Rule("times -3");
         Game game = new Game(1, 2, 1, new Rule[] {add1, timesNegative3});
@@ -49,7 +52,8 @@ public class AllTests {
         assertTrue(!game.isValidRule(new Rule("subtract 2")));
     }
 
-    private static void testApplyRule() {
+    @Test
+    void testApplyRule() {
         Rule pad2 = new Rule("2");
         Rule pad10 = new Rule("10");
         Rule sign = new Rule("sign");
@@ -111,7 +115,8 @@ public class AllTests {
     /**
      * Tests all methods within the Main class
      */
-    private static void testMain() {
+    @Test
+    void testMain() {
         testParseRules();
         testParseInput();
         testMainGame();
@@ -122,7 +127,8 @@ public class AllTests {
     /**
      * Tests the constructor of the Move class
      */
-    public static void testState() {
+    @Test
+    void testState() {
         State state = new State(new Rule("+1"), 1, 2, 3, null);
         assertTrue(state.getRule().getOperator() == Config.ADD);
         assertTrue(state.getRule().getOperand() == 1);
@@ -143,7 +149,8 @@ public class AllTests {
     /**
      * Test the Rule.parse operation
      */
-    private static void testOperator() {
+    @Test
+    void testOperator() {
         Rule rule = new Rule("add 1");
         assertTrue(rule.getOperator() == Config.ADD);
         rule = new Rule("plus 1");
@@ -228,7 +235,8 @@ public class AllTests {
         assertTrue(rule.getOperator() == Config.SUM);
     }
 
-    private static void testOperand() {
+    @Test
+    void testOperand() {
         Rule rule = new Rule("add 1");
         assertTrue(rule.getOperand() == 1);
         try {
@@ -249,7 +257,8 @@ public class AllTests {
         assertTrue(rule.getOperand2() == 2);
     }
 
-    private static void testParseRules() {
+    @Test
+    void testParseRules() {
         Main.parseRules(new String[] {"add1", "+2", "sub 3"});
         Rule[] rules = Main.getRules();
         assertTrue(rules[0].getOperator() == Config.ADD);
@@ -260,7 +269,8 @@ public class AllTests {
         assertTrue(rules[2].getOperand() == 3);
     }
 
-    private static void testParseInput() {
+    @Test
+    void testParseInput() {
         Main.parseInput(new Scanner("1\n2\n1\n+1,sub 2, add 1 "));
         assertTrue(Main.getValue() == 1);
         assertTrue(Main.getGoal() == 2);
@@ -270,7 +280,8 @@ public class AllTests {
     /**
      * Tests integration within Main by ensuring the game is set up correctly
      */
-    private static void testMainGame() {
+    @Test
+    void testMainGame() {
         InputStream in = new ByteArrayInputStream(
             "1\n2\n1\n+1,sub 2, add 1 \nn".getBytes());
         InputStream consoleIn = System.in;
@@ -299,7 +310,8 @@ public class AllTests {
         System.setIn(consoleIn);
     }
 
-    private static void testMainSolve() {
+    @Test
+    void testMainSolve() {
         PrintStream out = System.out;
         String lineEnd = "\r\n";
         String expectedOutput = "";
@@ -350,7 +362,8 @@ public class AllTests {
     /**
      * Tests whether the "again" functionality works
      */
-    private static void testMainAgain() {
+    @Test
+    void testMainAgain() {
         ByteArrayOutputStream baos;
         String expectedOutput = "", lineEnd = "\r\n", actualOutput = "";
 
