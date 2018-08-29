@@ -49,8 +49,8 @@ public class AllTests {
   }
 
   /**
-   * Asserts that the given string creates a rule with the given operator
-   * and that both operands are 0
+   * Asserts that the given string creates a rule with the given operator and
+   * that both operands are 0
    */
   void assertStringCreatesRule(String str, int operator) {
     assertStringCreatesRule(str, operator, 0, 0);
@@ -431,8 +431,8 @@ public class AllTests {
   /**
    * Creates a newline-separated input string from the given parameters
    * 
-   * @param repeated whether this is for a repeat run-through. If true,
-   * prefixes string with Config.CONTINUE
+   * @param repeated whether this is for a repeat run-through. If true, prefixes
+   * string with Config.CONTINUE
    */
   String inputString(
     boolean repeated,

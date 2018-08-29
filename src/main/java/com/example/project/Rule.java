@@ -59,8 +59,7 @@ public class Rule {
   }
 
   /**
-   * Transform given synonym into the method name of the corresponding
-   * operator
+   * Transform given synonym into the method name of the corresponding operator
    * 
    * @param synonym a potential synonym for an operator method name
    * @return the method name if the synonym is recognized
