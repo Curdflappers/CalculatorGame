@@ -61,71 +61,9 @@ public class Game {
     return validRules;
   }
 
-  public static double applyRule(Rule rule, double initialValue) {
-    String valString = String.valueOf((int) initialValue);
-    switch (rule.getOperator()) {
-      case Config.ADD:
-        return initialValue + rule.getOperand();
-      case Config.SUBTRACT:
-        return initialValue - rule.getOperand();
-      case Config.MULTIPLY:
-        return initialValue * rule.getOperand();
-      case Config.DIVIDE:
-        return initialValue / rule.getOperand();
-      case Config.PAD:
-        valString = String.valueOf((int) initialValue);
-        valString += rule.getOperand();
-        return tryParse(valString);
-      case Config.SIGN:
-        return -initialValue;
-      case Config.DELETE:
-        valString = valString.substring(0, valString.length() - 1);
-        if (valString.length() == 0 || valString.equals("-")) {
-          return 0;
-        }
-        return tryParse(valString);
-      case Config.CONVERT:
-        String op1String = String.valueOf(rule.getOperand());
-        String op2String = String.valueOf(rule.getOperand2());
-        valString = valString.replace(op1String, op2String);
-        return tryParse(valString);
-      case Config.POWER:
-        return Math.pow(initialValue, rule.getOperand());
-      case Config.REVERSE:
-        boolean negative = initialValue < 0;
-        if (negative) {
-          valString = valString.substring(1); // shave off minus sign
-        }
-        valString = new StringBuilder(valString).reverse().toString();
-        double newValue = tryParse(valString);
-        return negative ? -newValue : newValue;
-      case Config.SUM:
-        int absValue = (int) initialValue;
-        int sum = 0;
-        while (absValue != 0) {
-          sum += absValue % 10;
-          absValue /= 10;
-        }
-        return sum;
-      default:
-        throw new RuntimeException(
-          "Unexpected operator: " + rule.getOperator()
-        );
-    }
-  }
-
-  private static double tryParse(String valString) {
-    try {
-      return Double.parseDouble(valString);
-    } catch (NumberFormatException e) {
-      e.printStackTrace();
-      throw new RuntimeException("Unexpected NumberFormatException");
-    }
-  }
-
   public void makeMove(Rule rule) {
     if (rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND]) {
-      value = applyRule(rule, value);
+      value = rule.apply(value);
       movesLeft--;
     }
   }

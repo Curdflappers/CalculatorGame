@@ -175,6 +175,65 @@ public class Rule {
     return string;
   }
 
+  /**
+   * Returns the result of applying this rule to the given value
+   */
+  public double apply(double value) {
+    String valString = String.valueOf((int) value);
+    int op = getOperand();
+    int op2 = getOperand2();
+    switch (getOperator()) {
+      case Config.ADD:
+        return value + op;
+      case Config.SUBTRACT:
+        return value - op;
+      case Config.MULTIPLY:
+        return value * op;
+      case Config.DIVIDE:
+        return value / op;
+      case Config.PAD:
+        valString = String.valueOf((int) value);
+        valString += op;
+        return Double.parseDouble(valString);
+      case Config.SIGN:
+        return -value;
+      case Config.DELETE:
+        valString = valString.substring(0, valString.length() - 1);
+        if (valString.length() == 0 || valString.equals("-")) {
+          return 0;
+        }
+        return Double.parseDouble(valString);
+      case Config.CONVERT:
+        String op1String = String.valueOf(op);
+        String op2String = String.valueOf(op2);
+        valString = valString.replace(op1String, op2String);
+        return Double.parseDouble(valString);
+      case Config.POWER:
+        return Math.pow(value, op);
+      case Config.REVERSE:
+        boolean negative = value < 0;
+        if (negative) {
+          valString = valString.substring(1); // shave off minus sign
+        }
+        valString = new StringBuilder(valString).reverse().toString();
+        double newValue = Double.parseDouble(valString);
+        return negative ? -newValue : newValue;
+      case Config.SUM:
+        int absValue = (int) value;
+        int sum = 0;
+        while (absValue != 0) {
+          sum += absValue % 10;
+          absValue /= 10;
+        }
+        return sum;
+
+      default: // should never get here
+        throw new RuntimeException(
+          "Unexpected error when applying rule:\n" + this + "\n" + value
+        );
+    }
+  }
+
   @Override
   public boolean equals(Object other) {
     if (other instanceof Rule) {

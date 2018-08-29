@@ -17,7 +17,7 @@ public class State {
   public State(State state, Rule rule) {
     this.movesLeft = state.getMovesLeft() - 1;
     this.goal = state.goal;
-    this.value = Game.applyRule(rule, state.getValue());
+    this.value = rule.apply(state.getValue());
     this.rule = rule;
     this.parent = state;
   }
