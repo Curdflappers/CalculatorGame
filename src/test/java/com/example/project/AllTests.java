@@ -26,18 +26,18 @@ public class AllTests {
     // Test all operator strings
     for (int i = 0; i < Config.OPERATOR_STRINGS.length; i++) {
       switch (Config.NUM_OPERANDS[i]) {
-      case 0:
-        ruleString = Config.ruleString(i);
-        assertStringCreatesRule(ruleString, i);
-        break;
-      case 1:
-        ruleString = Config.ruleString(i, operand);
-        assertStringCreatesRule(ruleString, i, operand);
-        break;
-      case 2:
-        ruleString = Config.ruleString(i, operand, operand2);
-        assertStringCreatesRule(ruleString, i, operand, operand2);
-        break;
+        case 0:
+          ruleString = Config.ruleString(i);
+          assertStringCreatesRule(ruleString, i);
+          break;
+        case 1:
+          ruleString = Config.ruleString(i, operand);
+          assertStringCreatesRule(ruleString, i, operand);
+          break;
+        case 2:
+          ruleString = Config.ruleString(i, operand, operand2);
+          assertStringCreatesRule(ruleString, i, operand, operand2);
+          break;
       }
     }
 

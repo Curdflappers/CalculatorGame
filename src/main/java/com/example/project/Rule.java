@@ -128,38 +128,38 @@ public class Rule {
   private void setString() {
     String s = "";
     switch (operator) {
-    case Config.ADD:
-      s += "+";
-      break;
-    case Config.SUBTRACT:
-      s += "-";
-      break;
-    case Config.MULTIPLY:
-      s += "*";
-      break;
-    case Config.DIVIDE:
-      s += "/";
-      break;
-    case Config.SIGN:
-      string = "+/-";
-      return;
-    case Config.DELETE:
-      string = "<<";
-      return;
-    case Config.CONVERT:
-      String op1String = String.valueOf(getOperand());
-      String op2String = String.valueOf(getOperand2());
-      string = op1String + "=>" + op2String;
-      return;
-    case Config.POWER:
-      s += "x^";
-      break;
-    case Config.REVERSE:
-      string = "Reverse";
-      return;
-    case Config.SUM:
-      string = "SUM";
-      return;
+      case Config.ADD:
+        s += "+";
+        break;
+      case Config.SUBTRACT:
+        s += "-";
+        break;
+      case Config.MULTIPLY:
+        s += "*";
+        break;
+      case Config.DIVIDE:
+        s += "/";
+        break;
+      case Config.SIGN:
+        string = "+/-";
+        return;
+      case Config.DELETE:
+        string = "<<";
+        return;
+      case Config.CONVERT:
+        String op1String = String.valueOf(getOperand());
+        String op2String = String.valueOf(getOperand2());
+        string = op1String + "=>" + op2String;
+        return;
+      case Config.POWER:
+        s += "x^";
+        break;
+      case Config.REVERSE:
+        string = "Reverse";
+        return;
+      case Config.SUM:
+        string = "SUM";
+        return;
     }
     s += operand;
     string = s;
