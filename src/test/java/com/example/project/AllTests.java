@@ -499,7 +499,7 @@ public class AllTests {
    */
   String solutionOutput(Rule[] solution) {
     String output = "";
-    String lineEnd = "\r\n";
+    String lineEnd = "\n"; // Toggle this for Windows/non-Windows machines
     for (Rule rule : solution) {
       output += rule.toString() + lineEnd;
     }
