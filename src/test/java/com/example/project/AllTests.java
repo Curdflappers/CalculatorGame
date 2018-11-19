@@ -427,7 +427,7 @@ public class AllTests {
 
   /**
    * Creates a newline-separated input string from the given parameters
-   * 
+   *
    * @param repeated whether this is for a repeat run-through. If true, prefixes
    * string with Config.CONTINUE
    */
@@ -464,7 +464,7 @@ public class AllTests {
 
   /**
    * Sets output to print to BAOS, sets input to {@code input}
-   * 
+   *
    * @param input the new input String
    * @return the BAOS to which output is printed
    */
