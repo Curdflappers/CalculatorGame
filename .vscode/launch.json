@@ -12,7 +12,7 @@
             "console": "externalTerminal",
             "stopOnEntry": false,
             "mainClass": "com.example.project.Main",
-            "projectName": "CalculatorGame",
+            "projectName": "calculator-game",
             "args": ""
         },
     ]
