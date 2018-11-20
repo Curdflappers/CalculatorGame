@@ -163,6 +163,9 @@ public class Rule {
             case Config.SUM:
                 string = "SUM";
                 return;
+            case Config.SHIFT_RIGHT:
+                string = "Shift >";
+                return;
         }
         s += operand;
         string = s;
@@ -230,6 +233,12 @@ public class Rule {
                     absValue /= 10;
                 }
                 return sum;
+            case Config.SHIFT_RIGHT:
+                boolean positive = value >= 0;
+                int[] digits = digits((int) value);
+                rotateRight(digits);
+                newValue = valueOf(digits);
+                return positive ? newValue : -newValue;
 
             default: // should never get here
                 throw new RuntimeException(
@@ -250,5 +259,71 @@ public class Rule {
                 && otherRule.getOperand2() == getOperand2();
         }
         return false;
+    }
+
+    /////////////
+    // HELPERS //
+    /////////////
+
+    /**
+     * Returns an array of digits for this value
+     * <p>
+     * <code>digits(1234) returns [1, 2, 3, 4]</code>
+     * <p>
+     * <code>digits(-2) returns [2]</code>
+     * <p>
+     * <code>digits(0) returns [0]</code>
+     *
+     * @param value any integer
+     * @return an array representation of the absolute value of value
+     */
+    private int[] digits(int value) {
+        value = Math.abs(value); // only interested in its digits, not its sign
+        int numDigits = (int) Math.ceil(Math.log10(value));
+        int[] digits = new int[numDigits];
+
+        for (int i = numDigits - 1; i >= 0; i--) { // start at the end, go back
+            digits[i] = value % 10;
+            value /= 10;
+        }
+
+        return digits;
+    }
+
+    /**
+     * Rotates the given array right once
+     * <p>
+     * <code>rotateRight([1, 2, 3, 4])</code> changes the argument to
+     * <code>[4, 1, 2, 3]</code>
+     *
+     * @param digits an array of integers
+     */
+    private void rotateRight(int[] digits) {
+        int last = digits[digits.length - 1];
+        for (int i = digits.length - 1; i > 0; i--) {
+            digits[i] = digits[i - 1];
+        }
+        digits[0] = last; // and the last shall be first
+    }
+
+    /**
+     * Returns the value represented by the given array
+     * <p>
+     * <code>valueOf([1, 2, 3, 4]) returns 1234</code>
+     * <p>
+     * <code>valueOf([0]) returns 0</code>
+     * <p>
+     * <code>valueOf([]) returns 0</code>
+     * @param digits the array to evaluate
+     */
+    private int valueOf(int[] digits) {
+        int value = 0;
+
+        for (int i = 0; i < digits.length; i++) {
+            value *= 10;
+            value += digits[i];
+        }
+
+        return value;
     }
 }

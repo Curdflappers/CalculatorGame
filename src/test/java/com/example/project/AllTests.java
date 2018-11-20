@@ -197,6 +197,11 @@ public class AllTests {
 
         assertApplyRule(1 + 2 + 3, Config.SUM, 123);
         assertApplyRule(0, Config.SUM, 0);
+
+        // Shift right
+        assertApplyRule(4123, Config.SHIFT_RIGHT, 1234);
+        assertApplyRule(-4123, Config.SHIFT_RIGHT, -1234);
+        assertApplyRule(-2, Config.SHIFT_RIGHT, -2);
     }
 
     void assertApplyRule(int expected, int operator, int value) {
@@ -317,6 +322,21 @@ public class AllTests {
             pad1, pad1, pad1, conv1to2
         };
         assertFindsSolution(0, 222, 4, rules, solution);
+
+        // Level 118: From 2152 to 13 in 6 moves
+        // Rules: 25=>12, 21=>3, 12=>5, Shift >, Reverse
+        final Rule conv25to12 = new Rule(Config.CONVERT, 25, 12);
+        final Rule conv21to3 = new Rule(Config.CONVERT, 21, 3);
+        final Rule conv12to5 = new Rule(Config.CONVERT, 12, 5);
+        final Rule shiftRight = new Rule(Config.SHIFT_RIGHT);
+        final Rule reverse = new Rule(Config.REVERSE);
+        rules = new Rule[] {
+            conv25to12, conv21to3, conv12to5, shiftRight, reverse
+        };
+        solution = new Rule[] {
+            reverse, shiftRight, conv25to12, conv12to5, conv25to12, conv21to3
+        };
+        assertFindsSolution(2152, 13, 6, rules, solution);
     }
 
     /**
