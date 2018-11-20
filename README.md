@@ -63,6 +63,14 @@ SUM
 Solve again (y/n): n
 ```
 
+#### Explanation
+
+To go from 2 to 5 in at most 3 moves using the rules "add 2" and "add 1", the solution is to first add 1, then add 2. Although 3 moves are allowed, only 2 moves are needed. Other solutions exist, but this one is the first one found by the program, so it is the one output.
+
+To go from 1231 to 4 in at most 3 moves using the rules "sum", "convert 3 to 1", and "convert 2 to 3",  the solution is to first convert 2 to 3, then convert 3 to 1, then take the sum.
+
+The program exits when user input after the `Solve again` prompt is not `'y'`.
+
 ## Testing
 
 Testing is done with JUnit 5 and comprehensive unit tests and integration tests are found in `src/test/.../AllTests.java`. All tests should pass.
