@@ -71,9 +71,8 @@ public class AllTests {
         int operand2
     ) {
         Rule rule = new Rule(str);
-        assertEquals(operator, rule.getOperator(), str + " operator");
-        assertEquals(operand1, rule.getOperand(), str + " operand1");
-        assertEquals(operand2, rule.getOperand2(), str + " operand2");
+        assertEquals(new Rule(operator, operand1, operand2), rule);
+        assertEquals(str, rule.toString());
     }
 
     @Test

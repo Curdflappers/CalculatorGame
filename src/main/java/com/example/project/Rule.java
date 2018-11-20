@@ -69,7 +69,7 @@ public class Rule {
     private static int toOperator(String synonym) {
         synonym = synonym.trim().toLowerCase();
         for (int i = 0; i < Config.OPERATOR_STRINGS.length; i++) {
-            if (synonym.equals(Config.OPERATOR_STRINGS[i])) {
+            if (synonym.equalsIgnoreCase(Config.OPERATOR_STRINGS[i])) {
                 return i;
             }
         }
@@ -129,49 +129,22 @@ public class Rule {
     }
 
     private void setString() {
-        String s = "";
-        switch (operator) {
-            case Config.ADD:
-                s += "+";
-                break;
-            case Config.SUBTRACT:
-                s += "-";
-                break;
-            case Config.MULTIPLY:
-                s += "*";
-                break;
-            case Config.DIVIDE:
-                s += "/";
-                break;
-            case Config.SIGN:
-                string = "+/-";
+        int numOperands = Config.NUM_OPERANDS[operator];
+        switch (numOperands) {
+            case 0:
+                string = Config.ruleString(operator);
                 return;
-            case Config.DELETE:
-                string = "<<";
+            case 1:
+                string = Config.ruleString(operator, operand);
                 return;
-            case Config.CONVERT:
-                String op1String = String.valueOf(getOperand());
-                String op2String = String.valueOf(getOperand2());
-                string = op1String + "=>" + op2String;
+            case 2:
+                string = Config.ruleString(operator, operand, operand2);
                 return;
-            case Config.POWER:
-                s += "x^";
-                break;
-            case Config.REVERSE:
-                string = "Reverse";
-                return;
-            case Config.SUM:
-                string = "SUM";
-                return;
-            case Config.SHIFT_RIGHT:
-                string = "Shift >";
-                return;
-            case Config.SHIFT_LEFT:
-                string = "< Shift";
-                return;
+            default:
+                throw new RuntimeException(
+                    "Unexpected number of operands: " + numOperands
+                );
         }
-        s += operand;
-        string = s;
     }
 
     /**

@@ -16,10 +16,10 @@ public class Config {
     "<<",
     "=>",
     "^",
-    "reverse",
-    "sum",
-    "shift >",
-    "< shift",
+    "Reverse",
+    "SUM",
+    "Shift >",
+    "< Shift",
   };
 
   public static final int[] NUM_OPERANDS = {
