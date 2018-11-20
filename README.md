@@ -42,6 +42,9 @@ Rules are comma-separated, no spaces in the separator please. Brackets (`[` and 
 * Shift left (`< Shift`) and shift right (`Shift >`) shift the digits of value one position left or right, respectively
     * 1234 shift left becomes 2341
     * 1234 shift right becomes 4123
+* Mirror (`Mirror`) appends the mirrored value to the end of `value`
+    * 23 mirror becomes 2332
+    * -1 mirror becomes -11
 
 ### Sample Use Case
 

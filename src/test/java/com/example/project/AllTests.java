@@ -206,6 +206,11 @@ public class AllTests {
         assertApplyRule(2341, Config.SHIFT_LEFT, 1234);
         assertApplyRule(-2341, Config.SHIFT_LEFT, -1234);
         assertApplyRule(-2, Config.SHIFT_LEFT, -2);
+
+        // Mirror
+        assertApplyRule(2332, Config.MIRROR, 23);
+        assertApplyRule(0, Config.MIRROR, 0);
+        assertApplyRule(-11, Config.MIRROR, -1);
     }
 
     void assertApplyRule(int expected, int operator, int value) {
@@ -341,6 +346,16 @@ public class AllTests {
             reverse, shiftRight, conv25to12, conv12to5, conv25to12, conv21to3
         };
         assertFindsSolution(2152, 13, 6, rules, solution);
+
+        // Level 120: From 23 to 2332 in 1 move using Mirror
+        final Rule mirror = new Rule(Config.MIRROR);
+        rules = new Rule[] {
+            mirror
+        };
+        solution = new Rule[] {
+            mirror
+        };
+        assertFindsSolution(23, 2332, 1, rules, solution);
     }
 
     /**

@@ -165,7 +165,7 @@ public class Rule {
         String valString = String.valueOf((int) value);
         int op = getOperand();
         int op2 = getOperand2();
-        boolean positive = value > 0;
+        boolean negative = value < 0;
         int[] digits;
         switch (getOperator()) {
             case Config.ADD:
@@ -196,7 +196,6 @@ public class Rule {
             case Config.POWER:
                 return Math.pow(value, op);
             case Config.REVERSE:
-                boolean negative = value < 0;
                 if (negative) {
                     valString = valString.substring(1); // shave off minus sign
                 }
@@ -215,12 +214,20 @@ public class Rule {
                 digits = digits((int) value);
                 rotateRight(digits);
                 newValue = valueOf(digits);
-                return positive ? newValue : -newValue;
+                return negative ? -newValue : newValue;
             case Config.SHIFT_LEFT:
                 digits = digits((int) value);
                 rotateLeft(digits);
                 newValue = valueOf(digits);
-                return positive ? newValue : -newValue;
+                return negative ? -newValue : newValue;
+            case Config.MIRROR:
+                if (negative) {
+                    valString = valString.substring(1); // shave off minus sign
+                }
+                // add reversed string to end of current string
+                valString += new StringBuilder(valString).reverse().toString();
+                newValue = Double.parseDouble(valString);
+                return negative ? -newValue : newValue;
 
             default: // should never get here
                 throw new RuntimeException(
