@@ -215,12 +215,12 @@ public class AllTests {
 
     void assertApplyRule(int expected, int operator, int value) {
         Rule rule = new Rule(operator);
-        assertEquals(expected, rule.apply(value), 0.01);
+        assertApplyRule(expected, rule, value);
     }
 
     void assertApplyRule(int expected, int operator, int operand, int value) {
         Rule rule = new Rule(operator, operand);
-        assertEquals(expected, rule.apply(value), 0.01);
+        assertApplyRule(expected, rule, value);
     }
 
     void assertApplyRule(
@@ -230,9 +230,12 @@ public class AllTests {
         int operand2,
         int value
     ) {
-
         Rule rule = new Rule(operator, operand, operand2);
-        assertEquals(expected, rule.apply(value), 0.01);
+        assertApplyRule(expected, rule, value);
+    }
+
+    void assertApplyRule(int expected, Rule rule, int value) {
+        assertEquals(expected, rule.apply(value), 0.01, rule.toString());
     }
 
     @Test

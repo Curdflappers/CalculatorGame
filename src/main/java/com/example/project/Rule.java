@@ -162,72 +162,35 @@ public class Rule {
      * Returns the result of applying this rule to the given value
      */
     public double apply(double value) {
-        String valString = String.valueOf((int) value);
-        int op = getOperand();
-        int op2 = getOperand2();
-        boolean negative = value < 0;
-        int[] digits;
         switch (getOperator()) {
             case Config.ADD:
-                return value + op;
+                return add(value);
             case Config.SUBTRACT:
-                return value - op;
+                return subtract(value);
             case Config.MULTIPLY:
-                return value * op;
+                return multiply(value);
             case Config.DIVIDE:
-                return value / op;
+                return divide(value);
             case Config.PAD:
-                valString = String.valueOf((int) value);
-                valString += op;
-                return Double.parseDouble(valString);
+                return pad(value);
             case Config.SIGN:
-                return -value;
+                return sign(value);
             case Config.DELETE:
-                valString = valString.substring(0, valString.length() - 1);
-                if (valString.length() == 0 || valString.equals("-")) {
-                    return 0;
-                }
-                return Double.parseDouble(valString);
+                return delete(value);
             case Config.CONVERT:
-                String op1String = String.valueOf(op);
-                String op2String = String.valueOf(op2);
-                valString = valString.replace(op1String, op2String);
-                return Double.parseDouble(valString);
+                return convert(value);
             case Config.POWER:
-                return Math.pow(value, op);
+                return power(value);
             case Config.REVERSE:
-                if (negative) {
-                    valString = valString.substring(1); // shave off minus sign
-                }
-                valString = new StringBuilder(valString).reverse().toString();
-                double newValue = Double.parseDouble(valString);
-                return negative ? -newValue : newValue;
+                return reverse(value);
             case Config.SUM:
-                int absValue = (int) value;
-                int sum = 0;
-                while (absValue != 0) {
-                    sum += absValue % 10;
-                    absValue /= 10;
-                }
-                return sum;
+                return sum(value);
             case Config.SHIFT_RIGHT:
-                digits = digits((int) value);
-                rotateRight(digits);
-                newValue = valueOf(digits);
-                return negative ? -newValue : newValue;
+                return shiftRight(value);
             case Config.SHIFT_LEFT:
-                digits = digits((int) value);
-                rotateLeft(digits);
-                newValue = valueOf(digits);
-                return negative ? -newValue : newValue;
+                return shiftLeft(value);
             case Config.MIRROR:
-                if (negative) {
-                    valString = valString.substring(1); // shave off minus sign
-                }
-                // add reversed string to end of current string
-                valString += new StringBuilder(valString).reverse().toString();
-                newValue = Double.parseDouble(valString);
-                return negative ? -newValue : newValue;
+                return mirror(value);
 
             default: // should never get here
                 throw new RuntimeException(
@@ -248,6 +211,104 @@ public class Rule {
                 && otherRule.getOperand2() == getOperand2();
         }
         return false;
+    }
+
+    ///////////////////////
+    // RULE APPLICATIONS //
+    ///////////////////////
+
+    private double add(double value) {
+        return value + getOperand();
+    }
+
+    private double subtract(double value) {
+        return value - getOperand();
+    }
+
+    private double multiply(double value) {
+        return value * getOperand();
+    }
+
+    private double divide(double value) {
+        return value / getOperand();
+    }
+
+    private double pad(double value) {
+        String valString = String.valueOf((int) value);
+        valString += getOperand();
+        return Double.parseDouble(valString);
+    }
+
+    private double sign(double value) {
+        return -value;
+    }
+
+    private double delete(double value) {
+        String valString = String.valueOf((int) value);
+        valString = valString.substring(0, valString.length() - 1);
+        if (valString.length() == 0 || valString.equals("-")) {
+            return 0;
+        }
+        return Double.parseDouble(valString);
+    }
+
+    private double convert(double value) {
+        String valString = String.valueOf((int) value);
+        String op1String = String.valueOf(getOperand());
+        String op2String = String.valueOf(getOperand2());
+        valString = valString.replace(op1String, op2String);
+        return Double.parseDouble(valString);
+    }
+
+    private double power(double value) {
+        return Math.pow(value, getOperand());
+    }
+
+    private double reverse(double value) {
+        boolean negative = value < 0;
+        String valString = String.valueOf((int) value);
+        if (negative) {
+            valString = valString.substring(1); // shave off minus sign
+        }
+        valString = new StringBuilder(valString).reverse().toString();
+        double newValue = Double.parseDouble(valString);
+        return negative ? -newValue : newValue;
+    }
+
+    private double sum(double value) {
+        int absValue = (int) value;
+        int sum = 0;
+        while (absValue != 0) {
+            sum += absValue % 10;
+            absValue /= 10;
+        }
+        return sum;
+    }
+
+    private double shiftRight(double value) {
+        int[] digits = digits((int) value);
+        rotateRight(digits);
+        double newValue = valueOf(digits);
+        return value >= 0 ? newValue : -newValue;
+    }
+
+    private double shiftLeft(double value) {
+        int[] digits = digits((int) value);
+        rotateLeft(digits);
+        double newValue = valueOf(digits);
+        return value >= 0 ? newValue : -newValue;
+    }
+
+    private double mirror(double value) {
+        boolean negative = value < 0;
+        String valString = String.valueOf((int) value);
+        if (negative) {
+            valString = valString.substring(1); // shave off minus sign
+        }
+        // add reversed string to end of current string
+        valString += new StringBuilder(valString).reverse().toString();
+        double newValue = Double.parseDouble(valString);
+        return negative ? -newValue : newValue;
     }
 
     /////////////
