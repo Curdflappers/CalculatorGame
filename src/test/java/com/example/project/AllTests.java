@@ -451,8 +451,7 @@ public class AllTests {
             + "\n"
             + moves
             + "\n"
-            + combineStrings(ruleStrings) + "\n"
-            + Config.QUIT;
+            + combineStrings(ruleStrings) + "\n" + Config.QUIT;
     }
 
     /** Simulates VM args */
