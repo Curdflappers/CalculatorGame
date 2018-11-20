@@ -4,7 +4,7 @@ public class Config {
 
   public static final int ADD = 0, SUBTRACT = 1, MULTIPLY = 2, DIVIDE = 3, PAD =
     4, SIGN = 5, DELETE = 6, CONVERT = 7, POWER = 8, REVERSE = 9, SUM = 10,
-    SHIFT_RIGHT = 11;
+    SHIFT_RIGHT = 11, SHIFT_LEFT = 12;
 
   public static final String[] OPERATOR_STRINGS = {
     "+",
@@ -18,7 +18,8 @@ public class Config {
     "^",
     "reverse",
     "sum",
-    "shift >"
+    "shift >",
+    "< shift",
   };
 
   public static final int[] NUM_OPERANDS = {
@@ -34,6 +35,7 @@ public class Config {
     0, // REVERSE
     0, // SUM
     0, // SHIFT_RIGHT
+    0, // SHIFT_LEFT
   };
 
   /**

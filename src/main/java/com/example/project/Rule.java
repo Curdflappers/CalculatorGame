@@ -166,6 +166,9 @@ public class Rule {
             case Config.SHIFT_RIGHT:
                 string = "Shift >";
                 return;
+            case Config.SHIFT_LEFT:
+                string = "< Shift";
+                return;
         }
         s += operand;
         string = s;
@@ -189,6 +192,8 @@ public class Rule {
         String valString = String.valueOf((int) value);
         int op = getOperand();
         int op2 = getOperand2();
+        boolean positive = value > 0;
+        int[] digits;
         switch (getOperator()) {
             case Config.ADD:
                 return value + op;
@@ -234,9 +239,13 @@ public class Rule {
                 }
                 return sum;
             case Config.SHIFT_RIGHT:
-                boolean positive = value >= 0;
-                int[] digits = digits((int) value);
+                digits = digits((int) value);
                 rotateRight(digits);
+                newValue = valueOf(digits);
+                return positive ? newValue : -newValue;
+            case Config.SHIFT_LEFT:
+                digits = digits((int) value);
+                rotateLeft(digits);
                 newValue = valueOf(digits);
                 return positive ? newValue : -newValue;
 
@@ -304,6 +313,22 @@ public class Rule {
             digits[i] = digits[i - 1];
         }
         digits[0] = last; // and the last shall be first
+    }
+
+    /**
+     * Rotates the given array right once
+     * <p>
+     * <code>rotateLeft([1, 2, 3, 4])</code> changes the argument to
+     * <code>[2, 3, 4, 1]</code>
+     *
+     * @param digits an array of integers
+     */
+    private void rotateLeft(int[] digits) {
+        int first = digits[0];
+        for (int i = 0; i < digits.length - 1; i++) {
+            digits[i] = digits[i + 1];
+        }
+        digits[digits.length - 1] = first; // and the first shall be last
     }
 
     /**

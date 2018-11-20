@@ -202,6 +202,11 @@ public class AllTests {
         assertApplyRule(4123, Config.SHIFT_RIGHT, 1234);
         assertApplyRule(-4123, Config.SHIFT_RIGHT, -1234);
         assertApplyRule(-2, Config.SHIFT_RIGHT, -2);
+
+        // Shift left
+        assertApplyRule(2341, Config.SHIFT_LEFT, 1234);
+        assertApplyRule(-2341, Config.SHIFT_LEFT, -1234);
+        assertApplyRule(-2, Config.SHIFT_LEFT, -2);
     }
 
     void assertApplyRule(int expected, int operator, int value) {
