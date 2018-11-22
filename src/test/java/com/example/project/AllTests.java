@@ -235,8 +235,7 @@ public class AllTests {
         int operand2,
         int value
     ) {
-        String ruleString = Config.ruleString(operator, operand1, operand2);
-        Rule rule = Rule.ruleFromString(ruleString);
+        Rule rule = Rule.makeRule(operator, operand1, operand2);
         assertApplyRule(expected, rule, value);
     }
 

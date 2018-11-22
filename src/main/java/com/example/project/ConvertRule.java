@@ -16,7 +16,7 @@ public class ConvertRule extends Rule {
         );
     }
 
-    public ConvertRule(int operator, int operand1, int operand2) {
-        super(operator, operand1, operand2);
+    public ConvertRule(int operand1, int operand2) {
+        super(Config.CONVERT, operand1, operand2);
     }
 }

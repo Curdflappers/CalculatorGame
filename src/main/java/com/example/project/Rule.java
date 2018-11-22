@@ -23,7 +23,7 @@ public class Rule {
             operator = Config.CONVERT;
             operand1 = Integer.parseInt(ruleString.substring(0, arrowIndex));
             operand2 = Integer.parseInt(ruleString.substring(arrowIndex + 2));
-            return new ConvertRule(operator, operand1, operand2);
+            return makeRule(operator, operand1, operand2);
         }
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
@@ -67,6 +67,17 @@ public class Rule {
         setOperand1(operand1);
         setOperand2(operand2);
         setString();
+    }
+
+    public static Rule makeRule(int operator, int operand1, int operand2) {
+        switch (operator) {
+            case Config.CONVERT:
+                return new ConvertRule(operand1, operand2);
+            default:
+                throw new RuntimeException(
+                    "invalid operator: " + Config.OPERATOR_STRINGS[operator]
+                );
+        }
     }
 
     /**
