@@ -5,18 +5,21 @@ import java.util.regex.Pattern;
 
 public class Rule {
     private int operand;
-    private int operand2; // for A=>B rules
+    private int operand2; // for convert op1 to op2 rules
     /** The index associated with the operator */
     private int operator;
     private String string;
 
     public static Rule ruleFromString(String ruleString) {
         int operator, operand1 = 0, operand2;
+        String convertString = Config.OPERATOR_STRINGS[Config.CONVERT];
         Matcher convertMatcher =
-            Pattern.compile("\\d+=>\\d+").matcher(ruleString);
+            Pattern
+                .compile("\\d+" + convertString + "\\d+")
+                .matcher(ruleString);
         boolean isConvertRule = convertMatcher.find();
         if (isConvertRule) {
-            int arrowIndex = ruleString.indexOf("=>");
+            int arrowIndex = ruleString.indexOf(convertString);
             operator = Config.CONVERT;
             operand1 = Integer.parseInt(ruleString.substring(0, arrowIndex));
             operand2 = Integer.parseInt(ruleString.substring(arrowIndex + 2));
