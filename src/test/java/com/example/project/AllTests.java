@@ -70,7 +70,7 @@ public class AllTests {
         int operand1,
         int operand2
     ) {
-        Rule rule = new Rule(str);
+        Rule rule = Rule.ruleFromString(str);
         assertEquals(new Rule(operator, operand1, operand2), rule);
         assertEquals(str, rule.toString());
     }
@@ -536,7 +536,7 @@ public class AllTests {
     Rule[] rules(String[] ruleStrings) {
         Rule[] rules = new Rule[ruleStrings.length];
         for (int i = 0; i < ruleStrings.length; i++) {
-            rules[i] = new Rule(ruleStrings[i]);
+            rules[i] = Rule.ruleFromString(ruleStrings[i]);
         }
         return rules;
     }

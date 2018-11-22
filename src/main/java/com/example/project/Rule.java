@@ -10,34 +10,39 @@ public class Rule {
     private int operator;
     private String string;
 
-    public Rule(String rule) {
-        Matcher convertMatcher = Pattern.compile("\\d+=>\\d+").matcher(rule);
+    public static Rule ruleFromString(String ruleString) {
+        Rule rule = new Rule(Config.INVALID);
+        Matcher convertMatcher =
+            Pattern.compile("\\d+=>\\d+").matcher(ruleString);
         boolean isConvertRule = convertMatcher.find();
         if (isConvertRule) {
-            int arrowIndex = rule.indexOf("=>");
-            setOperand(rule.substring(0, arrowIndex));
-            setOperand2(rule.substring(arrowIndex + 2));
-            setOperator(Config.CONVERT);
-            setString();
-            return;
+            int arrowIndex = ruleString.indexOf("=>");
+            rule.setOperand(ruleString.substring(0, arrowIndex));
+            rule.setOperand2(ruleString.substring(arrowIndex + 2));
+            rule.setOperator(Config.CONVERT);
+            rule.setString();
+            return rule;
         }
 
-        Matcher matcher = Pattern.compile("-?\\d+").matcher(rule);
+        Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
         boolean hasInt = matcher.find();
 
         // Don't accidentally pad a negative
-        String operator = hasInt ? rule.substring(0, matcher.start()) : rule;
-        if (operator.equals("") && rule.charAt(0) == '-') {
-            setOperator(toOperator("-")); // the minus was for subtraction
-            setOperand(rule.substring(1)); // skip the minus sign in the operand
-            setString();
-            return;
+        String operator =
+            hasInt ? ruleString.substring(0, matcher.start()) : ruleString;
+        if (operator.equals("") && ruleString.charAt(0) == '-') {
+            rule.setOperator(toOperator("-")); // the minus was for subtraction
+            // skip the minus sign in the operand
+            rule.setOperand(ruleString.substring(1));
+            rule.setString();
+            return rule;
         }
-        setOperator(toOperator(operator));
+        rule.setOperator(toOperator(operator));
         if (hasInt) {
-            setOperand(matcher.group());
+            rule.setOperand(matcher.group());
         }
-        setString();
+        rule.setString();
+        return rule;
     }
 
     public Rule(int operator) {
@@ -129,6 +134,10 @@ public class Rule {
     }
 
     private void setString() {
+        if (operator < 0) {
+            string = "INVALID";
+            return;
+        }
         int numOperands = Config.NUM_OPERANDS[operator];
         switch (numOperands) {
             case 0:

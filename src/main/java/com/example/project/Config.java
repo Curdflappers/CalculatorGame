@@ -2,10 +2,13 @@ package com.example.project;
 
 public class Config {
 
-  public static final int ADD = 0, SUBTRACT = 1, MULTIPLY = 2, DIVIDE = 3, PAD =
-    4, SIGN = 5, DELETE = 6, CONVERT = 7, POWER = 8, REVERSE = 9, SUM = 10,
-    SHIFT_RIGHT = 11, SHIFT_LEFT = 12, MIRROR = 13;
+  /** Operator index. INVALID must remain < 0 */
+  public static final int INVALID = -1, ADD = 0, SUBTRACT = 1, MULTIPLY = 2,
+    DIVIDE = 3, PAD = 4, SIGN = 5, DELETE = 6, CONVERT = 7, POWER = 8, REVERSE =
+      9, SUM = 10, SHIFT_RIGHT = 11, SHIFT_LEFT = 12, MIRROR = 13;
 
+  /** The string for a rule with an invalid operator */
+  public static final String INVALID_STRING = "INVALID";
   public static final String[] OPERATOR_STRINGS = {
     "+",
     "-",
