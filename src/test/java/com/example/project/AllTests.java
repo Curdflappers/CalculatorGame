@@ -183,6 +183,7 @@ public class AllTests {
         assertApplyRule(0, Config.DELETE, -1);
         assertApplyRule(0, Config.DELETE, 0);
 
+        // Convert
         assertApplyRule(3, Config.CONVERT, 5, 3, 5);
         assertApplyRule(12, Config.CONVERT, 3, 1, 32);
         assertApplyRule(236523, Config.CONVERT, 56, 23, 566556);
@@ -218,12 +219,12 @@ public class AllTests {
     }
 
     void assertApplyRule(int expected, int operator, int value) {
-        Rule rule = new Rule(operator);
+        Rule rule = Rule.ruleFromString(Config.ruleString(operator));
         assertApplyRule(expected, rule, value);
     }
 
     void assertApplyRule(int expected, int operator, int operand, int value) {
-        Rule rule = new Rule(operator, operand);
+        Rule rule = Rule.ruleFromString(Config.ruleString(operator, operand));
         assertApplyRule(expected, rule, value);
     }
 
@@ -234,7 +235,8 @@ public class AllTests {
         int operand2,
         int value
     ) {
-        Rule rule = new Rule(operator, operand, operand2);
+        Rule rule =
+            Rule.ruleFromString(Config.ruleString(operator, operand, operand2));
         assertApplyRule(expected, rule, value);
     }
 

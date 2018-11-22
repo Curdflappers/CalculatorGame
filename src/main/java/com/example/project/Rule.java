@@ -23,7 +23,7 @@ public class Rule {
             operator = Config.CONVERT;
             operand1 = Integer.parseInt(ruleString.substring(0, arrowIndex));
             operand2 = Integer.parseInt(ruleString.substring(arrowIndex + 2));
-            return new Rule(operator, operand1, operand2);
+            return new ConvertRule(operator, operand1, operand2);
         }
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
@@ -45,6 +45,10 @@ public class Rule {
             operand1 = Integer.parseInt(matcher.group());
         }
         return new Rule(operator, operand1);
+    }
+
+    public Rule() {
+        this(Config.INVALID, 0, 0);
     }
 
     public Rule(int operator) {
@@ -176,8 +180,6 @@ public class Rule {
                 return sign(value);
             case Config.DELETE:
                 return delete(value);
-            case Config.CONVERT:
-                return convert(value);
             case Config.POWER:
                 return power(value);
             case Config.REVERSE:
@@ -248,14 +250,6 @@ public class Rule {
         if (valString.length() == 0 || valString.equals("-")) {
             return 0;
         }
-        return Double.parseDouble(valString);
-    }
-
-    private double convert(double value) {
-        String valString = String.valueOf((int) value);
-        String op1String = String.valueOf(getOperand());
-        String op2String = String.valueOf(getOperand2());
-        valString = valString.replace(op1String, op2String);
         return Double.parseDouble(valString);
     }
 
