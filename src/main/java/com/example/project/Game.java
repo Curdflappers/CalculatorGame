@@ -62,13 +62,6 @@ public class Game {
         return validRules;
     }
 
-    public void makeMove(Rule rule) {
-        if (rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND]) {
-            value = rule.apply(value);
-            movesLeft--;
-        }
-    }
-
     public boolean equals(Object other) {
         if (other instanceof Game) {
             Game otherGame = (Game) other;
