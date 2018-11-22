@@ -122,7 +122,7 @@ public class AllTests {
 
         State childState = new State(parentState, rule);
         assertEquals(rule, childState.getRule());
-        assertEquals(rule.apply(parentState.getValue()), childState.getValue());
+        assertEquals(rule.apply(parentState.getGame()), childState.getGame());
         assertEquals(parentState.getGoal(), childState.getGoal());
         assertEquals(parentState.getMovesLeft() - 1, childState.getMovesLeft());
         assertEquals(parentState, childState.getParent());
@@ -239,7 +239,9 @@ public class AllTests {
     }
 
     void assertApplyRule(int expected, Rule rule, int value) {
-        assertEquals(expected, rule.apply(value), 0.01, rule.toString());
+        Game originalGame = new Game(value, 0, 0, new Rule[] {});
+        double newValue = rule.apply(originalGame).getValue();
+        assertEquals(expected, newValue, 0.01, rule.toString());
     }
 
     @Test

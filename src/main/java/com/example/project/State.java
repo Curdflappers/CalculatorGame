@@ -25,10 +25,7 @@ public class State {
      * @param rule
      */
     public State(State state, Rule rule) {
-        int movesLeft = state.getMovesLeft() - 1;
-        double value = rule.apply(state.getValue());
-        this.game =
-            new Game(value, state.getGoal(), movesLeft, state.getRules());
+        this.game = rule.apply(state.getGame());
         this.rule = rule;
         this.parent = state;
     }
@@ -55,5 +52,9 @@ public class State {
 
     public Rule[] getRules() {
         return game.getValidRules();
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

@@ -158,10 +158,20 @@ public class Rule {
         return string;
     }
 
+    public Game apply(Game game) {
+        double newValue = apply(game.getValue());
+        return new Game(
+            newValue,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getValidRules()
+        );
+    }
+
     /**
      * Returns the result of applying this rule to the given value
      */
-    public double apply(double value) {
+    private double apply(double value) {
         switch (getOperator()) {
             case Config.ADD:
                 return add(value);
