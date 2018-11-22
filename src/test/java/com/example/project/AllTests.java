@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 public class AllTests {
     @Test
     void testRuleConstructor() {
-        int operand = 1;
+        int operand1 = 1;
         int operand2 = 2;
         String ruleString = null;
 
@@ -31,21 +31,21 @@ public class AllTests {
                     assertStringCreatesRule(ruleString, i);
                     break;
                 case 1:
-                    ruleString = Config.ruleString(i, operand);
-                    assertStringCreatesRule(ruleString, i, operand);
+                    ruleString = Config.ruleString(i, operand1);
+                    assertStringCreatesRule(ruleString, i, operand1);
                     break;
                 case 2:
-                    ruleString = Config.ruleString(i, operand, operand2);
-                    assertStringCreatesRule(ruleString, i, operand, operand2);
+                    ruleString = Config.ruleString(i, operand1, operand2);
+                    assertStringCreatesRule(ruleString, i, operand1, operand2);
                     break;
             }
         }
 
         // "*-2" used to parse as "*-", leading to invalid operator
-        operand = -2; // or any negative number
+        operand1 = -2; // or any negative number
         // note the lack of space between operator and operand
-        ruleString = Config.ruleString(Config.MULTIPLY, operand);
-        assertStringCreatesRule(ruleString, Config.MULTIPLY, operand);
+        ruleString = Config.ruleString(Config.MULTIPLY, operand1);
+        assertStringCreatesRule(ruleString, Config.MULTIPLY, operand1);
     }
 
     /**
@@ -60,8 +60,8 @@ public class AllTests {
      * Asserts that the given string creates a rule with the given operator and
      * that both operands are 0
      */
-    void assertStringCreatesRule(String str, int operator, int operand) {
-        assertStringCreatesRule(str, operator, operand, 0);
+    void assertStringCreatesRule(String str, int operator, int operand1) {
+        assertStringCreatesRule(str, operator, operand1, 0);
     }
 
     void assertStringCreatesRule(
@@ -82,13 +82,13 @@ public class AllTests {
         }, "too low operand is invalid");
 
         assertEquals(
-            addOperand(Config.MIN_OPERAND).getOperand(),
+            addOperand(Config.MIN_OPERAND).getOperand1(),
             Config.MIN_OPERAND,
             "lower bound operand is valid"
         );
 
         assertEquals(
-            addOperand(Config.MAX_OPERAND).getOperand(),
+            addOperand(Config.MAX_OPERAND).getOperand1(),
             Config.MAX_OPERAND,
             "upper bound operand is valid"
         );
@@ -101,8 +101,8 @@ public class AllTests {
     /**
      * Tries to create an ADD rule with the given operand
      */
-    Rule addOperand(int operand) {
-        return new Rule(Config.ADD, operand);
+    Rule addOperand(int operand1) {
+        return new Rule(Config.ADD, operand1);
     }
 
     @Test
@@ -223,20 +223,20 @@ public class AllTests {
         assertApplyRule(expected, rule, value);
     }
 
-    void assertApplyRule(int expected, int operator, int operand, int value) {
-        Rule rule = Rule.ruleFromString(Config.ruleString(operator, operand));
+    void assertApplyRule(int expected, int operator, int operand1, int value) {
+        Rule rule = Rule.ruleFromString(Config.ruleString(operator, operand1));
         assertApplyRule(expected, rule, value);
     }
 
     void assertApplyRule(
         int expected,
         int operator,
-        int operand,
+        int operand1,
         int operand2,
         int value
     ) {
-        Rule rule =
-            Rule.ruleFromString(Config.ruleString(operator, operand, operand2));
+        String ruleString = Config.ruleString(operator, operand1, operand2);
+        Rule rule = Rule.ruleFromString(ruleString);
         assertApplyRule(expected, rule, value);
     }
 

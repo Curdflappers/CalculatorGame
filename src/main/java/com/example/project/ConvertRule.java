@@ -4,7 +4,7 @@ public class ConvertRule extends Rule {
     public Game apply(Game game) {
         double value = game.getValue();
         String valString = String.valueOf((int) value);
-        String op1String = String.valueOf(getOperand());
+        String op1String = String.valueOf(getOperand1());
         String op2String = String.valueOf(getOperand2());
         valString = valString.replace(op1String, op2String);
         double newValue = Double.parseDouble(valString);

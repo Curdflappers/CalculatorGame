@@ -30,7 +30,7 @@ public class Game {
         this.movesLeft = moves;
         this.rules = Config.blankRules();
         for (Rule rule : rules) {
-            int operandIndex = rule.getOperand() - Config.MIN_OPERAND;
+            int operandIndex = rule.getOperand1() - Config.MIN_OPERAND;
             this.rules[rule.getOperator()][operandIndex] = true;
         }
         this.validRules = rules;
@@ -49,7 +49,7 @@ public class Game {
     }
 
     public boolean isValidRule(Rule rule) {
-        return rules[rule.getOperator()][rule.getOperand()
+        return rules[rule.getOperator()][rule.getOperand1()
             - Config.MIN_OPERAND];
     }
 

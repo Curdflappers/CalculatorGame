@@ -58,22 +58,22 @@ public class Config {
    * Returns the rule string for the given operator and operand
    * If the operator doesn't take exactly 1 operand, this throws an exception
    */
-  public static String ruleString(int operator, int operand) {
+  public static String ruleString(int operator, int operand1) {
     if (NUM_OPERANDS[operator] != 1) {
       throw new RuntimeException("invalid number of operands");
     }
-    return Config.OPERATOR_STRINGS[operator] + operand;
+    return Config.OPERATOR_STRINGS[operator] + operand1;
   }
 
   /**
    * Returns the rule string for the given operand and operands
    * If the operator doesn't take exactly 2 operands, this throws an exception
    */
-  public static String ruleString(int operator, int operand, int operand2) {
+  public static String ruleString(int operator, int operand1, int operand2) {
     if (NUM_OPERANDS[operator] != 2) {
       throw new RuntimeException("invalid number of operands");
     }
-    return operand + Config.OPERATOR_STRINGS[operator] + operand2;
+    return operand1 + Config.OPERATOR_STRINGS[operator] + operand2;
   }
 
   public static final int NUM_OPERATORS = OPERATOR_STRINGS.length;

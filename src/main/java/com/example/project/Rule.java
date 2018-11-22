@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Rule {
-    private int operand;
+    private int operand1;
     private int operand2; // for convert op1 to op2 rules
     /** The index associated with the operator */
     private int operator;
@@ -56,15 +56,15 @@ public class Rule {
         setString();
     }
 
-    public Rule(int operator, int operand) {
+    public Rule(int operator, int operand1) {
         setOperator(operator);
-        setOperand(operand);
+        setOperand1(operand1);
         setString();
     }
 
-    public Rule(int operator, int operand, int operand2) {
+    public Rule(int operator, int operand1, int operand2) {
         setOperator(operator);
-        setOperand(operand);
+        setOperand1(operand1);
         setOperand2(operand2);
         setString();
     }
@@ -91,11 +91,11 @@ public class Rule {
         this.operator = operatorIndex;
     }
 
-    private void setOperand(int operand) {
-        if (operand > Config.MAX_OPERAND || operand < Config.MIN_OPERAND) {
-            throw new RuntimeException("Operand out of range: " + operand);
+    private void setOperand1(int operand1) {
+        if (operand1 > Config.MAX_OPERAND || operand1 < Config.MIN_OPERAND) {
+            throw new RuntimeException("Operand out of range: " + operand1);
         } else
-            this.operand = operand;
+            this.operand1 = operand1;
     }
 
     private void setOperand2(int operand2) {
@@ -109,8 +109,8 @@ public class Rule {
         return operator;
     }
 
-    public int getOperand() {
-        return operand;
+    public int getOperand1() {
+        return operand1;
     }
 
     public int getOperand2() {
@@ -128,10 +128,10 @@ public class Rule {
                 string = Config.ruleString(operator);
                 return;
             case 1:
-                string = Config.ruleString(operator, operand);
+                string = Config.ruleString(operator, operand1);
                 return;
             case 2:
-                string = Config.ruleString(operator, operand, operand2);
+                string = Config.ruleString(operator, operand1, operand2);
                 return;
             default:
                 throw new RuntimeException(
@@ -143,7 +143,7 @@ public class Rule {
     /**
      * Returns a string representation of this rule.
      * <p>
-     * In the form [operator][operand] (no spaces) e.g. "+1", "*2"
+     * In the form [operator][operand1] (no spaces) e.g. "+1", "*2"
      * <p>
      * Operators are: ADD: "+", SUBTRACT: "-", MULTIPLY: "*", DIVIDE: "/"
      */
@@ -208,7 +208,7 @@ public class Rule {
         if (other instanceof Rule) {
             Rule otherRule = (Rule) other;
             return otherRule.getOperator() == getOperator()
-                && otherRule.getOperand() == getOperand()
+                && otherRule.getOperand1() == getOperand1()
                 && otherRule.getOperand2() == getOperand2();
         }
         return false;
@@ -219,24 +219,24 @@ public class Rule {
     ///////////////////////
 
     private double add(double value) {
-        return value + getOperand();
+        return value + getOperand1();
     }
 
     private double subtract(double value) {
-        return value - getOperand();
+        return value - getOperand1();
     }
 
     private double multiply(double value) {
-        return value * getOperand();
+        return value * getOperand1();
     }
 
     private double divide(double value) {
-        return value / getOperand();
+        return value / getOperand1();
     }
 
     private double pad(double value) {
         String valString = String.valueOf((int) value);
-        valString += getOperand();
+        valString += getOperand1();
         return Double.parseDouble(valString);
     }
 
@@ -254,7 +254,7 @@ public class Rule {
     }
 
     private double power(double value) {
-        return Math.pow(value, getOperand());
+        return Math.pow(value, getOperand1());
     }
 
     private double reverse(double value) {
