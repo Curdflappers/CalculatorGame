@@ -11,38 +11,37 @@ public class Rule {
     private String string;
 
     public static Rule ruleFromString(String ruleString) {
-        Rule rule = new Rule(Config.INVALID);
+        int operator, operand1 = 0, operand2;
         Matcher convertMatcher =
             Pattern.compile("\\d+=>\\d+").matcher(ruleString);
         boolean isConvertRule = convertMatcher.find();
         if (isConvertRule) {
             int arrowIndex = ruleString.indexOf("=>");
-            rule.setOperand(ruleString.substring(0, arrowIndex));
-            rule.setOperand2(ruleString.substring(arrowIndex + 2));
-            rule.setOperator(Config.CONVERT);
-            rule.setString();
-            return rule;
+            operator = Config.CONVERT;
+            operand1 = Integer.parseInt(ruleString.substring(0, arrowIndex));
+            operand2 = Integer.parseInt(ruleString.substring(arrowIndex + 2));
+            return new Rule(operator, operand1, operand2);
         }
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
         boolean hasInt = matcher.find();
 
         // Don't accidentally pad a negative
-        String operator =
+        String operatorString =
             hasInt ? ruleString.substring(0, matcher.start()) : ruleString;
-        if (operator.equals("") && ruleString.charAt(0) == '-') {
-            rule.setOperator(toOperator("-")); // the minus was for subtraction
+        if (operatorString.equals("") && ruleString.charAt(0) == '-') {
+            operator = Config.SUBTRACT; // the minus was for subtraction
             // skip the minus sign in the operand
-            rule.setOperand(ruleString.substring(1));
-            rule.setString();
-            return rule;
+            operand1 = Integer.parseInt(ruleString.substring(1));
+            return new Rule(operator, operand1);
         }
-        rule.setOperator(toOperator(operator));
+
+        // We have a basic rule of the form "[operator][op1?]"
+        operator = toOperator(operatorString);
         if (hasInt) {
-            rule.setOperand(matcher.group());
+            operand1 = Integer.parseInt(matcher.group());
         }
-        rule.setString();
-        return rule;
+        return new Rule(operator, operand1);
     }
 
     public Rule(int operator) {
@@ -85,33 +84,11 @@ public class Rule {
         this.operator = operatorIndex;
     }
 
-    private void setOperand(String operand) {
-        try {
-            setOperand(Integer.parseInt(operand));
-        } catch (NumberFormatException e) {
-            System.out
-                .println("Unexpected NumberFormatException in Rule.setOperand");
-            e.printStackTrace();
-        }
-    }
-
     private void setOperand(int operand) {
         if (operand > Config.MAX_OPERAND || operand < Config.MIN_OPERAND) {
             throw new RuntimeException("Operand out of range: " + operand);
         } else
             this.operand = operand;
-    }
-
-    private void setOperand2(String operand2) {
-        try {
-            setOperand2(Integer.parseInt(operand2));
-        } catch (NumberFormatException e) {
-            System.out
-                .println(
-                    "Unexpected NumberFormatException in Rule.setOperand2"
-                );
-            e.printStackTrace();
-        }
     }
 
     private void setOperand2(int operand2) {
