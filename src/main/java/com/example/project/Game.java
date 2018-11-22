@@ -24,7 +24,7 @@ public class Game {
      * @param moves The number of moves to be used
      * @param rules The rules that can be used
      */
-    public Game(int value, int goal, int moves, Rule[] rules) {
+    public Game(double value, int goal, int moves, Rule[] rules) {
         this.value = value;
         this.goal = goal;
         this.movesLeft = moves;
@@ -54,7 +54,7 @@ public class Game {
     }
 
     public State getState() {
-        return new State(null, getValue(), getGoal(), getMovesLeft(), null);
+        return new State(this);
     }
 
     /** The valid rules for this game */

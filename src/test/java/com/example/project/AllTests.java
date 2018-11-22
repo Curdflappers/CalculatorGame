@@ -107,10 +107,14 @@ public class AllTests {
 
     @Test
     void testStateConstructors() {
-        Rule rule = new Rule(Config.SIGN);
+        Rule[] rules = new Rule[] {
+            new Rule(Config.SIGN)
+        };
+        Rule rule = rules[0];
         int value = 1, goal = 2, movesLeft = 3;
-        State parentState = new State(rule, value, goal, movesLeft, null);
-        assertEquals(rule, parentState.getRule());
+        Game game = new Game(value, goal, movesLeft, rules);
+        State parentState = new State(game);
+        assertEquals(null, parentState.getRule());
         assertEquals(value, parentState.getValue());
         assertEquals(goal, parentState.getGoal());
         assertEquals(movesLeft, parentState.getMovesLeft());
