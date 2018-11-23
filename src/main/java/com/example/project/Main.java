@@ -1,6 +1,7 @@
 package com.example.project;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -22,6 +23,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         do {
             getInput(args, scanner);
+            System.out.println(Config.SOLUTION_PROMPT);
             solveGame();
             promptAgain(scanner);
             args = new String[0]; // can't use the same args again
@@ -140,7 +142,16 @@ public class Main {
         moves = scanner.nextInt();
         scanner.nextLine();
         System.out.print(Config.RULES_PROMPT);
-        parseRules(scanner.nextLine().split(","));
+        ArrayList<String> ruleStrings = new ArrayList<>();
+        do {
+            String input = scanner.nextLine();
+            if (input.length() > 0) {
+                ruleStrings.add(input);
+            } else {
+                break;
+            }
+        } while (true);
+        parseRules(ruleStrings);
     }
 
     /**
@@ -153,16 +164,16 @@ public class Main {
             value = Integer.parseInt(args[0]);
             goal = Integer.parseInt(args[1]);
             moves = Integer.parseInt(args[2]);
-            parseRules(args[3].split(","));
+            parseRules(Arrays.asList(args[3].split(Config.CMDLINE_SEPARATOR)));
         } catch (NumberFormatException e) {
             // TODO handle bad input (lots of it)
         }
     }
 
-    public static void parseRules(String[] ruleStrings) {
-        rules = new Rule[ruleStrings.length];
+    public static void parseRules(List<String> ruleStrings) {
+        rules = new Rule[ruleStrings.size()];
         for (int i = 0; i < rules.length; i++) {
-            rules[i] = Rule.ruleFromString(ruleStrings[i]);
+            rules[i] = Rule.ruleFromString(ruleStrings.get(i));
         }
     }
 }

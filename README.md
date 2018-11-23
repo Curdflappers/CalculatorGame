@@ -53,14 +53,23 @@ Rules are comma-separated, no spaces in the separator please. Parentheses are us
 Enter start value: 2
 Enter goal value: 5
 Enter the number of moves: 3
-Enter comma-separated rules: +2,+1
+Enter one rule per line (empty string to mark end of list):
++2
++1
+
+Solution:
 +1
 +2
 Solve again (y/n): y
 Enter start value: 1231
 Enter goal value: 4
 Enter the number of moves: 3
-Enter comma-separated rules: SUM,3=>1,2=>3
+Enter one rule per line (empty string to mark end of list):
+SUM
+3=>1
+2=>3
+
+Solution:
 2=>3
 3=>1
 SUM

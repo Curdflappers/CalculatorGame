@@ -313,7 +313,7 @@ public class AllTests {
             Config.ruleString(Config.SUBTRACT, 2),
             Config.ruleString(Config.MULTIPLY, -3),
         };
-        String rulesString = combineStrings(ruleStrings);
+        String rulesString = combineStrings(ruleStrings) + "\n";
         Rule[] rules = rules(ruleStrings);
         String inputString =
             value + "\n" + goal + "\n" + movesLeft + "\n" + rulesString + "\n";
@@ -529,7 +529,7 @@ public class AllTests {
 
     /** Combines the given strings, separated with Config.SEPARATOR */
     String combineStrings(String[] strings) {
-        return combineStrings(strings, Config.SEPARATOR);
+        return combineStrings(strings, Config.SCANNER_SEPARATOR);
     }
 
     /**
@@ -575,7 +575,7 @@ public class AllTests {
             + "\n"
             + moves
             + "\n"
-            + combineStrings(ruleStrings) + "\n" + Config.QUIT;
+            + combineStrings(ruleStrings) + "\n\n" + Config.QUIT;
     }
 
     /** Simulates VM args */
@@ -585,7 +585,10 @@ public class AllTests {
         int moves,
         String[] ruleStrings) {
         return new String[] {
-            "" + value, "" + goal, "" + moves, combineStrings(ruleStrings),
+            "" + value,
+            "" + goal,
+            "" + moves,
+            combineStrings(ruleStrings, Config.CMDLINE_SEPARATOR),
         };
     }
 
@@ -630,8 +633,8 @@ public class AllTests {
      * Includes again prompt
      */
     String solutionOutput(Rule[] solution) {
-        String output = "";
         String lineEnd = "\n"; // Toggle this for Windows/non-Windows machines
+        String output = Config.SOLUTION_PROMPT + lineEnd;
         for (Rule rule : solution) {
             output += rule.toString() + lineEnd;
         }

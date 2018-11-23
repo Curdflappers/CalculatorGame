@@ -85,8 +85,10 @@ public class Config {
   public static final String START_PROMPT = "Enter start value: ";
   public static final String GOAL_PROMPT = "Enter goal value: ";
   public static final String MOVES_PROMPT = "Enter the number of moves: ";
-  public static final String RULES_PROMPT = "Enter comma-separated rules: ";
+  public static final String RULES_PROMPT =
+    "Enter one rule per line (empty string to mark end of list):\n";
   public static final String AGAIN_PROMPT = "Solve again (y/n): ";
+  public static final String SOLUTION_PROMPT = "Solution:";
 
   /** The user input required to quit the program */
   public static final String QUIT = "n ", CONTINUE = "y ";
@@ -95,6 +97,8 @@ public class Config {
     return new boolean[NUM_OPERATORS][MAX_OPERAND - MIN_OPERAND + 1];
   }
 
-  /** The separator for rule input */
-  public static final String SEPARATOR = ",";
+  /** The separator for rule input through the scanner */
+  public static final String SCANNER_SEPARATOR = "\n";
+  /** The separator for rule input through command-line arguments */
+  public static final String CMDLINE_SEPARATOR = ",";
 }
