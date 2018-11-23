@@ -155,27 +155,34 @@ public class AllTests {
 
     @Test
     void testApplyRule() {
+        // Add
         assertApplyRule(3, Config.ADD, 2, 1);
         assertApplyRule(-3, Config.ADD, 4, -7);
 
+        // Subtract
         assertApplyRule(3, Config.SUBTRACT, 4, 7);
         assertApplyRule(-3, Config.SUBTRACT, 5, 2);
 
+        // Multiply
         assertApplyRule(12, Config.MULTIPLY, 3, 4);
         assertApplyRule(-27, Config.MULTIPLY, -9, 3);
 
+        // Divide
         assertApplyRule(353, Config.DIVIDE, 2, 706);
         assertApplyRule(-535, Config.DIVIDE, -3, 535 * 3);
 
+        // Pad
         assertApplyRule(12, Config.PAD, 2, 1);
         assertApplyRule(1210, Config.PAD, 10, 12);
         assertApplyRule(3, Config.PAD, 3, 0);
         assertApplyRule(30, Config.PAD, 0, 3);
 
+        // Sign
         assertApplyRule(-1, Config.SIGN, 1);
         assertApplyRule(1, Config.SIGN, -1);
         assertApplyRule(-0, Config.SIGN, 0);
 
+        // Delete
         assertApplyRule(1, Config.DELETE, 12);
         assertApplyRule(0, Config.DELETE, 1);
         assertApplyRule(0, Config.DELETE, 0);
@@ -193,12 +200,15 @@ public class AllTests {
         assertApplyRule(-236523, Config.CONVERT, 56, 23, -566556);
         assertApplyRule(-1, Config.CONVERT, 2, 3, -1);
 
+        // Power
         assertApplyRule(8, Config.POWER, 3, 2);
 
+        // Reverse
         assertApplyRule(35, Config.REVERSE, 53);
         assertApplyRule(0, Config.REVERSE, 0);
         assertApplyRule(-12, Config.REVERSE, -21);
 
+        // Sum
         assertApplyRule(1 + 2 + 3, Config.SUM, 123);
         assertApplyRule(0, Config.SUM, 0);
 
