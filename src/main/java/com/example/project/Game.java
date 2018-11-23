@@ -24,13 +24,13 @@ public class Game {
      * @param moves The number of moves to be used
      * @param rules The rules that can be used
      */
-    public Game(int value, int goal, int moves, Rule[] rules) {
+    public Game(double value, int goal, int moves, Rule[] rules) {
         this.value = value;
         this.goal = goal;
         this.movesLeft = moves;
         this.rules = Config.blankRules();
         for (Rule rule : rules) {
-            int operandIndex = rule.getOperand() - Config.MIN_OPERAND;
+            int operandIndex = rule.getOperand1() - Config.MIN_OPERAND;
             this.rules[rule.getOperator()][operandIndex] = true;
         }
         this.validRules = rules;
@@ -49,24 +49,17 @@ public class Game {
     }
 
     public boolean isValidRule(Rule rule) {
-        return rules[rule.getOperator()][rule.getOperand()
+        return rules[rule.getOperator()][rule.getOperand1()
             - Config.MIN_OPERAND];
     }
 
     public State getState() {
-        return new State(null, getValue(), getGoal(), getMovesLeft(), null);
+        return new State(this);
     }
 
     /** The valid rules for this game */
     public Rule[] getValidRules() {
         return validRules;
-    }
-
-    public void makeMove(Rule rule) {
-        if (rules[rule.getOperator()][rule.getOperand() - Config.MIN_OPERAND]) {
-            value = rule.apply(value);
-            movesLeft--;
-        }
     }
 
     public boolean equals(Object other) {

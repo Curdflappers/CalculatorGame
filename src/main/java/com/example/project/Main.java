@@ -162,7 +162,7 @@ public class Main {
     public static void parseRules(String[] ruleStrings) {
         rules = new Rule[ruleStrings.length];
         for (int i = 0; i < rules.length; i++) {
-            rules[i] = new Rule(ruleStrings[i]);
+            rules[i] = Rule.ruleFromString(ruleStrings[i]);
         }
     }
 }

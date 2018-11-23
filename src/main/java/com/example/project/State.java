@@ -1,29 +1,31 @@
 package com.example.project;
 
 public class State {
+    /** The game information for this state */
+    private Game game;
+    /** The rule that was applied to <code>parent</code> to get to this state */
     private Rule rule;
-    private double value;
-    private int goal, movesLeft;
+    /** The parent state to which <code>rule</code> was applied */
     private State parent;
 
-    public State(
-        Rule rule,
-        double value,
-        int goal,
-        int movesLeft,
-        State parent
-    ) {
-        this.rule = rule;
-        this.value = value;
-        this.goal = goal;
-        this.movesLeft = movesLeft;
-        this.parent = parent;
+    /**
+     * Creates a new State with the given <code>game</code>, <code>rule</code>
+     * and <code>parent</code> are <code>null</code>.
+     */
+    public State(Game game) {
+        this.game = game;
+        this.rule = null;
+        this.parent = null;
     }
 
+    /**
+     * Creates a new state, a child of the given state, a result of applying
+     * the given rule
+     * @param state
+     * @param rule
+     */
     public State(State state, Rule rule) {
-        this.movesLeft = state.getMovesLeft() - 1;
-        this.goal = state.goal;
-        this.value = rule.apply(state.getValue());
+        this.game = rule.apply(state.getGame());
         this.rule = rule;
         this.parent = state;
     }
@@ -33,18 +35,26 @@ public class State {
     }
 
     public double getValue() {
-        return value;
+        return game.getValue();
     }
 
     public int getGoal() {
-        return goal;
+        return game.getGoal();
     }
 
     public int getMovesLeft() {
-        return movesLeft;
+        return game.getMovesLeft();
     }
 
     public State getParent() {
         return parent;
+    }
+
+    public Rule[] getRules() {
+        return game.getValidRules();
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
