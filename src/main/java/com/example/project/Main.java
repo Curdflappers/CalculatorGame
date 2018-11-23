@@ -69,7 +69,7 @@ public class Main {
     private static List<State> successors(State state) {
         List<State> successors = new ArrayList<>();
         if (state.getMovesLeft() > 0) {
-            for (Rule rule : game.getValidRules()) {
+            for (Rule rule : state.getRules()) {
                 State successor = new State(state, rule);
                 if (successor.getValue() % 1 == 0) { // cannot have decimals!
                     successors.add(successor);

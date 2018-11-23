@@ -155,27 +155,34 @@ public class AllTests {
 
     @Test
     void testApplyRule() {
+        // Add
         assertApplyRule(3, Config.ADD, 2, 1);
         assertApplyRule(-3, Config.ADD, 4, -7);
 
+        // Subtract
         assertApplyRule(3, Config.SUBTRACT, 4, 7);
         assertApplyRule(-3, Config.SUBTRACT, 5, 2);
 
+        // Multiply
         assertApplyRule(12, Config.MULTIPLY, 3, 4);
         assertApplyRule(-27, Config.MULTIPLY, -9, 3);
 
+        // Divide
         assertApplyRule(353, Config.DIVIDE, 2, 706);
         assertApplyRule(-535, Config.DIVIDE, -3, 535 * 3);
 
+        // Pad
         assertApplyRule(12, Config.PAD, 2, 1);
         assertApplyRule(1210, Config.PAD, 10, 12);
         assertApplyRule(3, Config.PAD, 3, 0);
         assertApplyRule(30, Config.PAD, 0, 3);
 
+        // Sign
         assertApplyRule(-1, Config.SIGN, 1);
         assertApplyRule(1, Config.SIGN, -1);
         assertApplyRule(-0, Config.SIGN, 0);
 
+        // Delete
         assertApplyRule(1, Config.DELETE, 12);
         assertApplyRule(0, Config.DELETE, 1);
         assertApplyRule(0, Config.DELETE, 0);
@@ -193,12 +200,15 @@ public class AllTests {
         assertApplyRule(-236523, Config.CONVERT, 56, 23, -566556);
         assertApplyRule(-1, Config.CONVERT, 2, 3, -1);
 
+        // Power
         assertApplyRule(8, Config.POWER, 3, 2);
 
+        // Reverse
         assertApplyRule(35, Config.REVERSE, 53);
         assertApplyRule(0, Config.REVERSE, 0);
         assertApplyRule(-12, Config.REVERSE, -21);
 
+        // Sum
         assertApplyRule(1 + 2 + 3, Config.SUM, 123);
         assertApplyRule(0, Config.SUM, 0);
 
@@ -216,18 +226,47 @@ public class AllTests {
         assertApplyRule(2332, Config.MIRROR, 23);
         assertApplyRule(0, Config.MIRROR, 0);
         assertApplyRule(-11, Config.MIRROR, -1);
+
+        // Meta add
+        int addOperand = 1;
+        int subtractOperand = 2;
+        int metaAddOperand = 3;
+        Rule metaAddRule = Rule.makeRule(Config.META_ADD, metaAddOperand);
+        Rule[] rules = new Rule[] {
+            Rule.makeRule(Config.ADD, addOperand),
+            Rule.makeRule(Config.SUBTRACT, subtractOperand),
+            metaAddRule,
+        };
+        Rule[] expectedRules = new Rule[] {
+            Rule.makeRule(Config.ADD, addOperand + metaAddOperand),
+            Rule.makeRule(Config.SUBTRACT, subtractOperand + metaAddOperand),
+            metaAddRule,
+        };
+        assertApplyMetaRule(expectedRules, metaAddRule, rules);
     }
 
+    /**
+     * Asserts that the result of applying the given non-meta rule to a game
+     * with the given value results in the expected value
+     */
     void assertApplyRule(int expected, int operator, int value) {
         Rule rule = Rule.makeRule(operator);
         assertApplyRule(expected, rule, value);
     }
 
+    /**
+     * Asserts that the result of applying the given non-meta rule to a game
+     * with the given value results in the expected value
+     */
     void assertApplyRule(int expected, int operator, int operand1, int value) {
         Rule rule = Rule.makeRule(operator, operand1);
         assertApplyRule(expected, rule, value);
     }
 
+    /**
+     * Asserts that the result of applying the given non-meta rule to a game
+     * with the given value results in the expected value
+     */
     void assertApplyRule(
         int expected,
         int operator,
@@ -239,10 +278,31 @@ public class AllTests {
         assertApplyRule(expected, rule, value);
     }
 
+    /**
+     * Asserts that the result of applying the given non-meta rule to a game
+     * with the given value results in the expected value
+     */
     void assertApplyRule(int expected, Rule rule, int value) {
         Game originalGame = new Game(value, 0, 0, new Rule[] {});
         double newValue = rule.apply(originalGame).getValue();
         assertEquals(expected, newValue, 0.01, rule.toString());
+    }
+
+    /**
+     * Asserts that a meta rule correctly affects the rules and not the value
+     * @param expectedRules
+     * @param rule
+     * @param oldRules
+     */
+    void assertApplyMetaRule(Rule[] expectedRules, Rule rule, Rule[] oldRules) {
+        double value = -1;
+        int goal = -2;
+        int moves = 9; // some value > 0
+
+        Game oldGame = new Game(value, goal, moves, oldRules);
+        Game newGame = rule.apply(oldGame);
+        Game expectedGame = new Game(value, goal, moves - 1, expectedRules);
+        assertEquals(expectedGame, newGame);
     }
 
     @Test
@@ -300,14 +360,14 @@ public class AllTests {
         assertFindsSolution(0, 2, 2, rules, solution);
 
         // Level 4: 3 to 4 using *4, +4, /4 in three moves (in that order)
-        final Rule times4 = Rule.makeRule(Config.MULTIPLY, 4);
+        final Rule multiply4 = Rule.makeRule(Config.MULTIPLY, 4);
         final Rule add4 = Rule.makeRule(Config.ADD, 4);
-        final Rule div4 = Rule.makeRule(Config.DIVIDE, 4);
+        final Rule divide4 = Rule.makeRule(Config.DIVIDE, 4);
         rules = new Rule[] {
-            times4, add4, div4
+            multiply4, add4, divide4
         };
         solution = new Rule[] {
-            times4, add4, div4
+            multiply4, add4, divide4
         };
         assertFindsSolution(3, 4, 3, rules, solution);
 
@@ -366,6 +426,21 @@ public class AllTests {
             mirror
         };
         assertFindsSolution(23, 2332, 1, rules, solution);
+
+        // Level 137: From 0 to 42 in 5 moves, including meta add 1
+        // [+]1, +6, +6, *3, +6
+        final Rule subtract2 = Rule.makeRule(Config.SUBTRACT, 2);
+        final Rule add5 = Rule.makeRule(Config.ADD, 5);
+        final Rule multiply2 = Rule.makeRule(Config.MULTIPLY, 2);
+        final Rule metaAdd1 = Rule.makeRule(Config.META_ADD, 1);
+        final Rule add6 = Rule.makeRule(Config.ADD, 6);
+        final Rule multiply3 = Rule.makeRule(Config.MULTIPLY, 3);
+        rules = new Rule[] {
+            subtract2, add5, multiply2, metaAdd1
+        };
+        solution = new Rule[] {
+            metaAdd1, add6, add6, multiply3, add6
+        };
     }
 
     /**
