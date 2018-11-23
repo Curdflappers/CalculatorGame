@@ -7,14 +7,14 @@ Pass in the details of the level through the terminal, and the solution will be 
 
 ### Rules
 
-Rules are comma-separated, no spaces in the separator please. Brackets (`[` and `]`) are used for visual purposes, do not include them in your input
+Rules are comma-separated, no spaces in the separator please. Parentheses are used for visual purposes, do not include them in your input
 
-* Add (`+[op1]`) adds `op1` to `value`
-* Subtract (`-[op1]`) subtracts `op1` from `value`
-* Multiply (`*[op1]`) multiplies `value` by `op1`
-* Divide (`/[op1]`) divides `value` by `op1`
+* Add (`+(op1)`) adds `op1` to `value`
+* Subtract (`-(op1)`) subtracts `op1` from `value`
+* Multiply (`*(op1)`) multiplies `value` by `op1`
+* Divide (`/(op1)`) divides `value` by `op1`
     * Dividing only works if `op1` divides `value`
-* Pad (`[op1]`, "pad `op1`") adds `op1` to the right of value
+* Pad (`(op1)`, "pad `op1`") adds `op1` to the right of value
     * 1 pad 0 becomes 10
     * 1 pad 2 becomes 12
     * 12 pad 34 becomes 1234
@@ -25,12 +25,12 @@ Rules are comma-separated, no spaces in the separator please. Brackets (`[` and 
     * -1234 delete becomes -123
     * 5 delete becomes 0
     * 0 delete becomes 0 (no change occurs)
-* Convert (`[op1]=>[op2]`, "convert `op1` to `op2`") converts all instances of `op1` to `op2`
+* Convert (`(op1)=>(op2)`, "convert `op1` to `op2`") converts all instances of `op1` to `op2`
     * 1234 convert 4 to 5 becomes 1235
     * 1234 convert 34 to 89 becomes 1289
     * 123234 convert 23 to 5 becomes 1554
     * 1234 convert 5 to 6 becomes 1234 (no change occurs)
-* Power (`^[op1]` "raised to the power of `op1`") raises `value` to the power of `op1`
+* Power (`^(op1)` "raised to the power of `op1`") raises `value` to the power of `op1`
     * 2 raised to the power of 3 becomes 8
 * Reverse (`Reverse`) reverses the order of the digits in `value`
     * 1234 becomes 4321
@@ -45,6 +45,7 @@ Rules are comma-separated, no spaces in the separator please. Brackets (`[` and 
 * Mirror (`Mirror`) appends the mirrored value to the end of `value`
     * 23 mirror becomes 2332
     * -1 mirror becomes -11
+* Meta Add (`[+](op1)`) adds `op1` to each non-meta rule in the game
 
 ### Sample Use Case
 

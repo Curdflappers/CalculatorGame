@@ -77,6 +77,14 @@ public abstract class Rule {
         return makeRule(operator, operand1, 0);
     }
 
+    /**
+     * Makes a rule from the given operator and operands. If any operand is not
+     * necessary for the rule, it is ignored.
+     * @param operator
+     * @param operand1
+     * @param operand2
+     * @return
+     */
     public static Rule makeRule(int operator, int operand1, int operand2) {
         switch (operator) {
             case Config.ADD:
@@ -107,6 +115,8 @@ public abstract class Rule {
                 return new ShiftLeftRule();
             case Config.MIRROR:
                 return new MirrorRule();
+            case Config.META_ADD:
+                return new MetaAddRule(operand1);
             default:
                 throw new RuntimeException(
                     "invalid operator: " + Config.OPERATOR_STRINGS[operator]
