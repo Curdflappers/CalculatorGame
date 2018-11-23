@@ -3,7 +3,7 @@ package com.example.project;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Rule {
+public abstract class Rule {
     private int operand1;
     private int operand2; // for convert op1 to op2 rules
     /** The index associated with the operator */
@@ -11,7 +11,7 @@ public class Rule {
     private String string;
 
     public static Rule ruleFromString(String ruleString) {
-        int operator, operand1 = 0, operand2;
+        int operator = Config.INVALID, operand1 = 0, operand2 = 0;
         String convertString = Config.OPERATOR_STRINGS[Config.CONVERT];
         Matcher convertMatcher =
             Pattern
@@ -36,7 +36,7 @@ public class Rule {
             operator = Config.SUBTRACT; // the minus was for subtraction
             // skip the minus sign in the operand
             operand1 = Integer.parseInt(ruleString.substring(1));
-            return new Rule(operator, operand1);
+            return makeRule(operator, operand1, operand2);
         }
 
         // We have a basic rule of the form "[operator][op1?]"
@@ -44,7 +44,7 @@ public class Rule {
         if (hasInt) {
             operand1 = Integer.parseInt(matcher.group());
         }
-        return new Rule(operator, operand1);
+        return makeRule(operator, operand1, operand2);
     }
 
     public Rule() {
@@ -69,10 +69,44 @@ public class Rule {
         setString();
     }
 
+    public static Rule makeRule(int operator) {
+        return makeRule(operator, 0, 0);
+    }
+
+    public static Rule makeRule(int operator, int operand1) {
+        return makeRule(operator, operand1, 0);
+    }
+
     public static Rule makeRule(int operator, int operand1, int operand2) {
         switch (operator) {
+            case Config.ADD:
+                return new AddRule(operand1);
+            case Config.SUBTRACT:
+                return new SubtractRule(operand1);
+            case Config.MULTIPLY:
+                return new MultiplyRule(operand1);
+            case Config.DIVIDE:
+                return new DivideRule(operand1);
+            case Config.PAD:
+                return new PadRule(operand1);
+            case Config.SIGN:
+                return new SignRule();
+            case Config.DELETE:
+                return new DeleteRule();
             case Config.CONVERT:
                 return new ConvertRule(operand1, operand2);
+            case Config.POWER:
+                return new PowerRule(operand1);
+            case Config.REVERSE:
+                return new ReverseRule();
+            case Config.SUM:
+                return new SumRule();
+            case Config.SHIFT_RIGHT:
+                return new ShiftRightRule();
+            case Config.SHIFT_LEFT:
+                return new ShiftLeftRule();
+            case Config.MIRROR:
+                return new MirrorRule();
             default:
                 throw new RuntimeException(
                     "invalid operator: " + Config.OPERATOR_STRINGS[operator]
@@ -162,57 +196,7 @@ public class Rule {
         return string;
     }
 
-    public Game apply(Game game) {
-        double newValue = apply(game.getValue());
-        return new Game(
-            newValue,
-            game.getGoal(),
-            game.getMovesLeft() - 1,
-            game.getValidRules()
-        );
-    }
-
-    /**
-     * Returns the result of applying this rule to the given value
-     */
-    private double apply(double value) {
-        switch (getOperator()) {
-            case Config.ADD:
-                return add(value);
-            case Config.SUBTRACT:
-                return subtract(value);
-            case Config.MULTIPLY:
-                return multiply(value);
-            case Config.DIVIDE:
-                return divide(value);
-            case Config.PAD:
-                return pad(value);
-            case Config.SIGN:
-                return sign(value);
-            case Config.DELETE:
-                return delete(value);
-            case Config.POWER:
-                return power(value);
-            case Config.REVERSE:
-                return reverse(value);
-            case Config.SUM:
-                return sum(value);
-            case Config.SHIFT_RIGHT:
-                return shiftRight(value);
-            case Config.SHIFT_LEFT:
-                return shiftLeft(value);
-            case Config.MIRROR:
-                return mirror(value);
-
-            default: // should never get here
-                throw new RuntimeException(
-                    "Unexpected error when applying rule:\n"
-                        + this
-                        + "\n"
-                        + value
-                );
-        }
-    }
+    public abstract Game apply(Game game);
 
     @Override
     public boolean equals(Object other) {
@@ -223,177 +207,5 @@ public class Rule {
                 && otherRule.getOperand2() == getOperand2();
         }
         return false;
-    }
-
-    ///////////////////////
-    // RULE APPLICATIONS //
-    ///////////////////////
-
-    private double add(double value) {
-        return value + getOperand1();
-    }
-
-    private double subtract(double value) {
-        return value - getOperand1();
-    }
-
-    private double multiply(double value) {
-        return value * getOperand1();
-    }
-
-    private double divide(double value) {
-        return value / getOperand1();
-    }
-
-    private double pad(double value) {
-        String valString = String.valueOf((int) value);
-        valString += getOperand1();
-        return Double.parseDouble(valString);
-    }
-
-    private double sign(double value) {
-        return -value;
-    }
-
-    private double delete(double value) {
-        String valString = String.valueOf((int) value);
-        valString = valString.substring(0, valString.length() - 1);
-        if (valString.length() == 0 || valString.equals("-")) {
-            return 0;
-        }
-        return Double.parseDouble(valString);
-    }
-
-    private double power(double value) {
-        return Math.pow(value, getOperand1());
-    }
-
-    private double reverse(double value) {
-        boolean negative = value < 0;
-        String valString = String.valueOf((int) value);
-        if (negative) {
-            valString = valString.substring(1); // shave off minus sign
-        }
-        valString = new StringBuilder(valString).reverse().toString();
-        double newValue = Double.parseDouble(valString);
-        return negative ? -newValue : newValue;
-    }
-
-    private double sum(double value) {
-        int absValue = (int) value;
-        int sum = 0;
-        while (absValue != 0) {
-            sum += absValue % 10;
-            absValue /= 10;
-        }
-        return sum;
-    }
-
-    private double shiftRight(double value) {
-        int[] digits = digits((int) value);
-        rotateRight(digits);
-        double newValue = valueOf(digits);
-        return value >= 0 ? newValue : -newValue;
-    }
-
-    private double shiftLeft(double value) {
-        int[] digits = digits((int) value);
-        rotateLeft(digits);
-        double newValue = valueOf(digits);
-        return value >= 0 ? newValue : -newValue;
-    }
-
-    private double mirror(double value) {
-        boolean negative = value < 0;
-        String valString = String.valueOf((int) value);
-        if (negative) {
-            valString = valString.substring(1); // shave off minus sign
-        }
-        // add reversed string to end of current string
-        valString += new StringBuilder(valString).reverse().toString();
-        double newValue = Double.parseDouble(valString);
-        return negative ? -newValue : newValue;
-    }
-
-    /////////////
-    // HELPERS //
-    /////////////
-
-    /**
-     * Returns an array of digits for this value
-     * <p>
-     * <code>digits(1234) returns [1, 2, 3, 4]</code>
-     * <p>
-     * <code>digits(-2) returns [2]</code>
-     * <p>
-     * <code>digits(0) returns [0]</code>
-     *
-     * @param value any integer
-     * @return an array representation of the absolute value of value
-     */
-    private int[] digits(int value) {
-        value = Math.abs(value); // only interested in its digits, not its sign
-        int numDigits = (int) Math.ceil(Math.log10(value));
-        int[] digits = new int[numDigits];
-
-        for (int i = numDigits - 1; i >= 0; i--) { // start at the end, go back
-            digits[i] = value % 10;
-            value /= 10;
-        }
-
-        return digits;
-    }
-
-    /**
-     * Rotates the given array right once
-     * <p>
-     * <code>rotateRight([1, 2, 3, 4])</code> changes the argument to
-     * <code>[4, 1, 2, 3]</code>
-     *
-     * @param digits an array of integers
-     */
-    private void rotateRight(int[] digits) {
-        int last = digits[digits.length - 1];
-        for (int i = digits.length - 1; i > 0; i--) {
-            digits[i] = digits[i - 1];
-        }
-        digits[0] = last; // and the last shall be first
-    }
-
-    /**
-     * Rotates the given array right once
-     * <p>
-     * <code>rotateLeft([1, 2, 3, 4])</code> changes the argument to
-     * <code>[2, 3, 4, 1]</code>
-     *
-     * @param digits an array of integers
-     */
-    private void rotateLeft(int[] digits) {
-        int first = digits[0];
-        for (int i = 0; i < digits.length - 1; i++) {
-            digits[i] = digits[i + 1];
-        }
-        digits[digits.length - 1] = first; // and the first shall be last
-    }
-
-    /**
-     * Returns the value represented by the given array
-     * <p>
-     * <code>valueOf([1, 2, 3, 4]) returns 1234</code>
-     * <p>
-     * <code>valueOf([0]) returns 0</code>
-     * <p>
-     * <code>valueOf([]) returns 0</code>
-     * @param digits the array to evaluate
-     */
-    private int valueOf(int[] digits) {
-        int value = 0;
-
-        for (int i = 0; i < digits.length; i++) {
-            value *= 10;
-            value += digits[i];
-        }
-
-        return value;
     }
 }
