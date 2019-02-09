@@ -13,7 +13,6 @@ public class Game {
     private int movesLeft;
 
     /** The rules that can be used in this game */
-    private boolean[][] rules;
     private Rule[] validRules;
 
     /**
@@ -28,11 +27,6 @@ public class Game {
         this.value = value;
         this.goal = goal;
         this.movesLeft = moves;
-        this.rules = Config.blankRules();
-        for (Rule rule : rules) {
-            int operandIndex = rule.getOperand1() - Config.MIN_OPERAND;
-            this.rules[rule.getOperator()][operandIndex] = true;
-        }
         this.validRules = rules;
     }
 
@@ -49,8 +43,7 @@ public class Game {
     }
 
     public boolean isValidRule(Rule rule) {
-        return rules[rule.getOperator()][rule.getOperand1()
-            - Config.MIN_OPERAND];
+        return Arrays.asList(validRules).contains(rule);
     }
 
     public State getState() {

@@ -93,10 +93,6 @@ public class Config {
   /** The user input required to quit the program */
   public static final String QUIT = "n ", CONTINUE = "y ";
 
-  public static boolean[][] blankRules() {
-    return new boolean[NUM_OPERATORS][MAX_OPERAND - MIN_OPERAND + 1];
-  }
-
   /** The separator for rule input through the scanner */
   public static final String SCANNER_SEPARATOR = "\n";
   /** The separator for rule input through command-line arguments */
