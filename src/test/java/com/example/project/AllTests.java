@@ -2,7 +2,6 @@ package com.example.project;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -73,29 +72,6 @@ public class AllTests {
         Rule rule = Rule.ruleFromString(str);
         assertEquals(Rule.makeRule(operator, operand1, operand2), rule);
         assertEquals(str, rule.toString());
-    }
-
-    @Test
-    void testOperand() {
-        assertThrows(RuntimeException.class, () -> {
-            addOperand(Config.MIN_OPERAND - 1);
-        }, "too low operand is invalid");
-
-        assertEquals(
-            addOperand(Config.MIN_OPERAND).getOperand1(),
-            Config.MIN_OPERAND,
-            "lower bound operand is valid"
-        );
-
-        assertEquals(
-            addOperand(Config.MAX_OPERAND).getOperand1(),
-            Config.MAX_OPERAND,
-            "upper bound operand is valid"
-        );
-
-        assertThrows(RuntimeException.class, () -> {
-            addOperand(Config.MAX_OPERAND + 1);
-        }, "too high operand is invalid");
     }
 
     /**

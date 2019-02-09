@@ -80,7 +80,6 @@ public class Config {
   }
 
   public static final int NUM_OPERATORS = OPERATOR_STRINGS.length;
-  public static final int MIN_OPERAND = -999, MAX_OPERAND = 999;
 
   public static final String START_PROMPT = "Enter start value: ";
   public static final String GOAL_PROMPT = "Enter goal value: ";

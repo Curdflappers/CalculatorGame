@@ -147,17 +147,11 @@ public abstract class Rule {
     }
 
     private void setOperand1(int operand1) {
-        if (operand1 > Config.MAX_OPERAND || operand1 < Config.MIN_OPERAND) {
-            throw new RuntimeException("Operand out of range: " + operand1);
-        } else
-            this.operand1 = operand1;
+        this.operand1 = operand1;
     }
 
     private void setOperand2(int operand2) {
-        if (operand2 > Config.MAX_OPERAND || operand2 < Config.MIN_OPERAND) {
-            throw new RuntimeException("Operand out of range: " + operand2);
-        } else
-            this.operand2 = operand2;
+        this.operand2 = operand2;
     }
 
     public int getOperator() {
