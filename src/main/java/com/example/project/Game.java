@@ -59,7 +59,7 @@ public class Game {
 
     /** The valid rules for this game */
     public Rule[] getValidRules() {
-        return validRules;
+        return Arrays.copyOf(validRules, validRules.length);
     }
 
     public boolean equals(Object other) {
