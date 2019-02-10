@@ -1,5 +1,5 @@
 # Calculator Game
-A solver for the **Calculator: The Game** by Simple Machine. It runs through the terminal.
+A solver for **Calculator: The Game** by Simple Machine. It runs through the terminal.
 
 ## Usage
 
@@ -7,7 +7,7 @@ Pass in the details of the level through the terminal, and the solution will be 
 
 ### Rules
 
-Rules are comma-separated, no spaces in the separator please. Parentheses are used for visual purposes, do not include them in your input
+Rules are newline-separated. Parentheses are used for visual purposes, do not include them in your input
 
 * Add (`+(op1)`) adds `op1` to `value`
 * Subtract (`-(op1)`) subtracts `op1` from `value`
@@ -30,6 +30,7 @@ Rules are comma-separated, no spaces in the separator please. Parentheses are us
     * 1234 convert 34 to 89 becomes 1289
     * 123234 convert 23 to 5 becomes 1554
     * 1234 convert 5 to 6 becomes 1234 (no change occurs)
+    * 123 convert 2 to 00 becomes 1003 (multiple zeros are supported)
 * Power (`^(op1)` "raised to the power of `op1`") raises `value` to the power of `op1`
     * 2 raised to the power of 3 becomes 8
 * Reverse (`Reverse`) reverses the order of the digits in `value`
@@ -46,6 +47,11 @@ Rules are comma-separated, no spaces in the separator please. Parentheses are us
     * 23 mirror becomes 2332
     * -1 mirror becomes -11
 * Meta Add (`[+](op1)`) adds `op1` to each non-meta rule in the game
+* Store (`Store`) is the first rule that can be updated.
+    * The Store rule cannot be applied until it is updated.
+    * Upon updating the Store rule, its operand becomes the value of the game
+    * Applying the Store rule functions just like applying the Pad rule
+    * The Store rule can be updated any number of times, and updating the Store rule does not decrease the move counter.
 
 ### Sample Use Case
 
@@ -58,8 +64,8 @@ Enter one rule per line (empty string to mark end of list):
 +1
 
 Solution:
-+1
-+2
+Apply +1
+Apply +2
 Solve again (y/n): y
 Enter start value: 1231
 Enter goal value: 4
@@ -70,23 +76,23 @@ SUM
 2=>3
 
 Solution:
-2=>3
-3=>1
-SUM
+Apply 2=>3
+Apply 3=>1
+Apply SUM
 Solve again (y/n): n
 ```
 
 #### Explanation
 
-To go from 2 to 5 in at most 3 moves using the rules "add 2" and "add 1", the solution is to first add 1, then add 2. Although 3 moves are allowed, only 2 moves are needed. Other solutions exist, but this one is the first one found by the program, so it is the one output.
+To go from 2 to 5 in at most 3 moves using the rules "add 2" and "add 1", a solution is to first add 1, then add 2. Although 3 moves are allowed, only 2 moves are needed. Other solutions exist, but this one is the first one found by the program, so it is the one output.
 
-To go from 1231 to 4 in at most 3 moves using the rules "sum", "convert 3 to 1", and "convert 2 to 3",  the solution is to first convert 2 to 3, then convert 3 to 1, then take the sum.
+To go from 1231 to 4 in at most 3 moves using the rules "sum", "convert 3 to 1", and "convert 2 to 3",  a solution is to first convert 2 to 3, then convert 3 to 1, then take the sum.
 
 The program exits when user input after the `Solve again` prompt is not `'y'`.
 
 ## Testing
 
-Testing is done with JUnit 5 and comprehensive unit tests and integration tests are found in `src/test/.../AllTests.java`. All tests should pass.
+Testing is done with JUnit 5 and comprehensive unit tests and integration tests are found in `src/test/**/*.java`. All tests should pass.
 
 ## Roadmap
 
