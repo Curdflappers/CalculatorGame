@@ -35,7 +35,7 @@ public abstract class ShiftRule extends Rule {
      */
     protected static int[] digits(int value) {
         value = Math.abs(value); // only interested in its digits, not its sign
-        int numDigits = (int) Math.ceil(Math.log10(value));
+        int numDigits = value == 0 ? 1 : (int) Math.ceil(Math.log10(value));
         int[] digits = new int[numDigits];
 
         for (int i = numDigits - 1; i >= 0; i--) { // start at the end, go back
