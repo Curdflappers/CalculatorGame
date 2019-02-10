@@ -70,28 +70,76 @@ public class Main {
 
     private static List<State> successors(State state) {
         List<State> successors = new ArrayList<>();
+        addSuccessors(state, successors, true);
+        addSuccessors(state, successors, false);
+        return successors;
+    }
+
+    private static void addSuccessors(
+        State state,
+        List<State> successors,
+        boolean apply
+    ) {
         if (state.getMovesLeft() > 0) {
             for (Rule rule : state.getRules()) {
-                State successor = new State(state, rule);
-                if (successor.getValue() % 1 == 0) { // cannot have decimals!
+                State successor = new State(state, rule, apply);
+                if (
+                    successor.getValue() % 1 == 0 // no decimals
+                        && !successor.getGame().equals(state.getGame())
+                ) {
                     successors.add(successor);
                 }
             }
         }
-        return successors;
     }
 
     private static void printSolution(State state) {
         List<State> states = orderedStates(state);
+        cleanUp(states);
         for (State element : states) {
             if (element.getRule() != null) {
+                System.out
+                    .print(
+                        element.getApplied()
+                            ? Config.APPLY_PROMPT
+                            : Config.UPDATE_PROMPT
+                    );
                 System.out.println(element.getRule());
             }
         }
     }
 
     /**
-     * Returns a Stack of states, with the newest at the front, the oldest at
+     * Removes extra "Update Store"s that clutter the solution
+     * @param states The ordered list of states to clean up
+     */
+    static void cleanUp(List<State> states) {
+        boolean foundOne = false;
+        int foundIndex = -1;
+
+        // skip first state, it has a null rule
+        for (int i = 1; i < states.size(); i++) {
+            State state = states.get(i);
+            if (state.getRule().getOperator() == Config.STORE) {
+                if (state.getApplied()) {
+                    foundOne = false;
+                } else if (foundOne) { // already found one, this is second
+                    states.remove(foundIndex);
+                    i--;
+                    foundIndex = i;
+                } else { // haven't found one yet, don't remove this one yet
+                    foundOne = true;
+                    foundIndex = i;
+                }
+            }
+        }
+
+        // Remove potential trailing "Update Store"s
+        if (foundOne) states.remove(foundIndex);
+    }
+
+    /**
+     * Returns a list of states, with the newest at the front, the oldest at
      * the end.
      *
      * @param state

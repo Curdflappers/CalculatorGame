@@ -6,7 +6,7 @@ public class Config {
   public static final int INVALID = -1, ADD = 0, SUBTRACT = 1, MULTIPLY = 2,
     DIVIDE = 3, PAD = 4, SIGN = 5, DELETE = 6, CONVERT = 7, POWER = 8, REVERSE =
       9, SUM = 10, SHIFT_RIGHT = 11, SHIFT_LEFT = 12, MIRROR = 13, META_ADD =
-        14;
+        14, STORE = 15;
 
   /** The string for a rule with an invalid operator */
   public static final String INVALID_STRING = "INVALID";
@@ -26,6 +26,7 @@ public class Config {
     "< Shift",
     "Mirror",
     "[+]",
+    "Store",
   };
 
   public static final int[] NUM_OPERANDS = {
@@ -44,6 +45,7 @@ public class Config {
     0, // SHIFT_LEFT
     0, // MIRROR
     1, // META_ADD
+    0, // STORE (takes zero on creation)
   };
 
   /**
@@ -88,6 +90,9 @@ public class Config {
     "Enter one rule per line (empty string to mark end of list):\n";
   public static final String AGAIN_PROMPT = "Solve again (y/n): ";
   public static final String SOLUTION_PROMPT = "Solution:";
+
+  public static final String APPLY_PROMPT = "Apply ";
+  public static final String UPDATE_PROMPT = "Update ";
 
   /** The user input required to quit the program */
   public static final String QUIT = "n ", CONTINUE = "y ";

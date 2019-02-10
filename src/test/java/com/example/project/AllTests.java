@@ -96,7 +96,7 @@ public class AllTests {
         assertEquals(movesLeft, parentState.getMovesLeft());
         assertEquals(null, parentState.getParent());
 
-        State childState = new State(parentState, rule);
+        State childState = new State(parentState, rule, true);
         assertEquals(rule, childState.getRule());
         assertEquals(rule.apply(parentState.getGame()), childState.getGame());
         assertEquals(parentState, childState.getParent());
@@ -217,6 +217,10 @@ public class AllTests {
             metaAddRule,
         };
         assertApplyMetaRule(expectedRules, metaAddRule, rules);
+
+        // Store
+        assertApplyStoreRule(1, 1, 11);
+        assertApplyStoreRule(1, -1, 1);
     }
 
     /**
@@ -279,6 +283,11 @@ public class AllTests {
         assertEquals(expectedGame, newGame);
     }
 
+    void assertApplyStoreRule(int gameValue, int operand1, int newValue) {
+        StoreRule rule = new StoreRule(operand1);
+        assertApplyRule(newValue, rule, gameValue);
+    }
+
     @Test
     void testParseInput() {
         int value = 1, goal = 2, movesLeft = 3;
@@ -322,6 +331,7 @@ public class AllTests {
     @Test
     void testMainSolve() {
         Rule[] rules, solution;
+        boolean[] apply;
 
         // Level 1: Go from 1 to 3 using "+1" twice
         final Rule add1 = Rule.makeRule(Config.ADD, 1);
@@ -331,7 +341,10 @@ public class AllTests {
         solution = new Rule[] {
             add1, add1
         };
-        assertFindsSolution(0, 2, 2, rules, solution);
+        apply = new boolean[] {
+            true, true
+        };
+        assertFindsSolution(0, 2, 2, rules, solution, apply);
 
         // Level 4: 3 to 4 using *4, +4, /4 in three moves (in that order)
         final Rule multiply4 = Rule.makeRule(Config.MULTIPLY, 4);
@@ -343,7 +356,10 @@ public class AllTests {
         solution = new Rule[] {
             multiply4, add4, divide4
         };
-        assertFindsSolution(3, 4, 3, rules, solution);
+        apply = new boolean[] {
+            true, true, true
+        };
+        assertFindsSolution(3, 4, 3, rules, solution, apply);
 
         // Padding test: Go from 3 to 34 using pad4
         final Rule pad4 = Rule.makeRule(Config.PAD, 4);
@@ -353,7 +369,10 @@ public class AllTests {
         solution = new Rule[] {
             pad4
         };
-        assertFindsSolution(3, 34, 1, rules, solution);
+        apply = new boolean[] {
+            true
+        };
+        assertFindsSolution(3, 34, 1, rules, solution, apply);
 
         // Delete test: go from 4321 to 4 using delete three times
         final Rule delete = Rule.makeRule(Config.DELETE);
@@ -363,7 +382,10 @@ public class AllTests {
         solution = new Rule[] {
             delete, delete, delete
         };
-        assertFindsSolution(4321, 4, 3, rules, solution);
+        apply = new boolean[] {
+            true, true, true
+        };
+        assertFindsSolution(4321, 4, 3, rules, solution, apply);
 
         // Convert test: 0 to 222 using 1 and 1=>2
         final Rule pad1 = Rule.makeRule(Config.PAD, 1);
@@ -374,7 +396,10 @@ public class AllTests {
         solution = new Rule[] {
             pad1, pad1, pad1, conv1to2
         };
-        assertFindsSolution(0, 222, 4, rules, solution);
+        apply = new boolean[] {
+            true, true, true, true
+        };
+        assertFindsSolution(0, 222, 4, rules, solution, apply);
 
         // Level 118: From 2152 to 13 in 6 moves
         // Rules: 25=>12, 21=>3, 12=>5, Shift >, Reverse
@@ -389,7 +414,10 @@ public class AllTests {
         solution = new Rule[] {
             reverse, shiftRight, conv25to12, conv12to5, conv25to12, conv21to3
         };
-        assertFindsSolution(2152, 13, 6, rules, solution);
+        apply = new boolean[] {
+            true, true, true, true, true, true
+        };
+        assertFindsSolution(2152, 13, 6, rules, solution, apply);
 
         // Level 120: From 23 to 2332 in 1 move using Mirror
         final Rule mirror = Rule.makeRule(Config.MIRROR);
@@ -399,7 +427,10 @@ public class AllTests {
         solution = new Rule[] {
             mirror
         };
-        assertFindsSolution(23, 2332, 1, rules, solution);
+        apply = new boolean[] {
+            true
+        };
+        assertFindsSolution(23, 2332, 1, rules, solution, apply);
 
         // Level 137: From 0 to 42 in 5 moves, including meta add 1
         // [+]1, +6, +6, *3, +6
@@ -415,7 +446,39 @@ public class AllTests {
         solution = new Rule[] {
             metaAdd1, add6, add6, multiply3, add6
         };
-        assertFindsSolution(0, 42, 5, rules, solution);
+        apply = new boolean[] {
+            true, true, true, true, true
+        };
+        assertFindsSolution(0, 42, 5, rules, solution, apply);
+
+        // Level 146: 23 to 1234 in 4 moves including Store
+        final Rule store = Rule.makeRule(Config.STORE);
+        final Rule subtract5 = Rule.makeRule(Config.SUBTRACT, 5);
+        final Rule shiftLeft = Rule.makeRule(Config.SHIFT_LEFT);
+        rules = new Rule[] {
+            multiply2, subtract5, store, shiftLeft
+        };
+        solution = new Rule[] {
+            store, multiply2, subtract5, store, shiftLeft
+        };
+        apply = new boolean[] {
+            false, true, true, true, true
+        };
+        assertFindsSolution(23, 1234, 4, rules, solution, apply);
+
+        // Level 147: 125 to 1025 in 6 moves
+        // May find repeat "Update Store"s, test to make sure these aren't
+        // displayed in solution
+        rules = new Rule[] {
+            multiply2, store, delete
+        };
+        solution = new Rule[] {
+            multiply2, delete, store, multiply2, delete, multiply2, store
+        };
+        apply = new boolean[] {
+            true, true, false, true, true, true, true
+        };
+        assertFindsSolution(125, 1025, 6, rules, solution, apply);
     }
 
     /**
@@ -431,7 +494,10 @@ public class AllTests {
         Rule[] solution = new Rule[] {
             rule
         };
-        assertMainAgainWorks(value, goal, moves, rules, solution);
+        boolean[] apply = {
+            true
+        };
+        assertMainAgainWorks(value, goal, moves, rules, solution, apply);
     }
 
     /////////////
@@ -469,13 +535,14 @@ public class AllTests {
         int goal,
         int moves,
         Rule[] rules,
-        Rule[] solution) {
+        Rule[] solution,
+        boolean[] apply) {
 
         String[] ruleStrings = ruleStrings(rules);
         PrintStream out = System.out;
         ByteArrayOutputStream baos = prepareEndToEndTest(Config.QUIT);
         Main.main(inputStrings(initialValue, goal, moves, ruleStrings));
-        String expectedOutput = solutionOutput(solution);
+        String expectedOutput = solutionOutput(solution, apply);
         String actualOutput = stringFromBaos(baos);
         assertEquals(expectedOutput, actualOutput);
         System.setOut(out);
@@ -486,7 +553,8 @@ public class AllTests {
         int goal,
         int moves,
         Rule[] rules,
-        Rule[] solution) {
+        Rule[] solution,
+        boolean[] apply) {
 
         String[] ruleStrings = ruleStrings(rules);
         PrintStream out = System.out;
@@ -494,9 +562,9 @@ public class AllTests {
             inputString(true, initialValue, goal, moves, ruleStrings);
         ByteArrayOutputStream baos = prepareEndToEndTest(inputString);
         Main.main(inputStrings(initialValue, goal, moves, ruleStrings));
-        String expectedOutput = solutionOutput(solution);
+        String expectedOutput = solutionOutput(solution, apply);
         expectedOutput += gamePrompts();
-        expectedOutput += solutionOutput(solution);
+        expectedOutput += solutionOutput(solution, apply);
         String actualOutput = stringFromBaos(baos);
         assertEquals(expectedOutput, actualOutput);
         System.setOut(out);
@@ -607,11 +675,15 @@ public class AllTests {
      * Returns the output for the given solution
      * Includes again prompt
      */
-    String solutionOutput(Rule[] solution) {
+    String solutionOutput(Rule[] solution, boolean[] apply) {
         String lineEnd = "\n"; // Toggle this for Windows/non-Windows machines
         String output = Config.SOLUTION_PROMPT + lineEnd;
-        for (Rule rule : solution) {
-            output += rule.toString() + lineEnd;
+        for (int i = 0; i < solution.length; i++) {
+            Rule rule = solution[i];
+            output +=
+                (apply[i] ? Config.APPLY_PROMPT : Config.UPDATE_PROMPT)
+                    + rule.toString()
+                    + lineEnd;
         }
         output += Config.AGAIN_PROMPT;
         return output;

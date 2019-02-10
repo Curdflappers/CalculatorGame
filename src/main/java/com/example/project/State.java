@@ -3,10 +3,12 @@ package com.example.project;
 public class State {
     /** The game information for this state */
     private Game game;
-    /** The rule that was applied to <code>parent</code> to get to this state */
+    /** The rule that was used on <code>parent</code> to get to this state */
     private Rule rule;
-    /** The parent state to which <code>rule</code> was applied */
+    /** The parent state to which <code>rule</code> was used */
     private State parent;
+    /** Whether the rule was applied or updated (true iff applied) */
+    private boolean applied;
 
     /**
      * Creates a new State with the given <code>game</code>, <code>rule</code>
@@ -19,13 +21,21 @@ public class State {
     }
 
     /**
-     * Creates a new state, a child of the given state, a result of applying
-     * the given rule
+     * Creates a new state, a child of the given state, a result of applying or
+     * updating the given rule
      * @param state
      * @param rule
+     * @param apply True if this state is the result of applying the given rule
+     * to the given state, false if this state is the result of updating the
+     * given rule
      */
-    public State(State state, Rule rule) {
-        this.game = rule.apply(state.getGame());
+    public State(State state, Rule rule, boolean apply) {
+        applied = apply;
+        if (apply) {
+            this.game = rule.apply(state.getGame());
+        } else {
+            this.game = rule.update(state.getGame());
+        }
         this.rule = rule;
         this.parent = state;
     }
@@ -56,5 +66,9 @@ public class State {
 
     public Game getGame() {
         return game;
+    }
+
+    public boolean getApplied() {
+        return applied;
     }
 }
