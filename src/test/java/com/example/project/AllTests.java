@@ -465,6 +465,20 @@ public class AllTests {
             false, true, true, true, true
         };
         assertFindsSolution(23, 1234, 4, rules, solution, apply);
+
+        // Level 147: 125 to 1025 in 6 moves
+        // May find repeat "Update Store"s, test to make sure these aren't
+        // displayed in solution
+        rules = new Rule[] {
+            multiply2, store, delete
+        };
+        solution = new Rule[] {
+            multiply2, delete, store, multiply2, delete, multiply2, store
+        };
+        apply = new boolean[] {
+            true, true, false, true, true, true, true
+        };
+        assertFindsSolution(125, 1025, 6, rules, solution, apply);
     }
 
     /**
