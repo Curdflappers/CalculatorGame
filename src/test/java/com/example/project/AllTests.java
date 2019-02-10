@@ -441,6 +441,7 @@ public class AllTests {
         solution = new Rule[] {
             metaAdd1, add6, add6, multiply3, add6
         };
+        assertFindsSolution(0, 42, 5, rules, solution);
     }
 
     /**
