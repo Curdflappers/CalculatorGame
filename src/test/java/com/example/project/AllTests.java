@@ -99,8 +99,6 @@ public class AllTests {
         State childState = new State(parentState, rule);
         assertEquals(rule, childState.getRule());
         assertEquals(rule.apply(parentState.getGame()), childState.getGame());
-        assertEquals(parentState.getGoal(), childState.getGoal());
-        assertEquals(parentState.getMovesLeft() - 1, childState.getMovesLeft());
         assertEquals(parentState, childState.getParent());
     }
 
