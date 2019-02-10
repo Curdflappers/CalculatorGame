@@ -20,10 +20,9 @@ public abstract class Rule {
         boolean isConvertRule = convertMatcher.find();
         if (isConvertRule) {
             int arrowIndex = ruleString.indexOf(convertString);
-            operator = Config.CONVERT;
-            operand1 = Integer.parseInt(ruleString.substring(0, arrowIndex));
-            operand2 = Integer.parseInt(ruleString.substring(arrowIndex + 2));
-            return makeRule(operator, operand1, operand2);
+            String op1 = ruleString.substring(0, arrowIndex);
+            String op2 = ruleString.substring(arrowIndex + 2);
+            return makeRule(Config.CONVERT, op1, op2);
         }
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
@@ -121,6 +120,22 @@ public abstract class Rule {
                 return new StoreRule();
             default:
                 throw new RuntimeException("invalid operator: " + operator);
+        }
+    }
+
+    public static Rule makeRule(
+        int operator,
+        String opString1,
+        String opString2
+    ) {
+        if (operator == Config.CONVERT) {
+            return new ConvertRule(opString1, opString2);
+        } else {
+            return makeRule(
+                operator,
+                Integer.parseInt(opString1),
+                Integer.parseInt(opString2)
+            );
         }
     }
 

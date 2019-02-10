@@ -173,6 +173,7 @@ public class AllTests {
         assertApplyRule(-12, Config.CONVERT, 3, 1, -32);
         assertApplyRule(-236523, Config.CONVERT, 56, 23, -566556);
         assertApplyRule(-1, Config.CONVERT, 2, 3, -1);
+        assertApplyRule(3001, Config.CONVERT, "31", "00", 3311);
 
         // Power
         assertApplyRule(8, Config.POWER, 3, 2);
@@ -253,6 +254,21 @@ public class AllTests {
         int value
     ) {
         Rule rule = Rule.makeRule(operator, operand1, operand2);
+        assertApplyRule(expected, rule, value);
+    }
+
+    /**
+     * Asserts that the result of applying the given non-meta rule to a game
+     * with the given value results in the expected value
+     */
+    void assertApplyRule(
+        int expected,
+        int operator,
+        String opString1,
+        String opString2,
+        int value
+    ) {
+        Rule rule = Rule.makeRule(operator, opString1, opString2);
         assertApplyRule(expected, rule, value);
     }
 
