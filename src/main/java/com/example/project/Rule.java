@@ -117,6 +117,8 @@ public abstract class Rule {
                 return new MirrorRule();
             case Config.META_ADD:
                 return new MetaAddRule(operand1);
+            case Config.STORE:
+                return new StoreRule();
             default:
                 throw new RuntimeException(
                     "invalid operator: " + Config.OPERATOR_STRINGS[operator]

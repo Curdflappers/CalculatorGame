@@ -217,6 +217,10 @@ public class AllTests {
             metaAddRule,
         };
         assertApplyMetaRule(expectedRules, metaAddRule, rules);
+
+        // Store
+        assertApplyStoreRule(1, 1, 11);
+        assertApplyStoreRule(1, -1, 1);
     }
 
     /**
@@ -277,6 +281,11 @@ public class AllTests {
         Game newGame = rule.apply(oldGame);
         Game expectedGame = new Game(value, goal, moves - 1, expectedRules);
         assertEquals(expectedGame, newGame);
+    }
+
+    void assertApplyStoreRule(int gameValue, int operand1, int newValue) {
+        StoreRule rule = new StoreRule(operand1);
+        assertApplyRule(newValue, rule, gameValue);
     }
 
     @Test
@@ -441,6 +450,21 @@ public class AllTests {
             true, true, true, true, true
         };
         assertFindsSolution(0, 42, 5, rules, solution, apply);
+
+        // Level 146: 23 to 1234 in 4 moves including Store
+        final Rule store = Rule.makeRule(Config.STORE);
+        final Rule subtract5 = Rule.makeRule(Config.SUBTRACT, 5);
+        final Rule shiftLeft = Rule.makeRule(Config.SHIFT_LEFT);
+        rules = new Rule[] {
+            multiply2, subtract5, store, shiftLeft
+        };
+        solution = new Rule[] {
+            store, multiply2, subtract5, store, shiftLeft
+        };
+        apply = new boolean[] {
+            false, true, true, true, true
+        };
+        assertFindsSolution(23, 1234, 4, rules, solution, apply);
     }
 
     /**
