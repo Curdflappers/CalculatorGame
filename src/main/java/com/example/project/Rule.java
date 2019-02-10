@@ -120,9 +120,7 @@ public abstract class Rule {
             case Config.STORE:
                 return new StoreRule();
             default:
-                throw new RuntimeException(
-                    "invalid operator: " + Config.OPERATOR_STRINGS[operator]
-                );
+                throw new RuntimeException("invalid operator: " + operator);
         }
     }
 
