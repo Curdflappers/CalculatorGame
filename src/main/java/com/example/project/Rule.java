@@ -200,7 +200,21 @@ public abstract class Rule {
         return string;
     }
 
+    /**
+     * Return a new game that is the result of applying this rule to the given
+     * game.
+     */
     public abstract Game apply(Game game);
+
+    /**
+     * Update this rule. Equivalent to long-tapping on the app. By default, do
+     * nothing.
+     * @param game The game that contains this rule
+     * @return The updated game
+     */
+    public Game update(Game game) {
+        return game;
+    }
 
     @Override
     public boolean equals(Object other) {

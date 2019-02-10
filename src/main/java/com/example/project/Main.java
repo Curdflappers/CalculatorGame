@@ -70,28 +70,46 @@ public class Main {
 
     private static List<State> successors(State state) {
         List<State> successors = new ArrayList<>();
+        addSuccessors(state, successors, true);
+        addSuccessors(state, successors, false);
+        return successors;
+    }
+
+    private static void addSuccessors(
+        State state,
+        List<State> successors,
+        boolean apply
+    ) {
         if (state.getMovesLeft() > 0) {
             for (Rule rule : state.getRules()) {
-                State successor = new State(state, rule);
-                if (successor.getValue() % 1 == 0) { // cannot have decimals!
+                State successor = new State(state, rule, apply);
+                if (
+                    successor.getValue() % 1 == 0 // no decimals
+                        && !successor.getGame().equals(state.getGame())
+                ) {
                     successors.add(successor);
                 }
             }
         }
-        return successors;
     }
 
     private static void printSolution(State state) {
         List<State> states = orderedStates(state);
         for (State element : states) {
             if (element.getRule() != null) {
+                System.out
+                    .print(
+                        element.getApplied()
+                            ? Config.APPLY_PROMPT
+                            : Config.UPDATE_PROMPT
+                    );
                 System.out.println(element.getRule());
             }
         }
     }
 
     /**
-     * Returns a Stack of states, with the newest at the front, the oldest at
+     * Returns a list of states, with the newest at the front, the oldest at
      * the end.
      *
      * @param state

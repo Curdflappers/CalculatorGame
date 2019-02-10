@@ -89,6 +89,9 @@ public class Config {
   public static final String AGAIN_PROMPT = "Solve again (y/n): ";
   public static final String SOLUTION_PROMPT = "Solution:";
 
+  public static final String APPLY_PROMPT = "Apply ";
+  public static final String UPDATE_PROMPT = "Update ";
+
   /** The user input required to quit the program */
   public static final String QUIT = "n ", CONTINUE = "y ";
 
