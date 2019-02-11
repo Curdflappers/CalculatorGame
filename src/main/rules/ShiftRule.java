@@ -36,7 +36,7 @@ public abstract class ShiftRule extends Rule {
      * @param value any integer
      * @return an array representation of the absolute value of value
      */
-    public static int[] digits(int value) {
+    static int[] digits(int value) {
         value = Math.abs(value); // only interested in its digits, not its sign
         int numDigits = value == 0 ? 1 : (int) Math.ceil(Math.log10(value));
         int[] digits = new int[numDigits];
