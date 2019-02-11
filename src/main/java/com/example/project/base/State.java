@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.base;
 
 import com.example.project.rules.Rule;
 

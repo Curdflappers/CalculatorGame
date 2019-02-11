@@ -3,8 +3,8 @@ package com.example.project.rules;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.example.project.Config;
-import com.example.project.Game;
+import com.example.project.base.Config;
+import com.example.project.base.Game;
 
 public abstract class Rule {
     private int operand1;

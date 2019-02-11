@@ -2,8 +2,8 @@ package com.example.project.rules;
 
 import java.util.Arrays;
 
-import com.example.project.Config;
-import com.example.project.Game;
+import com.example.project.base.Config;
+import com.example.project.base.Game;
 
 /**
  * Operates similar to the PadRule, but employs the update method to change the

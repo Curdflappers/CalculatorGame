@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.base;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,7 +115,7 @@ public class Main {
      * Removes extra "Update Store"s that clutter the solution
      * @param states The ordered list of states to clean up
      */
-    static void cleanUp(List<State> states) {
+    public static void cleanUp(List<State> states) {
         boolean foundOne = false;
         int foundIndex = -1;
 

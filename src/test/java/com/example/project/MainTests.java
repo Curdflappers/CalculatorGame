@@ -4,6 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import com.example.project.base.Config;
+import com.example.project.base.Game;
+import com.example.project.base.Main;
+import com.example.project.base.State;
 import com.example.project.rules.Rule;
 import com.example.project.rules.StoreRule;
 

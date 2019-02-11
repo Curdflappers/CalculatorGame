@@ -1,7 +1,7 @@
 package com.example.project.rules;
 
-import com.example.project.Config;
-import com.example.project.Game;
+import com.example.project.base.Config;
+import com.example.project.base.Game;
 
 public class ReverseRule extends Rule {
     public Game apply(Game game) {
