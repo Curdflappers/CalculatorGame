@@ -39,7 +39,7 @@ public class Main {
         } else {
             parseInput(args);
         }
-        game = new Game(value, goal, moves, rules);
+        game = new Game(value, goal, moves, rules, null); // TODO update
     }
 
     private static void promptAgain(Scanner scanner) {

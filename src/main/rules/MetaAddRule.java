@@ -28,7 +28,8 @@ public class MetaAddRule extends Rule {
             game.getValue(),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            newRules
+            newRules,
+            game.getPortals()
         );
     }
 

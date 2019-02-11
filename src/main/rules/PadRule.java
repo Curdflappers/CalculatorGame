@@ -11,7 +11,8 @@ public class PadRule extends Rule {
             Double.parseDouble(valString),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules()
+            game.getValidRules(),
+            game.getPortals()
         );
     }
 

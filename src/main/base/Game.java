@@ -14,8 +14,20 @@ public class Game {
     /** The moves left in this game */
     private int movesLeft;
 
-    /** The rules that can be used in this game */
+    /**
+     * The rules that can be used in this game.
+     */
     private Rule[] validRules;
+
+    /**
+     * The portals present on this game. `null` indicates no portals.
+     * If portals is not null, it is 2 elements, the first greater than the
+     * second, the second nonnegative.
+     * The first element indicates the zero-based distance from the ones index
+     * of the left portal, the second that same index for the right portal. 0
+     * is ones place, 1 is tens place, 2 is hundreds place, etc.
+     */
+    private int[] portals;
 
     /**
      * Create a game of the given parameters
@@ -25,11 +37,22 @@ public class Game {
      * @param moves The number of moves to be used
      * @param rules The rules that can be used
      */
-    public Game(double value, int goal, int moves, Rule[] rules) {
+    public Game(
+        double value,
+        int goal,
+        int moves,
+        Rule[] rules,
+        int[] portals
+    ) {
         this.value = value;
         this.goal = goal;
         this.movesLeft = moves;
         this.validRules = rules;
+        if (validPortals(portals)) this.portals = portals;
+        else
+            throw new RuntimeException(
+                "Invalid portals given: " + Arrays.toString(portals)
+            );
     }
 
     public double getValue() {
@@ -57,13 +80,31 @@ public class Game {
         return Arrays.copyOf(validRules, validRules.length);
     }
 
+    public int[] getPortals() {
+        if (portals == null) return null;
+        return Arrays.copyOf(portals, portals.length);
+    }
+
+    /**
+     * Valid portals are (null) OR (a two-element array where the first element
+     * is greater than the second AND the second is at least 0)
+     * @param portals the array to check
+     * @return true iff the parameter is valid
+     */
+    static boolean validPortals(int[] portals) {
+        if (portals == null) return true;
+        if (portals.length != 2) return false;
+        return portals[0] > portals[1] && portals[1] >= 0;
+    }
+
     public boolean equals(Object other) {
         if (other instanceof Game) {
             Game otherGame = (Game) other;
             return otherGame.getValue() == getValue()
                 && otherGame.getGoal() == getGoal()
                 && otherGame.getMovesLeft() == getMovesLeft()
-                && Arrays.equals(otherGame.getValidRules(), getValidRules());
+                && Arrays.equals(otherGame.getValidRules(), getValidRules())
+                && Arrays.equals(otherGame.getPortals(), getPortals());
         } else
             return false;
     }
@@ -81,7 +122,8 @@ public class Game {
                 other.getValue(),
                 other.getGoal(),
                 getMovesLeft(),
-                other.getValidRules()
+                other.getValidRules(),
+                other.getPortals()
             );
         return equals(newOther);
     }
