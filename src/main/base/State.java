@@ -1,6 +1,6 @@
-package com.example.project.base;
+package base;
 
-import com.example.project.rules.Rule;
+import rules.Rule;
 
 public class State {
     /** The game information for this state */

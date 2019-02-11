@@ -1,4 +1,4 @@
-package com.example.project.base;
+package base;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
-import com.example.project.rules.Rule;
+import rules.Rule;
 
 /**
  * Runs the Calculator Game solver

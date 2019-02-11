@@ -1,5 +1,3 @@
-package com.example.project;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,12 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import com.example.project.base.Config;
-import com.example.project.base.Game;
-import com.example.project.base.Main;
-import com.example.project.base.State;
-import com.example.project.rules.Rule;
-import com.example.project.rules.StoreRule;
+import base.Config;
+import base.Game;
+import base.Main;
+import base.State;
+import rules.Rule;
+import rules.StoreRule;
 
 import org.junit.jupiter.api.Test;
 

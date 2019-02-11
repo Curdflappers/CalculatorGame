@@ -1,7 +1,7 @@
-package com.example.project.rules;
+package rules;
 
-import com.example.project.base.Config;
-import com.example.project.base.Game;
+import base.Config;
+import base.Game;
 
 public abstract class ShiftRule extends Rule {
     public Game apply(Game game) {

@@ -1,10 +1,10 @@
-package com.example.project.rules;
+package rules;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.example.project.base.Config;
-import com.example.project.base.Game;
+import base.Config;
+import base.Game;
 
 public abstract class Rule {
     private int operand1;

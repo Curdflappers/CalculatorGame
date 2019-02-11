@@ -1,8 +1,8 @@
-package com.example.project.base;
+package base;
 
 import java.util.Arrays;
 
-import com.example.project.rules.Rule;
+import rules.Rule;
 
 public class Game {
     /** The current number for this game */

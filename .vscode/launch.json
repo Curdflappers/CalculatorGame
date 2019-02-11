@@ -11,7 +11,7 @@
             "cwd": "${workspaceFolder}",
             "console": "externalTerminal",
             "stopOnEntry": false,
-            "mainClass": "com.example.project.Main",
+            "mainClass": "base.Main",
             "projectName": "calculator-game",
             "args": ""
         },
