@@ -1,4 +1,4 @@
-package com.example.project;
+package base;
 
 public class Config {
 

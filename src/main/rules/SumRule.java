@@ -1,4 +1,7 @@
-package com.example.project;
+package rules;
+
+import base.Config;
+import base.Game;
 
 public class SumRule extends Rule {
     public Game apply(Game game) {

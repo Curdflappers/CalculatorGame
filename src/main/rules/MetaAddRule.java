@@ -1,4 +1,7 @@
-package com.example.project;
+package rules;
+
+import base.Config;
+import base.Game;
 
 /**
  * Adds to the operands of the other rules, does not change the value of the

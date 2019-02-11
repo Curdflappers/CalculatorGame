@@ -1,4 +1,7 @@
-package com.example.project;
+package rules;
+
+import base.Config;
+import base.Game;
 
 public class DeleteRule extends Rule {
     public Game apply(Game game) {

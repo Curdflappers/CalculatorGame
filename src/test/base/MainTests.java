@@ -1,8 +1,15 @@
-package com.example.project;
+package base;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import base.Config;
+import base.Game;
+import base.Main;
+import base.State;
+import rules.Rule;
+import rules.StoreRule;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,7 +30,6 @@ public class MainTests {
 
         Main.cleanUp(list);
 
-        System.out.println(list);
         assertEquals(4, list.size());
     }
 }
