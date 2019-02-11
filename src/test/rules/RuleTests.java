@@ -2,12 +2,11 @@ package rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import rules.ShiftRule;
-
 import org.junit.jupiter.api.Test;
 
 import base.Config;
 import base.Game;
+import base.Helpers;
 
 public class RuleTests {
     //////////////////
@@ -297,7 +296,7 @@ public class RuleTests {
 
     @Test
     void shiftRecognizesZero() {
-        int[] zeroDigits = ShiftRule.digits(0);
+        int[] zeroDigits = Helpers.digits(0);
 
         assertEquals(1, zeroDigits.length);
         assertEquals(0, zeroDigits[0]);
