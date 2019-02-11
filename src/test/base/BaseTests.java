@@ -1,3 +1,5 @@
+package base;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,104 +13,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import base.Config;
-import base.Game;
-import base.Main;
-import base.State;
 import rules.Rule;
-import rules.StoreRule;
 
 import org.junit.jupiter.api.Test;
 
-public class AllTests {
-    @Test
-    void testRuleConstructor() {
-        int operand1 = 1;
-        int operand2 = 2;
-        String ruleString = null;
+public class BaseTests {
+    Rule[] rules, solution;
+    boolean[] apply;
 
-        // Test all operator strings
-        for (int i = 0; i < Config.OPERATOR_STRINGS.length; i++) {
-            switch (Config.NUM_OPERANDS[i]) {
-                case 0:
-                    ruleString = Config.ruleString(i);
-                    assertStringCreatesRule(ruleString, i);
-                    break;
-                case 1:
-                    ruleString = Config.ruleString(i, operand1);
-                    assertStringCreatesRule(ruleString, i, operand1);
-                    break;
-                case 2:
-                    ruleString = Config.ruleString(i, operand1, operand2);
-                    assertStringCreatesRule(ruleString, i, operand1, operand2);
-                    break;
-            }
-        }
-
-        // "*-2" used to parse as "*-", leading to invalid operator
-        operand1 = -2; // or any negative number
-        // note the lack of space between operator and operand
-        ruleString = Config.ruleString(Config.MULTIPLY, operand1);
-        assertStringCreatesRule(ruleString, Config.MULTIPLY, operand1);
-    }
-
-    /**
-     * Asserts that the given string creates a rule with the given operator and
-     * that both operands are 0
-     */
-    void assertStringCreatesRule(String str, int operator) {
-        assertStringCreatesRule(str, operator, 0, 0);
-    }
-
-    /**
-     * Asserts that the given string creates a rule with the given operator and
-     * that both operands are 0
-     */
-    void assertStringCreatesRule(String str, int operator, int operand1) {
-        assertStringCreatesRule(str, operator, operand1, 0);
-    }
-
-    void assertStringCreatesRule(
-        String str,
-        int operator,
-        int operand1,
-        int operand2
-    ) {
-        Rule rule = Rule.ruleFromString(str);
-        assertEquals(Rule.makeRule(operator, operand1, operand2), rule);
-        assertEquals(str, rule.toString());
-    }
-
-    /**
-     * Tries to create an ADD rule with the given operand
-     */
-    Rule addOperand(int operand1) {
-        return Rule.makeRule(Config.ADD, operand1);
-    }
+    //////////////////
+    // CONSTRUCTORS //
+    //////////////////
 
     @Test
-    void testStateConstructors() {
-        Rule[] rules = new Rule[] {
-            Rule.makeRule(Config.SIGN)
-        };
-        Rule rule = rules[0];
-        int value = 1, goal = 2, movesLeft = 3;
-        Game game = new Game(value, goal, movesLeft, rules);
-        State parentState = new State(game);
-        assertEquals(null, parentState.getRule());
-        assertEquals(value, parentState.getValue());
-        assertEquals(goal, parentState.getGoal());
-        assertEquals(movesLeft, parentState.getMovesLeft());
-        assertEquals(null, parentState.getParent());
-
-        State childState = new State(parentState, rule, true);
-        assertEquals(rule, childState.getRule());
-        assertEquals(rule.apply(parentState.getGame()), childState.getGame());
-        assertEquals(parentState, childState.getParent());
-    }
-
-    @Test
-    void testGameConstructor() {
+    void gameConstructor() {
         Rule[] validRules = {
             Rule.makeRule(Config.ADD, 1),
             Rule.makeRule(Config.SIGN),
@@ -120,7 +38,9 @@ public class AllTests {
             Rule.makeRule(Config.MULTIPLY, -2),
         };
         int value = 1, goal = 2, movesLeft = 3;
+
         Game game = new Game(value, goal, movesLeft, validRules);
+
         assertEquals(value, game.getValue());
         assertEquals(goal, game.getGoal());
         assertEquals(movesLeft, game.getMovesLeft());
@@ -133,184 +53,33 @@ public class AllTests {
     }
 
     @Test
-    void testApplyRule() {
-        // Add
-        assertApplyRule(3, Config.ADD, 2, 1);
-        assertApplyRule(-3, Config.ADD, 4, -7);
-
-        // Subtract
-        assertApplyRule(3, Config.SUBTRACT, 4, 7);
-        assertApplyRule(-3, Config.SUBTRACT, 5, 2);
-
-        // Multiply
-        assertApplyRule(12, Config.MULTIPLY, 3, 4);
-        assertApplyRule(-27, Config.MULTIPLY, -9, 3);
-
-        // Divide
-        assertApplyRule(353, Config.DIVIDE, 2, 706);
-        assertApplyRule(-535, Config.DIVIDE, -3, 535 * 3);
-
-        // Pad
-        assertApplyRule(12, Config.PAD, 2, 1);
-        assertApplyRule(1210, Config.PAD, 10, 12);
-        assertApplyRule(3, Config.PAD, 3, 0);
-        assertApplyRule(30, Config.PAD, 0, 3);
-
-        // Sign
-        assertApplyRule(-1, Config.SIGN, 1);
-        assertApplyRule(1, Config.SIGN, -1);
-        assertApplyRule(-0, Config.SIGN, 0);
-
-        // Delete
-        assertApplyRule(1, Config.DELETE, 12);
-        assertApplyRule(0, Config.DELETE, 1);
-        assertApplyRule(0, Config.DELETE, 0);
-        assertApplyRule(-1, Config.DELETE, -12);
-        assertApplyRule(0, Config.DELETE, -1);
-        assertApplyRule(0, Config.DELETE, 0);
-
-        // Convert
-        assertApplyRule(3, Config.CONVERT, 5, 3, 5);
-        assertApplyRule(12, Config.CONVERT, 3, 1, 32);
-        assertApplyRule(236523, Config.CONVERT, 56, 23, 566556);
-        assertApplyRule(1, Config.CONVERT, 2, 3, 1);
-        assertApplyRule(-3, Config.CONVERT, 5, 3, -5);
-        assertApplyRule(-12, Config.CONVERT, 3, 1, -32);
-        assertApplyRule(-236523, Config.CONVERT, 56, 23, -566556);
-        assertApplyRule(-1, Config.CONVERT, 2, 3, -1);
-        assertApplyRule(3001, Config.CONVERT, "31", "00", 3311);
-
-        // Power
-        assertApplyRule(8, Config.POWER, 3, 2);
-
-        // Reverse
-        assertApplyRule(35, Config.REVERSE, 53);
-        assertApplyRule(0, Config.REVERSE, 0);
-        assertApplyRule(-12, Config.REVERSE, -21);
-
-        // Sum
-        assertApplyRule(1 + 2 + 3, Config.SUM, 123);
-        assertApplyRule(0, Config.SUM, 0);
-
-        // Shift right
-        assertApplyRule(4123, Config.SHIFT_RIGHT, 1234);
-        assertApplyRule(-4123, Config.SHIFT_RIGHT, -1234);
-        assertApplyRule(-2, Config.SHIFT_RIGHT, -2);
-
-        // Shift left
-        assertApplyRule(2341, Config.SHIFT_LEFT, 1234);
-        assertApplyRule(-2341, Config.SHIFT_LEFT, -1234);
-        assertApplyRule(-2, Config.SHIFT_LEFT, -2);
-
-        // Mirror
-        assertApplyRule(2332, Config.MIRROR, 23);
-        assertApplyRule(0, Config.MIRROR, 0);
-        assertApplyRule(-11, Config.MIRROR, -1);
-
-        // Meta add
-        int addOperand = 1;
-        int subtractOperand = 2;
-        int metaAddOperand = 3;
-        Rule metaAddRule = Rule.makeRule(Config.META_ADD, metaAddOperand);
+    void stateConstructors() {
         Rule[] rules = new Rule[] {
-            Rule.makeRule(Config.ADD, addOperand),
-            Rule.makeRule(Config.SUBTRACT, subtractOperand),
-            metaAddRule,
+            Rule.makeRule(Config.SIGN)
         };
-        Rule[] expectedRules = new Rule[] {
-            Rule.makeRule(Config.ADD, addOperand + metaAddOperand),
-            Rule.makeRule(Config.SUBTRACT, subtractOperand + metaAddOperand),
-            metaAddRule,
-        };
-        assertApplyMetaRule(expectedRules, metaAddRule, rules);
+        Rule rule = rules[0];
+        int value = 1, goal = 2, movesLeft = 3;
+        Game game = new Game(value, goal, movesLeft, rules);
 
-        // Store
-        assertApplyStoreRule(1, 1, 11);
-        assertApplyStoreRule(1, -1, 1);
+        State parentState = new State(game);
+        State childState = new State(parentState, rule, true);
+
+        assertEquals(null, parentState.getRule());
+        assertEquals(value, parentState.getValue());
+        assertEquals(goal, parentState.getGoal());
+        assertEquals(movesLeft, parentState.getMovesLeft());
+        assertEquals(null, parentState.getParent());
+        assertEquals(rule, childState.getRule());
+        assertEquals(rule.apply(parentState.getGame()), childState.getGame());
+        assertEquals(parentState, childState.getParent());
     }
 
-    /**
-     * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
-     */
-    void assertApplyRule(int expected, int operator, int value) {
-        Rule rule = Rule.makeRule(operator);
-        assertApplyRule(expected, rule, value);
-    }
-
-    /**
-     * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
-     */
-    void assertApplyRule(int expected, int operator, int operand1, int value) {
-        Rule rule = Rule.makeRule(operator, operand1);
-        assertApplyRule(expected, rule, value);
-    }
-
-    /**
-     * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
-     */
-    void assertApplyRule(
-        int expected,
-        int operator,
-        int operand1,
-        int operand2,
-        int value
-    ) {
-        Rule rule = Rule.makeRule(operator, operand1, operand2);
-        assertApplyRule(expected, rule, value);
-    }
-
-    /**
-     * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
-     */
-    void assertApplyRule(
-        int expected,
-        int operator,
-        String opString1,
-        String opString2,
-        int value
-    ) {
-        Rule rule = Rule.makeRule(operator, opString1, opString2);
-        assertApplyRule(expected, rule, value);
-    }
-
-    /**
-     * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
-     */
-    void assertApplyRule(int expected, Rule rule, int value) {
-        Game originalGame = new Game(value, 0, 0, new Rule[] {});
-        double newValue = rule.apply(originalGame).getValue();
-        assertEquals(expected, newValue, 0.01, rule.toString());
-    }
-
-    /**
-     * Asserts that a meta rule correctly affects the rules and not the value
-     * @param expectedRules
-     * @param rule
-     * @param oldRules
-     */
-    void assertApplyMetaRule(Rule[] expectedRules, Rule rule, Rule[] oldRules) {
-        double value = -1;
-        int goal = -2;
-        int moves = 9; // some value > 0
-
-        Game oldGame = new Game(value, goal, moves, oldRules);
-        Game newGame = rule.apply(oldGame);
-        Game expectedGame = new Game(value, goal, moves - 1, expectedRules);
-        assertEquals(expectedGame, newGame);
-    }
-
-    void assertApplyStoreRule(int gameValue, int operand1, int newValue) {
-        StoreRule rule = new StoreRule(operand1);
-        assertApplyRule(newValue, rule, gameValue);
-    }
+    //////////
+    // MAIN //
+    //////////
 
     @Test
-    void testParseInput() {
+    void parseInput() {
         int value = 1, goal = 2, movesLeft = 3;
         String[] ruleStrings = {
             Config.ruleString(Config.ADD, 1),
@@ -321,17 +90,16 @@ public class AllTests {
         Rule[] rules = rules(ruleStrings);
         String inputString =
             value + "\n" + goal + "\n" + movesLeft + "\n" + rulesString + "\n";
+
         Main.parseInput(new Scanner(inputString));
+
         assertTrue(Main.getValue() == value);
         assertTrue(Main.getGoal() == goal);
         assertTrue(Main.getMoves() == movesLeft);
-        Rule[] parsedRules = Main.getRules();
-        List<Rule> parsedRulesList = Arrays.asList(parsedRules);
+        List<Rule> parsedRulesList = Arrays.asList(Main.getRules());
+        assertEquals(rules.length, parsedRulesList.size());
         for (Rule rule : rules) {
-            assertTrue(
-                parsedRulesList.contains(rule),
-                parsedRulesList + " contains " + rule.toString()
-            );
+            assertTrue(parsedRulesList.contains(rule));
         }
     }
 
@@ -339,7 +107,7 @@ public class AllTests {
      * Tests integration within Main by ensuring the game is set up correctly
      */
     @Test
-    void testMainGame() {
+    void mainCreatesGame() {
         int value = 1, goal = 2, moves = 3;
         String[] ruleStrings = {
             Config.ruleString(Config.ADD, 1),
@@ -349,12 +117,15 @@ public class AllTests {
         assertCreatesGame(value, goal, moves, ruleStrings);
     }
 
-    @Test
-    void testMainSolve() {
-        Rule[] rules, solution;
-        boolean[] apply;
+    ////////////
+    // SOLVES //
+    ////////////
 
-        // Level 1: Go from 1 to 3 using "+1" twice
+    /**
+     * Level 1: Go from 1 to 3 using "+1" twice
+     */
+    @Test
+    void solvesLevel1() {
         final Rule add1 = Rule.makeRule(Config.ADD, 1);
         rules = new Rule[] {
             add1, Rule.makeRule(Config.ADD, 3)
@@ -365,9 +136,15 @@ public class AllTests {
         apply = new boolean[] {
             true, true
         };
-        assertFindsSolution(0, 2, 2, rules, solution, apply);
 
-        // Level 4: 3 to 4 using *4, +4, /4 in three moves (in that order)
+        assertFindsSolution(0, 2, 2, rules, solution, apply);
+    }
+
+    /**
+     * Level 4: 3 to 4 using *4, +4, /4 in three moves (in that order)
+     */
+    @Test
+    void solvesLevel4() {
         final Rule multiply4 = Rule.makeRule(Config.MULTIPLY, 4);
         final Rule add4 = Rule.makeRule(Config.ADD, 4);
         final Rule divide4 = Rule.makeRule(Config.DIVIDE, 4);
@@ -380,9 +157,16 @@ public class AllTests {
         apply = new boolean[] {
             true, true, true
         };
-        assertFindsSolution(3, 4, 3, rules, solution, apply);
 
-        // Padding test: Go from 3 to 34 using pad4
+        assertFindsSolution(3, 4, 3, rules, solution, apply);
+    }
+
+    /**
+     * Padding test: Go from 3 to 34 using pad4
+     */
+    @Test
+    void solvesPad() {
+
         final Rule pad4 = Rule.makeRule(Config.PAD, 4);
         rules = new Rule[] {
             pad4
@@ -394,8 +178,13 @@ public class AllTests {
             true
         };
         assertFindsSolution(3, 34, 1, rules, solution, apply);
+    }
 
-        // Delete test: go from 4321 to 4 using delete three times
+    /**
+     * Delete test: go from 4321 to 4 using delete three times
+     */
+    @Test
+    void solvesDelete() {
         final Rule delete = Rule.makeRule(Config.DELETE);
         rules = new Rule[] {
             delete
@@ -406,9 +195,15 @@ public class AllTests {
         apply = new boolean[] {
             true, true, true
         };
-        assertFindsSolution(4321, 4, 3, rules, solution, apply);
 
-        // Convert test: 0 to 222 using 1 and 1=>2
+        assertFindsSolution(4321, 4, 3, rules, solution, apply);
+    }
+
+    /**
+     * Convert test: 0 to 222 using 1 and 1=>2
+     */
+    @Test
+    void solvesPadAndConvert() {
         final Rule pad1 = Rule.makeRule(Config.PAD, 1);
         final Rule conv1to2 = Rule.makeRule(Config.CONVERT, 1, 2);
         rules = new Rule[] {
@@ -420,10 +215,17 @@ public class AllTests {
         apply = new boolean[] {
             true, true, true, true
         };
-        assertFindsSolution(0, 222, 4, rules, solution, apply);
 
-        // Level 118: From 2152 to 13 in 6 moves
-        // Rules: 25=>12, 21=>3, 12=>5, Shift >, Reverse
+        assertFindsSolution(0, 222, 4, rules, solution, apply);
+    }
+
+    /**
+     * Level 118: From 2152 to 13 in 6 moves
+     * Rules: 25=>12, 21=>3, 12=>5, Shift >, Reverse
+     *
+     */
+    @Test
+    void solvesLevel118() {
         final Rule conv25to12 = Rule.makeRule(Config.CONVERT, 25, 12);
         final Rule conv21to3 = Rule.makeRule(Config.CONVERT, 21, 3);
         final Rule conv12to5 = Rule.makeRule(Config.CONVERT, 12, 5);
@@ -438,9 +240,15 @@ public class AllTests {
         apply = new boolean[] {
             true, true, true, true, true, true
         };
-        assertFindsSolution(2152, 13, 6, rules, solution, apply);
 
-        // Level 120: From 23 to 2332 in 1 move using Mirror
+        assertFindsSolution(2152, 13, 6, rules, solution, apply);
+    }
+
+    /**
+     * Level 120: From 23 to 2332 in 1 move using Mirror
+     */
+    @Test
+    void solvesLevel120() {
         final Rule mirror = Rule.makeRule(Config.MIRROR);
         rules = new Rule[] {
             mirror
@@ -451,10 +259,16 @@ public class AllTests {
         apply = new boolean[] {
             true
         };
-        assertFindsSolution(23, 2332, 1, rules, solution, apply);
 
-        // Level 137: From 0 to 42 in 5 moves, including meta add 1
-        // [+]1, +6, +6, *3, +6
+        assertFindsSolution(23, 2332, 1, rules, solution, apply);
+    }
+
+    /**
+     * Level 137: From 0 to 42 in 5 moves, including meta add 1
+     * [+]1, +6, +6, *3, +6
+     */
+    @Test
+    void solvesLevel137() {
         final Rule subtract2 = Rule.makeRule(Config.SUBTRACT, 2);
         final Rule add5 = Rule.makeRule(Config.ADD, 5);
         final Rule multiply2 = Rule.makeRule(Config.MULTIPLY, 2);
@@ -470,11 +284,18 @@ public class AllTests {
         apply = new boolean[] {
             true, true, true, true, true
         };
-        assertFindsSolution(0, 42, 5, rules, solution, apply);
 
-        // Level 146: 23 to 1234 in 4 moves including Store
-        final Rule store = Rule.makeRule(Config.STORE);
+        assertFindsSolution(0, 42, 5, rules, solution, apply);
+    }
+
+    /**
+     * Level 146: 23 to 1234 in 4 moves including Store
+     */
+    @Test
+    void solvesLevel146() {
+        final Rule multiply2 = Rule.makeRule(Config.MULTIPLY, 2);
         final Rule subtract5 = Rule.makeRule(Config.SUBTRACT, 5);
+        final Rule store = Rule.makeRule(Config.STORE);
         final Rule shiftLeft = Rule.makeRule(Config.SHIFT_LEFT);
         rules = new Rule[] {
             multiply2, subtract5, store, shiftLeft
@@ -485,11 +306,22 @@ public class AllTests {
         apply = new boolean[] {
             false, true, true, true, true
         };
-        assertFindsSolution(23, 1234, 4, rules, solution, apply);
 
-        // Level 147: 125 to 1025 in 6 moves
-        // May find repeat "Update Store"s, test to make sure these aren't
-        // displayed in solution
+        assertFindsSolution(23, 1234, 4, rules, solution, apply);
+    }
+
+    /**
+     * Level 147: 125 to 1025 in 6 moves
+     *
+     * May find repeat "Update Store"s, test to make sure these aren't
+     * displayed in solution
+     */
+    @Test
+    void solvesLevel147() {
+        final Rule multiply2 = Rule.makeRule(Config.MULTIPLY, 2);
+        final Rule store = Rule.makeRule(Config.STORE);
+        final Rule delete = Rule.makeRule(Config.DELETE);
+
         rules = new Rule[] {
             multiply2, store, delete
         };
@@ -499,6 +331,7 @@ public class AllTests {
         apply = new boolean[] {
             true, true, false, true, true, true, true
         };
+
         assertFindsSolution(125, 1025, 6, rules, solution, apply);
     }
 
@@ -521,9 +354,9 @@ public class AllTests {
         assertMainAgainWorks(value, goal, moves, rules, solution, apply);
     }
 
-    /////////////
+    // --------//
     // Helpers //
-    /////////////
+    // --------//
 
     /** Asserts that the given parameters create the given game in Main.main */
     void assertCreatesGame(

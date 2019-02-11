@@ -1,3 +1,5 @@
+package base;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -28,7 +30,6 @@ public class MainTests {
 
         Main.cleanUp(list);
 
-        System.out.println(list);
         assertEquals(4, list.size());
     }
 }
