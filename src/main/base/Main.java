@@ -70,6 +70,12 @@ public class Main {
         }
     }
 
+    /**
+     * Valid successors have no decimals, have different games than their
+     * predecessors, and have values of 8 digits or less
+     * @param state
+     * @return
+     */
     private static List<State> successors(State state) {
         List<State> successors = new ArrayList<>();
         addSuccessors(state, successors, true);

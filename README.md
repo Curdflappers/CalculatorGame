@@ -52,6 +52,12 @@ Rules are newline-separated. Parentheses are used for visual purposes, do not in
     * Upon updating the Store rule, its operand becomes the value of the game
     * Applying the Store rule functions just like applying the Pad rule
     * The Store rule can be updated any number of times, and updating the Store rule does not decrease the move counter.
+* Inverse Ten (`Inv10`) converts each digit to its "10-additive inverse"
+    * 4 becomes 6, because 4 + 6 = 10
+    * 123 becomes 987, because each digit is evaluated independently
+    * 5 becomes 5 (no change occurs)
+    * 0 becomes 0 (no change occurs)
+    * -123 becomes -987 (the sign does not change)
 
 ### Sample Use Case
 

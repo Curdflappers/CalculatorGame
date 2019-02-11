@@ -336,6 +336,30 @@ public class BaseTests {
     }
 
     /**
+     * Uses Inverse Ten
+     */
+    @Test
+    void solvesLevel162() {
+        final Rule multiply3 = Rule.makeRule(Config.MULTIPLY, 3);
+        final Rule divide9 = Rule.makeRule(Config.DIVIDE, 9);
+        final Rule store = Rule.makeRule(Config.STORE);
+        final Rule inverseTen = Rule.makeRule(Config.INVERSE_TEN);
+
+        rules = new Rule[] {
+            multiply3, divide9, store, inverseTen
+        };
+        solution = new Rule[] {
+            store, store, multiply3, inverseTen, divide9
+        };
+        apply = new boolean[] {
+            false, true, true, true, true, true, true
+        };
+
+        assertFindsSolution(5, 105, 6, rules, solution, apply);
+
+    }
+
+    /**
      * Tests whether the "again" functionality works
      */
     @Test

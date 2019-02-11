@@ -202,6 +202,13 @@ public class RuleTests {
         assertApplyStoreRule(1, -1, 1);
     }
 
+    @Test
+    void applyInverseTen() {
+        assertApplyRule(1234567, Config.INVERSE_TEN, 9876543);
+        assertApplyRule(10, Config.INVERSE_TEN, 90);
+        assertApplyRule(-10, Config.INVERSE_TEN, -90);
+    }
+
     // ------- //
     // Helpers //
     // ------- //

@@ -16,16 +16,24 @@ public abstract class Rule {
     public static Rule ruleFromString(String ruleString) {
         int operator = Config.INVALID, operand1 = 0, operand2 = 0;
         String convertString = Config.OPERATOR_STRINGS[Config.CONVERT];
+        String inverseTenString = Config.OPERATOR_STRINGS[Config.INVERSE_TEN];
         Matcher convertMatcher =
             Pattern
                 .compile("\\d+" + convertString + "\\d+")
                 .matcher(ruleString);
+        Matcher inverseTenMatcher =
+            Pattern.compile(inverseTenString).matcher(ruleString);
         boolean isConvertRule = convertMatcher.find();
+        boolean isInverseTenRule = inverseTenMatcher.find();
         if (isConvertRule) {
             int arrowIndex = ruleString.indexOf(convertString);
             String op1 = ruleString.substring(0, arrowIndex);
             String op2 = ruleString.substring(arrowIndex + 2);
             return makeRule(Config.CONVERT, op1, op2);
+        }
+
+        if (isInverseTenRule) {
+            return makeRule(Config.INVERSE_TEN);
         }
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
@@ -121,6 +129,8 @@ public abstract class Rule {
                 return new MetaAddRule(operand1);
             case Config.STORE:
                 return new StoreRule();
+            case Config.INVERSE_TEN:
+                return new InverseTenRule();
             default:
                 throw new RuntimeException("invalid operator: " + operator);
         }
