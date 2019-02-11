@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 public class RuleTests {
     @Test
     void shiftRule() {
-        assertEquals(1, ShiftRule.digits(0));
+        int[] zeroDigits = ShiftRule.digits(0);
+
+        assertEquals(1, zeroDigits.length);
+        assertEquals(0, zeroDigits[0]);
     }
 }
