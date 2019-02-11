@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import com.example.project.rules.Rule;
+import com.example.project.rules.StoreRule;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;

@@ -1,4 +1,7 @@
-package com.example.project;
+package com.example.project.rules;
+
+import com.example.project.Config;
+import com.example.project.Game;
 
 public abstract class ShiftRule extends Rule {
     public Game apply(Game game) {
@@ -33,7 +36,7 @@ public abstract class ShiftRule extends Rule {
      * @param value any integer
      * @return an array representation of the absolute value of value
      */
-    protected static int[] digits(int value) {
+    public static int[] digits(int value) {
         value = Math.abs(value); // only interested in its digits, not its sign
         int numDigits = value == 0 ? 1 : (int) Math.ceil(Math.log10(value));
         int[] digits = new int[numDigits];

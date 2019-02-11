@@ -1,4 +1,7 @@
-package com.example.project;
+package com.example.project.rules;
+
+import com.example.project.Config;
+import com.example.project.Game;
 
 /**
  * Adds to the operands of the other rules, does not change the value of the

@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import com.example.project.rules.Rule;
+import com.example.project.rules.StoreRule;
+
 import org.junit.jupiter.api.Test;
 
 public class AllTests {

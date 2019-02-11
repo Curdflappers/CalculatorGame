@@ -2,6 +2,8 @@ package com.example.project;
 
 import java.util.Arrays;
 
+import com.example.project.rules.Rule;
+
 public class Game {
     /** The current number for this game */
     private double value;

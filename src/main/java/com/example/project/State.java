@@ -1,5 +1,7 @@
 package com.example.project;
 
+import com.example.project.rules.Rule;
+
 public class State {
     /** The game information for this state */
     private Game game;

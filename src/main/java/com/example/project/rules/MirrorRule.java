@@ -1,4 +1,7 @@
-package com.example.project;
+package com.example.project.rules;
+
+import com.example.project.Config;
+import com.example.project.Game;
 
 public class MirrorRule extends Rule {
     public Game apply(Game game) {

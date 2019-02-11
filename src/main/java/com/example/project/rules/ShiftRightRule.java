@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.project.rules;
 
 public class ShiftRightRule extends ShiftRule {
     protected void rotate(int[] digits) {

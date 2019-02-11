@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
+import com.example.project.rules.Rule;
+
 /**
  * Runs the Calculator Game solver
  *
