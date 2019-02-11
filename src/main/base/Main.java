@@ -85,14 +85,27 @@ public class Main {
         if (state.getMovesLeft() > 0) {
             for (Rule rule : state.getRules()) {
                 State successor = new State(state, rule, apply);
-                if (
-                    successor.getValue() % 1 == 0 // no decimals
-                        && !successor.getGame().equals(state.getGame())
-                ) {
+                if (isValidSuccessor(successor, state)) {
                     successors.add(successor);
                 }
             }
         }
+    }
+
+    private static boolean isValidSuccessor(State successor, State parent) {
+        boolean valid = true;
+
+        valid &= successor.getValue() % 1 == 0; // no decimals
+        // max 8 digits
+        valid &= Math.abs(successor.getValue()) < Math.pow(10, 8);
+
+        // not redundant
+        while (parent != null) {
+            valid &= !successor.getGame().equalsExceptMoves(parent.getGame());
+            parent = parent.getParent();
+        }
+
+        return valid;
     }
 
     private static void printSolution(State state) {

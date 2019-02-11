@@ -67,4 +67,22 @@ public class Game {
         } else
             return false;
     }
+
+    /**
+     * Returns true if the two games are equal in every way except moves
+     * remaining
+     * @param other The other game
+     * @return true iff the two games are equal if their moves are the same.
+     * Returns true if the two games are equal.
+     */
+    public boolean equalsExceptMoves(Game other) {
+        Game newOther =
+            new Game(
+                other.getValue(),
+                other.getGoal(),
+                getMovesLeft(),
+                other.getValidRules()
+            );
+        return equals(newOther);
+    }
 }
