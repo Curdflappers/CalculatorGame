@@ -28,7 +28,8 @@ public class StoreRule extends Rule {
             game.getValue(),
             game.getGoal(),
             game.getMovesLeft(),
-            newValidRules
+            newValidRules,
+            game.getPortals()
         );
     }
 
@@ -43,7 +44,8 @@ public class StoreRule extends Rule {
             Double.parseDouble(valString),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules()
+            game.getValidRules(),
+            game.getPortals()
         );
     }
 

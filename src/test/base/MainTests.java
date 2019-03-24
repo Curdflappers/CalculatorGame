@@ -21,7 +21,7 @@ public class MainTests {
         List<State> list = new ArrayList<State>();
         list.add(new State(new Game(0, 0, 0, new Rule[] {
             Rule.makeRule(Config.STORE)
-        })));
+        }, null)));
         list.add(new State(list.get(0), Rule.makeRule(Config.STORE), false));
         list.add(new State(list.get(1), new StoreRule(0), false)); // deleted
         list.add(new State(list.get(2), Rule.makeRule(Config.STORE), true));

@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 public class BaseTests {
     Rule[] rules, solution;
     boolean[] apply;
+    int[] portals;
 
     //////////////////
     // CONSTRUCTORS //
@@ -39,7 +40,7 @@ public class BaseTests {
         };
         int value = 1, goal = 2, movesLeft = 3;
 
-        Game game = new Game(value, goal, movesLeft, validRules);
+        Game game = new Game(value, goal, movesLeft, validRules, null);
 
         assertEquals(value, game.getValue());
         assertEquals(goal, game.getGoal());
@@ -59,7 +60,7 @@ public class BaseTests {
         };
         Rule rule = rules[0];
         int value = 1, goal = 2, movesLeft = 3;
-        Game game = new Game(value, goal, movesLeft, rules);
+        Game game = new Game(value, goal, movesLeft, rules, null);
 
         State parentState = new State(game);
         State childState = new State(parentState, rule, true);
@@ -88,8 +89,18 @@ public class BaseTests {
         };
         String rulesString = combineStrings(ruleStrings) + "\n";
         Rule[] rules = rules(ruleStrings);
+        boolean portalsPresent = false;
         String inputString =
-            value + "\n" + goal + "\n" + movesLeft + "\n" + rulesString + "\n";
+            value
+                + "\n"
+                + goal
+                + "\n"
+                + movesLeft
+                + "\n"
+                + rulesString
+                + "\n"
+                + (portalsPresent ? "y" : "n")
+                + "\n";
 
         Main.parseInput(new Scanner(inputString));
 
@@ -114,7 +125,10 @@ public class BaseTests {
             Config.ruleString(Config.SUBTRACT, 2),
             Config.ruleString(Config.MULTIPLY, 3),
         };
-        assertCreatesGame(value, goal, moves, ruleStrings);
+        int[] portals = {
+            1, 0
+        };
+        assertCreatesGame(value, goal, moves, ruleStrings, portals);
     }
 
     ////////////
@@ -354,9 +368,35 @@ public class BaseTests {
         apply = new boolean[] {
             false, true, true, true, true, true, true
         };
+        portals = null;
 
         assertFindsSolution(5, 105, 6, rules, solution, apply);
+    }
 
+    /**
+     * Solves the final level of the game
+     */
+    @Test
+    void solvesLevel199() {
+        final Rule pad7 = Rule.makeRule(Config.PAD, 7);
+        final Rule conv3to5 = Rule.makeRule(Config.CONVERT, 3, 5);
+        final Rule inverseTen = Rule.makeRule(Config.INVERSE_TEN);
+        final Rule shiftRight = Rule.makeRule(Config.SHIFT_RIGHT);
+
+        rules = new Rule[] {
+            pad7, conv3to5, inverseTen, shiftRight
+        };
+        solution = new Rule[] {
+            pad7, conv3to5, pad7, shiftRight, inverseTen, pad7
+        };
+        apply = new boolean[] {
+            true, true, true, true, true, true
+        };
+        portals = new int[] {
+            4, 0
+        };
+
+        assertFindsSolution(3002, 3507, 6, rules, solution, apply);
     }
 
     /**
@@ -387,13 +427,15 @@ public class BaseTests {
         int value,
         int goal,
         int moves,
-        String[] ruleStrings) {
+        String[] ruleStrings,
+        int[] portals
+    ) {
         String inputString =
-            inputString(false, value, goal, moves, ruleStrings);
+            inputString(false, value, goal, moves, ruleStrings, portals);
         InputStream in = inStream(inputString);
         InputStream consoleIn = System.in;
         Rule[] inputRules = rules(ruleStrings);
-        Game expectedGame = new Game(value, goal, moves, inputRules);
+        Game expectedGame = new Game(value, goal, moves, inputRules, portals);
 
         // Creates game as user input
         Scanner scanner = new Scanner(in);
@@ -402,24 +444,25 @@ public class BaseTests {
 
         // Creates game as VM args
         System.setIn(inStream(Config.QUIT));
-        Main.main(inputStrings(value, goal, moves, ruleStrings));
+        Main.main(inputStrings(value, goal, moves, ruleStrings, portals));
         assertEquals(expectedGame, Main.getGame());
 
         System.setIn(consoleIn);
     }
 
     void assertFindsSolution(
-        int initialValue,
+        int initVal,
         int goal,
         int moves,
         Rule[] rules,
         Rule[] solution,
-        boolean[] apply) {
+        boolean[] apply
+    ) {
 
         String[] ruleStrings = ruleStrings(rules);
         PrintStream out = System.out;
         ByteArrayOutputStream baos = prepareEndToEndTest(Config.QUIT);
-        Main.main(inputStrings(initialValue, goal, moves, ruleStrings));
+        Main.main(inputStrings(initVal, goal, moves, ruleStrings, portals));
         String expectedOutput = solutionOutput(solution, apply);
         String actualOutput = stringFromBaos(baos);
         assertEquals(expectedOutput, actualOutput);
@@ -432,14 +475,15 @@ public class BaseTests {
         int moves,
         Rule[] rules,
         Rule[] solution,
-        boolean[] apply) {
+        boolean[] apply
+    ) {
 
         String[] ruleStrings = ruleStrings(rules);
         PrintStream out = System.out;
         String inputString =
-            inputString(true, initialValue, goal, moves, ruleStrings);
+            inputString(true, initialValue, goal, moves, ruleStrings, null);
         ByteArrayOutputStream baos = prepareEndToEndTest(inputString);
-        Main.main(inputStrings(initialValue, goal, moves, ruleStrings));
+        Main.main(inputStrings(initialValue, goal, moves, ruleStrings, null));
         String expectedOutput = solutionOutput(solution, apply);
         expectedOutput += gamePrompts();
         expectedOutput += solutionOutput(solution, apply);
@@ -472,7 +516,8 @@ public class BaseTests {
         return Config.START_PROMPT
             + Config.GOAL_PROMPT
             + Config.MOVES_PROMPT
-            + Config.RULES_PROMPT;
+            + Config.RULES_PROMPT
+            + Config.PORTALS_PRESENT_PROMPT;
     }
 
     /**
@@ -486,17 +531,32 @@ public class BaseTests {
         int value,
         int goal,
         int moves,
-        String[] ruleStrings) {
+        String[] ruleStrings,
+        int[] portals
+    ) {
 
         String input = repeated ? Config.CONTINUE : "";
-        return input
-            + value
-            + "\n"
-            + goal
-            + "\n"
-            + moves
-            + "\n"
-            + combineStrings(ruleStrings) + "\n\n" + Config.QUIT;
+        input +=
+            value
+                + "\n"
+                + goal
+                + "\n"
+                + moves
+                + "\n"
+                + combineStrings(ruleStrings)
+                + "\n\n";
+
+        if (portals == null) {
+            input += "n" + "\n";
+        } else {
+            input += "y" + "\n";
+            input += String.valueOf(portals[0]) + "\n";
+            input += String.valueOf(portals[1]) + "\n";
+        }
+
+        input += Config.QUIT;
+
+        return input;
     }
 
     /** Simulates VM args */
@@ -504,12 +564,24 @@ public class BaseTests {
         int value,
         int goal,
         int moves,
-        String[] ruleStrings) {
+        String[] ruleStrings,
+        int[] portals
+    ) {
+
+        String rulesString =
+            combineStrings(ruleStrings, Config.CMDLINE_SEPARATOR);
+        boolean portalsPresent = portals != null;
+        String portalsResponse = portalsPresent ? "y" : "n";
+        String leftPortal = portalsPresent ? String.valueOf(portals[0]) : "";
+        String rightPortal = portalsPresent ? String.valueOf(portals[1]) : "";
         return new String[] {
             "" + value,
             "" + goal,
             "" + moves,
-            combineStrings(ruleStrings, Config.CMDLINE_SEPARATOR),
+            rulesString,
+            portalsResponse,
+            leftPortal,
+            rightPortal
         };
     }
 

@@ -2,12 +2,11 @@ package rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import rules.ShiftRule;
-
 import org.junit.jupiter.api.Test;
 
 import base.Config;
 import base.Game;
+import base.Helpers;
 
 public class RuleTests {
     //////////////////
@@ -215,7 +214,7 @@ public class RuleTests {
 
     /**
      * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
+     * with the given value and no portals results in the expected value
      */
     void assertApplyRule(int expected, int operator, int value) {
         Rule rule = Rule.makeRule(operator);
@@ -224,7 +223,7 @@ public class RuleTests {
 
     /**
      * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
+     * with the given value and no portals results in the expected value
      */
     void assertApplyRule(int expected, int operator, int operand1, int value) {
         Rule rule = Rule.makeRule(operator, operand1);
@@ -233,7 +232,7 @@ public class RuleTests {
 
     /**
      * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
+     * with the given value and no portals results in the expected value
      */
     void assertApplyRule(
         int expected,
@@ -247,7 +246,7 @@ public class RuleTests {
 
     /**
      * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
+     * with the given value and no portals results in the expected value
      */
     void assertApplyRule(
         int expected,
@@ -261,10 +260,10 @@ public class RuleTests {
 
     /**
      * Asserts that the result of applying the given non-meta rule to a game
-     * with the given value results in the expected value
+     * with the given value and no portals results in the expected value
      */
     void assertApplyRule(int expected, Rule rule, int value) {
-        Game originalGame = new Game(value, 0, 0, new Rule[] {});
+        Game originalGame = new Game(value, 0, 0, new Rule[] {}, null);
         double newValue = rule.apply(originalGame).getValue();
         assertEquals(expected, newValue, 0.01, rule.toString());
     }
@@ -280,9 +279,10 @@ public class RuleTests {
         int goal = -2;
         int moves = 9; // some value > 0
 
-        Game oldGame = new Game(value, goal, moves, oldRules);
+        Game oldGame = new Game(value, goal, moves, oldRules, null);
         Game newGame = rule.apply(oldGame);
-        Game expectedGame = new Game(value, goal, moves - 1, expectedRules);
+        Game expectedGame =
+            new Game(value, goal, moves - 1, expectedRules, null);
         assertEquals(expectedGame, newGame);
     }
 
@@ -297,7 +297,7 @@ public class RuleTests {
 
     @Test
     void shiftRecognizesZero() {
-        int[] zeroDigits = ShiftRule.digits(0);
+        int[] zeroDigits = Helpers.digits(0);
 
         assertEquals(1, zeroDigits.length);
         assertEquals(0, zeroDigits[0]);

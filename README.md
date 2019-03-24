@@ -1,5 +1,7 @@
 # Calculator Game
-A solver for **Calculator: The Game** by Simple Machine. It runs through the terminal.
+A solver for **Calculator: The Game** by Simple Machine. It supports all 16 rule types. It supports portals. It can solve all 199 levels of the game.
+
+It runs through the terminal. The solver prompts for input about a particular level, and outputs a series of steps to complete the given level. It then prompts the user to complete another level or quit the program. This repeats until the user chooses to quit the program.
 
 ## Usage
 
@@ -60,6 +62,72 @@ Rules are newline-separated. Parentheses are used for visual purposes, do not in
     * 0 becomes 0 (no change occurs)
     * -123 becomes -987 (the sign does not change)
 
+### Portals
+
+Portals are a complexifying mechanic in the game. Some games have portals: a pair of them, to be exact. One portal sits below the value, another floats above it. Each portal corresponds to exactly one position in the game's value, the ones position, tens positions, hundreds position, etc. The portal on the bottom will always be to the right of the portal on the top.
+
+When the value of the game is such that there is a digit directly above the bottom portal, that digit falls through the bottom portal and is re-added to the value through the right portal. For example, if the portals are represented with a `Y`:
+
+```
+  Y
+ 12
+Y
+```
+
+Nothing happens, this game is **stable**. But if we were to pad 3 to this value:
+
+```
+  Y
+123
+Y
+```
+
+This game is unstable. Since the `1` is directly above the lower portal, it will fall:
+
+```
+  Y
+ 24
+Y
+```
+
+It gets added to the `3`, so the new digit is `4`. If there was a carry (say, a `2` being added to a `9`), it would be used. This can result in a **cascade** (multiple iterations of falling before the game is stable):
+
+```
+  Y
+991
+Y
+
+  Y
+100
+Y
+
+  Y
+  1
+Y
+```
+
+If _multiple digits are to the left of the bottom portal_, they each fall individually:
+
+```
+   Y
+1232
+  Y
+
+   Y
+ 125
+  Y
+
+   Y
+  17
+  Y
+
+   Y
+   8
+  Y
+```
+
+In this game, portals are represented by their distance from the ones position. In the example above, the left portal is represented with the value `1` since it is one spot away from the ones position, and the right portal is represented with the value `0`.
+
 ### Sample Use Case
 
 ```
@@ -70,30 +138,74 @@ Enter one rule per line (empty string to mark end of list):
 +2
 +1
 
+Are there any portals for this game? (y/n): n
 Solution:
 Apply +1
 Apply +2
 Solve again (y/n): y
-Enter start value: 1231
-Enter goal value: 4
-Enter the number of moves: 3
+Enter start value: 3002
+Enter goal value: 3507
+Enter the number of moves: 5
 Enter one rule per line (empty string to mark end of list):
-SUM
-3=>1
-2=>3
+7
+Shift >
 
+Are there any portals for this game? (y/n): y
+Enter the distance from the ones place of the portal on the left: 5
+Enter the distance from the ones place of the portal on the right: 0
 Solution:
-Apply 2=>3
-Apply 3=>1
-Apply SUM
-Solve again (y/n): n
+Apply 7
+Apply Shift >
+Apply 7
+Apply 7
+Apply 7
+
 ```
 
 #### Explanation
 
 To go from 2 to 5 in at most 3 moves using the rules "add 2" and "add 1", a solution is to first add 1, then add 2. Although 3 moves are allowed, only 2 moves are needed. Other solutions exist, but this one is the first one found by the program, so it is the one output.
 
-To go from 1231 to 4 in at most 3 moves using the rules "sum", "convert 3 to 1", and "convert 2 to 3",  a solution is to first convert 2 to 3, then convert 3 to 1, then take the sum.
+Let's examine the second case (going from 3002 to 3507):
+
+```
+     Y
+  3002
+Y
+
+Apply 7
+     Y
+ 30027
+Y
+
+Apply Shift >
+     Y
+ 73002
+Y
+
+Apply 7
+     Y
+730027
+Y
+
+     Y
+ 30034
+Y
+
+Apply 7
+     Y
+300347
+Y
+
+     Y
+   350
+Y
+
+Apply 7
+     Y
+  3507
+Y
+```
 
 The program exits when user input after the `Solve again` prompt is not `'y'`.
 
@@ -103,11 +215,10 @@ Testing is done with JUnit 5 and comprehensive unit tests and integration tests 
 
 ## Roadmap
 
-I want to do more.
+This program is enough to beat the original game. I want to do more.
 
 Eventually, I'd like to:
 
-* Support all operators
 * Add a feature to only display hints on demand
 * Add a good UI (and restrict bad input)
 * Be able to play the game

@@ -9,7 +9,8 @@ public class SignRule extends Rule {
             -game.getValue(),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules()
+            game.getValidRules(),
+            game.getPortals()
         );
     }
 

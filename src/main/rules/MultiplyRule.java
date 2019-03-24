@@ -9,7 +9,8 @@ public class MultiplyRule extends Rule {
             game.getValue() * getOperand1(),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules()
+            game.getValidRules(),
+            game.getPortals()
         );
     }
 
