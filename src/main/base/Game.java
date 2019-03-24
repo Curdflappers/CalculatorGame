@@ -53,10 +53,15 @@ public class Game {
             throw new RuntimeException(
                 "Invalid portals given: " + Arrays.toString(portals)
             );
+        applyPortals();
     }
 
     public double getValue() {
         return value;
+    }
+
+    private void setValue(double value) {
+        this.value = value;
     }
 
     public int getGoal() {
@@ -95,6 +100,35 @@ public class Game {
         if (portals == null) return true;
         if (portals.length != 2) return false;
         return portals[0] > portals[1] && portals[1] >= 0;
+    }
+
+    /**
+     * Make the digits "fall through" the portals to get the correct value
+     * Decimals don't fall through the portals
+     */
+    private void applyPortals() {
+        if (portals == null || getValue() % 1 != 0) return;
+
+        int value = (int) getValue();
+        boolean negative = value < 0;
+        value = Math.abs(value); // only worry about the positive version
+
+        int leftPortalIndex = portals[0];
+        int rightPortalIndex = portals[1];
+
+        while (value >= Math.pow(10, leftPortalIndex)) {
+            // Have the digit fall
+            int digit = Helpers.getDigit(value, leftPortalIndex);
+            value -= digit * Math.pow(10, leftPortalIndex);
+            value += digit * Math.pow(10, rightPortalIndex);
+
+            // Take digits at left of portal and shift them one right
+            int valueLeft = Helpers.digitsToTheLeft(value, leftPortalIndex);
+            value -= valueLeft * Math.pow(10, leftPortalIndex);
+            value += valueLeft * Math.pow(10, leftPortalIndex - 1);
+        }
+
+        setValue(negative ? -value : value);
     }
 
     public boolean equals(Object other) {

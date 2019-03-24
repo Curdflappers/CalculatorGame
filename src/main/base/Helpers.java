@@ -26,4 +26,29 @@ public class Helpers {
 
         return digits;
     }
+
+    /**
+     * Returns the digit of value at the specified index. Only works with
+     * nonnegative numbers.
+     * @param value the value to get the digit from
+     * @param digitIndex the zero-based distance to the left of the ones place
+     * (0 is ones place, 1 is tens place, 2 is hundreds place, etc.). Must be
+     * nonnegative.
+     */
+    public static int getDigit(int value, int digitIndex) {
+        return (int) (value / Math.pow(10, digitIndex)) % 10;
+    }
+
+    /**
+     * Returns the value of only the digits to the left
+     * Example: digitsToTheLeft(12345, 2) --> 12
+     * Only works with positive values
+     * @param value the value to take digits from
+     * @param digitIndex the zero-based distance to the left of the ones place
+     * (0 is ones place, 1 is tens place, 2 is hundreds place, etc.). Must be
+     * nonnegative.
+     */
+    public static int digitsToTheLeft(int value, int digitIndex) {
+        return value / (int) Math.pow(10, digitIndex + 1);
+    }
 }
