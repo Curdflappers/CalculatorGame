@@ -3,6 +3,8 @@ A solver for **Calculator: The Game** by Simple Machine. It supports all 16 rule
 
 It runs through the terminal. The solver prompts for input about a particular level, and outputs a series of steps to complete the given level. It then prompts the user to complete another level or quit the program. This repeats until the user chooses to quit the program.
 
+This document covers the rules of Calculator: The Game and how to use the program. For installation instructions, see the [further documentation](./docs/index.md). If you have any issues with the program (installation or otherwise), feel free to open an issue on the repository.
+
 ## Usage
 
 Pass in the details of the level through the terminal, and the solution will be printed to standard output.
@@ -209,10 +211,6 @@ Y
 
 The program exits when user input after the `Solve again` prompt is not `'y'`.
 
-## Testing
-
-Testing is done with JUnit 5 and comprehensive unit tests and integration tests are found in `src/test/**/*.java`. All tests should pass.
-
 ## Roadmap
 
 This program is enough to beat the original game. I want to do more.
@@ -225,3 +223,7 @@ Eventually, I'd like to:
 * Generate my own levels
 * Create instructions
 * Share levels with friends
+
+## Further Documentation
+
+All further documentation is found in the `docs` folder, with a convenient index [here](./docs/index.md).
