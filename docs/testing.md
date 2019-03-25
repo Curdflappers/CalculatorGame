@@ -4,9 +4,11 @@ This document primarily covers running tests.
 
 This program was primarily developed on Ubuntu 18.04, but it's also tested to work on Windows 10. As it was also developed with Visual Studio Code, testing instructions will be given for that IDE.
 
+Testing is done with JUnit 5 and comprehensive unit tests and integration tests are found in `src/test/**/*.java`. All tests should pass.
+
 ## Running the Tests
 
-Before running the tests, make sure the `lineEnd` variable in the [`BaseTests.java`](../src/test/base/BaseTests.java) is `\n` for Linux, `\r\n` for Windows.
+Before running the tests, make sure the `lineEnd` variable in [`BaseTests.java`](../src/test/base/BaseTests.java) is `\n` for Linux, `\r\n` for Windows.
 
 1. Open the `Test` view from the ribbon on the side bar by clicking the titration flask icon.
 1. Click the triangle (the `Run Test` button) at the top of the `Test` view.
