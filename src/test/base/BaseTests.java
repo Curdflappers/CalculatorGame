@@ -626,7 +626,14 @@ public class BaseTests {
      * Includes again prompt
      */
     String solutionOutput(Rule[] solution, boolean[] apply) {
-        String lineEnd = "\n"; // Toggle this for Windows/non-Windows machines
+        String osname = System.getProperty("os.name");
+        String lineEnd;
+        if (osname.contains("Windows")) {
+            lineEnd = "\r\n";
+        } else {
+            lineEnd = "\n";
+        }
+
         String output = Config.SOLUTION_PROMPT + lineEnd;
         for (int i = 0; i < solution.length; i++) {
             Rule rule = solution[i];
