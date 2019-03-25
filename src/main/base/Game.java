@@ -165,4 +165,24 @@ public class Game {
     public boolean hasPortals() {
         return portals != null;
     }
+
+    public String toString() {
+        String str = "";
+        str += (int) value + "\n";
+        str += goal + "\n";
+        str += movesLeft + "\n";
+
+        for (Rule rule : validRules) {
+            str += rule.toString() + "\n";
+        }
+        str += "\n";
+
+        str += (hasPortals() ? "y" : "n") + "\n";
+        if (hasPortals()) {
+            str += portals[0] + "\n";
+            str += portals[1] + "\n";
+        }
+
+        return str;
+    }
 }
