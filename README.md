@@ -213,6 +213,8 @@ The program exits when user input after the `Solve again` prompt is not `'y'`.
 
 Testing is done with JUnit 5 and comprehensive unit tests and integration tests are found in `src/test/**/*.java`. All tests should pass.
 
+More testing information can be found [here](./docs/testing.md).
+
 ## Roadmap
 
 This program is enough to beat the original game. I want to do more.
