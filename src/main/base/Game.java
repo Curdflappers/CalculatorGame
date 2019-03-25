@@ -86,7 +86,7 @@ public class Game {
     }
 
     public int[] getPortals() {
-        if (portals == null) return null;
+        if (!hasPortals()) return null;
         return Arrays.copyOf(portals, portals.length);
     }
 
@@ -107,7 +107,7 @@ public class Game {
      * Decimals don't fall through the portals
      */
     private void applyPortals() {
-        if (portals == null || getValue() % 1 != 0) return;
+        if (!hasPortals() || getValue() % 1 != 0) return;
 
         int value = (int) getValue();
         boolean negative = value < 0;
@@ -160,5 +160,9 @@ public class Game {
                 other.getPortals()
             );
         return equals(newOther);
+    }
+
+    public boolean hasPortals() {
+        return portals != null;
     }
 }
