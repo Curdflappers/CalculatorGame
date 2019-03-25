@@ -163,7 +163,7 @@ public class Main {
     }
 
     /**
-     * Returns a list of states, with the newest at the front, the oldest at
+     * Returns a list of states, with the earliest at the front, the latest at
      * the end.
      *
      * @param state
