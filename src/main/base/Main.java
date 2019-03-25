@@ -28,7 +28,9 @@ public class Main {
         do {
             getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            solveGame();
+            State endState = solveGame(game);
+            String solution = extractSolution(endState);
+            System.out.print(solution);
             promptAgain(scanner);
             args = new String[0]; // can't use the same args again
         } while (again);
@@ -52,21 +54,19 @@ public class Main {
     }
 
     /**
-     * Run a DFS and print out the solution to the game
+     * Run a DFS and return the State that contains the end game.
      */
-    private static void solveGame() {
+    static State solveGame(Game game) {
         Stack<State> stack = new Stack<>();
         stack.push(game.getState());
 
         while (true) {
             if (stack.isEmpty()) {
-                System.out.println("Game unsolvable");
-                return;
+                return null;
             }
             for (State successor : successors(stack.pop())) {
                 if (successor.getValue() == successor.getGoal()) {
-                    printSolution(successor);
-                    return;
+                    return successor;
                 }
                 stack.push(successor);
             }
@@ -117,20 +117,26 @@ public class Main {
         return valid;
     }
 
-    private static void printSolution(State state) {
+    /**
+     * Returns a string that represents the solution to the game. Each step is 
+     * separated by a lineEnd string.
+     */
+    private static String extractSolution(State state) {
+        String solution = "";
+
         List<State> states = orderedStates(state);
         cleanUp(states);
         for (State element : states) {
             if (element.getRule() != null) {
-                System.out
-                    .print(
-                        element.getApplied()
-                            ? Config.APPLY_PROMPT
-                            : Config.UPDATE_PROMPT
-                    );
-                System.out.println(element.getRule());
+                solution +=
+                    element.getApplied()
+                        ? Config.APPLY_PROMPT
+                        : Config.UPDATE_PROMPT;
+                solution += element.getRule() + Config.lineEnd();
             }
         }
+
+        return solution;
     }
 
     /**
