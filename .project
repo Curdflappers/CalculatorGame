@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>calculator-game</name>
-	<comment>Project CalculatorGame taken from junit5-jupiter-starter-gradle created by Buildship.</comment>
+	<comment>A solver for Calculator: The Game by Simple Machine</comment>
 	<projects>
 	</projects>
 	<buildSpec>
