@@ -2,14 +2,6 @@ package base;
 
 public class Config {
 
-  public static String lineEnd() {
-    if (System.getProperty("os.name").contains("Windows")) {
-      return "\r\n";
-    } else {
-      return "\n";
-    }
-  };
-
   /** Operator index. INVALID must remain < 0 */
   public static final int INVALID = -1, ADD = 0, SUBTRACT = 1, MULTIPLY = 2,
     DIVIDE = 3, PAD = 4, SIGN = 5, DELETE = 6, CONVERT = 7, POWER = 8, REVERSE =

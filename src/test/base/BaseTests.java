@@ -626,22 +626,21 @@ public class BaseTests {
      * Includes again prompt
      */
     String solutionOutput(Rule[] solution, boolean[] apply) {
-
-        String lineEnd = Config.lineEnd();
-
-        String output = Config.SOLUTION_PROMPT + lineEnd;
+        String output = Config.SOLUTION_PROMPT + "\n";
         for (int i = 0; i < solution.length; i++) {
             Rule rule = solution[i];
             output +=
                 (apply[i] ? Config.APPLY_PROMPT : Config.UPDATE_PROMPT)
                     + rule.toString()
-                    + lineEnd;
+                    + "\n";
         }
         output += Config.AGAIN_PROMPT;
         return output;
     }
 
     String stringFromBaos(ByteArrayOutputStream baos) {
-        return new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        String rawOutput =
+            new String(baos.toByteArray(), StandardCharsets.UTF_8);
+        return rawOutput.replace("\r", "");
     }
 }

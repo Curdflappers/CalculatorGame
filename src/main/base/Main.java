@@ -119,7 +119,7 @@ public class Main {
 
     /**
      * Returns a string that represents the solution to the game. Each step is 
-     * separated by a lineEnd string.
+     * separated by a newline character.
      */
     private static String extractSolution(State state) {
         String solution = "";
@@ -132,7 +132,7 @@ public class Main {
                     element.getApplied()
                         ? Config.APPLY_PROMPT
                         : Config.UPDATE_PROMPT;
-                solution += element.getRule() + Config.lineEnd();
+                solution += element.getRule() + "\n";
             }
         }
 
