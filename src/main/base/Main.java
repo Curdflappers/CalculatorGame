@@ -121,7 +121,7 @@ public class Main {
      * Returns a string that represents the solution to the game. Each step is 
      * separated by a newline character.
      */
-    private static String extractSolution(State state) {
+    static String extractSolution(State state) {
         String solution = "";
 
         List<State> states = orderedStates(state);

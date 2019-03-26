@@ -22,8 +22,10 @@ Some files/subdirectories are skipped because they are self-explanatory or rarel
             * [`BaseTests.java`](../src/test/base/BaseTests.java): many many tests, from unit to end-to-end, covering the general functionality of the program
             * [`GameTests.java`](../src/test/base/GameTests.java): tests relating to the Game data structure, mainly portal validation and behavior
             * [`HelperTests.java`](../src/test/base/HelperTests.java): unit tests for the methods in `Helpers.java`
+            * [`LevelTests.java`](../src/test/base/HelperTests.java): tests for the ability to correctly solve levels
             * [`MainTests.java`](../src/test/base/MainTests.java): tests methods within `Main.java`
         * `rules`: tests for the rules package
+* `test-cases`: stores all test case files for the level-solver. File format found in the [testing document](./testing.md#writing-test-cases)
 * [`.classpath`](../.classpath): the classpath
 * [`.gitignore`](../.gitignore): self-explanatory
 * [`.project`](../.project): Metadata about the project

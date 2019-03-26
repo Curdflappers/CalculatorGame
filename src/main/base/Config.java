@@ -1,6 +1,8 @@
 package base;
 
 public class Config {
+  /** The path to the directory containing all test cases */
+  static String TESTCASES_PATH = "test-cases";
 
   /** Operator index. INVALID must remain < 0 */
   public static final int INVALID = -1, ADD = 0, SUBTRACT = 1, MULTIPLY = 2,
