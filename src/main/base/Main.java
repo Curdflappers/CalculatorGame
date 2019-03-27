@@ -75,7 +75,7 @@ public class Main {
 
     /**
      * Valid successors have no decimals, have different games than their
-     * predecessors, and have values of 8 digits or less
+     * predecessors, and have values of 6 digits or less
      * @param state
      * @return
      */
@@ -105,8 +105,8 @@ public class Main {
         boolean valid = true;
 
         valid &= successor.getValue() % 1 == 0; // no decimals
-        // max 8 digits
-        valid &= Math.abs(successor.getValue()) < Math.pow(10, 8);
+        // max 6 digits
+        valid &= Math.abs(successor.getValue()) < Math.pow(10, 6);
 
         // not redundant
         while (parent != null) {
