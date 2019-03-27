@@ -44,4 +44,12 @@ public class ConvertRule extends Rule {
         OP_STRING_1 = opString1;
         OP_STRING_2 = opString2;
     }
+
+    public String toString() {
+        String s = "";
+        s += OP_STRING_1;
+        s += Config.OPERATOR_STRINGS[Config.CONVERT];
+        s += OP_STRING_2;
+        return s;
+    }
 }
