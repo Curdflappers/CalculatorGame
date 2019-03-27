@@ -124,8 +124,8 @@ public class Game {
 
             // Take digits at left of portal and shift them one right
             int valueLeft = Helpers.digitsToTheLeft(value, leftPortalIndex);
-            value -= valueLeft * Math.pow(10, leftPortalIndex);
-            value += valueLeft * Math.pow(10, leftPortalIndex - 1);
+            value -= valueLeft * Math.pow(10, leftPortalIndex + 1);
+            value += valueLeft * Math.pow(10, leftPortalIndex);
         }
 
         setValue(negative ? -value : value);

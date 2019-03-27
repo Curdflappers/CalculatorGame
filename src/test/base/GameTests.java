@@ -94,4 +94,17 @@ public class GameTests {
 
         assertEquals(expected, actual, 0.001);
     }
+
+    @Test
+    void multipleDigitsFalling() {
+        int value = 30110;
+        int[] portals = {
+            3, 0
+        };
+        int expected = 113;
+
+        Game game = new Game(value, 0, 0, null, portals);
+
+        assertEquals(expected, game.getValue(), 0.001);
+    }
 }
