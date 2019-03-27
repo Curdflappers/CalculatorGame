@@ -44,3 +44,5 @@ Adding a test case file automatically means it will be tested: all files in that
 ### Developer Mode
 
 Running the program in developer mode allows the user to automatically write new test cases. Once a level is solved, the user is prompted to save the test case. If they choose to do so, they can then enter a filename. A file under the given name is then saved in the `/test-cases` directory with the ending `.cgl`. These test case files are automatically tested in [`/src/test/base/LevelTests.java`](/src/test/base/LevelTests.java).
+
+Developer Mode runs in an infinite loop: the program must be manually quit by some outside force (e.g. clicking the X, using Alt+F4). This choice was made to speed up the creation of test cases.
