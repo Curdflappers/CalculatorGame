@@ -1,0 +1,18 @@
+189
+500
+6
++8
+*4
+9
+Inv10
+7=>0
+
+y
+3
+0
+Apply 9
+Apply *4
+Apply +8
+Apply Inv10
+Apply +8
+Apply 7=>0

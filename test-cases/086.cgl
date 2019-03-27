@@ -1,0 +1,15 @@
+1
+2048
+6
+2
+*4
+*10
+Reverse
+
+n
+Apply 2
+Apply Reverse
+Apply *10
+Apply *4
+Apply 2
+Apply Reverse

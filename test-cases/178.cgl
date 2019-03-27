@@ -1,0 +1,15 @@
+0
+1
+6
++5
+*3
+/6
+Inv10
+Reverse
+
+n
+Apply +5
+Apply *3
+Apply Inv10
+Apply +5
+Apply Reverse

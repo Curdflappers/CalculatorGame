@@ -1,0 +1,14 @@
+12
+101
+4
+21=>0
+12=>1
+Store
+Mirror
+
+n
+Update Store
+Apply Mirror
+Apply Store
+Apply 12=>1
+Apply 21=>0

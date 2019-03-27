@@ -1,0 +1,16 @@
+2152
+13
+6
+25=>12
+21=>3
+12=>5
+Shift >
+Reverse
+
+n
+Apply Reverse
+Apply Shift >
+Apply 25=>12
+Apply 12=>5
+Apply 25=>12
+Apply 21=>3

@@ -1,0 +1,14 @@
+0
+-43
+5
+-5
++7
+-9
+Reverse
+
+n
+Apply -9
+Apply -5
+Apply Reverse
+Apply -9
+Apply +7

@@ -1,0 +1,14 @@
+12
+26
+4
+<<
+SUM
+Store
+Inv10
+
+n
+Apply Inv10
+Update Store
+Apply Store
+Apply <<
+Apply SUM

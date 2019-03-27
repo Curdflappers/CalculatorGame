@@ -1,0 +1,14 @@
+23
+1234
+4
+*2
+-5
+Store
+< Shift
+
+n
+Update Store
+Apply *2
+Apply -5
+Apply Store
+Apply < Shift

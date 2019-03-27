@@ -1,0 +1,14 @@
+0
+-25
+5
++4
+*3
+Reverse
++/-
+
+n
+Apply +4
+Apply *3
+Apply Reverse
+Apply +4
+Apply +/-

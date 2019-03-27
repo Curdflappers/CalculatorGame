@@ -1,0 +1,14 @@
+1025
+520
+5
+Shift >
+50=>0
+25=>525
+51=>5
+
+n
+Apply Shift >
+Apply 51=>5
+Apply Shift >
+Apply 25=>525
+Apply 50=>0

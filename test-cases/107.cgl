@@ -1,0 +1,15 @@
+2
+11
+5
+*2
+10
+SUM
+^3
+10=>1
+
+n
+Apply ^3
+Apply 10
+Apply 10
+Apply *2
+Apply SUM
