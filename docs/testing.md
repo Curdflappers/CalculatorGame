@@ -15,9 +15,9 @@ Testing is done with JUnit 5 and comprehensive unit tests and integration tests 
 
 There should be no unusual behavior in building or running the tests on any supported operating system.
 
-## Writing Test Cases
+## Test Cases
 
-Testcases for level-solving are stored in the `test-cases` directory. The files are named with a 3-digit code indicating their 1-based level index, followed by ".cgl" which stands for "Calculator Game Level".
+Test cases for level-solving are stored in the `test-cases` directory. The files are usually named with a 3-digit code indicating their 1-based level index and always have the filename extension `.cgl`, which stands for "Calculator Game Level".
 
 The files are of the following format:
 
@@ -40,3 +40,7 @@ The files are of the following format:
 ```
 
 Adding a test case file automatically means it will be tested: all files in that folder are treated as test case files, so don't add anything else to that folder.
+
+### Developer Mode
+
+Running the program in developer mode allows the user to automatically write new test cases. Once a level is solved, the user is prompted to save the test case. If they choose to do so, they can then enter a filename. A file under the given name is then saved in the `/test-cases` directory with the ending `.cgl`. These test case files are automatically tested in [`/src/test/base/LevelTests.java`](/src/test/base/LevelTests.java).
