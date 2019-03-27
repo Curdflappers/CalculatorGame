@@ -30,7 +30,7 @@ public class Developer {
         System.out.print("Save test case (y/n): ");
         String saveResponse = scanner.nextLine();
         if (saveResponse.length() == 0 || saveResponse.charAt(0) == 'y') {
-            System.out.print("Level index (3-digits): ");
+            System.out.print("Filename (\".cgl\" will be added): ");
             String filename =
                 Config.TESTCASES_PATH + "/" + scanner.nextLine() + ".cgl";
 
