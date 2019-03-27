@@ -1,0 +1,13 @@
+128
+64
+4
+*4
+/4
+SUM
+5=>16
+
+n
+Apply /4
+Apply SUM
+Apply 5=>16
+Apply *4

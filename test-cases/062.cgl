@@ -1,0 +1,13 @@
+0
+102
+4
+10
+*4
++5
+Reverse
+
+n
+Apply +5
+Apply *4
+Apply 10
+Apply Reverse

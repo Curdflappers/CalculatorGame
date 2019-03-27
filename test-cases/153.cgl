@@ -1,0 +1,17 @@
+70
+17
+6
+8=>1
+/2
+0
+Store
+SUM
+
+n
+Apply SUM
+Update Store
+Apply 0
+Apply /2
+Apply SUM
+Apply Store
+Apply 8=>1

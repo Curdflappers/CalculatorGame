@@ -6,6 +6,17 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Developer",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "externalTerminal",
+            "stopOnEntry": false,
+            "mainClass": "base.Developer",
+            "projectName": "calculator-game",
+            "args": ""
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -14,6 +25,6 @@
             "mainClass": "base.Main",
             "projectName": "calculator-game",
             "args": ""
-        },
+        }
     ]
 }

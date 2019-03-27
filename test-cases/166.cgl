@@ -1,0 +1,13 @@
+9
+18
+5
+*3
+SUM
+Inv10
+
+n
+Apply *3
+Apply Inv10
+Apply SUM
+Apply Inv10
+Apply SUM

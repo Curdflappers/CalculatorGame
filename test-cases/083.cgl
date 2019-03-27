@@ -1,0 +1,14 @@
+36
+500
+5
+*4
+/3
+1=>5
+Reverse
+
+n
+Apply Reverse
+Apply /3
+Apply 1=>5
+Apply *4
+Apply 1=>5

@@ -1,0 +1,17 @@
+0
+196
+8
+1
++12
+*13
+Reverse
+<<
+
+n
+Apply +12
+Apply <<
+Apply *13
+Apply *13
+Apply 1
+Apply Reverse
+Apply <<

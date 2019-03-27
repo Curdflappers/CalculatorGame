@@ -1,0 +1,14 @@
+8
+30
+5
+2
+-4
+2=>3
+Reverse
+
+n
+Apply -4
+Apply 2
+Apply Reverse
+Apply 2=>3
+Apply -4

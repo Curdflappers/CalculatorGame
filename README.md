@@ -5,7 +5,7 @@ It runs through the terminal. The solver prompts for input about a particular le
 
 This document covers the rules of Calculator: The Game and how to use the program. For installation instructions, see the [further documentation](./docs/index.md). If you have any issues with the program (installation or otherwise), feel free to open an issue on the repository.
 
-## Usage
+## The Main Program
 
 Pass in the details of the level through the terminal, and the solution will be printed to standard output.
 
@@ -210,6 +210,10 @@ Y
 ```
 
 The program exits when user input after the `Solve again` prompt is not `'y'`.
+
+## Developer Mode
+
+Running the developer mode allows for test cases to be written automatically via a test factory while using the program as normal. For more information, see [Testing: Test Cases](./docs/testing.md#test-cases)
 
 ## Roadmap
 

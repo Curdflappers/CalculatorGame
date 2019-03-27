@@ -1,0 +1,15 @@
+125
+12525
+5
+1
+/5
+Reverse
+Store
+
+n
+Apply /5
+Update Store
+Apply Store
+Apply Reverse
+Apply 1
+Apply Reverse
