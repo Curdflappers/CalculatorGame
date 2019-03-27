@@ -535,7 +535,7 @@ public class BaseTests {
         int[] portals
     ) {
 
-        String input = repeated ? Config.CONTINUE : "";
+        String input = repeated ? Config.CONTINUE + "\n" : "";
         input +=
             value
                 + "\n"

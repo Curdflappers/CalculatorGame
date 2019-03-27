@@ -47,7 +47,7 @@ public class Main {
 
     private static void promptAgain(Scanner scanner) {
         System.out.print(Config.AGAIN_PROMPT);
-        String answer = scanner.next();
+        String answer = scanner.nextLine();
         again = answer.charAt(0) == 'y';
     }
 
