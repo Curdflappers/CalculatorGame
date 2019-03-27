@@ -231,8 +231,12 @@ public class Main {
             portals = new int[2];
             System.out.print(Config.LEFT_PORTAL_PROMPT);
             portals[0] = scanner.nextInt();
+            scanner.nextLine();
             System.out.print(Config.RIGHT_PORTAL_PROMPT);
             portals[1] = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            portals = null;
         }
     }
 
