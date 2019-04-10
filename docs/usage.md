@@ -5,10 +5,19 @@ This covers how to install and run the program, but not how to develop it.
 ## Installation
 
 1. Clone the repository
-1. Open the folder with Visual Studio Code
-1. Make sure you have the Java Extension Pack installed
+1. Open the repository directory using Visual Studio Code. Make sure the Java Extension Pack enabled
+1. Wait a bit for the project to get set up. After a few seconds, there should be feedback on the blue status bar at the bottom of the window, near the lower left. It should be something along the lines of "Refreshing Maven model", "XX% Starting Java Language Server", "Building workspace". Wait for this feedback to clear.
+1. Discard the changes to `.classpath` by running `git reset --hard`. I am unsure why these changes occur, but it is likely related to [issue #859](https://github.com/redhat-developer/vscode-java/issues/859)
 
 That's it! Everything should work once the project is fully loaded.
+
+### Linux
+
+No special instructions
+
+### Windows
+
+No special instructions
 
 ## Running in Linux
 
