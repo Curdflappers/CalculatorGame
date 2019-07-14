@@ -63,7 +63,7 @@ public class Main {
                 return null;
             }
             for (State successor : stack.pop().getSuccessors()) {
-                if (successor.getValue() == successor.getGoal()) { // TODO if state.isWon()
+                if (successor.getGame().isWon()) {
                     return successor;
                 }
                 stack.push(successor);

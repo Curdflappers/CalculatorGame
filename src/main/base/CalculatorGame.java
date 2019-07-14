@@ -271,4 +271,8 @@ public class CalculatorGame {
 
         return str;
     }
+
+    public boolean isWon() {
+        return value == goal;
+    }
 }

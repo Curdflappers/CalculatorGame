@@ -2,8 +2,6 @@ package base;
 
 import java.util.List;
 
-import rules.Rule;
-
 /**
  * A wrapper class for implementations of the Game interface. Used for solving
  * games, it tracks parent states and transition descriptions (how this state
@@ -52,22 +50,6 @@ public class State {
 
     public String getTransitionString() {
         return transitionString;
-    }
-
-    public double getValue() { // TODO remove
-        return game.getValue();
-    }
-
-    public int getGoal() { // TODO remove
-        return game.getGoal();
-    }
-
-    public int getMovesLeft() { // TODO remove
-        return game.getMovesLeft();
-    }
-
-    public Rule[] getRules() { // TODO remove
-        return game.getRules();
     }
 
     /**
