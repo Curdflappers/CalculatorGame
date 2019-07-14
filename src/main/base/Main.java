@@ -2,7 +2,6 @@ package base;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,9 +24,9 @@ public class Main {
         do {
             getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            State endState = Solver.solve(calculatorGame);
-            String solution = extractSolution(endState);
-            System.out.print(solution);
+            List<State> solutionStates = CGSolver.solve(calculatorGame);
+            String solutionString = State.allTransitions(solutionStates);
+            System.out.print(solutionString);
             promptAgain(scanner);
             args = new String[0]; // can't use the same args again
         } while (again);
@@ -48,74 +47,6 @@ public class Main {
         System.out.print(Config.AGAIN_PROMPT);
         String answer = scanner.nextLine();
         again = answer.charAt(0) == 'y';
-    }
-
-    /**
-     * Returns a string that represents the solution to the game. Each step is
-     * separated by a newline character.
-     */
-    static String extractSolution(State endState) {
-        String solution = "";
-
-        List<State> states = orderedStates(endState);
-        cleanUp(states);
-        for (State state : states) {
-            if (state.getParent() != null) {
-                solution += state.getTransitionString() + "\n";
-            }
-        }
-
-        return solution;
-    }
-
-    /**
-     * Removes extra "Update Store"s that clutter the solution
-     * @param states The ordered list of states to clean up
-     */
-    public static void cleanUp(List<State> states) {
-        boolean foundOne = false;
-        int foundIndex = -1;
-
-        // skip first state, it has a null rule
-        for (int i = 1; i < states.size(); i++) {
-            State state = states.get(i);
-            // TODO oh so gross
-            if (state.getTransitionString().endsWith(Config.ruleString(
-                Config.STORE
-            ))) {
-                if (state.getTransitionString().startsWith(
-                    Config.APPLY_PROMPT
-                )) {
-                    foundOne = false;
-                } else if (foundOne) { // already found one, this is second
-                    states.remove(foundIndex);
-                    i--;
-                    foundIndex = i;
-                } else { // haven't found one yet, don't remove this one yet
-                    foundOne = true;
-                    foundIndex = i;
-                }
-            }
-        }
-
-        // Remove potential trailing "Update Store"s
-        if (foundOne) states.remove(foundIndex);
-    }
-
-    /**
-     * Returns a list of states, with the earliest at the front, the latest at
-     * the end.
-     *
-     * @param state
-     * @return
-     */
-    private static List<State> orderedStates(State state) {
-        List<State> states = new LinkedList<>();
-        while (state != null) {
-            states.add(0, state); // add more recent to beginning of list
-            state = state.getParent();
-        }
-        return states;
     }
 
     public static CalculatorGame getCalculatorGame() {

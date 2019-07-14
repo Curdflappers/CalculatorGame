@@ -3,6 +3,7 @@ package base;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
 
 public class Developer {
@@ -11,10 +12,14 @@ public class Developer {
         do {
             Main.getInput(new String[] {}, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            State endState = Solver.solve(Main.getCalculatorGame());
-            String solution = Main.extractSolution(endState);
-            System.out.print(solution);
-            promptSaveTestCase(scanner, Main.getCalculatorGame(), solution);
+            List<State> solution = CGSolver.solve(Main.getCalculatorGame());
+            String solutionString = State.allTransitions(solution);
+            System.out.print(solutionString);
+            promptSaveTestCase(
+                scanner,
+                Main.getCalculatorGame(),
+                solutionString
+            );
         } while (true);
     }
 

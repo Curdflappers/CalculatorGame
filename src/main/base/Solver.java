@@ -2,12 +2,17 @@ package base;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
-public class Solver {
+public interface Solver {
     /**
-     * Run a DFS and return the State that contains the end game.
+     * Run a DFS and return the ordered states the represent the solution to the
+     * game
+     * @param game The game to solve
+     * @return a list of States, first being the root, last being the solved
+     * game
      */
-    static State solve(Game game) {
+    public static List<State> solve(Game game) {
         Deque<State> stack = new ArrayDeque<>();
         stack.addFirst(game.rootState());
 
@@ -17,7 +22,7 @@ public class Solver {
             }
             for (State successor : stack.removeFirst().getSuccessors()) {
                 if (successor.getGame().isWon()) {
-                    return successor;
+                    return State.orderedStates(successor);
                 }
                 stack.addFirst(successor);
             }

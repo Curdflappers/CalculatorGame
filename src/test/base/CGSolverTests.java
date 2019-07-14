@@ -4,9 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import base.CalculatorGame;
-import base.Main;
-import base.State;
 import rules.Rule;
 import rules.StoreRule;
 
@@ -14,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 
-public class MainTests {
+public class CGSolverTests {
     @Test
     void testCleanUp() {
         boolean[] appliedArray = { false, false, true, true, false };
@@ -22,7 +19,7 @@ public class MainTests {
         List<State> list = new ArrayList<State>();
         list.add(new State(new CalculatorGame(
             0, // must be 0, always pad 0s => no limit, always valid
-            1, // must not be 0 => game never is over
+            1, // must not be 0 => game is never over
             appliedArray.length,
             new Rule[] {
                 storeRule
@@ -49,7 +46,7 @@ public class MainTests {
             list.add(successorState);
         }
 
-        Main.cleanUp(list);
+        CGSolver.cleanUp(list);
 
         assertEquals(4, list.size());
     }

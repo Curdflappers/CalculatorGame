@@ -89,8 +89,8 @@ public class LevelTests {
                 continue;
             }
 
-            State solutionState = Solver.solve(game);
-            String solutionString = Main.extractSolution(solutionState);
+            List<State> solutionStates = CGSolver.solve(game);
+            String solutionString = State.allTransitions(solutionStates);
 
             if (!solutionString.equals(expectedSolutionString)) {
                 failed = true;
