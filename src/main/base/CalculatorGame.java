@@ -38,6 +38,7 @@ public class CalculatorGame {
      * @param goal The end state
      * @param moves The number of moves to be used
      * @param rules The rules that can be used
+     * @param portals The portals of this game
      */
     // TODO make impossible to instantiate invalid game
     public CalculatorGame(
