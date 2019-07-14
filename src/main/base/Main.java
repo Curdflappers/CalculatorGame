@@ -12,8 +12,6 @@ import rules.Rule;
 /**
  * Runs the Calculator Game solver
  *
- * @author mwwie
- *
  */
 public class Main {
     private static int value = 0, goal = 0, moves = 0;
