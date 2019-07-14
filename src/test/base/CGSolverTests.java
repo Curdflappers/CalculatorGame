@@ -2,6 +2,8 @@ package base;
 
 import org.junit.jupiter.api.Test;
 
+import game.State;
+
 import java.util.List;
 
 import rules.Rule;

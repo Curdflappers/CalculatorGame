@@ -2,6 +2,9 @@ package base;
 
 import java.util.List;
 
+import game.Solver;
+import game.State;
+
 public class CGSolver {
     /**
      * Solves the game and returns the terminal state

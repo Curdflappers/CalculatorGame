@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
+import game.State;
 import rules.Rule;
 
 public class LevelTests {

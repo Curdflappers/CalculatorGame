@@ -1,4 +1,4 @@
-package base;
+package game;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

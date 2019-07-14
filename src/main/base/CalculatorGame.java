@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import game.Game;
+import game.State;
 import rules.Rule;
 
 public class CalculatorGame implements Game {

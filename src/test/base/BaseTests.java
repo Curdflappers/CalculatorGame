@@ -18,6 +18,8 @@ import rules.Rule;
 
 import org.junit.jupiter.api.Test;
 
+import game.State;
+
 public class BaseTests {
     Rule[] rules, solution;
     boolean[] apply;

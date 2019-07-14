@@ -1,4 +1,4 @@
-package base;
+package game;
 
 import java.util.LinkedList;
 import java.util.List;
