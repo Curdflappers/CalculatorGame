@@ -242,6 +242,7 @@ public abstract class Rule {
      * @return The updated game
      */
     // TODO should return null if potential successor would be invalid
+    // TODO remove this method, replace with apply MetaStore rule
     public CalculatorGame update(CalculatorGame game) {
         return game;
     }

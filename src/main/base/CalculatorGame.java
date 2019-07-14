@@ -8,7 +8,7 @@ import rules.Rule;
 
 public class CalculatorGame {
     /** The current number for this game */
-    private double value;
+    private double value; // TODO change to int
 
     /** The goal number for this game */
     private int goal;
@@ -39,6 +39,7 @@ public class CalculatorGame {
      * @param moves The number of moves to be used
      * @param rules The rules that can be used
      */
+    // TODO make impossible to instantiate invalid game
     public CalculatorGame(
         double value,
         int goal,
@@ -87,7 +88,7 @@ public class CalculatorGame {
     }
 
     /** The valid rules for this game */
-    public Rule[] getValidRules() {
+    public Rule[] getValidRules() { // TODO rename getRules()
         return Arrays.copyOf(validRules, validRules.length);
     }
 
