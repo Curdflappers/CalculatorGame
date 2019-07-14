@@ -11,10 +11,10 @@ public class Developer {
         do {
             Main.getInput(new String[] {}, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            State endState = Main.solveGame(Main.getGame());
+            State endState = Main.solveGame(Main.getCalculatorGame());
             String solution = Main.extractSolution(endState);
             System.out.print(solution);
-            promptSaveTestCase(scanner, Main.getGame(), solution);
+            promptSaveTestCase(scanner, Main.getCalculatorGame(), solution);
         } while (true);
     }
 

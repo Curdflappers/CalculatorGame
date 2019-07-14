@@ -18,7 +18,7 @@ public class Main {
     private static Rule[] rules = new Rule[0];
     private static boolean portalsPresent = false;
     private static int[] portals = null;
-    private static CalculatorGame game;
+    private static CalculatorGame calculatorGame;
     private static boolean again;
 
     public static void main(String[] args) {
@@ -26,7 +26,7 @@ public class Main {
         do {
             getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            State endState = solveGame(game);
+            State endState = solveGame(calculatorGame);
             String solution = extractSolution(endState);
             System.out.print(solution);
             promptAgain(scanner);
@@ -42,7 +42,7 @@ public class Main {
             parseInput(args);
         }
 
-        game = new CalculatorGame(value, goal, moves, rules, portals);
+        calculatorGame = new CalculatorGame(value, goal, moves, rules, portals);
     }
 
     private static void promptAgain(Scanner scanner) {
@@ -54,7 +54,7 @@ public class Main {
     /**
      * Run a DFS and return the State that contains the end game.
      */
-    static State solveGame(CalculatorGame game) { // TODO abstract
+    static State solveGame(Game game) {
         Stack<State> stack = new Stack<>();
         stack.push(game.rootState());
 
@@ -139,8 +139,8 @@ public class Main {
         return states;
     }
 
-    public static CalculatorGame getGame() { // TODO abstract
-        return game;
+    public static CalculatorGame getCalculatorGame() {
+        return calculatorGame;
     }
 
     public static int getValue() {

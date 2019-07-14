@@ -204,12 +204,12 @@ public class BaseTests {
         // Creates game as user input
         Scanner scanner = new Scanner(in);
         Main.getInput(new String[0], scanner); // with no vm args
-        assertEquals(expectedGame, Main.getGame());
+        assertEquals(expectedGame, Main.getCalculatorGame());
 
         // Creates game as VM args
         System.setIn(inStream(Config.QUIT));
         Main.main(inputStrings(value, goal, moves, ruleStrings, portals));
-        assertEquals(expectedGame, Main.getGame());
+        assertEquals(expectedGame, Main.getCalculatorGame());
 
         System.setIn(consoleIn);
     }

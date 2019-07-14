@@ -6,7 +6,7 @@ import java.util.List;
 
 import rules.Rule;
 
-public class CalculatorGame {
+public class CalculatorGame implements Game {
     /** The current number for this game */
     private double value; // TODO change to int
 
@@ -78,14 +78,6 @@ public class CalculatorGame {
 
     public boolean isValidRule(Rule rule) {
         return Arrays.asList(validRules).contains(rule);
-    }
-
-    /**
-     * Creates a root state representing this game
-     * @return a state with no parents whose game is this
-     */
-    public State rootState() {
-        return new State(this);
     }
 
     /** The valid rules for this game */
@@ -274,5 +266,11 @@ public class CalculatorGame {
 
     public boolean isWon() {
         return value == goal;
+    }
+
+    @Override
+    public boolean roughlyEquals(Game other) {
+        return other instanceof CalculatorGame
+            && equalsExceptMoves((CalculatorGame)other);
     }
 }

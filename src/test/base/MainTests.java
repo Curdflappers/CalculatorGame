@@ -33,7 +33,7 @@ public class MainTests {
         // Construct list of states
         for (boolean applied : appliedArray) {
             State last = list.get(list.size() - 1);
-            CalculatorGame lastGame = last.getGame();
+            CalculatorGame lastGame = (CalculatorGame) last.getGame();
             CalculatorGame successorGame = null;
             if (applied) successorGame = storeRule.apply(lastGame);
             else successorGame = storeRule.update(lastGame);

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class State {
     /** The game information for this state */
-    private final CalculatorGame game; // TODO make abstract
+    private final Game game;
     /** The parent state to which <code>rule</code> was used */
     private final State parent;
     /** Describes the transition from parent to this. Null if no parent */
@@ -19,7 +19,7 @@ public class State {
      * Creates a new State with the given <code>game</code>, <code>rule</code>
      * and <code>parent</code> are <code>null</code>.
      */
-    public State(CalculatorGame game) { // TODO abstract
+    public State(Game game) {
         this.game = game;
         this.parent = null;
         this.transitionString = null;
@@ -34,13 +34,13 @@ public class State {
      * rule to the given state, false if this state is the result of updating
      * the given rule
      */
-    public State(CalculatorGame game, State parent, String transitionString) {
+    public State(Game game, State parent, String transitionString) {
         this.game = game;
         this.parent = parent;
         this.transitionString = transitionString;
     }
 
-    public CalculatorGame getGame() {
+    public Game getGame() {
         return game;
     }
 
@@ -60,11 +60,10 @@ public class State {
      * @param successorGame the game to test
      * @return Whether successorGame is redundant
      */
-    // TODO abstract
-    public boolean redundant(CalculatorGame successorGame) {
+    public boolean redundant(Game successorGame) {
         State ancestor = this;
         while (ancestor != null) {
-            if(successorGame.equalsExceptMoves(ancestor.getGame())) {
+            if(successorGame.roughlyEquals(ancestor.getGame())) {
                 return true;
             }
             ancestor = ancestor.getParent();
