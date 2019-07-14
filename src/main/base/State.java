@@ -32,7 +32,7 @@ public class State {
      * updating the given rule
      * @param parent
      * @param rule
-     * @param applied True if this state is the result of applying the given 
+     * @param applied True if this state is the result of applying the given
      * rule to the given state, false if this state is the result of updating
      * the given rule
      */
@@ -77,5 +77,25 @@ public class State {
 
     public boolean getApplied() { // TODO remove
         return applied;
+    }
+
+    /**
+     * Determines whether the given game is redundant in the ancestor chain of
+     * this. The given game is redundant if it is roughly equivalent to the game
+     * of this or any of its ancestors. The definition of roughly equivalent
+     * varies based on the type of game.
+     * @param successorGame the game to test
+     * @return Whether successorGame is redundant
+     */
+    // TODO abstract
+    public boolean redundant(CalculatorGame successorGame) {
+        State ancestor = this;
+        while (ancestor != null) {
+            if(successorGame.equalsExceptMoves(ancestor.getGame())) {
+                return true;
+            }
+            ancestor = ancestor.getParent();
+        }
+        return false;
     }
 }

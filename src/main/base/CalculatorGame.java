@@ -1,6 +1,8 @@
 package base;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import rules.Rule;
 
@@ -76,7 +78,11 @@ public class CalculatorGame {
         return Arrays.asList(validRules).contains(rule);
     }
 
-    public State getState() {
+    /**
+     * Creates a root state representing this game
+     * @return a state with no parents whose game is this
+     */
+    public State rootState() {
         return new State(this);
     }
 
@@ -164,6 +170,64 @@ public class CalculatorGame {
 
     public boolean hasPortals() {
         return portals != null;
+    }
+
+    /**
+     * Get the successors of this.
+     *
+     * PRECONDITION: parent == null OR parent.getGame().equals(this)
+     * @param parent null means no parent, otherwise a state whose game is equal
+     * to this.
+     * @return a list of states with a parent whose game is this. Each game is a
+     * successor of this, either by applying a rule or updating a rule. If this
+     * game is won, returns an empty list.
+     */
+    public List<State> getSuccessors(State parent) {
+        List<State> successors = new ArrayList<>();
+        if (parent == null) parent = rootState();
+        addSuccessors(parent, successors, true);
+        addSuccessors(parent, successors, false);
+        return successors;
+    }
+
+    private void addSuccessors(
+        State parent,
+        List<State> successors,
+        boolean applied
+    ) {
+        for (Rule rule : getValidRules()) {
+            CalculatorGame successorGame = getSuccessor(rule, applied);
+            if (successorGame == null) continue;
+            if (!parent.redundant(successorGame)) {
+                State successorState = new State(parent, rule, applied);
+                successors.add(successorState);
+            }
+        }
+    }
+
+    /**
+     * Generates a successor game
+     * @param rule
+     * @param applied
+     * @return null if the successor would be invalid, otherwise the successor
+     */
+    private CalculatorGame getSuccessor(Rule rule, boolean applied) {
+        if (movesLeft == 0) return null;
+        CalculatorGame potentialSuccessor = null;
+        if (applied) {
+            potentialSuccessor = rule.apply(this);
+        } else {
+            potentialSuccessor = rule.update(this);
+        }
+        if (isValid(potentialSuccessor)) return potentialSuccessor;
+        else return null;
+    }
+
+    private boolean isValid(CalculatorGame game) {
+        boolean valid = true;
+        valid &= game.getValue() % 1 == 0; // no decimals
+        valid &= Math.abs(game.getValue()) < Math.pow(10, 6); // max 6 digits
+        return valid;
     }
 
     public String toString() {

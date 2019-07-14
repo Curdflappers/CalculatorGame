@@ -56,13 +56,14 @@ public class Main {
      */
     static State solveGame(CalculatorGame game) { // TODO abstract
         Stack<State> stack = new Stack<>();
-        stack.push(game.getState());
+        stack.push(game.rootState());
 
         while (true) {
             if (stack.isEmpty()) {
                 return null;
             }
-            for (State successor : successors(stack.pop())) {
+            State state = stack.pop();
+            for (State successor : state.getGame().getSuccessors(state)) { // TODO directly call game successors
                 if (successor.getValue() == successor.getGoal()) { // TODO if state.isWon()
                     return successor;
                 }
@@ -72,51 +73,7 @@ public class Main {
     }
 
     /**
-     * Valid successors have no decimals, have different games than their
-     * predecessors, and have values of 6 digits or less
-     * @param state
-     * @return
-     */
-    private static List<State> successors(State state) {
-        List<State> successors = new ArrayList<>();
-        addSuccessors(state, successors, true);
-        addSuccessors(state, successors, false);
-        return successors;
-    }
-
-    private static void addSuccessors(
-        State state,
-        List<State> successors,
-        boolean apply
-    ) {
-        if (state.getMovesLeft() > 0) {
-            for (Rule rule : state.getRules()) {
-                State successor = new State(state, rule, apply);
-                if (isValidSuccessor(successor, state)) {
-                    successors.add(successor);
-                }
-            }
-        }
-    }
-
-    private static boolean isValidSuccessor(State successor, State parent) {
-        boolean valid = true;
-
-        valid &= successor.getValue() % 1 == 0; // no decimals
-        // max 6 digits
-        valid &= Math.abs(successor.getValue()) < Math.pow(10, 6);
-
-        // not redundant
-        while (parent != null) {
-            valid &= !successor.getGame().equalsExceptMoves(parent.getGame());
-            parent = parent.getParent();
-        }
-
-        return valid;
-    }
-
-    /**
-     * Returns a string that represents the solution to the game. Each step is 
+     * Returns a string that represents the solution to the game. Each step is
      * separated by a newline character.
      */
     static String extractSolution(State state) {
