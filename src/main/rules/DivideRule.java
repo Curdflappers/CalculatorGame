@@ -9,7 +9,7 @@ public class DivideRule extends Rule {
             game.getValue() / getOperand1(),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }

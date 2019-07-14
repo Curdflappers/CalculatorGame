@@ -67,7 +67,7 @@ public class State {
     }
 
     public Rule[] getRules() { // TODO remove
-        return game.getValidRules();
+        return game.getRules();
     }
 
     /**

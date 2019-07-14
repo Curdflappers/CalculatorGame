@@ -9,7 +9,7 @@ import base.CalculatorGame;
  */
 public class MetaAddRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
-        Rule[] oldRules = game.getValidRules();
+        Rule[] oldRules = game.getRules();
         Rule[] newRules = new Rule[oldRules.length];
         int newOperand1, newOperand2;
         for (int i = 0; i < newRules.length; i++) {

@@ -21,7 +21,7 @@ public class StoreRule extends Rule {
 
         // Replace this with initialized version and update successor game
         StoreRule newRule = new StoreRule((int) game.getValue());
-        Rule[] newValidRules = game.getValidRules();
+        Rule[] newValidRules = game.getRules();
         int index = Arrays.asList(newValidRules).indexOf(this);
         newValidRules[index] = newRule;
         return new CalculatorGame(
@@ -44,7 +44,7 @@ public class StoreRule extends Rule {
             Double.parseDouble(valString),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }

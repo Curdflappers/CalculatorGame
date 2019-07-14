@@ -24,7 +24,7 @@ public class InverseTenRule extends Rule {
             newValue,
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }

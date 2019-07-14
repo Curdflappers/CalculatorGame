@@ -9,7 +9,7 @@ public class PowerRule extends Rule {
             Math.pow(game.getValue(), getOperand1()),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }

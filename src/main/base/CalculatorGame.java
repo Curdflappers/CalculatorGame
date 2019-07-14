@@ -89,7 +89,7 @@ public class CalculatorGame {
     }
 
     /** The valid rules for this game */
-    public Rule[] getValidRules() { // TODO rename getRules()
+    public Rule[] getRules() { // TODO rename getRules()
         return Arrays.copyOf(validRules, validRules.length);
     }
 
@@ -145,7 +145,7 @@ public class CalculatorGame {
             return otherGame.getValue() == getValue()
                 && otherGame.getGoal() == getGoal()
                 && otherGame.getMovesLeft() == getMovesLeft()
-                && Arrays.equals(otherGame.getValidRules(), getValidRules())
+                && Arrays.equals(otherGame.getRules(), getRules())
                 && Arrays.equals(otherGame.getPortals(), getPortals());
         } else
             return false;
@@ -164,7 +164,7 @@ public class CalculatorGame {
                 other.getValue(),
                 other.getGoal(),
                 getMovesLeft(),
-                other.getValidRules(),
+                other.getRules(),
                 other.getPortals()
             );
         return equals(newOther);
@@ -197,7 +197,7 @@ public class CalculatorGame {
         List<State> successors,
         boolean applied
     ) {
-        for (Rule rule : getValidRules()) {
+        for (Rule rule : getRules()) {
             CalculatorGame successorGame = getSuccessor(rule, applied);
             if (successorGame == null) continue;
             String transitionString = CalculatorGame.transitionString(

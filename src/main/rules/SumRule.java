@@ -15,7 +15,7 @@ public class SumRule extends Rule {
             sum,
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }
