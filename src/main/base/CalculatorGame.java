@@ -174,20 +174,20 @@ public class CalculatorGame {
     }
 
     /**
-     * Get the successors of this.
+     * Get the successors of this as a list of States.
      *
      * PRECONDITION: parent == null OR parent.getGame().equals(this)
-     * @param parent null means no parent, otherwise a state whose game is equal
-     * to this.
+     * @param predecessor null means no parent, otherwise a state whose game is
+     * equal to this.
      * @return a list of states with a parent whose game is this. Each game is a
      * successor of this, either by applying a rule or updating a rule. If this
      * game is won, returns an empty list.
      */
-    public List<State> getSuccessors(State parent) {
+    public List<State> getSuccessors(State predecessor) {
         List<State> successors = new ArrayList<>();
-        if (parent == null) parent = rootState();
-        addSuccessors(parent, successors, true);
-        addSuccessors(parent, successors, false);
+        if (predecessor == null) predecessor = rootState();
+        addSuccessors(predecessor, successors, true);
+        addSuccessors(predecessor, successors, false);
         return successors;
     }
 
