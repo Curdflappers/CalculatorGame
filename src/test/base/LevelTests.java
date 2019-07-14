@@ -89,7 +89,7 @@ public class LevelTests {
                 continue;
             }
 
-            State solutionState = Main.solveGame(game);
+            State solutionState = Solver.solve(game);
             String solutionString = Main.extractSolution(solutionState);
 
             if (!solutionString.equals(expectedSolutionString)) {

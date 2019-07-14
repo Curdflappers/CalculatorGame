@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
 
 import rules.Rule;
 
@@ -26,7 +25,7 @@ public class Main {
         do {
             getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            State endState = solveGame(calculatorGame);
+            State endState = Solver.solve(calculatorGame);
             String solution = extractSolution(endState);
             System.out.print(solution);
             promptAgain(scanner);
@@ -49,26 +48,6 @@ public class Main {
         System.out.print(Config.AGAIN_PROMPT);
         String answer = scanner.nextLine();
         again = answer.charAt(0) == 'y';
-    }
-
-    /**
-     * Run a DFS and return the State that contains the end game.
-     */
-    static State solveGame(Game game) {
-        Stack<State> stack = new Stack<>();
-        stack.push(game.rootState());
-
-        while (true) {
-            if (stack.isEmpty()) {
-                return null;
-            }
-            for (State successor : stack.pop().getSuccessors()) {
-                if (successor.getGame().isWon()) {
-                    return successor;
-                }
-                stack.push(successor);
-            }
-        }
     }
 
     /**
