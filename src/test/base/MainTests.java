@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import base.Config;
 import base.CalculatorGame;
 import base.Main;
 import base.State;
@@ -18,15 +17,37 @@ import java.util.ArrayList;
 public class MainTests {
     @Test
     void testCleanUp() {
+        boolean[] appliedArray = { false, false, true, true, false };
+        Rule storeRule = new StoreRule(0);
         List<State> list = new ArrayList<State>();
-        list.add(new State(new CalculatorGame(0, 0, 0, new Rule[] {
-            Rule.makeRule(Config.STORE)
-        }, null)));
-        list.add(new State(list.get(0), Rule.makeRule(Config.STORE), false));
-        list.add(new State(list.get(1), new StoreRule(0), false)); // deleted
-        list.add(new State(list.get(2), Rule.makeRule(Config.STORE), true));
-        list.add(new State(list.get(3), Rule.makeRule(Config.STORE), true));
-        list.add(new State(list.get(4), new StoreRule(0), false)); // deleted
+        list.add(new State(new CalculatorGame(
+            0, // must be 0, always pad 0s => no limit, always valid
+            1, // must not be 0 => game never is over
+            appliedArray.length,
+            new Rule[] {
+                storeRule
+            },
+            null
+        )));
+
+        // Construct list of states
+        for (boolean applied : appliedArray) {
+            State last = list.get(list.size() - 1);
+            CalculatorGame lastGame = last.getGame();
+            CalculatorGame successorGame = null;
+            if (applied) successorGame = storeRule.apply(lastGame);
+            else successorGame = storeRule.update(lastGame);
+            String transitionString = CalculatorGame.transitionString(
+                storeRule,
+                applied
+            );
+            State successorState = new State(
+                successorGame,
+                last,
+                transitionString
+            );
+            list.add(successorState);
+        }
 
         Main.cleanUp(list);
 

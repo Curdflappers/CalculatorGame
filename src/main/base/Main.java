@@ -62,8 +62,7 @@ public class Main {
             if (stack.isEmpty()) {
                 return null;
             }
-            State state = stack.pop();
-            for (State successor : state.getGame().getSuccessors(state)) { // TODO directly call game successors
+            for (State successor : stack.pop().getSuccessors()) {
                 if (successor.getValue() == successor.getGoal()) { // TODO if state.isWon()
                     return successor;
                 }
@@ -76,18 +75,14 @@ public class Main {
      * Returns a string that represents the solution to the game. Each step is
      * separated by a newline character.
      */
-    static String extractSolution(State state) {
+    static String extractSolution(State endState) {
         String solution = "";
 
-        List<State> states = orderedStates(state);
+        List<State> states = orderedStates(endState);
         cleanUp(states);
-        for (State element : states) {
-            if (element.getRule() != null) {
-                solution +=
-                    element.getApplied()
-                        ? Config.APPLY_PROMPT
-                        : Config.UPDATE_PROMPT;
-                solution += element.getRule() + "\n";
+        for (State state : states) {
+            if (state.getParent() != null) {
+                solution += state.getTransitionString() + "\n";
             }
         }
 
@@ -105,8 +100,13 @@ public class Main {
         // skip first state, it has a null rule
         for (int i = 1; i < states.size(); i++) {
             State state = states.get(i);
-            if (state.getRule().getOperator() == Config.STORE) {
-                if (state.getApplied()) {
+            // TODO oh so gross
+            if (state.getTransitionString().endsWith(Config.ruleString(
+                Config.STORE
+            ))) {
+                if (state.getTransitionString().startsWith(
+                    Config.APPLY_PROMPT
+                )) {
                     foundOne = false;
                 } else if (foundOne) { // already found one, this is second
                     states.remove(foundIndex);

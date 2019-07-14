@@ -200,10 +200,16 @@ public class CalculatorGame {
         for (Rule rule : getValidRules()) {
             CalculatorGame successorGame = getSuccessor(rule, applied);
             if (successorGame == null) continue;
-            if (!parent.redundant(successorGame)) {
-                State successorState = new State(parent, rule, applied);
-                successors.add(successorState);
-            }
+            String transitionString = CalculatorGame.transitionString(
+                rule,
+                applied
+            );
+            State successorState = new State(
+                successorGame,
+                parent,
+                transitionString
+            );
+            successors.add(successorState);
         }
     }
 
@@ -230,6 +236,20 @@ public class CalculatorGame {
         valid &= game.getValue() % 1 == 0; // no decimals
         valid &= Math.abs(game.getValue()) < Math.pow(10, 6); // max 6 digits
         return valid;
+    }
+
+    /**
+     * Generates a string describing the transition from this to a successor
+     * @param rule the rule of interest
+     * @param applied true to apply the rule, false to update the rule
+     * @return the string representing the use of the rule
+     */
+    public static String transitionString(Rule rule, boolean applied) {
+        String s = "";
+        s += applied ? Config.APPLY_PROMPT : Config.UPDATE_PROMPT;
+        // space included in prompt
+        s += rule;
+        return s;
     }
 
     public String toString() {

@@ -1,5 +1,7 @@
 package base;
 
+import java.util.List;
+
 import rules.Rule;
 
 /**
@@ -9,13 +11,11 @@ import rules.Rule;
  */
 public class State {
     /** The game information for this state */
-    private CalculatorGame game; // TODO make abstract
-    /** The rule that was used on <code>parent</code> to get to this state */
-    private Rule rule; // TODO change to string that is transition description
+    private final CalculatorGame game; // TODO make abstract
     /** The parent state to which <code>rule</code> was used */
-    private State parent;
-    /** Whether the rule was applied or updated (true iff applied) */
-    private boolean applied;
+    private final State parent;
+    /** Describes the transition from parent to this. Null if no parent */
+    private final String transitionString;
 
     /**
      * Creates a new State with the given <code>game</code>, <code>rule</code>
@@ -23,8 +23,8 @@ public class State {
      */
     public State(CalculatorGame game) { // TODO abstract
         this.game = game;
-        this.rule = null;
         this.parent = null;
+        this.transitionString = null;
     }
 
     /**
@@ -36,19 +36,22 @@ public class State {
      * rule to the given state, false if this state is the result of updating
      * the given rule
      */
-    public State(State parent, Rule rule, boolean applied) {
-        this.applied = applied;
-        if (applied) { // TODO move this logic to game implementing class
-            this.game = rule.apply(parent.getGame());
-        } else {
-            this.game = rule.update(parent.getGame());
-        }
-        this.rule = rule;
+    public State(CalculatorGame game, State parent, String transitionString) {
+        this.game = game;
         this.parent = parent;
+        this.transitionString = transitionString;
     }
 
-    public Rule getRule() { // TODO remove
-        return rule;
+    public CalculatorGame getGame() {
+        return game;
+    }
+
+    public State getParent() {
+        return parent;
+    }
+
+    public String getTransitionString() {
+        return transitionString;
     }
 
     public double getValue() { // TODO remove
@@ -63,20 +66,8 @@ public class State {
         return game.getMovesLeft();
     }
 
-    public State getParent() {
-        return parent;
-    }
-
     public Rule[] getRules() { // TODO remove
         return game.getValidRules();
-    }
-
-    public CalculatorGame getGame() {
-        return game;
-    }
-
-    public boolean getApplied() { // TODO remove
-        return applied;
     }
 
     /**
@@ -97,5 +88,21 @@ public class State {
             ancestor = ancestor.getParent();
         }
         return false;
+    }
+
+    /**
+     * Generates non-redundant successor states based on its game
+     * @return all non-redundant successor states
+     */
+    public List<State> getSuccessors() {
+        List<State> successors = game.getSuccessors(this);
+        for (int i = 0; i < successors.size(); i++) {
+            State potentialSuccessor = successors.get(i);
+            if (redundant(potentialSuccessor.getGame())) {
+                successors.remove(i);
+                i--;
+            }
+        }
+        return successors;
     }
 }
