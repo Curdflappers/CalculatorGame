@@ -69,7 +69,6 @@ public class LevelTests {
         } catch (FileNotFoundException e) {
             game = null;
             System.out.print("FILE NOT FOUND");
-            // e.printStackTrace();
         } finally {
             if (input != null) input.close();
         }
