@@ -11,15 +11,15 @@ public class CalculatorGame {
     private double value; // TODO change to int
 
     /** The goal number for this game */
-    private int goal;
+    private final int goal;
 
     /** The moves left in this game */
-    private int movesLeft;
+    private final int movesLeft;
 
     /**
      * The rules that can be used in this game.
      */
-    private Rule[] validRules;
+    private final Rule[] validRules;
 
     /**
      * The portals present on this game. `null` indicates no portals.
@@ -29,7 +29,7 @@ public class CalculatorGame {
      * of the left portal, the second that same index for the right portal. 0
      * is ones place, 1 is tens place, 2 is hundreds place, etc.
      */
-    private int[] portals;
+    private final int[] portals;
 
     /**
      * Create a game of the given parameters
