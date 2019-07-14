@@ -12,7 +12,7 @@ Some files/subdirectories are skipped because they are self-explanatory or rarel
     * `main`: the production code
         * `base`: the basics of the program
             * [`Config.java`](../src/main/base/Config.java): configuration settings, prompts, all that boring jazz
-            * [`Game.java`](../src/main/base/Game.java): the data structure for a game, including the logic to apply portals
+            * [`CalculatorGame.java`](../src/main/base/CalculatorGame.java): the data structure for a game, including the logic to apply portals
             * [`Helpers.java`](../src/main/base/Helpers.java): miscellaneous helper methods
             * [`Main.java`](../src/main/base/Main.java): I/O logic, solver logic
             * [`State.java`](../src/main/base/State.java): wrapper for Games that allows implicit linked lists of Games with some extra functionality
@@ -20,7 +20,7 @@ Some files/subdirectories are skipped because they are self-explanatory or rarel
     * `test`: test code
         * `base`: tests for the base package
             * [`BaseTests.java`](../src/test/base/BaseTests.java): many many tests, from unit to end-to-end, covering the general functionality of the program
-            * [`GameTests.java`](../src/test/base/GameTests.java): tests relating to the Game data structure, mainly portal validation and behavior
+            * [`GameTests.java`](../src/test/base/GameTests.java): tests relating to the CalculatorGame data structure, mainly portal validation and behavior
             * [`HelperTests.java`](../src/test/base/HelperTests.java): unit tests for the methods in `Helpers.java`
             * [`LevelTests.java`](../src/test/base/HelperTests.java): tests for the ability to correctly solve levels
             * [`MainTests.java`](../src/test/base/MainTests.java): tests methods within `Main.java`

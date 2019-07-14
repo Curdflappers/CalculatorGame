@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 import base.Main;
 import base.State;
 import rules.Rule;
@@ -19,7 +19,7 @@ public class MainTests {
     @Test
     void testCleanUp() {
         List<State> list = new ArrayList<State>();
-        list.add(new State(new Game(0, 0, 0, new Rule[] {
+        list.add(new State(new CalculatorGame(0, 0, 0, new Rule[] {
             Rule.makeRule(Config.STORE)
         }, null)));
         list.add(new State(list.get(0), Rule.makeRule(Config.STORE), false));

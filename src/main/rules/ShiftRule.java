@@ -1,17 +1,17 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 import base.Helpers;
 
 public abstract class ShiftRule extends Rule {
-    public Game apply(Game game) {
+    public CalculatorGame apply(CalculatorGame game) {
         boolean negative = game.getValue() < 0;
         int[] digits = Helpers.digits((int) game.getValue());
         rotate(digits);
         double newValue = valueOf(digits);
         newValue = negative ? -newValue : newValue;
-        return new Game(
+        return new CalculatorGame(
             newValue,
             game.getGoal(),
             game.getMovesLeft() - 1,

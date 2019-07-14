@@ -1,13 +1,13 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 public class PadRule extends Rule {
-    public Game apply(Game game) {
+    public CalculatorGame apply(CalculatorGame game) {
         String valString = String.valueOf((int) game.getValue());
         valString += getOperand1();
-        return new Game(
+        return new CalculatorGame(
             Double.parseDouble(valString),
             game.getGoal(),
             game.getMovesLeft() - 1,

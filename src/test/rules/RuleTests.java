@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 import base.Helpers;
 
 public class RuleTests {
@@ -263,7 +263,13 @@ public class RuleTests {
      * with the given value and no portals results in the expected value
      */
     void assertApplyRule(int expected, Rule rule, int value) {
-        Game originalGame = new Game(value, 0, 0, new Rule[] {}, null);
+        CalculatorGame originalGame = new CalculatorGame(
+            value,
+            0,
+            0,
+            new Rule[] {},
+            null
+        );
         double newValue = rule.apply(originalGame).getValue();
         assertEquals(expected, newValue, 0.01, rule.toString());
     }
@@ -279,10 +285,16 @@ public class RuleTests {
         int goal = -2;
         int moves = 9; // some value > 0
 
-        Game oldGame = new Game(value, goal, moves, oldRules, null);
-        Game newGame = rule.apply(oldGame);
-        Game expectedGame =
-            new Game(value, goal, moves - 1, expectedRules, null);
+        CalculatorGame oldGame = new CalculatorGame(
+            value,
+            goal,
+            moves,
+            oldRules,
+            null
+        );
+        CalculatorGame newGame = rule.apply(oldGame);
+        CalculatorGame expectedGame =
+            new CalculatorGame(value, goal, moves - 1, expectedRules, null);
         assertEquals(expectedGame, newGame);
     }
 

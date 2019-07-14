@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import rules.Rule;
 
-public class Game {
+public class CalculatorGame {
     /** The current number for this game */
     private double value;
 
@@ -37,7 +37,7 @@ public class Game {
      * @param moves The number of moves to be used
      * @param rules The rules that can be used
      */
-    public Game(
+    public CalculatorGame(
         double value,
         int goal,
         int moves,
@@ -132,8 +132,8 @@ public class Game {
     }
 
     public boolean equals(Object other) {
-        if (other instanceof Game) {
-            Game otherGame = (Game) other;
+        if (other instanceof CalculatorGame) {
+            CalculatorGame otherGame = (CalculatorGame) other;
             return otherGame.getValue() == getValue()
                 && otherGame.getGoal() == getGoal()
                 && otherGame.getMovesLeft() == getMovesLeft()
@@ -150,9 +150,9 @@ public class Game {
      * @return true iff the two games are equal if their moves are the same.
      * Returns true if the two games are equal.
      */
-    public boolean equalsExceptMoves(Game other) {
-        Game newOther =
-            new Game(
+    public boolean equalsExceptMoves(CalculatorGame other) {
+        CalculatorGame newOther =
+            new CalculatorGame(
                 other.getValue(),
                 other.getGoal(),
                 getMovesLeft(),

@@ -10,7 +10,7 @@ import java.util.Stack;
 import rules.Rule;
 
 /**
- * Runs the Calculator Game solver
+ * Runs the Calculator CalculatorGame solver
  *
  */
 public class Main {
@@ -18,7 +18,7 @@ public class Main {
     private static Rule[] rules = new Rule[0];
     private static boolean portalsPresent = false;
     private static int[] portals = null;
-    private static Game game;
+    private static CalculatorGame game;
     private static boolean again;
 
     public static void main(String[] args) {
@@ -42,7 +42,7 @@ public class Main {
             parseInput(args);
         }
 
-        game = new Game(value, goal, moves, rules, portals);
+        game = new CalculatorGame(value, goal, moves, rules, portals);
     }
 
     private static void promptAgain(Scanner scanner) {
@@ -54,7 +54,7 @@ public class Main {
     /**
      * Run a DFS and return the State that contains the end game.
      */
-    static State solveGame(Game game) {
+    static State solveGame(CalculatorGame game) { // TODO abstract
         Stack<State> stack = new Stack<>();
         stack.push(game.getState());
 
@@ -63,7 +63,7 @@ public class Main {
                 return null;
             }
             for (State successor : successors(stack.pop())) {
-                if (successor.getValue() == successor.getGoal()) {
+                if (successor.getValue() == successor.getGoal()) { // TODO if state.isWon()
                     return successor;
                 }
                 stack.push(successor);
@@ -182,7 +182,7 @@ public class Main {
         return states;
     }
 
-    public static Game getGame() {
+    public static CalculatorGame getGame() { // TODO abstract
         return game;
     }
 

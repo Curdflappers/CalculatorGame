@@ -1,14 +1,14 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 /**
  * Adds to the operands of the other rules, does not change the value of the
  * game.
  */
 public class MetaAddRule extends Rule {
-    public Game apply(Game game) {
+    public CalculatorGame apply(CalculatorGame game) {
         Rule[] oldRules = game.getValidRules();
         Rule[] newRules = new Rule[oldRules.length];
         int newOperand1, newOperand2;
@@ -24,7 +24,7 @@ public class MetaAddRule extends Rule {
             newRules[i] =
                 Rule.makeRule(oldRule.getOperator(), newOperand1, newOperand2);
         }
-        return new Game(
+        return new CalculatorGame(
             game.getValue(),
             game.getGoal(),
             game.getMovesLeft() - 1,

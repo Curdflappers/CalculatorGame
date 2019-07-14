@@ -1,10 +1,10 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 public class MirrorRule extends Rule {
-    public Game apply(Game game) {
+    public CalculatorGame apply(CalculatorGame game) {
         double value = game.getValue();
         boolean negative = value < 0;
         String valString = String.valueOf((int) value);
@@ -15,7 +15,7 @@ public class MirrorRule extends Rule {
         valString += new StringBuilder(valString).reverse().toString();
         double newValue = Double.parseDouble(valString);
         newValue = negative ? -newValue : newValue;
-        return new Game(
+        return new CalculatorGame(
             newValue,
             game.getGoal(),
             game.getMovesLeft() - 1,

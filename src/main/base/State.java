@@ -2,11 +2,16 @@ package base;
 
 import rules.Rule;
 
+/**
+ * A wrapper class for implementations of the Game interface. Used for solving
+ * games, it tracks parent states and transition descriptions (how this state
+ * came to be from its parent)
+ */
 public class State {
     /** The game information for this state */
-    private Game game;
+    private CalculatorGame game; // TODO make abstract
     /** The rule that was used on <code>parent</code> to get to this state */
-    private Rule rule;
+    private Rule rule; // TODO change to string that is transition description
     /** The parent state to which <code>rule</code> was used */
     private State parent;
     /** Whether the rule was applied or updated (true iff applied) */
@@ -16,7 +21,7 @@ public class State {
      * Creates a new State with the given <code>game</code>, <code>rule</code>
      * and <code>parent</code> are <code>null</code>.
      */
-    public State(Game game) {
+    public State(CalculatorGame game) { // TODO abstract
         this.game = game;
         this.rule = null;
         this.parent = null;
@@ -25,36 +30,36 @@ public class State {
     /**
      * Creates a new state, a child of the given state, a result of applying or
      * updating the given rule
-     * @param state
+     * @param parent
      * @param rule
-     * @param apply True if this state is the result of applying the given rule
-     * to the given state, false if this state is the result of updating the
-     * given rule
+     * @param applied True if this state is the result of applying the given 
+     * rule to the given state, false if this state is the result of updating
+     * the given rule
      */
-    public State(State state, Rule rule, boolean apply) {
-        applied = apply;
-        if (apply) {
-            this.game = rule.apply(state.getGame());
+    public State(State parent, Rule rule, boolean applied) {
+        this.applied = applied;
+        if (applied) { // TODO move this logic to game implementing class
+            this.game = rule.apply(parent.getGame());
         } else {
-            this.game = rule.update(state.getGame());
+            this.game = rule.update(parent.getGame());
         }
         this.rule = rule;
-        this.parent = state;
+        this.parent = parent;
     }
 
-    public Rule getRule() {
+    public Rule getRule() { // TODO remove
         return rule;
     }
 
-    public double getValue() {
+    public double getValue() { // TODO remove
         return game.getValue();
     }
 
-    public int getGoal() {
+    public int getGoal() { // TODO remove
         return game.getGoal();
     }
 
-    public int getMovesLeft() {
+    public int getMovesLeft() { // TODO remove
         return game.getMovesLeft();
     }
 
@@ -62,15 +67,15 @@ public class State {
         return parent;
     }
 
-    public Rule[] getRules() {
+    public Rule[] getRules() { // TODO remove
         return game.getValidRules();
     }
 
-    public Game getGame() {
+    public CalculatorGame getGame() {
         return game;
     }
 
-    public boolean getApplied() {
+    public boolean getApplied() { // TODO remove
         return applied;
     }
 }

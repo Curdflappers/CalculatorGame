@@ -40,7 +40,13 @@ public class BaseTests {
         };
         int value = 1, goal = 2, movesLeft = 3;
 
-        Game game = new Game(value, goal, movesLeft, validRules, null);
+        CalculatorGame game = new CalculatorGame(
+            value,
+            goal,
+            movesLeft,
+            validRules,
+            null
+        );
 
         assertEquals(value, game.getValue());
         assertEquals(goal, game.getGoal());
@@ -60,7 +66,7 @@ public class BaseTests {
         };
         Rule rule = rules[0];
         int value = 1, goal = 2, movesLeft = 3;
-        Game game = new Game(value, goal, movesLeft, rules, null);
+        CalculatorGame game = new CalculatorGame(value, goal, movesLeft, rules, null);
 
         State parentState = new State(game);
         State childState = new State(parentState, rule, true);
@@ -167,7 +173,13 @@ public class BaseTests {
         InputStream in = inStream(inputString);
         InputStream consoleIn = System.in;
         Rule[] inputRules = rules(ruleStrings);
-        Game expectedGame = new Game(value, goal, moves, inputRules, portals);
+        CalculatorGame expectedGame = new CalculatorGame(
+            value,
+            goal,
+            moves,
+            inputRules,
+            portals
+        );
 
         // Creates game as user input
         Scanner scanner = new Scanner(in);

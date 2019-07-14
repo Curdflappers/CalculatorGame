@@ -1,10 +1,10 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 public class DeleteRule extends Rule {
-    public Game apply(Game game) {
+    public CalculatorGame apply(CalculatorGame game) {
         String valString = String.valueOf((int) game.getValue());
         valString = valString.substring(0, valString.length() - 1);
         double newValue;
@@ -13,7 +13,7 @@ public class DeleteRule extends Rule {
         } else {
             newValue = Double.parseDouble(valString);
         }
-        return new Game(
+        return new CalculatorGame(
             newValue,
             game.getGoal(),
             game.getMovesLeft() - 1,

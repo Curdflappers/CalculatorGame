@@ -24,7 +24,7 @@ public class Developer {
      */
     private static void promptSaveTestCase(
         Scanner scanner,
-        Game game,
+        CalculatorGame game,
         String solution
     ) {
         System.out.print("Save test case (y/n): ");
@@ -99,7 +99,8 @@ public class Developer {
     }
 
     /**
-     * Returns whether the given character is a valid response for the overwrite prompt
+     * Returns whether the given character is a valid response for the overwrite
+     * prompt
      */
     private static boolean validOverwriteResponse(char c) {
         return c == 'o' || c == 'd' || c == 's';
@@ -120,7 +121,7 @@ public class Developer {
 
     private static void saveTestCase(
         String filename,
-        Game game,
+        CalculatorGame game,
         String solution
     ) {
         PrintWriter writer = null;

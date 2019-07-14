@@ -14,7 +14,7 @@ import rules.Rule;
 
 public class LevelTests {
 
-    private static Game game = null;
+    private static CalculatorGame game = null;
     private static String expectedSolutionString = null;
 
     private static void loadLevel(String level) {
@@ -58,7 +58,7 @@ public class LevelTests {
             };
 
             game =
-                new Game(
+                new CalculatorGame(
                     value,
                     goal,
                     moves,

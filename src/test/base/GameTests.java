@@ -18,7 +18,7 @@ public class GameTests {
             1, 0
         };
 
-        assertTrue(Game.validPortals(validPortals));
+        assertTrue(CalculatorGame.validPortals(validPortals));
     }
 
     @Test
@@ -27,7 +27,7 @@ public class GameTests {
             -2, -3
         };
 
-        assertFalse(Game.validPortals(negatives));
+        assertFalse(CalculatorGame.validPortals(negatives));
     }
 
     @Test
@@ -36,14 +36,14 @@ public class GameTests {
             0, 0
         };
 
-        assertFalse(Game.validPortals(zeros));
+        assertFalse(CalculatorGame.validPortals(zeros));
     }
 
     @Test
     void lengthZeroIsInvalid() {
         int[] zeroLength = new int[0];
 
-        assertFalse(Game.validPortals(zeroLength));
+        assertFalse(CalculatorGame.validPortals(zeroLength));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class GameTests {
             1
         };
 
-        assertFalse(Game.validPortals(lengthOne));
+        assertFalse(CalculatorGame.validPortals(lengthOne));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class GameTests {
             1, -1
         };
 
-        assertFalse(Game.validPortals(aNegative));
+        assertFalse(CalculatorGame.validPortals(aNegative));
     }
 
     ///////////////////
@@ -76,7 +76,7 @@ public class GameTests {
         };
         int expected = 1;
 
-        Game game = new Game(value, 0, 0, null, portals);
+        CalculatorGame game = new CalculatorGame(value, 0, 0, null, portals);
 
         assertEquals(expected, (int) game.getValue());
     }
@@ -89,7 +89,7 @@ public class GameTests {
         };
         double expected = value;
 
-        Game game = new Game(value, 0, 0, null, portals);
+        CalculatorGame game = new CalculatorGame(value, 0, 0, null, portals);
         double actual = game.getValue();
 
         assertEquals(expected, actual, 0.001);
@@ -103,7 +103,7 @@ public class GameTests {
         };
         int expected = 113;
 
-        Game game = new Game(value, 0, 0, null, portals);
+        CalculatorGame game = new CalculatorGame(value, 0, 0, null, portals);
 
         assertEquals(expected, game.getValue(), 0.001);
     }
