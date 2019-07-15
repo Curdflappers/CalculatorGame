@@ -1,10 +1,10 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 public class ReverseRule extends Rule {
-    public Game apply(Game game) {
+    public CalculatorGame apply(CalculatorGame game) {
         boolean negative = game.getValue() < 0;
         String valString = String.valueOf((int) game.getValue());
         if (negative) {
@@ -14,11 +14,11 @@ public class ReverseRule extends Rule {
         valString = new StringBuilder(valString).reverse().toString();
         double newValue = Double.parseDouble(valString);
         newValue = negative ? -newValue : newValue; // fix the sign
-        return new Game(
+        return new CalculatorGame(
             newValue,
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }

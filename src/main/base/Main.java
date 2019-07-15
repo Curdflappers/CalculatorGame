@@ -2,17 +2,14 @@ package base;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
 
+import game.State;
 import rules.Rule;
 
 /**
- * Runs the Calculator Game solver
- *
- * @author mwwie
+ * Runs the Calculator CalculatorGame solver
  *
  */
 public class Main {
@@ -20,7 +17,7 @@ public class Main {
     private static Rule[] rules = new Rule[0];
     private static boolean portalsPresent = false;
     private static int[] portals = null;
-    private static Game game;
+    private static CalculatorGame calculatorGame;
     private static boolean again;
 
     public static void main(String[] args) {
@@ -28,9 +25,9 @@ public class Main {
         do {
             getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            State endState = solveGame(game);
-            String solution = extractSolution(endState);
-            System.out.print(solution);
+            List<State> solutionStates = CGSolver.solve(calculatorGame);
+            String solutionString = State.allTransitions(solutionStates);
+            System.out.print(solutionString);
             promptAgain(scanner);
             args = new String[0]; // can't use the same args again
         } while (again);
@@ -44,7 +41,7 @@ public class Main {
             parseInput(args);
         }
 
-        game = new Game(value, goal, moves, rules, portals);
+        calculatorGame = new CalculatorGame(value, goal, moves, rules, portals);
     }
 
     private static void promptAgain(Scanner scanner) {
@@ -53,139 +50,8 @@ public class Main {
         again = answer.charAt(0) == 'y';
     }
 
-    /**
-     * Run a DFS and return the State that contains the end game.
-     */
-    static State solveGame(Game game) {
-        Stack<State> stack = new Stack<>();
-        stack.push(game.getState());
-
-        while (true) {
-            if (stack.isEmpty()) {
-                return null;
-            }
-            for (State successor : successors(stack.pop())) {
-                if (successor.getValue() == successor.getGoal()) {
-                    return successor;
-                }
-                stack.push(successor);
-            }
-        }
-    }
-
-    /**
-     * Valid successors have no decimals, have different games than their
-     * predecessors, and have values of 6 digits or less
-     * @param state
-     * @return
-     */
-    private static List<State> successors(State state) {
-        List<State> successors = new ArrayList<>();
-        addSuccessors(state, successors, true);
-        addSuccessors(state, successors, false);
-        return successors;
-    }
-
-    private static void addSuccessors(
-        State state,
-        List<State> successors,
-        boolean apply
-    ) {
-        if (state.getMovesLeft() > 0) {
-            for (Rule rule : state.getRules()) {
-                State successor = new State(state, rule, apply);
-                if (isValidSuccessor(successor, state)) {
-                    successors.add(successor);
-                }
-            }
-        }
-    }
-
-    private static boolean isValidSuccessor(State successor, State parent) {
-        boolean valid = true;
-
-        valid &= successor.getValue() % 1 == 0; // no decimals
-        // max 6 digits
-        valid &= Math.abs(successor.getValue()) < Math.pow(10, 6);
-
-        // not redundant
-        while (parent != null) {
-            valid &= !successor.getGame().equalsExceptMoves(parent.getGame());
-            parent = parent.getParent();
-        }
-
-        return valid;
-    }
-
-    /**
-     * Returns a string that represents the solution to the game. Each step is 
-     * separated by a newline character.
-     */
-    static String extractSolution(State state) {
-        String solution = "";
-
-        List<State> states = orderedStates(state);
-        cleanUp(states);
-        for (State element : states) {
-            if (element.getRule() != null) {
-                solution +=
-                    element.getApplied()
-                        ? Config.APPLY_PROMPT
-                        : Config.UPDATE_PROMPT;
-                solution += element.getRule() + "\n";
-            }
-        }
-
-        return solution;
-    }
-
-    /**
-     * Removes extra "Update Store"s that clutter the solution
-     * @param states The ordered list of states to clean up
-     */
-    public static void cleanUp(List<State> states) {
-        boolean foundOne = false;
-        int foundIndex = -1;
-
-        // skip first state, it has a null rule
-        for (int i = 1; i < states.size(); i++) {
-            State state = states.get(i);
-            if (state.getRule().getOperator() == Config.STORE) {
-                if (state.getApplied()) {
-                    foundOne = false;
-                } else if (foundOne) { // already found one, this is second
-                    states.remove(foundIndex);
-                    i--;
-                    foundIndex = i;
-                } else { // haven't found one yet, don't remove this one yet
-                    foundOne = true;
-                    foundIndex = i;
-                }
-            }
-        }
-
-        // Remove potential trailing "Update Store"s
-        if (foundOne) states.remove(foundIndex);
-    }
-
-    /**
-     * Returns a list of states, with the earliest at the front, the latest at
-     * the end.
-     *
-     * @param state
-     * @return
-     */
-    private static List<State> orderedStates(State state) {
-        List<State> states = new LinkedList<>();
-        while (state != null) {
-            states.add(0, state); // add more recent to beginning of list
-            state = state.getParent();
-        }
-        return states;
-    }
-
-    public static Game getGame() {
-        return game;
+    public static CalculatorGame getCalculatorGame() {
+        return calculatorGame;
     }
 
     public static int getValue() {

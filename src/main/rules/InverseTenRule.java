@@ -1,11 +1,11 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 public class InverseTenRule extends Rule {
 
-    public Game apply(Game game) {
+    public CalculatorGame apply(CalculatorGame game) {
         char[] valCharArr = String.valueOf((int) game.getValue()).toCharArray();
 
         for (int i = 0; i < valCharArr.length; i++) {
@@ -20,11 +20,11 @@ public class InverseTenRule extends Rule {
 
         int newValue = Integer.parseInt(new String(valCharArr));
 
-        return new Game(
+        return new CalculatorGame(
             newValue,
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }

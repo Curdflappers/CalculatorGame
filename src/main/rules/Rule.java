@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 public abstract class Rule {
     private int operand1;
@@ -232,7 +232,8 @@ public abstract class Rule {
      * Return a new game that is the result of applying this rule to the given
      * game.
      */
-    public abstract Game apply(Game game);
+    // TODO should return null if potential successor would be invalid
+    public abstract CalculatorGame apply(CalculatorGame game);
 
     /**
      * Update this rule. Equivalent to long-tapping on the app. By default, do
@@ -240,7 +241,9 @@ public abstract class Rule {
      * @param game The game that contains this rule
      * @return The updated game
      */
-    public Game update(Game game) {
+    // TODO should return null if potential successor would be invalid
+    // TODO remove this method, replace with apply MetaStore rule
+    public CalculatorGame update(CalculatorGame game) {
         return game;
     }
 

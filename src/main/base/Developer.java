@@ -3,7 +3,10 @@ package base;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
+
+import game.State;
 
 public class Developer {
     public static void main(String[] args) {
@@ -11,10 +14,14 @@ public class Developer {
         do {
             Main.getInput(new String[] {}, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            State endState = Main.solveGame(Main.getGame());
-            String solution = Main.extractSolution(endState);
-            System.out.print(solution);
-            promptSaveTestCase(scanner, Main.getGame(), solution);
+            List<State> solution = CGSolver.solve(Main.getCalculatorGame());
+            String solutionString = State.allTransitions(solution);
+            System.out.print(solutionString);
+            promptSaveTestCase(
+                scanner,
+                Main.getCalculatorGame(),
+                solutionString
+            );
         } while (true);
     }
 
@@ -24,7 +31,7 @@ public class Developer {
      */
     private static void promptSaveTestCase(
         Scanner scanner,
-        Game game,
+        CalculatorGame game,
         String solution
     ) {
         System.out.print("Save test case (y/n): ");
@@ -99,7 +106,8 @@ public class Developer {
     }
 
     /**
-     * Returns whether the given character is a valid response for the overwrite prompt
+     * Returns whether the given character is a valid response for the overwrite
+     * prompt
      */
     private static boolean validOverwriteResponse(char c) {
         return c == 'o' || c == 'd' || c == 's';
@@ -120,7 +128,7 @@ public class Developer {
 
     private static void saveTestCase(
         String filename,
-        Game game,
+        CalculatorGame game,
         String solution
     ) {
         PrintWriter writer = null;

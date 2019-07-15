@@ -10,11 +10,12 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
+import game.State;
 import rules.Rule;
 
 public class LevelTests {
 
-    private static Game game = null;
+    private static CalculatorGame game = null;
     private static String expectedSolutionString = null;
 
     private static void loadLevel(String level) {
@@ -58,7 +59,7 @@ public class LevelTests {
             };
 
             game =
-                new Game(
+                new CalculatorGame(
                     value,
                     goal,
                     moves,
@@ -69,7 +70,6 @@ public class LevelTests {
         } catch (FileNotFoundException e) {
             game = null;
             System.out.print("FILE NOT FOUND");
-            // e.printStackTrace();
         } finally {
             if (input != null) input.close();
         }
@@ -90,8 +90,8 @@ public class LevelTests {
                 continue;
             }
 
-            State solutionState = Main.solveGame(game);
-            String solutionString = Main.extractSolution(solutionState);
+            List<State> solutionStates = CGSolver.solve(game);
+            String solutionString = State.allTransitions(solutionStates);
 
             if (!solutionString.equals(expectedSolutionString)) {
                 failed = true;

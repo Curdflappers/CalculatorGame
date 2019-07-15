@@ -1,15 +1,15 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 public class AddRule extends Rule {
-    public Game apply(Game game) {
-        return new Game(
+    public CalculatorGame apply(CalculatorGame game) {
+        return new CalculatorGame(
             game.getValue() + getOperand1(),
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }

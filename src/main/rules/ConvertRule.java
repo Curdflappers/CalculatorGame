@@ -1,23 +1,23 @@
 package rules;
 
 import base.Config;
-import base.Game;
+import base.CalculatorGame;
 
 public class ConvertRule extends Rule {
 
     private final String OP_STRING_1;
     private String OP_STRING_2;
 
-    public Game apply(Game game) {
+    public CalculatorGame apply(CalculatorGame game) {
         double value = game.getValue();
         String valString = String.valueOf((int) value);
         valString = valString.replace(OP_STRING_1, OP_STRING_2);
         double newValue = Double.parseDouble(valString);
-        return new Game(
+        return new CalculatorGame(
             newValue,
             game.getGoal(),
             game.getMovesLeft() - 1,
-            game.getValidRules(),
+            game.getRules(),
             game.getPortals()
         );
     }

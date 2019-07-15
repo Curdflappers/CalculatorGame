@@ -2,6 +2,7 @@ package base;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -16,6 +17,8 @@ import java.util.Scanner;
 import rules.Rule;
 
 import org.junit.jupiter.api.Test;
+
+import game.State;
 
 public class BaseTests {
     Rule[] rules, solution;
@@ -40,7 +43,13 @@ public class BaseTests {
         };
         int value = 1, goal = 2, movesLeft = 3;
 
-        Game game = new Game(value, goal, movesLeft, validRules, null);
+        CalculatorGame game = new CalculatorGame(
+            value,
+            goal,
+            movesLeft,
+            validRules,
+            null
+        );
 
         assertEquals(value, game.getValue());
         assertEquals(goal, game.getGoal());
@@ -53,26 +62,45 @@ public class BaseTests {
         }
     }
 
-    @Test
-    void stateConstructors() {
+    /** Generates a basic instance of CalculatorGame to stay DRY */
+    // TODO better way to stay DRY with JUnit-specific logic or final variable?
+    private CalculatorGame calculatorGame() {
         Rule[] rules = new Rule[] {
             Rule.makeRule(Config.SIGN)
         };
-        Rule rule = rules[0];
         int value = 1, goal = 2, movesLeft = 3;
-        Game game = new Game(value, goal, movesLeft, rules, null);
+        return new CalculatorGame(
+            value,
+            goal,
+            movesLeft,
+            rules,
+            null
+        );
+    }
 
-        State parentState = new State(game);
-        State childState = new State(parentState, rule, true);
+    /** Generates a basic instance of CalculatorGame to stay DRY */
+    private State state() {
+        return new State(calculatorGame());
+    }
 
-        assertEquals(null, parentState.getRule());
-        assertEquals(value, parentState.getValue());
-        assertEquals(goal, parentState.getGoal());
-        assertEquals(movesLeft, parentState.getMovesLeft());
-        assertEquals(null, parentState.getParent());
-        assertEquals(rule, childState.getRule());
-        assertEquals(rule.apply(parentState.getGame()), childState.getGame());
-        assertEquals(parentState, childState.getParent());
+    private String transitionString() {
+        return "";
+    }
+
+    @Test
+    void stateConstructorGame() {
+        State sut = state();
+        assertEquals(calculatorGame(), sut.getGame());
+        assertNull(sut.getParent());
+        assertNull(sut.getTransitionString());
+    }
+
+    void stateConstructorParentGameTransitionString() {
+        State parent = state();
+        State sut = new State(calculatorGame(), parent, transitionString());
+        assertEquals(calculatorGame(), sut);
+        assertEquals(parent, sut.getParent());
+        assertEquals(transitionString(), sut.getTransitionString());
     }
 
     //////////
@@ -167,17 +195,23 @@ public class BaseTests {
         InputStream in = inStream(inputString);
         InputStream consoleIn = System.in;
         Rule[] inputRules = rules(ruleStrings);
-        Game expectedGame = new Game(value, goal, moves, inputRules, portals);
+        CalculatorGame expectedGame = new CalculatorGame(
+            value,
+            goal,
+            moves,
+            inputRules,
+            portals
+        );
 
         // Creates game as user input
         Scanner scanner = new Scanner(in);
         Main.getInput(new String[0], scanner); // with no vm args
-        assertEquals(expectedGame, Main.getGame());
+        assertEquals(expectedGame, Main.getCalculatorGame());
 
         // Creates game as VM args
         System.setIn(inStream(Config.QUIT));
         Main.main(inputStrings(value, goal, moves, ruleStrings, portals));
-        assertEquals(expectedGame, Main.getGame());
+        assertEquals(expectedGame, Main.getCalculatorGame());
 
         System.setIn(consoleIn);
     }

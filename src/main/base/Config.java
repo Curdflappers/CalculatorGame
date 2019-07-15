@@ -1,5 +1,6 @@
 package base;
 
+// TODO make multiple classes (rules, I/O, testing)
 public class Config {
   /** The path to the directory containing all test cases */
   static String TESTCASES_PATH = "test-cases";
