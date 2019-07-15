@@ -3,6 +3,19 @@ package base;
 public class Helpers {
 
     /**
+     * Returns the number of digits in the given string.
+     *
+     * PRECONDITION the string matches the regex -?[0-9]*
+     * @param valueString the string to evaluate
+     * @return the number of digits in the string
+     */
+    public static int numDigits(String valueString) {
+        int digits = (valueString.charAt(0) == '-') ? -1 : 0;
+        digits += valueString.length();
+        return digits;
+    }
+
+    /**
      * Returns an array of digits for this value
      * <p>
      * <code>digits(1234) returns [1, 2, 3, 4]</code>

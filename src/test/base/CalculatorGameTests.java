@@ -76,23 +76,9 @@ public class CalculatorGameTests {
         };
         int expected = 1;
 
-        CalculatorGame game = new CalculatorGame(value, 0, 0, null, portals);
+        CalculatorGame game = CalculatorGame.generateGame(value, 0, 0, null, portals);
 
         assertEquals(expected, (int) game.getValue());
-    }
-
-    @Test
-    void decimalsDoNothing() {
-        double value = 10.5;
-        int[] portals = {
-            1, 0
-        };
-        double expected = value;
-
-        CalculatorGame game = new CalculatorGame(value, 0, 0, null, portals);
-        double actual = game.getValue();
-
-        assertEquals(expected, actual, 0.001);
     }
 
     @Test
@@ -103,7 +89,7 @@ public class CalculatorGameTests {
         };
         int expected = 113;
 
-        CalculatorGame game = new CalculatorGame(value, 0, 0, null, portals);
+        CalculatorGame game = CalculatorGame.generateGame(value, 0, 0, null, portals);
 
         assertEquals(expected, game.getValue(), 0.001);
     }

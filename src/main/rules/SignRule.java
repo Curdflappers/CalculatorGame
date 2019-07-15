@@ -5,7 +5,7 @@ import base.CalculatorGame;
 
 public class SignRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
-        return new CalculatorGame(
+        return CalculatorGame.generateGame(
             -game.getValue(),
             game.getGoal(),
             game.getMovesLeft() - 1,

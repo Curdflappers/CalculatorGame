@@ -5,7 +5,7 @@ import base.CalculatorGame;
 
 public class MirrorRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
-        double value = game.getValue();
+        int value = game.getValue();
         boolean negative = value < 0;
         String valString = String.valueOf((int) value);
         if (negative) {
@@ -13,10 +13,9 @@ public class MirrorRule extends Rule {
         }
         // add reversed string to end of current string
         valString += new StringBuilder(valString).reverse().toString();
-        double newValue = Double.parseDouble(valString);
-        newValue = negative ? -newValue : newValue;
-        return new CalculatorGame(
-            newValue,
+        valString = negative ? "-" + valString : valString;
+        return CalculatorGame.generateGame(
+            valString,
             game.getGoal(),
             game.getMovesLeft() - 1,
             game.getRules(),

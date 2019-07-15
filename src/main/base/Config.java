@@ -53,6 +53,9 @@ public class Config {
     0, // INVERSE_TEN
   };
 
+  /** The maximum number of digits in a CalculatorGame */
+  public static final int MAX_DIGITS = 6;
+
   /**
    * Returns the rule string for the given operator
    * If the operator takes operands, this throws an exception

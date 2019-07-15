@@ -5,7 +5,11 @@ import base.CalculatorGame;
 
 public class DivideRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
-        return new CalculatorGame(
+        double doubleValue = game.getValue();
+        if ((doubleValue / getOperand1()) % 1 != 0) { // if there is a remainder
+            return null;
+        }
+        return CalculatorGame.generateGame(
             game.getValue() / getOperand1(),
             game.getGoal(),
             game.getMovesLeft() - 1,

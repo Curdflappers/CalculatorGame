@@ -5,13 +5,13 @@ import base.CalculatorGame;
 
 public class SumRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
-        int absValue = (int) game.getValue();
+        int value = game.getValue();
         int sum = 0;
-        while (absValue != 0) {
-            sum += absValue % 10;
-            absValue /= 10;
+        while (value != 0) {
+            sum += value % 10;
+            value /= 10;
         }
-        return new CalculatorGame(
+        return CalculatorGame.generateGame(
             sum,
             game.getGoal(),
             game.getMovesLeft() - 1,

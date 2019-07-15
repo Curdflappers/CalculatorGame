@@ -12,10 +12,9 @@ public class ReverseRule extends Rule {
         }
         // Reverse the string
         valString = new StringBuilder(valString).reverse().toString();
-        double newValue = Double.parseDouble(valString);
-        newValue = negative ? -newValue : newValue; // fix the sign
-        return new CalculatorGame(
-            newValue,
+        valString = negative ? "-" + valString : valString; // fix the sign
+        return CalculatorGame.generateGame(
+            valString,
             game.getGoal(),
             game.getMovesLeft() - 1,
             game.getRules(),

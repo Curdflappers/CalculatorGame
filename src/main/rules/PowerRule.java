@@ -5,8 +5,8 @@ import base.CalculatorGame;
 
 public class PowerRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
-        return new CalculatorGame(
-            Math.pow(game.getValue(), getOperand1()),
+        return CalculatorGame.generateGame(
+            (int) Math.pow(game.getValue(), getOperand1()),
             game.getGoal(),
             game.getMovesLeft() - 1,
             game.getRules(),

@@ -43,7 +43,7 @@ public class BaseTests {
         };
         int value = 1, goal = 2, movesLeft = 3;
 
-        CalculatorGame game = new CalculatorGame(
+        CalculatorGame game = CalculatorGame.generateGame(
             value,
             goal,
             movesLeft,
@@ -69,7 +69,7 @@ public class BaseTests {
             Rule.makeRule(Config.SIGN)
         };
         int value = 1, goal = 2, movesLeft = 3;
-        return new CalculatorGame(
+        return CalculatorGame.generateGame(
             value,
             goal,
             movesLeft,
@@ -195,7 +195,7 @@ public class BaseTests {
         InputStream in = inStream(inputString);
         InputStream consoleIn = System.in;
         Rule[] inputRules = rules(ruleStrings);
-        CalculatorGame expectedGame = new CalculatorGame(
+        CalculatorGame expectedGame = CalculatorGame.generateGame(
             value,
             goal,
             moves,

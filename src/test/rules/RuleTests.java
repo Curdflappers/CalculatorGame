@@ -203,7 +203,7 @@ public class RuleTests {
 
     @Test
     void applyInverseTen() {
-        assertApplyRule(1234567, Config.INVERSE_TEN, 9876543);
+        assertApplyRule(123456, Config.INVERSE_TEN, 987654);
         assertApplyRule(10, Config.INVERSE_TEN, 90);
         assertApplyRule(-10, Config.INVERSE_TEN, -90);
     }
@@ -263,7 +263,7 @@ public class RuleTests {
      * with the given value and no portals results in the expected value
      */
     void assertApplyRule(int expected, Rule rule, int value) {
-        CalculatorGame originalGame = new CalculatorGame(
+        CalculatorGame originalGame = CalculatorGame.generateGame(
             value,
             0,
             0,
@@ -281,11 +281,11 @@ public class RuleTests {
      * @param oldRules
      */
     void assertApplyMetaRule(Rule[] expectedRules, Rule rule, Rule[] oldRules) {
-        double value = -1;
+        int value = -1;
         int goal = -2;
         int moves = 9; // some value > 0
 
-        CalculatorGame oldGame = new CalculatorGame(
+        CalculatorGame oldGame = CalculatorGame.generateGame(
             value,
             goal,
             moves,
@@ -294,7 +294,7 @@ public class RuleTests {
         );
         CalculatorGame newGame = rule.apply(oldGame);
         CalculatorGame expectedGame =
-            new CalculatorGame(value, goal, moves - 1, expectedRules, null);
+            CalculatorGame.generateGame(value, goal, moves - 1, expectedRules, null);
         assertEquals(expectedGame, newGame);
     }
 

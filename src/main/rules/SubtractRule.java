@@ -5,7 +5,7 @@ import base.CalculatorGame;
 
 public class SubtractRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
-        return new CalculatorGame(
+        return CalculatorGame.generateGame(
             game.getValue() - getOperand1(),
             game.getGoal(),
             game.getMovesLeft() - 1,

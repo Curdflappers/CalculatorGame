@@ -19,7 +19,7 @@ public class CGSolverTests {
         boolean[] appliedArray = { false, false, true, true, false };
         Rule storeRule = new StoreRule(0);
         List<State> list = new ArrayList<State>();
-        list.add(new State(new CalculatorGame(
+        list.add(new State(CalculatorGame.generateGame(
             0, // must be 0, always pad 0s => no limit, always valid
             1, // must not be 0 => game is never over
             appliedArray.length,

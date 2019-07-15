@@ -10,7 +10,7 @@ import rules.Rule;
 
 public class CalculatorGame implements Game {
     /** The current number for this game */
-    private double value; // TODO change to int
+    private int value;
 
     /** The goal number for this game */
     private final int goal;
@@ -42,9 +42,8 @@ public class CalculatorGame implements Game {
      * @param rules The rules that can be used
      * @param portals The portals of this game
      */
-    // TODO make impossible to instantiate invalid game
-    public CalculatorGame(
-        double value,
+    private CalculatorGame(
+        int value,
         int goal,
         int moves,
         Rule[] rules,
@@ -54,19 +53,50 @@ public class CalculatorGame implements Game {
         this.goal = goal;
         this.movesLeft = moves;
         this.validRules = rules;
-        if (validPortals(portals)) this.portals = portals;
-        else
-            throw new RuntimeException(
-                "Invalid portals given: " + Arrays.toString(portals)
-            );
+        this.portals = portals;
         applyPortals();
     }
 
-    public double getValue() {
+    public static CalculatorGame generateGame(
+        int value,
+        int goal,
+        int moves,
+        Rule[] rules,
+        int[] portals
+    ) {
+        if (
+            value != Integer.MAX_VALUE
+                && value != Integer.MIN_VALUE
+                && Math.abs(value) < Math.pow(10, Config.MAX_DIGITS)
+                && validPortals(portals)
+        ) {
+            return new CalculatorGame(value, goal, moves, rules, portals);
+        }
+        return null;
+    }
+
+    public static CalculatorGame generateGame(
+        String valueString,
+        int goal,
+        int moves,
+        Rule[] rules,
+        int[] portals
+    ) {
+        int numDigits = Helpers.numDigits(valueString);
+        if (numDigits <= Config.MAX_DIGITS && validPortals(portals)) {
+            int value = Integer.parseInt(valueString);
+            if (value != Integer.MAX_VALUE && value != Integer.MIN_VALUE) {
+                return new CalculatorGame(value, goal, moves, rules, portals);
+            }
+        }
+        return null;
+    }
+
+    public int getValue() {
         return value;
     }
 
-    private void setValue(double value) {
+    private void setValue(int value) {
         this.value = value;
     }
 
@@ -106,31 +136,31 @@ public class CalculatorGame implements Game {
 
     /**
      * Make the digits "fall through" the portals to get the correct value
-     * Decimals don't fall through the portals
      */
+    // TODO make static
     private void applyPortals() {
-        if (!hasPortals() || getValue() % 1 != 0) return;
+        if (!hasPortals()) return;
 
-        int value = (int) getValue();
-        boolean negative = value < 0;
-        value = Math.abs(value); // only worry about the positive version
+        int toyValue = getValue();
+        boolean negative = toyValue < 0;
+        toyValue = Math.abs(toyValue); // only worry about the positive version
 
         int leftPortalIndex = portals[0];
         int rightPortalIndex = portals[1];
 
-        while (value >= Math.pow(10, leftPortalIndex)) {
+        while (toyValue >= Math.pow(10, leftPortalIndex)) {
             // Have the digit fall
-            int digit = Helpers.getDigit(value, leftPortalIndex);
-            value -= digit * Math.pow(10, leftPortalIndex);
-            value += digit * Math.pow(10, rightPortalIndex);
+            int digit = Helpers.getDigit(toyValue, leftPortalIndex);
+            toyValue -= digit * Math.pow(10, leftPortalIndex);
+            toyValue += digit * Math.pow(10, rightPortalIndex);
 
             // Take digits at left of portal and shift them one right
-            int valueLeft = Helpers.digitsToTheLeft(value, leftPortalIndex);
-            value -= valueLeft * Math.pow(10, leftPortalIndex + 1);
-            value += valueLeft * Math.pow(10, leftPortalIndex);
+            int valueLeft = Helpers.digitsToTheLeft(toyValue, leftPortalIndex);
+            toyValue -= valueLeft * Math.pow(10, leftPortalIndex + 1);
+            toyValue += valueLeft * Math.pow(10, leftPortalIndex);
         }
 
-        setValue(negative ? -value : value);
+        setValue(negative ? -toyValue : toyValue);
     }
 
     public boolean equals(Object other) {
@@ -154,13 +184,14 @@ public class CalculatorGame implements Game {
      */
     public boolean equalsExceptMoves(CalculatorGame other) {
         CalculatorGame newOther =
-            new CalculatorGame(
-                other.getValue(),
-                other.getGoal(),
-                getMovesLeft(),
-                other.getRules(),
-                other.getPortals()
-            );
+            CalculatorGame
+                .generateGame(
+                    other.getValue(),
+                    other.getGoal(),
+                    getMovesLeft(),
+                    other.getRules(),
+                    other.getPortals()
+                );
         return equals(newOther);
     }
 
@@ -194,15 +225,10 @@ public class CalculatorGame implements Game {
         for (Rule rule : getRules()) {
             CalculatorGame successorGame = getSuccessor(rule, applied);
             if (successorGame == null) continue;
-            String transitionString = CalculatorGame.transitionString(
-                rule,
-                applied
-            );
-            State successorState = new State(
-                successorGame,
-                parent,
-                transitionString
-            );
+            String transitionString =
+                CalculatorGame.transitionString(rule, applied);
+            State successorState =
+                new State(successorGame, parent, transitionString);
             successors.add(successorState);
         }
     }
@@ -221,15 +247,7 @@ public class CalculatorGame implements Game {
         } else {
             potentialSuccessor = rule.update(this);
         }
-        if (isValid(potentialSuccessor)) return potentialSuccessor;
-        else return null;
-    }
-
-    private boolean isValid(CalculatorGame game) {
-        boolean valid = true;
-        valid &= game.getValue() % 1 == 0; // no decimals
-        valid &= Math.abs(game.getValue()) < Math.pow(10, 6); // max 6 digits
-        return valid;
+        return potentialSuccessor;
     }
 
     /**
@@ -273,6 +291,6 @@ public class CalculatorGame implements Game {
     @Override
     public boolean roughlyEquals(Game other) {
         return other instanceof CalculatorGame
-            && equalsExceptMoves((CalculatorGame)other);
+            && equalsExceptMoves((CalculatorGame) other);
     }
 }

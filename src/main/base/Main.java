@@ -41,7 +41,8 @@ public class Main {
             parseInput(args);
         }
 
-        calculatorGame = new CalculatorGame(value, goal, moves, rules, portals);
+        calculatorGame =
+            CalculatorGame.generateGame(value, goal, moves, rules, portals);
     }
 
     private static void promptAgain(Scanner scanner) {

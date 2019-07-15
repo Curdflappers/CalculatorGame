@@ -26,4 +26,44 @@ public class HelperTests {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void numDigitsNegativeSign() {
+        String valString = "-";
+        int expected = 0;
+
+        int actual = Helpers.numDigits(valString);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void numDigitsPositiveOneDigit() {
+        String valString = "1";
+        int expected = 1;
+
+        int actual = Helpers.numDigits(valString);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void numDigitsPositiveMultipleDigits() {
+        String valString = "12345";
+        int expected = 5;
+
+        int actual = Helpers.numDigits(valString);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void numDigitsNegativeMultipleDigits() {
+        String valString = "-12345";
+        int expected = 5;
+
+        int actual = Helpers.numDigits(valString);
+
+        assertEquals(expected, actual);
+    }
 }

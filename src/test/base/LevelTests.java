@@ -59,7 +59,7 @@ public class LevelTests {
             };
 
             game =
-                new CalculatorGame(
+                CalculatorGame.generateGame(
                     value,
                     goal,
                     moves,

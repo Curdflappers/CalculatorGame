@@ -18,10 +18,8 @@ public class InverseTenRule extends Rule {
             }
         }
 
-        int newValue = Integer.parseInt(new String(valCharArr));
-
-        return new CalculatorGame(
-            newValue,
+        return CalculatorGame.generateGame(
+            new String(valCharArr),
             game.getGoal(),
             game.getMovesLeft() - 1,
             game.getRules(),

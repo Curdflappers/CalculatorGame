@@ -9,12 +9,11 @@ public class ConvertRule extends Rule {
     private String OP_STRING_2;
 
     public CalculatorGame apply(CalculatorGame game) {
-        double value = game.getValue();
+        int value = game.getValue();
         String valString = String.valueOf((int) value);
         valString = valString.replace(OP_STRING_1, OP_STRING_2);
-        double newValue = Double.parseDouble(valString);
-        return new CalculatorGame(
-            newValue,
+        return CalculatorGame.generateGame(
+            valString,
             game.getGoal(),
             game.getMovesLeft() - 1,
             game.getRules(),

@@ -9,9 +9,9 @@ public abstract class ShiftRule extends Rule {
         boolean negative = game.getValue() < 0;
         int[] digits = Helpers.digits((int) game.getValue());
         rotate(digits);
-        double newValue = valueOf(digits);
+        int newValue = valueOf(digits);
         newValue = negative ? -newValue : newValue;
-        return new CalculatorGame(
+        return CalculatorGame.generateGame(
             newValue,
             game.getGoal(),
             game.getMovesLeft() - 1,
@@ -66,8 +66,11 @@ public abstract class ShiftRule extends Rule {
      * <code>valueOf([0]) returns 0</code>
      * <p>
      * <code>valueOf([]) returns 0</code>
+     * <p>
+     * PRECONDITION: no chance of integer overflow
      * @param digits the array to evaluate
      */
+    // TODO enforce no integer overflow
     protected static int valueOf(int[] digits) {
         int value = 0;
 

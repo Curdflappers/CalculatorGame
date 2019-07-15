@@ -24,7 +24,7 @@ public class StoreRule extends Rule {
         Rule[] newValidRules = game.getRules();
         int index = Arrays.asList(newValidRules).indexOf(this);
         newValidRules[index] = newRule;
-        return new CalculatorGame(
+        return CalculatorGame.generateGame(
             game.getValue(),
             game.getGoal(),
             game.getMovesLeft(),
@@ -40,8 +40,8 @@ public class StoreRule extends Rule {
         // pad the value
         String valString = String.valueOf((int) game.getValue());
         valString += getOperand1();
-        return new CalculatorGame(
-            Double.parseDouble(valString),
+        return CalculatorGame.generateGame(
+            valString,
             game.getGoal(),
             game.getMovesLeft() - 1,
             game.getRules(),
