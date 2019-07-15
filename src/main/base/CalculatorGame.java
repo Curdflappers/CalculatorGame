@@ -83,7 +83,7 @@ public class CalculatorGame implements Game {
     }
 
     /** The valid rules for this game */
-    public Rule[] getRules() { // TODO rename getRules()
+    public Rule[] getRules() {
         return Arrays.copyOf(validRules, validRules.length);
     }
 
