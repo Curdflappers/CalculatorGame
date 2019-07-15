@@ -10,7 +10,9 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
+import game.Solver;
 import game.State;
+import rules.CalculatorGame;
 import rules.Rule;
 
 public class LevelTests {
@@ -90,7 +92,7 @@ public class LevelTests {
                 continue;
             }
 
-            List<State> solutionStates = CGSolver.solve(game);
+            List<State> solutionStates = Solver.solve(game);
             String solutionString = State.allTransitions(solutionStates);
 
             if (!solutionString.equals(expectedSolutionString)) {

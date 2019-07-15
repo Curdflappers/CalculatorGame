@@ -1,7 +1,6 @@
 package rules;
 
 import base.Config;
-import base.CalculatorGame;
 
 public class SumRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
@@ -11,13 +10,14 @@ public class SumRule extends Rule {
             sum += value % 10;
             value /= 10;
         }
-        return CalculatorGame.generateGame(
-            sum,
-            game.getGoal(),
-            game.getMovesLeft() - 1,
-            game.getRules(),
-            game.getPortals()
-        );
+        return CalculatorGame
+            .generateGame(
+                sum,
+                game.getGoal(),
+                game.getMovesLeft() - 1,
+                game.getRules(),
+                game.getPortals()
+            );
     }
 
     public SumRule() {

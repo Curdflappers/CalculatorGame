@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import game.Solver;
 import game.State;
+import rules.CalculatorGame;
 import rules.Rule;
 
 /**
@@ -25,7 +27,7 @@ public class Main {
         do {
             getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            List<State> solutionStates = CGSolver.solve(calculatorGame);
+            List<State> solutionStates = Solver.solve(calculatorGame);
             String solutionString = State.allTransitions(solutionStates);
             System.out.print(solutionString);
             promptAgain(scanner);

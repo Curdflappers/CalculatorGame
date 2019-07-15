@@ -1,7 +1,6 @@
 package rules;
 
 import base.Config;
-import base.CalculatorGame;
 
 public class InverseTenRule extends Rule {
 
@@ -18,13 +17,14 @@ public class InverseTenRule extends Rule {
             }
         }
 
-        return CalculatorGame.generateGame(
-            new String(valCharArr),
-            game.getGoal(),
-            game.getMovesLeft() - 1,
-            game.getRules(),
-            game.getPortals()
-        );
+        return CalculatorGame
+            .generateGame(
+                new String(valCharArr),
+                game.getGoal(),
+                game.getMovesLeft() - 1,
+                game.getRules(),
+                game.getPortals()
+            );
     }
 
     public InverseTenRule() {

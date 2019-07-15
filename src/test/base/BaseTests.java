@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import rules.CalculatorGame;
 import rules.Rule;
 
 import org.junit.jupiter.api.Test;
@@ -172,10 +173,7 @@ public class BaseTests {
         Rule[] solution = new Rule[] {
             rule
         };
-        boolean[] apply = {
-            true
-        };
-        assertMainAgainWorks(value, goal, moves, rules, solution, apply);
+        assertMainAgainWorks(value, goal, moves, rules, solution);
     }
 
     // --------//
@@ -221,8 +219,7 @@ public class BaseTests {
         int goal,
         int moves,
         Rule[] rules,
-        Rule[] solution,
-        boolean[] apply
+        Rule[] solution
     ) {
 
         String[] ruleStrings = ruleStrings(rules);
@@ -231,9 +228,9 @@ public class BaseTests {
             inputString(true, initialValue, goal, moves, ruleStrings, null);
         ByteArrayOutputStream baos = prepareEndToEndTest(inputString);
         Main.main(inputStrings(initialValue, goal, moves, ruleStrings, null));
-        String expectedOutput = solutionOutput(solution, apply);
+        String expectedOutput = solutionOutput(solution);
         expectedOutput += gamePrompts();
-        expectedOutput += solutionOutput(solution, apply);
+        expectedOutput += solutionOutput(solution);
         String actualOutput = stringFromBaos(baos);
         assertEquals(expectedOutput, actualOutput);
         System.setOut(out);
@@ -372,14 +369,11 @@ public class BaseTests {
      * Returns the output for the given solution
      * Includes again prompt
      */
-    String solutionOutput(Rule[] solution, boolean[] apply) {
+    String solutionOutput(Rule[] solution) {
         String output = Config.SOLUTION_PROMPT + "\n";
         for (int i = 0; i < solution.length; i++) {
             Rule rule = solution[i];
-            output +=
-                (apply[i] ? Config.APPLY_PROMPT : Config.UPDATE_PROMPT)
-                    + rule.toString()
-                    + "\n";
+            output += Config.APPLY_PROMPT + rule.toString() + "\n";
         }
         output += Config.AGAIN_PROMPT;
         return output;

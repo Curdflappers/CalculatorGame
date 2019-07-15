@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import base.Config;
-import base.CalculatorGame;
+
 import base.Helpers;
 
 public class RuleTests {
@@ -20,7 +20,7 @@ public class RuleTests {
         String ruleString = null;
 
         // Test all operator strings
-        for (int i = 0; i < Config.OPERATOR_STRINGS.length; i++) {
+        for (int i = 0; i < Config.OPERATOR_STRINGS.length - 1; i++) {
             switch (Config.NUM_OPERANDS[i]) {
                 case 0:
                     ruleString = Config.ruleString(i);
@@ -64,7 +64,8 @@ public class RuleTests {
         String str,
         int operator,
         int operand1,
-        int operand2) {
+        int operand2
+    ) {
         Rule rule = Rule.ruleFromString(str);
         assertEquals(Rule.makeRule(operator, operand1, operand2), rule);
         assertEquals(str, rule.toString());
@@ -239,7 +240,8 @@ public class RuleTests {
         int operator,
         int operand1,
         int operand2,
-        int value) {
+        int value
+    ) {
         Rule rule = Rule.makeRule(operator, operand1, operand2);
         assertApplyRule(expected, rule, value);
     }
@@ -253,7 +255,8 @@ public class RuleTests {
         int operator,
         String opString1,
         String opString2,
-        int value) {
+        int value
+    ) {
         Rule rule = Rule.makeRule(operator, opString1, opString2);
         assertApplyRule(expected, rule, value);
     }
@@ -263,15 +266,10 @@ public class RuleTests {
      * with the given value and no portals results in the expected value
      */
     void assertApplyRule(int expected, Rule rule, int value) {
-        CalculatorGame originalGame = CalculatorGame.generateGame(
-            value,
-            0,
-            0,
-            new Rule[] {},
-            null
-        );
-        double newValue = rule.apply(originalGame).getValue();
-        assertEquals(expected, newValue, 0.01, rule.toString());
+        CalculatorGame originalGame =
+            CalculatorGame.generateGame(value, 0, 0, new Rule[] {}, null);
+        int newValue = rule.apply(originalGame).getValue();
+        assertEquals(expected, newValue, rule.toString());
     }
 
     /**
@@ -285,16 +283,12 @@ public class RuleTests {
         int goal = -2;
         int moves = 9; // some value > 0
 
-        CalculatorGame oldGame = CalculatorGame.generateGame(
-            value,
-            goal,
-            moves,
-            oldRules,
-            null
-        );
+        CalculatorGame oldGame =
+            CalculatorGame.generateGame(value, goal, moves, oldRules, null);
         CalculatorGame newGame = rule.apply(oldGame);
         CalculatorGame expectedGame =
-            CalculatorGame.generateGame(value, goal, moves - 1, expectedRules, null);
+            CalculatorGame
+                .generateGame(value, goal, moves - 1, expectedRules, null);
         assertEquals(expectedGame, newGame);
     }
 
