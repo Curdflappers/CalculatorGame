@@ -64,15 +64,7 @@ public class CalculatorGame implements Game {
         Rule[] rules,
         int[] portals
     ) {
-        if (
-            value != Integer.MAX_VALUE
-                && value != Integer.MIN_VALUE
-                && Math.abs(value) < Math.pow(10, Config.MAX_DIGITS)
-                && validPortals(portals)
-        ) {
-            return new CalculatorGame(value, goal, moves, rules, portals);
-        }
-        return null;
+        return generateGame(String.valueOf(value), goal, moves, rules, portals);
     }
 
     public static CalculatorGame generateGame(
