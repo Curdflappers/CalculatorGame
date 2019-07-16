@@ -1,13 +1,13 @@
 15
 16
-4
+5
 Store
 11=>33
 Reverse
 SUM
 
 n
-Update Store
+Apply Update Store
 Apply Reverse
 Apply Store
 Apply 11=>33

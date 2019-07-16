@@ -1,4 +1,4 @@
-package base;
+package rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -76,7 +76,7 @@ public class CalculatorGameTests {
         };
         int expected = 1;
 
-        CalculatorGame game = CalculatorGame.generateGame(value, 0, 0, null, portals);
+        CalculatorGame game = CalculatorGame.generateGame(value, 0, 0, new Rule[]{}, portals);
 
         assertEquals(expected, (int) game.getValue());
     }
@@ -89,7 +89,7 @@ public class CalculatorGameTests {
         };
         int expected = 113;
 
-        CalculatorGame game = CalculatorGame.generateGame(value, 0, 0, null, portals);
+        CalculatorGame game = CalculatorGame.generateGame(value, 0, 0, new Rule[]{}, portals);
 
         assertEquals(expected, game.getValue(), 0.001);
     }

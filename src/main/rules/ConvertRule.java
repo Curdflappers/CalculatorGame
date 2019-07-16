@@ -1,7 +1,6 @@
 package rules;
 
 import base.Config;
-import base.CalculatorGame;
 
 public class ConvertRule extends Rule {
 
@@ -12,13 +11,14 @@ public class ConvertRule extends Rule {
         int value = game.getValue();
         String valString = String.valueOf((int) value);
         valString = valString.replace(OP_STRING_1, OP_STRING_2);
-        return CalculatorGame.generateGame(
-            valString,
-            game.getGoal(),
-            game.getMovesLeft() - 1,
-            game.getRules(),
-            game.getPortals()
-        );
+        return CalculatorGame
+            .generateGame(
+                valString,
+                game.getGoal(),
+                game.getMovesLeft() - 1,
+                game.getRules(),
+                game.getPortals()
+            );
     }
 
     public ConvertRule(int operand1, int operand2) {

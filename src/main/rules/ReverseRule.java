@@ -1,7 +1,6 @@
 package rules;
 
 import base.Config;
-import base.CalculatorGame;
 
 public class ReverseRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
@@ -13,13 +12,14 @@ public class ReverseRule extends Rule {
         // Reverse the string
         valString = new StringBuilder(valString).reverse().toString();
         valString = negative ? "-" + valString : valString; // fix the sign
-        return CalculatorGame.generateGame(
-            valString,
-            game.getGoal(),
-            game.getMovesLeft() - 1,
-            game.getRules(),
-            game.getPortals()
-        );
+        return CalculatorGame
+            .generateGame(
+                valString,
+                game.getGoal(),
+                game.getMovesLeft() - 1,
+                game.getRules(),
+                game.getPortals()
+            );
     }
 
     public ReverseRule() {

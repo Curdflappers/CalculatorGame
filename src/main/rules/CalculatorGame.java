@@ -1,9 +1,11 @@
-package base;
+package rules; // TODO rename to calculator-game
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import base.Config;
+import base.Helpers;
 import game.Game;
 import game.State;
 import rules.Rule;
@@ -64,15 +66,7 @@ public class CalculatorGame implements Game {
         Rule[] rules,
         int[] portals
     ) {
-        if (
-            value != Integer.MAX_VALUE
-                && value != Integer.MIN_VALUE
-                && Math.abs(value) < Math.pow(10, Config.MAX_DIGITS)
-                && validPortals(portals)
-        ) {
-            return new CalculatorGame(value, goal, moves, rules, portals);
-        }
-        return null;
+        return generateGame(String.valueOf(value), goal, moves, rules, portals);
     }
 
     public static CalculatorGame generateGame(
@@ -83,13 +77,41 @@ public class CalculatorGame implements Game {
         int[] portals
     ) {
         int numDigits = Helpers.numDigits(valueString);
-        if (numDigits <= Config.MAX_DIGITS && validPortals(portals)) {
+        if (
+            numDigits <= Config.MAX_DIGITS
+                && validPortals(portals)
+                && rules != null
+        ) {
             int value = Integer.parseInt(valueString);
             if (value != Integer.MAX_VALUE && value != Integer.MIN_VALUE) {
+                rules = sanitize(rules);
                 return new CalculatorGame(value, goal, moves, rules, portals);
             }
         }
         return null;
+    }
+
+    /**
+     * Returns a version of the rules with the meta store rules added for each
+     * store rule present. Returns the original array if no store rules are
+     * present. Ensures no double meta store rules exist.
+     * @param rules the rules to which to add meta store rules.
+     * @return an array of rules with meta store rules added
+     */
+    private static Rule[] sanitize(Rule[] rules) {
+        List<Rule> newRules = Helpers.copyAsList(rules);
+        for (int i = 0; i < rules.length; i++) {
+            Rule rule = rules[i];
+            if (rule.getOperator() == Config.STORE) {
+                MetaStoreRule metaStoreRule = new MetaStoreRule(i);
+                if (newRules.indexOf(metaStoreRule) == -1) {
+                    newRules.add(new MetaStoreRule(i));
+                }
+            }
+        }
+        Rule[] newRulesArray = new Rule[newRules.size()];
+        newRules.toArray(newRulesArray);
+        return newRulesArray;
     }
 
     public int getValue() {
@@ -212,21 +234,15 @@ public class CalculatorGame implements Game {
     public List<State> getSuccessors(State predecessor) {
         List<State> successors = new ArrayList<>();
         if (predecessor == null) predecessor = rootState();
-        addSuccessors(predecessor, successors, true);
-        addSuccessors(predecessor, successors, false);
+        addSuccessors(predecessor, successors);
         return successors;
     }
 
-    private void addSuccessors(
-        State parent,
-        List<State> successors,
-        boolean applied
-    ) {
+    private void addSuccessors(State parent, List<State> successors) {
         for (Rule rule : getRules()) {
-            CalculatorGame successorGame = getSuccessor(rule, applied);
+            CalculatorGame successorGame = getSuccessor(rule);
             if (successorGame == null) continue;
-            String transitionString =
-                CalculatorGame.transitionString(rule, applied);
+            String transitionString = CalculatorGame.transitionString(rule);
             State successorState =
                 new State(successorGame, parent, transitionString);
             successors.add(successorState);
@@ -239,14 +255,9 @@ public class CalculatorGame implements Game {
      * @param applied
      * @return null if the successor would be invalid, otherwise the successor
      */
-    private CalculatorGame getSuccessor(Rule rule, boolean applied) {
+    private CalculatorGame getSuccessor(Rule rule) {
         if (movesLeft == 0) return null;
-        CalculatorGame potentialSuccessor = null;
-        if (applied) {
-            potentialSuccessor = rule.apply(this);
-        } else {
-            potentialSuccessor = rule.update(this);
-        }
+        CalculatorGame potentialSuccessor = rule.apply(this);
         return potentialSuccessor;
     }
 
@@ -256,9 +267,9 @@ public class CalculatorGame implements Game {
      * @param applied true to apply the rule, false to update the rule
      * @return the string representing the use of the rule
      */
-    public static String transitionString(Rule rule, boolean applied) {
+    public static String transitionString(Rule rule) {
         String s = "";
-        s += applied ? Config.APPLY_PROMPT : Config.UPDATE_PROMPT;
+        s += Config.APPLY_PROMPT;
         // space included in prompt
         s += rule;
         return s;

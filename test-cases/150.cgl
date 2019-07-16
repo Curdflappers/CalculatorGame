@@ -1,6 +1,6 @@
 0
 61
-7
+8
 5
 <<
 SUM
@@ -8,11 +8,10 @@ Store
 
 n
 Apply 5
-Update Store
-Apply Store
+Apply 5
 Apply SUM
-Apply SUM
-Update Store
+Apply Update Store
 Apply 5
 Apply SUM
 Apply Store
+Apply <<

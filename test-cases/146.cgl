@@ -1,13 +1,13 @@
 23
 1234
-4
+5
 *2
 -5
 Store
 < Shift
 
 n
-Update Store
+Apply Update Store
 Apply *2
 Apply -5
 Apply Store

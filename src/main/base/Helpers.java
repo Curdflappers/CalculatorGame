@@ -1,4 +1,7 @@
-package base;
+package base; // TODO move
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Helpers {
 
@@ -29,7 +32,7 @@ public class Helpers {
      */
     public static int[] digits(int value) {
         value = Math.abs(value); // only interested in its digits, not its sign
-        int numDigits = value == 0 ? 1 : (int) Math.ceil(Math.log10(value));
+        int numDigits = numDigits(String.valueOf(value));
         int[] digits = new int[numDigits];
 
         for (int i = numDigits - 1; i >= 0; i--) { // start at the end, go back
@@ -63,5 +66,13 @@ public class Helpers {
      */
     public static int digitsToTheLeft(int value, int digitIndex) {
         return value / (int) Math.pow(10, digitIndex + 1);
+    }
+
+    public static <T> List<T> copyAsList(T[] array) {
+        List<T> list = new ArrayList<>();
+        for (T element : array) {
+            list.add(element);
+        }
+        return list;
     }
 }

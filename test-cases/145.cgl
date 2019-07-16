@@ -1,15 +1,15 @@
 10
 17
-5
+6
 +2
 /3
 Reverse
 Store
 
 n
+Apply Update Store
+Apply +2
 Apply Reverse
-Update Store
+Apply /3
 Apply Store
-Apply +2
-Apply +2
-Apply +2
+Apply Reverse

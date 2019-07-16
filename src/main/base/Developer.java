@@ -6,7 +6,9 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
+import game.Solver;
 import game.State;
+import rules.CalculatorGame;
 
 public class Developer {
     public static void main(String[] args) {
@@ -14,7 +16,7 @@ public class Developer {
         do {
             Main.getInput(new String[] {}, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            List<State> solution = CGSolver.solve(Main.getCalculatorGame());
+            List<State> solution = Solver.solve(Main.getCalculatorGame());
             String solutionString = State.allTransitions(solution);
             System.out.print(solutionString);
             promptSaveTestCase(
