@@ -11,6 +11,6 @@ n
 Apply 5
 Apply *6
 Apply 3=>1
-Update Store
+Apply Update Store
 Apply Store
 Apply Shift >

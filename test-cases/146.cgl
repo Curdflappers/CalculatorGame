@@ -7,7 +7,7 @@ Store
 < Shift
 
 n
-Update Store
+Apply Update Store
 Apply *2
 Apply -5
 Apply Store

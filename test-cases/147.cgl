@@ -8,7 +8,7 @@ Store
 n
 Apply *2
 Apply <<
-Update Store
+Apply Update Store
 Apply *2
 Apply <<
 Apply *2
