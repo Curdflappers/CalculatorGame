@@ -7,8 +7,8 @@ Store
 Inv10
 
 n
-Apply Inv10
 Apply Update Store
 Apply Store
+Apply Inv10
 Apply <<
 Apply SUM

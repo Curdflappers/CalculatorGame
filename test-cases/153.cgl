@@ -8,10 +8,10 @@ Store
 SUM
 
 n
-Apply SUM
 Apply Update Store
-Apply 0
-Apply /2
 Apply SUM
 Apply Store
+Apply Store
+Apply /2
 Apply 8=>1
+Apply SUM

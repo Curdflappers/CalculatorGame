@@ -7,9 +7,9 @@ Reverse
 Store
 
 n
-Apply Reverse
 Apply Update Store
+Apply +2
+Apply Reverse
+Apply /3
 Apply Store
-Apply +2
-Apply +2
-Apply +2
+Apply Reverse

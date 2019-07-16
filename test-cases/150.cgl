@@ -8,11 +8,10 @@ Store
 
 n
 Apply 5
-Apply Update Store
-Apply Store
-Apply SUM
+Apply 5
 Apply SUM
 Apply Update Store
 Apply 5
 Apply SUM
 Apply Store
+Apply <<
