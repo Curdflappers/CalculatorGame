@@ -1,4 +1,4 @@
-package game;
+package brutesolver;
 
 import java.util.List;
 

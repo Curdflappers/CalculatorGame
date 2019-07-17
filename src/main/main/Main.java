@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import game.Solver;
-import game.State;
+import brutesolver.Solver;
+import brutesolver.State;
 import rules.CalculatorGame;
 import rules.Config;
 import rules.Rule;

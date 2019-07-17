@@ -20,7 +20,7 @@ import rules.Rule;
 
 import org.junit.jupiter.api.Test;
 
-import game.State;
+import brutesolver.State;
 
 public class MainTests {
     Rule[] rules, solution;

@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
 
-import game.Solver;
-import game.State;
+import brutesolver.Solver;
+import brutesolver.State;
 
 public class LevelTests {
 
