@@ -1,4 +1,4 @@
-package base;
+package rules;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -12,9 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import game.Solver;
 import game.State;
-import rules.CalculatorGame;
-import rules.Config;
-import rules.Rule;
 
 public class LevelTests {
 
