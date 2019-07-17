@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 public class ConvertRule extends Rule {
 
     private final String OP_STRING_1;

@@ -8,6 +8,7 @@ import java.util.Scanner;
 import game.Solver;
 import game.State;
 import rules.CalculatorGame;
+import rules.Config;
 import rules.Rule;
 
 /**

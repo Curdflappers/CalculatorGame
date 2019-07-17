@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 public class MirrorRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
         int value = game.getValue();

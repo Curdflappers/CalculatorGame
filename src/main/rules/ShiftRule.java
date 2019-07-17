@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 import base.Helpers;
 
 public abstract class ShiftRule extends Rule {

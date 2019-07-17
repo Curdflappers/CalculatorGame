@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 public class InverseTenRule extends Rule {
 
     public CalculatorGame apply(CalculatorGame game) {

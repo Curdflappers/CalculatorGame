@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 /**
  * Operates similar to the PadRule, but employs the update method to change the
  * value to be padded.

@@ -1,9 +1,9 @@
-package base; // TODO move to rules
+package rules;
 
 // TODO make multiple classes (rules, I/O, testing)
 public class Config {
   /** The path to the directory containing all test cases */
-  static String TESTCASES_PATH = "test-cases";
+  public static String TESTCASES_PATH = "test-cases";
 
   /** Operator index. INVALID must remain < 0 */
   public static final int INVALID = -1;

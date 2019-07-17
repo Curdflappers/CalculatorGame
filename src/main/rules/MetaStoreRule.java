@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 /**
  * Custom rule to modify the state of the Store rule for a given game
  */

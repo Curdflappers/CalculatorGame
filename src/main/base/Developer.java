@@ -9,6 +9,7 @@ import java.util.Scanner;
 import game.Solver;
 import game.State;
 import rules.CalculatorGame;
+import rules.Config;
 
 public class Developer {
     public static void main(String[] args) {

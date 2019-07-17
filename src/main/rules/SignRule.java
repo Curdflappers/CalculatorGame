@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 public class SignRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
         return CalculatorGame

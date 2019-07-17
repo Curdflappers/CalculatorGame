@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 public class PadRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
         String valString = String.valueOf((int) game.getValue());

@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 public class ReverseRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
         boolean negative = game.getValue() < 0;

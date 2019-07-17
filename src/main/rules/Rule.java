@@ -3,8 +3,6 @@ package rules;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import base.Config;
-
 public abstract class Rule {
     private int operand1;
     private int operand2; // for convert op1 to op2 rules

@@ -1,7 +1,5 @@
 package rules;
 
-import base.Config;
-
 public class DivideRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
         double doubleValue = game.getValue();
