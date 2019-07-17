@@ -8,7 +8,7 @@ Testing is done with JUnit 5 and comprehensive unit tests and integration tests 
 
 ## Running the Tests
 
-1. Open the `Test` view from the ribbon on the side bar by clicking the titration flask icon.
+1. Open the `Test` view from the ribbon on the side bar by clicking the flask icon.
 1. Click the triangle (the `Run Test` button) at the top of the `Test` view.
 1. The tests should run and complete within a few seconds (progress is recorded on the bottom status bar, near the left-hand side)
 1. One the bottom status bar, there will be an `✗` followed by a number, then a `✓` followed by a number. If the number following the `✗` is `0`, then all tests passed. Click there (`View test report`) to see details on which tests failed and why.
@@ -43,6 +43,6 @@ Adding a test case file automatically means it will be tested: all files in that
 
 ### Developer Mode
 
-Running the program in developer mode allows the user to automatically write new test cases. Once a level is solved, the user is prompted to save the test case. If they choose to do so, they can then enter a filename. A file under the given name is then saved in the `/test-cases` directory with the ending `.cgl`. These test case files are automatically tested in [`/src/test/base/LevelTests.java`](/src/test/base/LevelTests.java).
+Running the program in developer mode allows the user to automatically write new test cases. Once a level is solved, the user is prompted to save the test case. If they choose to do so, they can then enter a filename. A file under the given name is then saved in the `/test-cases` directory with the ending `.cgl`. These test case files are automatically tested in [`LevelTests.java`](/src/test/calculatorgame/LevelTests.java).
 
 Developer Mode runs in an infinite loop: the program must be manually quit by some outside force (e.g. clicking the X, using Alt+F4). This choice was made to speed up the creation of test cases.

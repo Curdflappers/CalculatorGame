@@ -9,29 +9,26 @@ Some files/subdirectories are skipped because they are self-explanatory or rarel
 * `docs`: documentation
 * `gradle`: the necessary files to install gradle
 * `src`: the Java files
-    * `main`: the production code
-        * `base`: the basics of the program
-            * [`CalculatorGame.java`](../src/main/base/CalculatorGame.java): the data structure for a game, including the logic to apply portals
-            * [`CGSolver.java`](../src/main/base/CGSolver.java): logic specific to solving Calculator Game instances
-            * [`Config.java`](../src/main/base/Config.java): configuration settings, prompts, all that boring jazz
-            * [`Developer.java`](../src/main/base/Develop.java): alternative main class with regression test factory
-            * [`Helpers.java`](../src/main/base/Helpers.java): miscellaneous helper methods
-            * [`Main.java`](../src/main/base/Main.java): I/O logic, solver logic
-        * `game`: abstract logic
-            * [`Game.java`](../src/main/game/Game.java): interface for any Game
-            * [`Solver.java`](../src/main/game/Solver.java): logic to solve abstract games
-            * [`State.java`](../src/main/game/State.java): wrapper for Games that allows implicit linked lists of Games with some extra functionality
-        * `rules`: a class for each rule in Calculator: The Game
-    * `test`: test code
-        * `base`: tests for the base package
-            * [`BaseTests.java`](../src/test/base/BaseTests.java): comprehensive tests, from unit to end-to-end, covering nearly all functionality of the program
-            * [`LevelTests.java`](../src/test/base/LevelTests.java): tests for the ability to correctly solve levels
-        * `rules`: tests for the rules package
+    * `prod`: the production code
+        * `main`: the main classes of the program
+            * [`Developer.java`](../src/prod/prod/Developer.java): alternative main class with regression test factory
+            * [`Main.java`](../src/prod/prod/Main.java): I/O logic, solver logic
+        * `brutesolver`: brute-force logic for solving games
+            * [`Game.java`](../src/prod/brutesolver/Game.java): interface for any Game
+            * [`Solver.java`](../src/prod/brutesolver/Solver.java): logic to solve abstract games
+            * [`State.java`](../src/prod/brutesolver/State.java): wrapper for Games that allows implicit linked lists of Games and transition messages
+        * `calculatorgame`: a class for each rule in Calculator: The Game
+            * [`CalculatorGame.java`](../src/prod/calculatorgame/CalculatorGame.java): the data structure for a game, including the logic to apply portals
+            * [`Config.java`](../src/prod/calculatorgame/Config.java): configuration settings, prompts, all that jazz. This should be split into multiple files...
+            * [`Helpers.java`](../src/prod/calculatorgame/Helpers.java): miscellaneous helper methods
+    * `test`: all test code
+        * `main`
+            * [`MainTests.java`](../src/test/main/BaseTests.java): comprehensive tests, from unit to end-to-end, covering nearly all functionality of the program
+        * `calculatorgame`
+            * [`LevelTests.java`](../src/test/calculatorgame/LevelTests.java): tests for the ability to correctly solve levels
 * `test-cases`: stores all test case files for the level-solver. File format found in the [testing document](./testing.md#test-cases)
 * [`.classpath`](../.classpath): the classpath
-* [`.gitignore`](../.gitignore): self-explanatory
 * [`.project`](../.project): Metadata about the project
 * `*.gradle`: Gradle files for running the project
 * [`gradlew`](../gradlew): build script for Unix-y machines
 * [`gradlew.bat`](../gradlew.bat): build script for Windows machines
-* [`README.md`](../README.md): the README
