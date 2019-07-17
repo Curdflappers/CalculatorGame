@@ -1,4 +1,4 @@
-package base;
+package main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import game.State;
 
-public class BaseTests {
+public class MainTests {
     Rule[] rules, solution;
     boolean[] apply;
     int[] portals;

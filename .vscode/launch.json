@@ -11,7 +11,7 @@
             "cwd": "${workspaceFolder}",
             "console": "externalTerminal",
             "stopOnEntry": false,
-            "mainClass": "base.Developer",
+            "mainClass": "main.Developer",
             "projectName": "calculator-game",
             "args": ""
         },
@@ -22,7 +22,7 @@
             "cwd": "${workspaceFolder}",
             "console": "externalTerminal",
             "stopOnEntry": false,
-            "mainClass": "base.Main",
+            "mainClass": "main.Main",
             "projectName": "calculator-game",
             "args": ""
         }
