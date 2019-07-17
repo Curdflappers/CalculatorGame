@@ -1,7 +1,5 @@
 package rules;
 
-import base.Helpers;
-
 public abstract class ShiftRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
         boolean negative = game.getValue() < 0;

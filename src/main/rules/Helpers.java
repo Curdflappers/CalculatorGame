@@ -1,4 +1,4 @@
-package base; // TODO move
+package rules;
 
 import java.util.ArrayList;
 import java.util.List;
