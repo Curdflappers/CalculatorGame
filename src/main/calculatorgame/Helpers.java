@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 import java.util.ArrayList;
 import java.util.List;

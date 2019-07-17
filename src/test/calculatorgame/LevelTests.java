@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -59,13 +59,14 @@ public class LevelTests {
             };
 
             game =
-                CalculatorGame.generateGame(
-                    value,
-                    goal,
-                    moves,
-                    rules.toArray(new Rule[rules.size()]),
-                    portals
-                );
+                CalculatorGame
+                    .generateGame(
+                        value,
+                        goal,
+                        moves,
+                        rules.toArray(new Rule[rules.size()]),
+                        portals
+                    );
 
         } catch (FileNotFoundException e) {
             game = null;

@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import rules.CalculatorGame;
-import rules.Config;
-import rules.Rule;
+import calculatorgame.CalculatorGame;
+import calculatorgame.Config;
+import calculatorgame.Rule;
 
 import org.junit.jupiter.api.Test;
 

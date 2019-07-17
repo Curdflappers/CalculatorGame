@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 public class ShiftRightRule extends ShiftRule {
     protected void rotate(int[] digits) {

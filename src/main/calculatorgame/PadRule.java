@@ -1,10 +1,12 @@
-package rules;
+package calculatorgame;
 
-public class SubtractRule extends Rule {
+public class PadRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
+        String valString = String.valueOf((int) game.getValue());
+        valString += getOperand1();
         return CalculatorGame
             .generateGame(
-                game.getValue() - getOperand1(),
+                valString,
                 game.getGoal(),
                 game.getMovesLeft() - 1,
                 game.getRules(),
@@ -12,7 +14,7 @@ public class SubtractRule extends Rule {
             );
     }
 
-    public SubtractRule(int operand1) {
-        super(Config.SUBTRACT, operand1);
+    public PadRule(int operand1) {
+        super(Config.PAD, operand1);
     }
 }

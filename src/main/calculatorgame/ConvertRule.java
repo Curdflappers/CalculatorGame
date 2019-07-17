@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 public class ConvertRule extends Rule {
 

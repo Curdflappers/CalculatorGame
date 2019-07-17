@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 /**
  * Operates similar to the PadRule, but employs the update method to change the

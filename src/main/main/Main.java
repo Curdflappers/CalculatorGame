@@ -7,9 +7,9 @@ import java.util.Scanner;
 
 import brutesolver.Solver;
 import brutesolver.State;
-import rules.CalculatorGame;
-import rules.Config;
-import rules.Rule;
+import calculatorgame.CalculatorGame;
+import calculatorgame.Config;
+import calculatorgame.Rule;
 
 /**
  * Runs the Calculator CalculatorGame solver

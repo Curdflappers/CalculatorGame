@@ -1,4 +1,4 @@
-package rules; // TODO rename to calculator-game
+package calculatorgame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import brutesolver.Game;
 import brutesolver.State;
-import rules.Rule;
+import calculatorgame.Rule;
 
 public class CalculatorGame implements Game {
     /** The current number for this game */

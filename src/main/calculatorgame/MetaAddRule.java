@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 /**
  * Adds to the operands of the other rules, does not change the value of the

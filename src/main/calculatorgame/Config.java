@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 // TODO make multiple classes (rules, I/O, testing)
 public class Config {

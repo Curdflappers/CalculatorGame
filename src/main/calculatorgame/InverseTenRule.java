@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 public class InverseTenRule extends Rule {
 

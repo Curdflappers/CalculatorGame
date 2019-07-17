@@ -1,10 +1,10 @@
-package rules;
+package calculatorgame;
 
-public class PowerRule extends Rule {
+public class AddRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
         return CalculatorGame
             .generateGame(
-                (int) Math.pow(game.getValue(), getOperand1()),
+                game.getValue() + getOperand1(),
                 game.getGoal(),
                 game.getMovesLeft() - 1,
                 game.getRules(),
@@ -12,7 +12,7 @@ public class PowerRule extends Rule {
             );
     }
 
-    public PowerRule(int operand1) {
-        super(Config.POWER, operand1);
+    public AddRule(int operand1) {
+        super(Config.ADD, operand1);
     }
 }

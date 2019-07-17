@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 public abstract class ShiftRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {

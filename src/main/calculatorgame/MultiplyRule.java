@@ -1,10 +1,10 @@
-package rules;
+package calculatorgame;
 
-public class SignRule extends Rule {
+public class MultiplyRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
         return CalculatorGame
             .generateGame(
-                -game.getValue(),
+                game.getValue() * getOperand1(),
                 game.getGoal(),
                 game.getMovesLeft() - 1,
                 game.getRules(),
@@ -12,7 +12,7 @@ public class SignRule extends Rule {
             );
     }
 
-    public SignRule() {
-        super(Config.SIGN);
+    public MultiplyRule(int operand1) {
+        super(Config.MULTIPLY, operand1);
     }
 }

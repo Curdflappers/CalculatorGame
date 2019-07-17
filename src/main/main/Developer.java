@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 import brutesolver.Solver;
 import brutesolver.State;
-import rules.CalculatorGame;
-import rules.Config;
+import calculatorgame.CalculatorGame;
+import calculatorgame.Config;
 
 public class Developer {
     public static void main(String[] args) {

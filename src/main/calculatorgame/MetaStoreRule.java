@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 /**
  * Custom rule to modify the state of the Store rule for a given game
@@ -14,13 +14,14 @@ class MetaStoreRule extends Rule {
         StoreRule newRule = new StoreRule(game.getValue());
         Rule[] newValidRules = game.getRules();
         newValidRules[storeRuleIndex] = newRule;
-        return CalculatorGame.generateGame(
-            game.getValue(),
-            game.getGoal(),
-            game.getMovesLeft() - 1,
-            newValidRules,
-            game.getPortals()
-        );
+        return CalculatorGame
+            .generateGame(
+                game.getValue(),
+                game.getGoal(),
+                game.getMovesLeft() - 1,
+                newValidRules,
+                game.getPortals()
+            );
     }
 
     MetaStoreRule(int storeRuleIndex) {

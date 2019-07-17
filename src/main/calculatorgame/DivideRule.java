@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 public class DivideRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {

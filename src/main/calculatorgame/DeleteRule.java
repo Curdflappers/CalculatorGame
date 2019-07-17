@@ -1,4 +1,4 @@
-package rules;
+package calculatorgame;
 
 public class DeleteRule extends Rule {
     public CalculatorGame apply(CalculatorGame game) {
