@@ -1,26 +1,21 @@
-# Gradle
-.gradle
-build/
-
-# Ignore Gradle GUI config
-gradle-app.setting
 
 # Eclipse
-/.classpath
-/.settings/*
-# But include formatter settings
+.gradle/
+.settings/
 !.settings/org.eclipse.jdt.core.prefs
-/.project
-/bin/
+bin/
 
-# IntelliJ
-.idea
-*.iml
-*.ipr
-*.iws
-
-# Misc
-*.log
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
 
 # Visual Studio Code
 .vscode/*
