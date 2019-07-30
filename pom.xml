@@ -6,7 +6,7 @@
 
   <groupId>com.mathwithmark.calculatorgamesolver</groupId>
   <artifactId>calculator-game-solver</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>prealpha-2.0.0-SNAPSHOT</version>
 
   <name>calculator-game-solver</name>
   <url>https://github.com/mark-wiemer/calculator-game-solver</url>
