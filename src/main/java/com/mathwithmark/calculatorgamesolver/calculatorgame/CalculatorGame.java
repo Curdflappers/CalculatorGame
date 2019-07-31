@@ -16,15 +16,15 @@ public class CalculatorGame implements Game, Mappable {
     private int value;
 
     /** The goal number for this game */
-    private final int goal;
+    private final int GOAL;
 
     /** The moves left in this game */
-    private final int movesLeft;
+    private final int MOVES_LEFT;
 
     /**
      * The rules that can be used in this game.
      */
-    private final Rule[] validRules;
+    private final Rule[] RULES;
 
     /**
      * The portals present on this game. `null` indicates no portals.
@@ -34,7 +34,7 @@ public class CalculatorGame implements Game, Mappable {
      * of the left portal, the second that same index for the right portal. 0
      * is ones place, 1 is tens place, 2 is hundreds place, etc.
      */
-    private final int[] portals;
+    private final int[] PORTALS;
 
     /**
      * Create a game of the given parameters
@@ -53,10 +53,10 @@ public class CalculatorGame implements Game, Mappable {
         int[] portals
     ) {
         this.value = value;
-        this.goal = goal;
-        this.movesLeft = moves;
-        this.validRules = rules;
-        this.portals = portals;
+        this.GOAL = goal;
+        this.MOVES_LEFT = moves;
+        this.RULES = rules;
+        this.PORTALS = portals;
         applyPortals();
     }
 
@@ -124,25 +124,25 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     public int getGoal() {
-        return goal;
+        return GOAL;
     }
 
     public int getMovesLeft() {
-        return movesLeft;
+        return MOVES_LEFT;
     }
 
     public boolean isValidRule(Rule rule) {
-        return Arrays.asList(validRules).contains(rule);
+        return Arrays.asList(RULES).contains(rule);
     }
 
     /** The valid rules for this game */
     public Rule[] getRules() {
-        return Arrays.copyOf(validRules, validRules.length);
+        return Arrays.copyOf(RULES, RULES.length);
     }
 
     public int[] getPortals() {
         if (!hasPortals()) return null;
-        return Arrays.copyOf(portals, portals.length);
+        return Arrays.copyOf(PORTALS, PORTALS.length);
     }
 
     /**
@@ -167,8 +167,8 @@ public class CalculatorGame implements Game, Mappable {
         boolean negative = toyValue < 0;
         toyValue = Math.abs(toyValue); // only worry about the positive version
 
-        int leftPortalIndex = portals[0];
-        int rightPortalIndex = portals[1];
+        int leftPortalIndex = PORTALS[0];
+        int rightPortalIndex = PORTALS[1];
 
         while (toyValue >= Math.pow(10, leftPortalIndex)) {
             // Have the digit fall
@@ -218,7 +218,7 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     public boolean hasPortals() {
-        return portals != null;
+        return PORTALS != null;
     }
 
     /**
@@ -256,7 +256,7 @@ public class CalculatorGame implements Game, Mappable {
      * @return null if the successor would be invalid, otherwise the successor
      */
     private CalculatorGame getSuccessor(Rule rule) {
-        if (movesLeft == 0) return null;
+        if (MOVES_LEFT == 0) return null;
         CalculatorGame potentialSuccessor = rule.apply(this);
         return potentialSuccessor;
     }
@@ -274,24 +274,24 @@ public class CalculatorGame implements Game, Mappable {
     public String toString() {
         String str = "{";
         str += " value: " + (int) value + ",";
-        str += " goal: " + goal + ",";
-        str += " movesLeft: " + movesLeft + ",";
+        str += " goal: " + GOAL + ",";
+        str += " movesLeft: " + MOVES_LEFT + ",";
 
         str += " rules: [";
-        for (int i = 0; i < validRules.length; i++) {
-            Rule rule = validRules[i];
+        for (int i = 0; i < RULES.length; i++) {
+            Rule rule = RULES[i];
             if (i != 0) str += ", ";
             str += rule.toString();
         }
         str += "],";
 
-        str += " portals: " + Arrays.toString(portals);
+        str += " portals: " + Arrays.toString(PORTALS);
         str += " }";
         return str;
     }
 
     public boolean isWon() {
-        return value == goal;
+        return value == GOAL;
     }
 
     @Override
