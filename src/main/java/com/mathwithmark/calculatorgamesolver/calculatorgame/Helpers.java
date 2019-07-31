@@ -79,7 +79,7 @@ public class Helpers {
 
 
     static List<String> testCases() {
-        final File folder = new File(Config.TESTCASES_PATH);
+        final File folder = new File(Config.TEST_CASES_PATH);
         List<String> filenames = new ArrayList<>();
         for (final File fileEntry : folder.listFiles()) {
             filenames.add(fileEntry.getName());

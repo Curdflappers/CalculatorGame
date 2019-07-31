@@ -135,7 +135,7 @@ public class Serialize {
      */
     public static CalculatorGame loadGame(String filename) {
         Yaml yaml = new Yaml();
-        String filePath = Config.TESTCASES_PATH + "/" + filename;
+        String filePath = Config.TEST_CASES_PATH + "/" + filename;
         String fileContents = fileToString(filePath);
         Map<String, Object> map = yaml.load(fileContents);
         return mapToGame(map);
@@ -148,7 +148,7 @@ public class Serialize {
      */
     public static List<String> loadSolution(String filename) {
         Yaml yaml = new Yaml();
-        String filePath = Config.TESTCASES_PATH + "/" + filename;
+        String filePath = Config.TEST_CASES_PATH + "/" + filename;
         String fileContents = fileToString(filePath);
         Map<String, Object> map = yaml.load(fileContents);
         return mapToSolution(map);
