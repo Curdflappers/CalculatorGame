@@ -273,22 +273,21 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     public String toString() {
-        String str = "";
-        str += (int) value + "\n";
-        str += goal + "\n";
-        str += movesLeft + "\n";
+        String str = "{";
+        str += " value: " + (int) value + ",";
+        str += " goal: " + goal + ",";
+        str += " movesLeft: " + movesLeft + ",";
 
-        for (Rule rule : validRules) {
-            str += rule.toString() + "\n";
+        str += " rules: [";
+        for (int i = 0; i < validRules.length; i++) {
+            Rule rule = validRules[i];
+            if (i != 0) str += ", ";
+            str += rule.toString();
         }
-        str += "\n";
+        str += "],";
 
-        str += (hasPortals() ? "y" : "n") + "\n";
-        if (hasPortals()) {
-            str += portals[0] + "\n";
-            str += portals[1] + "\n";
-        }
-
+        str += " portals: " + Arrays.toString(portals);
+        str += " }";
         return str;
     }
 
