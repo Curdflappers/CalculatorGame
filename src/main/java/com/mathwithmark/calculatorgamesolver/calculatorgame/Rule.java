@@ -34,11 +34,11 @@ public abstract class Rule {
         }
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
-        boolean hasInt = matcher.find();
+        boolean hasOperand = matcher.find();
 
         // Don't accidentally pad a negative
         String operatorString =
-            hasInt ? ruleString.substring(0, matcher.start()) : ruleString;
+            hasOperand ? ruleString.substring(0, matcher.start()) : ruleString;
         if (operatorString.equals("") && ruleString.charAt(0) == '-') {
             operator = Config.SUBTRACT; // the minus was for subtraction
             // skip the minus sign in the operand
@@ -48,7 +48,7 @@ public abstract class Rule {
 
         // We have a basic rule of the form "[operator][op1?]"
         operator = toOperator(operatorString);
-        if (hasInt) {
+        if (hasOperand) {
             operand1 = Integer.parseInt(matcher.group());
         }
         return makeRule(operator, operand1, operand2);
