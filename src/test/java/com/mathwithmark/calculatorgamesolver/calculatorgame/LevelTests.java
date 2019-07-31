@@ -8,35 +8,26 @@ import org.junit.jupiter.api.Test;
 
 import com.mathwithmark.calculatorgamesolver.brutesolver.Solver;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
+import com.mathwithmark.calculatorgamesolver.yaml.Serialize;
 
 public class LevelTests {
 
     @Test
     void passesAllLevels() {
         boolean success = true;
-        for (String testCase : Helpers.testCases()) {
-            System.out.print("Testing " + testCase + ": ");
-            String expectedSolution = Helpers.expectedSolution(testCase);
-            CalculatorGame game = Helpers.loadLevel(testCase);
+        for (String testCaseString : Helpers.testCaseStrings()) {
+            TestCase testCase = Serialize.loadTestCase(testCaseString);
+            List<String> expectedSolution = testCase.SOLUTION;
 
-            if (game == null) {
-                success = false;
-                System.out.println("FAILED: Could not load level");
-                continue;
-            }
+            List<State> solutionStates = Solver.solve(testCase.GAME);
+            List<String> actualSolution = State.allTransitions(solutionStates);
 
-            List<State> solutionStates = Solver.solve(game);
-            String solutionString = State.allTransitions(solutionStates);
-
-            if (!solutionString.equals(expectedSolution)) {
+            if (!actualSolution.equals(expectedSolution)) {
                 success = false;
                 System.out.println("FAILED");
                 System.out.println("Expected:\n" + expectedSolution);
-                System.out.println("Actual:\n" + solutionString);
-                continue;
+                System.out.println("Actual:\n" + actualSolution);
             }
-
-            System.out.println("PASSED");
         }
 
         assertTrue(success);

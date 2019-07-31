@@ -1,0 +1,7 @@
+game:
+  goal: 777
+  moves: 5
+  portals: null
+  rules: [93=>63, 63=>33, Inv10, 36=>93, 39=>33]
+  value: 369
+solution: [36=>93, 39=>33, 93=>63, 63=>33, Inv10]

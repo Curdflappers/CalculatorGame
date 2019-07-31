@@ -1,0 +1,7 @@
+game:
+  goal: 1999
+  moves: 4
+  portals: null
+  rules: ['1', '9', 89=>99, Shift >]
+  value: 98
+solution: ['9', 89=>99, '1', Shift >]

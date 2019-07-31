@@ -1,0 +1,7 @@
+game:
+  goal: 21
+  moves: 5
+  portals: null
+  rules: ['*9', /5, 13=>10, Inv10]
+  value: 35
+solution: [Inv10, /5, '*9', 13=>10, /5]

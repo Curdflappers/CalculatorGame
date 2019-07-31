@@ -1,0 +1,7 @@
+game:
+  goal: 123
+  moves: 5
+  portals: null
+  rules: ['12', '+1', 12=>2, Reverse]
+  value: 12
+solution: ['12', Reverse, 12=>2, Reverse, '+1']

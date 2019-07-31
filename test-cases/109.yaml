@@ -1,0 +1,7 @@
+game:
+  goal: 3254
+  moves: 2
+  portals: null
+  rules: [Shift >]
+  value: 5432
+solution: [Shift >, Shift >]

@@ -1,0 +1,7 @@
+game:
+  goal: 212
+  moves: 3
+  portals: null
+  rules: ['2', '-1', Reverse]
+  value: 121
+solution: ['-1', Reverse, '2']

@@ -1,0 +1,7 @@
+game:
+  goal: 2
+  moves: 3
+  portals: null
+  rules: ['-1', Inv10]
+  value: 1
+solution: [Inv10, '-1', Inv10]

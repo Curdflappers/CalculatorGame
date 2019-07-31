@@ -1,0 +1,7 @@
+game:
+  goal: 1991
+  moves: 6
+  portals: null
+  rules: [Store, Inv10]
+  value: 1
+solution: [Update Store, Inv10, Store, Update Store, Inv10, Store]

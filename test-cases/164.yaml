@@ -1,0 +1,7 @@
+game:
+  goal: 17
+  moves: 4
+  portals: null
+  rules: ['+3', '*3', '*4', Inv10]
+  value: 7
+solution: ['*4', '+3', '*3', Inv10]

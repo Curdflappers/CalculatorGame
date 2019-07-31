@@ -1,0 +1,7 @@
+game:
+  goal: 99
+  moves: 6
+  portals: null
+  rules: ['2', SUM, Inv10]
+  value: 26
+solution: ['2', SUM, Inv10, '2', SUM, Inv10]

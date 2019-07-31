@@ -1,0 +1,7 @@
+game:
+  goal: 121
+  moves: 4
+  portals: null
+  rules: ['-2', /3, Shift >]
+  value: 356
+solution: [Shift >, '-2', Shift >, /3]

@@ -1,0 +1,7 @@
+game:
+  goal: 414
+  moves: 4
+  portals: null
+  rules: [23=>41, 24=>14, 12=>24, 14=>2]
+  value: 1234
+solution: [12=>24, 24=>14, 14=>2, 23=>41]

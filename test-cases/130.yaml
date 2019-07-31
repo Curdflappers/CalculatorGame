@@ -1,0 +1,7 @@
+game:
+  goal: 33
+  moves: 4
+  portals: null
+  rules: ['*2', '-4', Mirror, < Shift]
+  value: 17
+solution: ['*2', '-4', < Shift, Mirror]

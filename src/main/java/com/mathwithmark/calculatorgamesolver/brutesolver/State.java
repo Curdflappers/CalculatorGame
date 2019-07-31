@@ -1,5 +1,6 @@
 package com.mathwithmark.calculatorgamesolver.brutesolver;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -109,13 +110,13 @@ public class State {
      * next to the game. Each transition string is separated by a newline
      * character.
      */
-    public static String allTransitions(List<State> states) {
-        String transitionsString = "";
+    public static List<String> allTransitions(List<State> states) {
+        List<String> transitionStrings = new ArrayList<>();
         for (State state : states) {
             if (state.getParent() != null) {
-                transitionsString += state.getTransitionString() + "\n";
+                transitionStrings.add(state.getTransitionString());
             }
         }
-        return transitionsString;
+        return transitionStrings;
     }
 }

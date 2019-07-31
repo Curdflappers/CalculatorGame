@@ -1,0 +1,7 @@
+game:
+  goal: 3
+  moves: 4
+  portals: null
+  rules: ['1', SUM]
+  value: 0
+solution: ['1', '1', '1', SUM]

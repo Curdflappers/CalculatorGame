@@ -1,0 +1,7 @@
+game:
+  goal: 61
+  moves: 8
+  portals: null
+  rules: ['5', '<<', SUM, Store]
+  value: 0
+solution: ['5', '5', SUM, Update Store, '5', SUM, Store, '<<']

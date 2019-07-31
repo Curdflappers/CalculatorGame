@@ -3,10 +3,10 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
 // TODO make multiple classes (rules, I/O, testing)
 public class Config {
   /** The path to the directory containing all test cases */
-  public static String TESTCASES_PATH = "test-cases";
+  public static String TEST_CASES_PATH = "test-cases";
 
   /** Operator index. INVALID must remain < 0 */
-  public static final int INVALID = -1;
+  static final int INVALID = -1;
   public static final int ADD = 0;
   public static final int SUBTRACT = 1;
   public static final int MULTIPLY = 2;
@@ -24,11 +24,11 @@ public class Config {
   public static final int META_ADD = 14;
   public static final int STORE = 15;
   public static final int INVERSE_TEN = 16;
-  public static final int META_STORE_RULE = 17;
+  static final int META_STORE = 17; // hidden rule
 
   /** The string for a rule with an invalid operator */
-  public static final String INVALID_STRING = "INVALID";
-  public static final String[] OPERATOR_STRINGS = {
+  static final String INVALID_STRING = "INVALID";
+  static final String[] OPERATOR_STRINGS = {
     "+",
     "-",
     "*",
@@ -49,7 +49,7 @@ public class Config {
     "Update Store",
   };
 
-  public static final int[] NUM_OPERANDS = {
+  static final int[] NUM_OPERANDS = {
     1, // ADD
     1, // SUBTRACT
     1, // MULTIPLY
@@ -67,17 +67,38 @@ public class Config {
     1, // META_ADD
     0, // STORE (takes zero on creation)
     0, // INVERSE_TEN
-    0, // META_STORE_RULE
+    0, // META_STORE
+  };
+
+  static final boolean[] EXTERNAL = {
+    true, // ADD
+    true, // SUBTRACT
+    true, // MULTIPLY
+    true, // DIVIDE
+    true, // PAD
+    true, // SIGN
+    true, // DELETE
+    true, // CONVERT
+    true, // POWER
+    true, // REVERSE
+    true, // SUM
+    true, // SHIFT_RIGHT
+    true, // SHIFT_LEFT
+    true, // MIRROR
+    true, // META_ADD
+    true, // STORE
+    true, // INVERSE_TEN
+    false, // META_STORE
   };
 
   /** The maximum number of digits in a CalculatorGame */
-  public static final int MAX_DIGITS = 6;
+  static final int MAX_DIGITS = 6;
 
   /**
    * Returns the rule string for the given operator
    * If the operator takes operands, this throws an exception
    */
-  public static String ruleString(int operator) {
+  static String ruleString(int operator) {
     if (NUM_OPERANDS[operator] != 0) {
       throw new RuntimeException("invalid number of operands");
     }
@@ -99,14 +120,14 @@ public class Config {
    * Returns the rule string for the given operand and operands
    * If the operator doesn't take exactly 2 operands, this throws an exception
    */
-  public static String ruleString(int operator, int operand1, int operand2) {
+  static String ruleString(int operator, int operand1, int operand2) {
     if (NUM_OPERANDS[operator] != 2) {
       throw new RuntimeException("invalid number of operands");
     }
     return operand1 + Config.OPERATOR_STRINGS[operator] + operand2;
   }
 
-  public static final int NUM_OPERATORS = OPERATOR_STRINGS.length;
+  static final int NUM_OPERATORS = OPERATOR_STRINGS.length;
 
   public static final String START_PROMPT = "Enter start value: ";
   public static final String GOAL_PROMPT = "Enter goal value: ";
@@ -122,14 +143,11 @@ public class Config {
   public static final String AGAIN_PROMPT = "Solve again (y/n): ";
   public static final String SOLUTION_PROMPT = "Solution:";
 
-  // TODO remove this?
-  public static final String APPLY_PROMPT = "Apply ";
-
   /** The user input required to quit the program */
-  public static final String QUIT = "n ", CONTINUE = "y ";
+  public static final String QUIT = "n ";
 
-  /** The separator for rule input through the scanner */
-  public static final String SCANNER_SEPARATOR = "\n";
+  public static final String CONTINUE = "y ";
+
   /** The separator for rule input through command-line arguments */
   public static final String CMDLINE_SEPARATOR = ",";
 }

@@ -1,0 +1,7 @@
+game:
+  goal: 196
+  moves: 8
+  portals: null
+  rules: ['1', '+12', '*13', Reverse, '<<']
+  value: 0
+solution: ['+12', '<<', '*13', '*13', '1', Reverse, '<<']

@@ -1,0 +1,7 @@
+game:
+  goal: 44
+  moves: 4
+  portals: null
+  rules: [/2, '4', 1=>2, SUM]
+  value: 24
+solution: [/2, 1=>2, SUM, '4']

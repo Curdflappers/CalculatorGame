@@ -1,0 +1,7 @@
+game:
+  goal: 101
+  moves: 3
+  portals: null
+  rules: ['1', '+9', Reverse]
+  value: 100
+solution: [Reverse, '+9', '1']

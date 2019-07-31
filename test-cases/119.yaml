@@ -1,0 +1,7 @@
+game:
+  goal: 520
+  moves: 5
+  portals: null
+  rules: [Shift >, 50=>0, 25=>525, 51=>5]
+  value: 1025
+solution: [Shift >, 51=>5, Shift >, 25=>525, 50=>0]

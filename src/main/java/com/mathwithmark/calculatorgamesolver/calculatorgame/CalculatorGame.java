@@ -2,13 +2,16 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mathwithmark.calculatorgamesolver.brutesolver.Game;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
+import com.mathwithmark.calculatorgamesolver.yaml.Mappable;
 
-public class CalculatorGame implements Game {
+public class CalculatorGame implements Game, Mappable {
     /** The current number for this game */
     private int value;
 
@@ -266,30 +269,25 @@ public class CalculatorGame implements Game {
      * @return the string representing the use of the rule
      */
     public static String transitionString(Rule rule) {
-        String s = "";
-        s += Config.APPLY_PROMPT;
-        // space included in prompt
-        s += rule;
-        return s;
+        return rule.toString();
     }
 
     public String toString() {
-        String str = "";
-        str += (int) value + "\n";
-        str += goal + "\n";
-        str += movesLeft + "\n";
+        String str = "{";
+        str += " value: " + (int) value + ",";
+        str += " goal: " + goal + ",";
+        str += " movesLeft: " + movesLeft + ",";
 
-        for (Rule rule : validRules) {
-            str += rule.toString() + "\n";
+        str += " rules: [";
+        for (int i = 0; i < validRules.length; i++) {
+            Rule rule = validRules[i];
+            if (i != 0) str += ", ";
+            str += rule.toString();
         }
-        str += "\n";
+        str += "],";
 
-        str += (hasPortals() ? "y" : "n") + "\n";
-        if (hasPortals()) {
-            str += portals[0] + "\n";
-            str += portals[1] + "\n";
-        }
-
+        str += " portals: " + Arrays.toString(portals);
+        str += " }";
         return str;
     }
 
@@ -301,5 +299,88 @@ public class CalculatorGame implements Game {
     public boolean roughlyEquals(Game other) {
         return other instanceof CalculatorGame
             && equalsExceptMoves((CalculatorGame) other);
+    }
+
+    @Override
+    public Map<String, Object> toMap() {
+        return MappableUtils.gameToMap(this);
+    }
+
+    /**
+     * Returns the CalculatorGame described by the given map
+     *
+     * Assumes the given map describes a game, returns null otherwise
+     */
+    public static CalculatorGame from(Map<String, Object> map) {
+        return MappableUtils.mapToGame(map);
+    }
+}
+
+/**
+ * Utility methods for converting the game to a map
+ */
+class MappableUtils {
+    /**
+     * Creates an external representation of the rules of the game
+     */
+    private static List<String> externalRuleStrings(Rule[] rules) {
+        List<String> ruleStrings = new ArrayList<String>();
+        for (int i = 0; i < rules.length; i++) {
+            if (rules[i].EXTERNAL) ruleStrings.add(rules[i].toString());
+        }
+        return ruleStrings;
+    }
+
+    /**
+     * Converts the given object to an array of rules
+     * @param obj an ArrayList<Rule> (type hidden by deserialization)
+     * @return an array of rules constructed from the given object
+     */
+    private static Rule[] toRulesArray(Object obj) {
+        ArrayList<?> list = (ArrayList<?>) obj;
+        Rule[] rules = new Rule[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            rules[i] = Rule.ruleFromString(list.get(i).toString());
+        }
+        return rules;
+    }
+
+    /**
+     * Converts the given object to an array of ints, representing the portals
+     * @param obj an ArrayList<Integer> (type hidden by deserialization)
+     * @return an array of integers constructed from the given object
+     */
+    private static int[] toPortalsArray(Object obj) {
+        if (obj == null) return null;
+        ArrayList<?> list = (ArrayList<?>) obj;
+        int[] portals = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            portals[i] = Integer.parseInt(list.get(i).toString());
+        }
+        return portals;
+    }
+
+    static Map<String, Object> gameToMap(CalculatorGame game) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("value", game.getValue());
+        map.put("goal", game.getGoal());
+        map.put("moves", game.getMovesLeft());
+        map.put("rules", externalRuleStrings(game.getRules()));
+        map.put("portals", game.getPortals());
+        return map;
+    }
+
+    /**
+     * Returns null if the given map isn't of the correct format
+     */
+    static CalculatorGame mapToGame(Map<String, Object> map) {
+        return CalculatorGame
+            .generateGame(
+                (int) map.get("value"),
+                (int) map.get("goal"),
+                (int) map.get("moves"),
+                toRulesArray(map.get("rules")),
+                toPortalsArray(map.get("portals"))
+            );
     }
 }

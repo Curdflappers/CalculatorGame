@@ -1,0 +1,7 @@
+game:
+  goal: 2321
+  moves: 6
+  portals: null
+  rules: ['1', '2', 1=>2, 2=>3]
+  value: 0
+solution: ['1', '2', 2=>3, 1=>2, '2', '1']

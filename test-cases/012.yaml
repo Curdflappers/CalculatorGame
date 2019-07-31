@@ -1,0 +1,7 @@
+game:
+  goal: 404
+  moves: 5
+  portals: null
+  rules: ['+8', '*10', /2]
+  value: 0
+solution: ['+8', '*10', '*10', '+8', /2]

@@ -1,0 +1,7 @@
+game:
+  goal: 1111
+  moves: 4
+  portals: null
+  rules: [Store]
+  value: 1
+solution: [Update Store, Store, Update Store, Store]

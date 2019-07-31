@@ -1,10 +1,8 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Helpers {
 
@@ -79,97 +77,46 @@ public class Helpers {
         return list;
     }
 
-    static String expectedSolution(String level) {
-        File file = new File(Config.TESTCASES_PATH + "/" + level);
-        Scanner input = null;
-        try {
-            input = new Scanner(file);
-
-            input.nextLine(); // value
-            input.nextLine(); // goal
-            input.nextLine(); // moves
-            while (!input.nextLine().equals("")); // rules
-
-            boolean portalsPresent = input.nextLine().charAt(0) == 'y';
-            if (portalsPresent) {
-                input.nextLine(); // left portal
-                input.nextLine(); // right portal
-            }
-
-            String expectedSolutionString = "";
-            while (input.hasNextLine()) {
-                expectedSolutionString += input.nextLine() + "\n";
-            }
-            return expectedSolutionString;
-        } catch (FileNotFoundException e) {
-            System.out.print("FILE NOT FOUND");
-            return null;
-        } finally {
-            if (input != null) input.close();
+    /** Returns the name of every file in Config.TEST_CASES_PATH */
+    static List<String> testCaseStrings() {
+        final File directory = new File(Config.TEST_CASES_PATH);
+        List<String> filenames = new ArrayList<>();
+        for (final File fileEntry : directory.listFiles()) {
+            filenames.add(fileEntry.getName());
         }
+        return filenames;
     }
 
     /**
-     * Loads the level with the given filename from the test-cases directory
+     * Creates one string given the array of strings, separated by the given
+     * separator
      */
-    static CalculatorGame loadLevel(String filename) {
-        File file = new File(Config.TESTCASES_PATH + "/" + filename);
-        Scanner input = null;
-        try {
-            input = new Scanner(file);
-
-            int value = Integer.parseInt(input.nextLine());
-            int goal = Integer.parseInt(input.nextLine());
-            int moves = Integer.parseInt(input.nextLine());
-
-            String currentRuleString;
-            List<Rule> rules = new ArrayList<>();
-
-            // While the current rule is not the empty string
-            while (!(currentRuleString = input.nextLine()).equals("")) {
-                Rule rule = Rule.ruleFromString(currentRuleString);
-                rules.add(rule);
-            }
-
-            boolean portalsPresent = input.nextLine().charAt(0) == 'y';
-
-            int leftPortal = -1;
-            int rightPortal = -1;
-
-            if (portalsPresent) {
-                leftPortal = Integer.parseInt(input.nextLine());
-                rightPortal = Integer.parseInt(input.nextLine());
-            }
-
-            int[] portals = null;
-            if (portalsPresent) portals = new int[] {
-                leftPortal, rightPortal
-            };
-
-            return CalculatorGame
-                .generateGame(
-                    value,
-                    goal,
-                    moves,
-                    rules.toArray(new Rule[rules.size()]),
-                    portals
-                );
-        } catch (FileNotFoundException e) {
-            System.out.print("FILE NOT FOUND");
-            return null;
-        } finally {
-            if (input != null) input.close();
+    public static String combineStrings(String[] strings, String separator) {
+        String combinedString = "";
+        int endIndex = -1;
+        for (String string : strings) {
+            combinedString += string + separator;
         }
+        endIndex = combinedString.length() - separator.length();
+        combinedString = combinedString.substring(0, endIndex);
+        return combinedString;
     }
 
-    static List<String> testCases() {
-        final File folder = new File(Config.TESTCASES_PATH);
-        List<String> filenames = new ArrayList<>();
-
-        for (final File fileEntry : folder.listFiles()) {
-            filenames.add(fileEntry.getName());
+    /** Creates an array of rules from the given rule strings */
+    public static Rule[] rules(String[] ruleStrings) {
+        Rule[] rules = new Rule[ruleStrings.length];
+        for (int i = 0; i < ruleStrings.length; i++) {
+            rules[i] = Rule.ruleFromString(ruleStrings[i]);
         }
+        return rules;
+    }
 
-        return filenames;
+    /** Creates an array of strings from the given rules */
+    public static String[] ruleStrings(Rule[] rules) {
+        String[] ruleStrings = new String[rules.length];
+        for (int i = 0; i < rules.length; i++) {
+            ruleStrings[i] = rules[i].toString();
+        }
+        return ruleStrings;
     }
 }

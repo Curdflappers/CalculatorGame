@@ -1,0 +1,7 @@
+game:
+  goal: 2020
+  moves: 8
+  portals: null
+  rules: ['*3', '+8', '+2', Reverse, Mirror]
+  value: -1
+solution: ['+8', '*3', Reverse, '+8', Mirror, '+2', '+8', '+8']

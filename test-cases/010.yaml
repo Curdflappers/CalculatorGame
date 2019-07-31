@@ -1,0 +1,7 @@
+game:
+  goal: 9
+  moves: 4
+  portals: null
+  rules: [/5, '*3', '<<']
+  value: 50
+solution: ['<<', '*3', '*3', /5]

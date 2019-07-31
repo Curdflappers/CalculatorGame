@@ -1,0 +1,7 @@
+game:
+  goal: 17
+  moves: 7
+  portals: null
+  rules: [8=>1, /2, '0', Store, SUM]
+  value: 70
+solution: [Update Store, SUM, Store, Store, /2, 8=>1, SUM]

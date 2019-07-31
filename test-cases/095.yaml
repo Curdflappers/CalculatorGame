@@ -1,0 +1,7 @@
+game:
+  goal: 143
+  moves: 4
+  portals: null
+  rules: ['*9', '+9', 44=>43, SUM]
+  value: 142
+solution: [SUM, '+9', '*9', 44=>43]

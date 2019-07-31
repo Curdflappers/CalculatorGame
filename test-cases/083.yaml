@@ -1,0 +1,7 @@
+game:
+  goal: 500
+  moves: 5
+  portals: null
+  rules: ['*4', /3, 1=>5, Reverse]
+  value: 36
+solution: [Reverse, /3, 1=>5, '*4', 1=>5]

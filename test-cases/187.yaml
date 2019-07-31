@@ -1,0 +1,7 @@
+game:
+  goal: 13
+  moves: 4
+  portals: [3, 1]
+  rules: [SUM, Mirror, Inv10]
+  value: 99
+solution: [SUM, Inv10, Mirror, SUM]

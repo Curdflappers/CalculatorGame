@@ -1,0 +1,7 @@
+game:
+  goal: 150
+  moves: 5
+  portals: [3, 0]
+  rules: ['+1', '6', '7', /2]
+  value: 525
+solution: ['7', '6', /2, '7']

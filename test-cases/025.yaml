@@ -1,0 +1,7 @@
+game:
+  goal: 2020
+  moves: 4
+  portals: null
+  rules: ['0', '+4', /2]
+  value: 40
+solution: ['0', '+4', /2, '0']
