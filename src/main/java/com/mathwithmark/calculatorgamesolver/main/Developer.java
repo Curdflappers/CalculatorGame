@@ -10,7 +10,7 @@ import com.mathwithmark.calculatorgamesolver.brutesolver.Solver;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.CalculatorGame;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
-import com.mathwithmark.calculatorgamesolver.calculatorgame.Serialize;
+import com.mathwithmark.calculatorgamesolver.yaml.Serialize;
 
 public class Developer {
     public static void main(String[] args) throws IOException {

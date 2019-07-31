@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import com.mathwithmark.calculatorgamesolver.brutesolver.Solver;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
+import com.mathwithmark.calculatorgamesolver.yaml.Serialize;
 
 public class LevelTests {
 

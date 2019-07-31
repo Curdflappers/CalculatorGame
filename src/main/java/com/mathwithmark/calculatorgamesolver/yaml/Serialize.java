@@ -1,4 +1,4 @@
-package com.mathwithmark.calculatorgamesolver.calculatorgame;
+package com.mathwithmark.calculatorgamesolver.yaml;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import com.mathwithmark.calculatorgamesolver.calculatorgame.CalculatorGame;
+import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
+import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
 
 import org.yaml.snakeyaml.Yaml;
 
