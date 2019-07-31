@@ -2,13 +2,16 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mathwithmark.calculatorgamesolver.brutesolver.Game;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
+import com.mathwithmark.calculatorgamesolver.yaml.Mappable;
 
-public class CalculatorGame implements Game {
+public class CalculatorGame implements Game, Mappable {
     /** The current number for this game */
     private int value;
 
@@ -297,5 +300,86 @@ public class CalculatorGame implements Game {
     public boolean roughlyEquals(Game other) {
         return other instanceof CalculatorGame
             && equalsExceptMoves((CalculatorGame) other);
+    }
+
+    @Override
+    public Map<String, Object> toMap() {
+        return MappableUtils.gameToMap(this);
+    }
+
+    /**
+     * Assumes the given map is a map of a game, returns null otherwise
+     */
+    public static CalculatorGame fromMap(Map<String, Object> map) {
+        return MappableUtils.mapToGame(map);
+    }
+}
+
+/**
+ * Utility methods for converting the game to a map
+ */
+class MappableUtils {
+    /**
+     * Creates an external representation of the rules of the game
+     */
+    private static List<String> externalRuleStrings(Rule[] rules) {
+        List<String> ruleStrings = new ArrayList<String>();
+        for (int i = 0; i < rules.length; i++) {
+            if (rules[i].EXTERNAL) ruleStrings.add(rules[i].toString());
+        }
+        return ruleStrings;
+    }
+
+    /**
+     * Converts the given object to an array of rules
+     * @param obj an ArrayList<Rule> (type hidden by deserialization)
+     * @return an array of rules constructed from the given object
+     */
+    private static Rule[] toRulesArray(Object obj) {
+        ArrayList<?> list = (ArrayList<?>) obj;
+        Rule[] rules = new Rule[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            rules[i] = Rule.ruleFromString(list.get(i).toString());
+        }
+        return rules;
+    }
+
+    /**
+     * Converts the given object to an array of ints, representing the portals
+     * @param obj an ArrayList<Integer> (type hidden by deserialization)
+     * @return an array of integers constructed from the given object
+     */
+    private static int[] toPortalsArray(Object obj) {
+        if (obj == null) return null;
+        ArrayList<?> list = (ArrayList<?>) obj;
+        int[] portals = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            portals[i] = Integer.parseInt(list.get(i).toString());
+        }
+        return portals;
+    }
+
+    static Map<String, Object> gameToMap(CalculatorGame game) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("value", game.getValue());
+        map.put("goal", game.getGoal());
+        map.put("moves", game.getMovesLeft());
+        map.put("rules", externalRuleStrings(game.getRules()));
+        map.put("portals", game.getPortals());
+        return map;
+    }
+
+    /**
+     * Returns null if the given map isn't of the correct format
+     */
+    static CalculatorGame mapToGame(Map<String, Object> map) {
+        return CalculatorGame
+            .generateGame(
+                (int) map.get("value"),
+                (int) map.get("goal"),
+                (int) map.get("moves"),
+                toRulesArray(map.get("rules")),
+                toPortalsArray(map.get("portals"))
+            );
     }
 }
