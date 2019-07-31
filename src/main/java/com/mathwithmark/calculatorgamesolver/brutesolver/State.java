@@ -18,7 +18,7 @@ public class State {
     private final String TRANSITION_STRING;
 
     /**
-     * Creates a new State with the given <code>game</code>, <code>rule</code>
+     * Creates a new State with the given <code>game</code>. <code>rule</code>
      * and <code>parent</code> are <code>null</code>.
      */
     public State(Game game) {
@@ -27,15 +27,6 @@ public class State {
         this.TRANSITION_STRING = null;
     }
 
-    /**
-     * Creates a new state, a child of the given state, a result of applying or
-     * updating the given rule
-     * @param parent
-     * @param rule
-     * @param applied True if this state is the result of applying the given
-     * rule to the given state, false if this state is the result of updating
-     * the given rule
-     */
     public State(Game game, State parent, String transitionString) {
         this.GAME = game;
         this.PARENT = parent;
@@ -65,9 +56,7 @@ public class State {
     public boolean redundant(Game successorGame) {
         State ancestor = this;
         while (ancestor != null) {
-            if (successorGame.roughlyEquals(ancestor.getGame())) {
-                return true;
-            }
+            if (successorGame.roughlyEquals(ancestor.getGame())) return true;
             ancestor = ancestor.getParent();
         }
         return false;
