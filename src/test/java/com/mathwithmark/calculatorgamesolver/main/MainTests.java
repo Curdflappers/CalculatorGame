@@ -196,7 +196,7 @@ public class MainTests {
 
         // Creates game as VM args
         System.setIn(inStream(Config.QUIT));
-        Main.main(inputStrings(value, goal, moves, ruleStrings, portals));
+        Main.main(args(value, goal, moves, ruleStrings, portals));
         assertEquals(expectedGame, Main.getCalculatorGame());
 
         System.setIn(consoleIn);
@@ -215,7 +215,7 @@ public class MainTests {
         String inputString =
             inputString(true, initialValue, goal, moves, ruleStrings, null);
         ByteArrayOutputStream baos = prepareEndToEndTest(inputString);
-        Main.main(inputStrings(initialValue, goal, moves, ruleStrings, null));
+        Main.main(args(initialValue, goal, moves, ruleStrings, null));
         String expectedOutput = solutionOutput(solution);
         expectedOutput += gamePrompts();
         expectedOutput += solutionOutput(solution);
@@ -272,7 +272,7 @@ public class MainTests {
     }
 
     /** Simulates VM args */
-    String[] inputStrings(
+    String[] args(
         int value,
         int goal,
         int moves,
