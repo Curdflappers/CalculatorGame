@@ -16,7 +16,7 @@ public class Developer {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         do {
-            Main.getInput(new String[] {}, scanner);
+            Main.getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
             List<State> solutionStates = Solver.solve(Main.getCalculatorGame());
             List<String> transitions = State.allTransitions(solutionStates);
@@ -24,7 +24,13 @@ public class Developer {
                 System.out.println(transition);
             }
             promptSaveTestCase(scanner, Main.getCalculatorGame(), transitions);
-        } while (true);
+            System.out
+                .print(
+                    "Enter '"
+                        + Config.QUIT
+                        + "' to quit. Enter anything else to continue: "
+                );
+        } while (!scanner.nextLine().equalsIgnoreCase(Config.QUIT));
     }
 
     /**
@@ -36,14 +42,15 @@ public class Developer {
         Scanner scanner,
         CalculatorGame game,
         List<String> solution
-    ) throws IOException {
+    )
+        throws IOException {
         System.out.print("Save test case (y/n): ");
         String saveResponse = scanner.nextLine();
         if (saveResponse.length() == 0 || saveResponse.charAt(0) == 'y') {
             do {
                 System.out.print("Filename (\".yaml\" will be added): ");
                 String filePath =
-                    Config.TESTCASES_PATH + "/" + scanner.nextLine() + ".yaml";
+                    Config.TEST_CASES_PATH + "/" + scanner.nextLine() + ".yaml";
                 if (fileExists(filePath)) {
                     switch (promptOverwrite(scanner)) {
                         case 'o':
