@@ -1,4 +1,4 @@
-# Calculator Game
+# Calculator Game Solver
 
 A solver for **Calculator: The Game** by Simple Machine. It supports all 16 rule types. It supports portals. It can solve all 199 levels of the game.
 
