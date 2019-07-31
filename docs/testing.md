@@ -12,9 +12,7 @@ Testing is done with JUnit 5 and comprehensive unit tests and integration tests 
 
 ## Level Tests: Test Cases
 
-Test cases for level-solving are stored in the `test-cases` directory. The files are named with a 3-digit code indicating their 1-based level index and are saved in YAML.
-
-Adding a test case file automatically means it will be tested: all files in the `/test-cases` directory are treated as test case files.
+Test cases for level-solving are stored in the `test-cases` directory. The files are named with a 3-digit code indicating their 1-based level index and are saved in YAML. Adding a test case file automatically means it will be tested: all files in the `/test-cases` directory are treated as test case files.
 
 ## Developer Mode
 
