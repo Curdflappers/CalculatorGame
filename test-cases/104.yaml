@@ -1,6 +1,7 @@
-goal: -17
+game:
+  goal: -17
+  moves: 5
+  portals: null
+  rules: ['-5', /5, '*4', +/-, SUM]
+  value: 105
 solution: [+/-, '*4', /5, SUM, '-5']
-moves: 5
-portals: null
-rules: ['-5', /5, '*4', +/-, SUM]
-value: 105

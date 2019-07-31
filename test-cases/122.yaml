@@ -1,6 +1,7 @@
-goal: 19
+game:
+  goal: 19
+  moves: 6
+  portals: null
+  rules: ['+5', Mirror, SUM]
+  value: 91
 solution: [Mirror, SUM, '+5', Mirror, SUM, '+5']
-moves: 6
-portals: null
-rules: ['+5', Mirror, SUM]
-value: 91

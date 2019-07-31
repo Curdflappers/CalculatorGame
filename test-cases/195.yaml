@@ -1,6 +1,7 @@
-goal: 777
+game:
+  goal: 777
+  moves: 5
+  portals: [3, 0]
+  rules: ['5', '*2', '+3', Reverse, Inv10]
+  value: 613
 solution: [Reverse, '+3', '*2', '*2', '5']
-moves: 5
-portals: [3, 0]
-rules: ['5', '*2', '+3', Reverse, Inv10]
-value: 613

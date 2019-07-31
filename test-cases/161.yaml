@@ -1,6 +1,7 @@
-goal: 88
+game:
+  goal: 88
+  moves: 5
+  portals: null
+  rules: ['-4', '-2', Reverse, Inv10]
+  value: 23
 solution: [Reverse, '-2', '-4', '-4', Inv10]
-moves: 5
-portals: null
-rules: ['-4', '-2', Reverse, Inv10]
-value: 23

@@ -1,6 +1,7 @@
-goal: 2048
+game:
+  goal: 2048
+  moves: 6
+  portals: null
+  rules: ['2', '*4', '*10', Reverse]
+  value: 1
 solution: ['2', Reverse, '*10', '*4', '2', Reverse]
-moves: 6
-portals: null
-rules: ['2', '*4', '*10', Reverse]
-value: 1

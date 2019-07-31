@@ -1,6 +1,7 @@
-goal: 26
+game:
+  goal: 26
+  moves: 5
+  portals: null
+  rules: ['<<', SUM, Store, Inv10]
+  value: 12
 solution: [Update Store, Store, Inv10, '<<', SUM]
-moves: 5
-portals: null
-rules: ['<<', SUM, Store, Inv10]
-value: 12

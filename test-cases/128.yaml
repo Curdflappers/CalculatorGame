@@ -1,6 +1,7 @@
-goal: 112
+game:
+  goal: 112
+  moves: 6
+  portals: null
+  rules: [99=>60, /3, '*3', Mirror, Shift >]
+  value: 13
 solution: [Mirror, Shift >, '*3', 99=>60, Shift >, /3]
-moves: 6
-portals: null
-rules: [99=>60, /3, '*3', Mirror, Shift >]
-value: 13

@@ -1,6 +1,7 @@
-goal: 16
+game:
+  goal: 16
+  moves: 5
+  portals: null
+  rules: [Store, 11=>33, Reverse, SUM]
+  value: 15
 solution: [Update Store, Reverse, Store, 11=>33, SUM]
-moves: 5
-portals: null
-rules: [Store, 11=>33, Reverse, SUM]
-value: 15

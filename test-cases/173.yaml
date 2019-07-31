@@ -1,6 +1,7 @@
-goal: 33
+game:
+  goal: 33
+  moves: 5
+  portals: null
+  rules: ['*7', '+8', '-9', Inv10, '*2']
+  value: 5
 solution: ['*2', '*2', '-9', '*7', Inv10]
-moves: 5
-portals: null
-rules: ['*7', '+8', '-9', Inv10, '*2']
-value: 5

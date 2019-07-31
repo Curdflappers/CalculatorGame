@@ -1,6 +1,7 @@
-goal: 2311
+game:
+  goal: 2311
+  moves: 2
+  portals: null
+  rules: [< Shift]
+  value: 1123
 solution: [< Shift, < Shift]
-moves: 2
-portals: null
-rules: [< Shift]
-value: 1123

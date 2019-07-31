@@ -1,6 +1,7 @@
-goal: 123
+game:
+  goal: 123
+  moves: 5
+  portals: [3, 0]
+  rules: [/2, '1', '3', '0']
+  value: 321
 solution: ['0', '0', '3', '3', /2]
-moves: 5
-portals: [3, 0]
-rules: [/2, '1', '3', '0']
-value: 321

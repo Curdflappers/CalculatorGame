@@ -1,6 +1,7 @@
-goal: 121
+game:
+  goal: 121
+  moves: 5
+  portals: null
+  rules: ['+1', Store]
+  value: 0
 solution: ['+1', Update Store, Store, '+1', Store]
-moves: 5
-portals: null
-rules: ['+1', Store]
-value: 0

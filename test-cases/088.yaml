@@ -1,6 +1,7 @@
-goal: 55
+game:
+  goal: 55
+  moves: 6
+  portals: null
+  rules: ['+2', '+14', Reverse, 0=>5]
+  value: 86
 solution: [Reverse, '+14', '+2', Reverse, '+2', 0=>5]
-moves: 6
-portals: null
-rules: ['+2', '+14', Reverse, 0=>5]
-value: 86

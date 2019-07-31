@@ -1,6 +1,7 @@
-goal: 129
+game:
+  goal: 129
+  moves: 4
+  portals: null
+  rules: ['*3', '9', Shift >]
+  value: 70
 solution: [Shift >, '*3', Shift >, '9']
-moves: 4
-portals: null
-rules: ['*3', '9', Shift >]
-value: 70

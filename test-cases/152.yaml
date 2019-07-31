@@ -1,6 +1,7 @@
-goal: 12525
+game:
+  goal: 12525
+  moves: 6
+  portals: null
+  rules: ['1', /5, Reverse, Store]
+  value: 125
 solution: [/5, Update Store, Store, Reverse, '1', Reverse]
-moves: 6
-portals: null
-rules: ['1', /5, Reverse, Store]
-value: 125

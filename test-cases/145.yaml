@@ -1,6 +1,7 @@
-goal: 17
+game:
+  goal: 17
+  moves: 6
+  portals: null
+  rules: ['+2', /3, Reverse, Store]
+  value: 10
 solution: [Update Store, '+2', Reverse, /3, Store, Reverse]
-moves: 6
-portals: null
-rules: ['+2', /3, Reverse, Store]
-value: 10

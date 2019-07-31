@@ -1,6 +1,7 @@
-goal: 126
+game:
+  goal: 126
+  moves: 6
+  portals: null
+  rules: ['*3', '-9', +/-, '<<']
+  value: 111
 solution: ['<<', +/-, '*3', '-9', +/-, '*3']
-moves: 6
-portals: null
-rules: ['*3', '-9', +/-, '<<']
-value: 111

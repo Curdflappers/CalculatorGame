@@ -1,6 +1,7 @@
-goal: 100
+game:
+  goal: 100
+  moves: 3
+  portals: null
+  rules: ['-8', '*11', '<<']
+  value: 99
 solution: ['*11', '<<', '-8']
-moves: 3
-portals: null
-rules: ['-8', '*11', '<<']
-value: 99

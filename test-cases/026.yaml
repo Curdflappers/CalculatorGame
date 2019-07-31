@@ -1,6 +1,7 @@
-goal: 11
+game:
+  goal: 11
+  moves: 4
+  portals: null
+  rules: ['12', '<<']
+  value: 0
 solution: ['12', '<<', '12', '<<']
-moves: 4
-portals: null
-rules: ['12', '<<']
-value: 0

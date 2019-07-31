@@ -1,6 +1,7 @@
-goal: 1025
+game:
+  goal: 1025
+  moves: 7
+  portals: null
+  rules: ['*2', Store, '<<']
+  value: 125
 solution: ['*2', '<<', Update Store, '*2', '<<', '*2', Store]
-moves: 7
-portals: null
-rules: ['*2', Store, '<<']
-value: 125

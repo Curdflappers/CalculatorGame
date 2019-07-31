@@ -1,6 +1,7 @@
-goal: 64
+game:
+  goal: 64
+  moves: 4
+  portals: null
+  rules: ['*4', /4, SUM, 5=>16]
+  value: 128
 solution: [/4, SUM, 5=>16, '*4']
-moves: 4
-portals: null
-rules: ['*4', /4, SUM, 5=>16]
-value: 128

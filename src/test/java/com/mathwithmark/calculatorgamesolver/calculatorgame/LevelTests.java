@@ -15,18 +15,11 @@ public class LevelTests {
     @Test
     void passesAllLevels() {
         boolean success = true;
-        for (String testCase : Helpers.testCases()) {
-            List<String> expectedSolution =
-                Serialize.loadSolution(testCase);
-            CalculatorGame game = Serialize.loadGame(testCase);
+        for (String testCaseString : Helpers.testCaseStrings()) {
+            TestCase testCase = Serialize.loadTestCase(testCaseString);
+            List<String> expectedSolution = testCase.SOLUTION;
 
-            if (game == null) {
-                success = false;
-                System.out.println("FAILED: Could not load level");
-                continue;
-            }
-
-            List<State> solutionStates = Solver.solve(game);
+            List<State> solutionStates = Solver.solve(testCase.GAME);
             List<String> actualSolution = State.allTransitions(solutionStates);
 
             if (!actualSolution.equals(expectedSolution)) {

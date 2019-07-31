@@ -1,6 +1,7 @@
-goal: 2332
+game:
+  goal: 2332
+  moves: 1
+  portals: null
+  rules: [Mirror]
+  value: 23
 solution: [Mirror]
-moves: 1
-portals: null
-rules: [Mirror]
-value: 23

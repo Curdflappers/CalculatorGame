@@ -1,6 +1,7 @@
-goal: 4
+game:
+  goal: 4
+  moves: 3
+  portals: null
+  rules: ['+4', '*4', /4]
+  value: 3
 solution: ['*4', '+4', /4]
-moves: 3
-portals: null
-rules: ['+4', '*4', /4]
-value: 3

@@ -1,6 +1,7 @@
-goal: 500
+game:
+  goal: 500
+  moves: 6
+  portals: [3, 0]
+  rules: ['+8', '*4', '9', Inv10, 7=>0]
+  value: 189
 solution: ['9', '*4', '+8', Inv10, '+8', 7=>0]
-moves: 6
-portals: [3, 0]
-rules: ['+8', '*4', '9', Inv10, 7=>0]
-value: 189

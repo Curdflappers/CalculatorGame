@@ -1,6 +1,7 @@
-goal: 18
+game:
+  goal: 18
+  moves: 6
+  portals: null
+  rules: ['-3', '+9', /12, Mirror, '<<']
+  value: 140
 solution: ['<<', '<<', '<<', '+9', '+9']
-moves: 6
-portals: null
-rules: ['-3', '+9', /12, Mirror, '<<']
-value: 140

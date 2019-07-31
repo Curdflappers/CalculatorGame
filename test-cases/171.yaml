@@ -1,6 +1,7 @@
-goal: 9
+game:
+  goal: 9
+  moves: 4
+  portals: null
+  rules: ['*6', Inv10, '<<']
+  value: 34
 solution: ['<<', '*6', '<<', Inv10]
-moves: 4
-portals: null
-rules: ['*6', Inv10, '<<']
-value: 34

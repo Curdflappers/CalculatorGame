@@ -1,6 +1,7 @@
-goal: 90
+game:
+  goal: 90
+  moves: 5
+  portals: [3, 1]
+  rules: ['*6', Inv10, Shift >]
+  value: 58
 solution: [Shift >, Inv10, '*6', Shift >, '*6']
-moves: 5
-portals: [3, 1]
-rules: ['*6', Inv10, Shift >]
-value: 58

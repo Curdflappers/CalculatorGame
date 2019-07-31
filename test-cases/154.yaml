@@ -1,6 +1,7 @@
-goal: 101
+game:
+  goal: 101
+  moves: 5
+  portals: null
+  rules: [21=>0, 12=>1, Store, Mirror]
+  value: 12
 solution: [Update Store, Mirror, Store, 12=>1, 21=>0]
-moves: 5
-portals: null
-rules: [21=>0, 12=>1, Store, Mirror]
-value: 12

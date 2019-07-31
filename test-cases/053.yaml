@@ -1,6 +1,7 @@
-goal: 21
+game:
+  goal: 21
+  moves: 1
+  portals: null
+  rules: [Reverse]
+  value: 12
 solution: [Reverse]
-moves: 1
-portals: null
-rules: [Reverse]
-value: 12

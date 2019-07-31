@@ -307,9 +307,11 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     /**
-     * Assumes the given map is a map of a game, returns null otherwise
+     * Returns the CalculatorGame described by the given map
+     *
+     * Assumes the given map describes a game, returns null otherwise
      */
-    public static CalculatorGame fromMap(Map<String, Object> map) {
+    public static CalculatorGame from(Map<String, Object> map) {
         return MappableUtils.mapToGame(map);
     }
 }

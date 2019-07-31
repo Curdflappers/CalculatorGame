@@ -78,10 +78,10 @@ public class Helpers {
     }
 
     /** Returns the name of every file in Config.TEST_CASES_PATH */
-    static List<String> testCases() {
-        final File folder = new File(Config.TEST_CASES_PATH);
+    static List<String> testCaseStrings() {
+        final File directory = new File(Config.TEST_CASES_PATH);
         List<String> filenames = new ArrayList<>();
-        for (final File fileEntry : folder.listFiles()) {
+        for (final File fileEntry : directory.listFiles()) {
             filenames.add(fileEntry.getName());
         }
         return filenames;

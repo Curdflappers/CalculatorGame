@@ -1,6 +1,7 @@
-goal: 23
+game:
+  goal: 23
+  moves: 4
+  portals: null
+  rules: ['*2', '-9', '<<']
+  value: 171
 solution: ['-9', '<<', '*2', '-9']
-moves: 4
-portals: null
-rules: ['*2', '-9', '<<']
-value: 171

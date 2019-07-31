@@ -1,6 +1,7 @@
-goal: 501
+game:
+  goal: 501
+  moves: 3
+  portals: null
+  rules: ['+5', '0', < Shift]
+  value: 100
 solution: ['+5', '0', < Shift]
-moves: 3
-portals: null
-rules: ['+5', '0', < Shift]
-value: 100

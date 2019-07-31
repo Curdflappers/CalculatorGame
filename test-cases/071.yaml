@@ -1,6 +1,7 @@
-goal: -43
+game:
+  goal: -43
+  moves: 5
+  portals: null
+  rules: ['-5', '+7', '-9', Reverse]
+  value: 0
 solution: ['-9', '-5', Reverse, '-9', '+7']
-moves: 5
-portals: null
-rules: ['-5', '+7', '-9', Reverse]
-value: 0

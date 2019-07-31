@@ -1,6 +1,7 @@
-goal: 121
+game:
+  goal: 121
+  moves: 6
+  portals: null
+  rules: ['1', '*5', 15=>51, SUM]
+  value: 59
 solution: [SUM, SUM, '1', '*5', SUM, '1']
-moves: 6
-portals: null
-rules: ['1', '*5', 15=>51, SUM]
-value: 59

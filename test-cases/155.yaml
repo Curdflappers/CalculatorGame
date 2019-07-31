@@ -1,6 +1,7 @@
-goal: 3001
+game:
+  goal: 3001
+  moves: 9
+  portals: null
+  rules: [39=>93, /3, Store, 31=>00]
+  value: 9
 solution: [Update Store, /3, Store, Update Store, Store, 39=>93, 39=>93, /3, 31=>00]
-moves: 9
-portals: null
-rules: [39=>93, /3, Store, 31=>00]
-value: 9

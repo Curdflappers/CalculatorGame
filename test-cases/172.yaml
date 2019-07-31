@@ -1,6 +1,7 @@
-goal: 872
+game:
+  goal: 872
+  moves: 8
+  portals: null
+  rules: ['8', 88=>34, Inv10, '<<']
+  value: 0
 solution: ['8', Inv10, '8', '8', 88=>34, '<<', '8', Inv10]
-moves: 8
-portals: null
-rules: ['8', 88=>34, Inv10, '<<']
-value: 0

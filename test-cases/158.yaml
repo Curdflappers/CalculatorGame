@@ -1,6 +1,7 @@
-goal: 15
+game:
+  goal: 15
+  moves: 3
+  portals: null
+  rules: ['+5', '*5', Inv10]
+  value: 14
 solution: ['+5', '*5', Inv10]
-moves: 3
-portals: null
-rules: ['+5', '*5', Inv10]
-value: 14

@@ -1,6 +1,7 @@
-goal: 101
+game:
+  goal: 101
+  moves: 5
+  portals: null
+  rules: [1=>10, '+50', Reverse, 5=>1]
+  value: 50
 solution: [5=>1, Reverse, '+50', '+50']
-moves: 5
-portals: null
-rules: [1=>10, '+50', Reverse, 5=>1]
-value: 50

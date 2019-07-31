@@ -1,6 +1,7 @@
-goal: 3
+game:
+  goal: 3
+  moves: 4
+  portals: null
+  rules: [SUM, /2, Mirror, '<<']
+  value: 22
 solution: [Mirror, '<<', /2, SUM]
-moves: 4
-portals: null
-rules: [SUM, /2, Mirror, '<<']
-value: 22

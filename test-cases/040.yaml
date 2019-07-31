@@ -1,6 +1,7 @@
-goal: 5
+game:
+  goal: 5
+  moves: 1
+  portals: null
+  rules: [+/-]
+  value: -5
 solution: [+/-]
-moves: 1
-portals: null
-rules: [+/-]
-value: -5
