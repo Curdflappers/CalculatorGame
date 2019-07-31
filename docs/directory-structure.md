@@ -20,11 +20,10 @@ Some files/subdirectories are skipped because they are self-explanatory or rarel
     * `main`: the main classes of the program
       * [`Developer.java`](../src/main/java/com/mathwithmark/calculatorgamesolver/main/Developer.java): alternative main class with regression test factory
       * [`Main.java`](../src/main/java/com/mathwithmark/calculatorgamesolver/main/Main.java): I/O logic
+    * `yaml`: Contains logic to serialize and deserialize with YAML
   * `test/java/com/mathwithmark/calculatorgamesolver`: test code
-    * `main`
-      * [`MainTests.java`](../src/test/java/com/mathwithmark/calculatorgamesolver/main/MainTests.java): comprehensive tests, from unit to end-to-end, covering nearly all functionality of the program
     * `calculatorgame`
       * [`LevelTests.java`](../src/test/java/com/mathwithmark/calculatorgamesolver/calculatorgame/LevelTests.java): tests for the ability to correctly solve levels
+    * `main`
+      * [`MainTests.java`](../src/test/java/com/mathwithmark/calculatorgamesolver/main/MainTests.java): comprehensive tests, from unit to end-to-end, covering nearly all functionality of the program
 * `test-cases`: stores all test case files for the level-solver. File format found in the [testing document](./testing.md#test-cases)
-* [`.classpath`](../.classpath): the classpath
-* [`.project`](../.project): metadata about the project
