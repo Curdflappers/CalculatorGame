@@ -148,8 +148,6 @@ public class Config {
 
   public static final String CONTINUE = "y ";
 
-  /** The separator for rule input through the scanner */
-  public static final String SCANNER_SEPARATOR = "\n";
   /** The separator for rule input through command-line arguments */
   public static final String CMDLINE_SEPARATOR = ",";
 }
