@@ -67,7 +67,6 @@ public abstract class ShiftRule extends Rule {
      * PRECONDITION: no chance of integer overflow
      * @param digits the array to evaluate
      */
-    // TODO enforce no integer overflow
     protected static int valueOf(int[] digits) {
         int value = 0;
 

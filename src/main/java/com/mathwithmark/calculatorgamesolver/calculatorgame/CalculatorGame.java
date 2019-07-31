@@ -160,7 +160,6 @@ public class CalculatorGame implements Game, Mappable {
     /**
      * Make the digits "fall through" the portals to get the correct value
      */
-    // TODO make static
     private void applyPortals() {
         if (!hasPortals()) return;
 
