@@ -6,11 +6,10 @@ import java.util.List;
 
 public interface Solver {
     /**
-     * Run a DFS and return the ordered states the represent the solution to the
-     * game
+     * Solves the given game, if possible
      * @param game The game to solve
      * @return a list of States, first being the root, last being the solved
-     * game
+     * game. Returns null if the game is unsolveable.
      */
     public static List<State> solve(Game game) {
         Deque<State> stack = new ArrayDeque<>();
