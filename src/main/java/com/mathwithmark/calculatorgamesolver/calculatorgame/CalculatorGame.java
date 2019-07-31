@@ -13,7 +13,7 @@ import com.mathwithmark.calculatorgamesolver.yaml.Mappable;
 
 public class CalculatorGame implements Game, Mappable {
     /** The current number for this game */
-    private int value;
+    private final int VALUE;
 
     /** The goal number for this game */
     private final int GOAL;
@@ -52,12 +52,11 @@ public class CalculatorGame implements Game, Mappable {
         Rule[] rules,
         int[] portals
     ) {
-        this.value = value;
+        this.VALUE = applyPortals(portals, value);
         this.GOAL = goal;
         this.MOVES_LEFT = moves;
         this.RULES = rules;
         this.PORTALS = portals;
-        applyPortals();
     }
 
     public static CalculatorGame generateGame(
@@ -116,11 +115,7 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     public int getValue() {
-        return value;
-    }
-
-    private void setValue(int value) {
-        this.value = value;
+        return VALUE;
     }
 
     public int getGoal() {
@@ -158,31 +153,35 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     /**
-     * Make the digits "fall through" the portals to get the correct value
+     * Make the digits of value "fall through" the portals
+     * @param portals null or a two-element array where the first element is
+     * greater than the second AND the second is at least 0
+     * @param value the value before the digits fall through the portals
+     * @return the value after the digits fall through the portals (the same
+     * value if portals == null)
      */
-    private void applyPortals() {
-        if (!hasPortals()) return;
+    private static int applyPortals(int[] portals, int value) {
+        if (portals == null) return value;
 
-        int toyValue = getValue();
-        boolean negative = toyValue < 0;
-        toyValue = Math.abs(toyValue); // only worry about the positive version
+        boolean negative = value < 0;
+        value = Math.abs(value); // only worry about the positive version
 
-        int leftPortalIndex = PORTALS[0];
-        int rightPortalIndex = PORTALS[1];
+        int leftPortalIndex = portals[0];
+        int rightPortalIndex = portals[1];
 
-        while (toyValue >= Math.pow(10, leftPortalIndex)) {
+        while (value >= Math.pow(10, leftPortalIndex)) {
             // Have the digit fall
-            int digit = Helpers.getDigit(toyValue, leftPortalIndex);
-            toyValue -= digit * Math.pow(10, leftPortalIndex);
-            toyValue += digit * Math.pow(10, rightPortalIndex);
+            int digit = Helpers.getDigit(value, leftPortalIndex);
+            value -= digit * Math.pow(10, leftPortalIndex);
+            value += digit * Math.pow(10, rightPortalIndex);
 
             // Take digits at left of portal and shift them one right
-            int valueLeft = Helpers.digitsToTheLeft(toyValue, leftPortalIndex);
-            toyValue -= valueLeft * Math.pow(10, leftPortalIndex + 1);
-            toyValue += valueLeft * Math.pow(10, leftPortalIndex);
+            int valueLeft = Helpers.digitsToTheLeft(value, leftPortalIndex);
+            value -= valueLeft * Math.pow(10, leftPortalIndex + 1);
+            value += valueLeft * Math.pow(10, leftPortalIndex);
         }
 
-        setValue(negative ? -toyValue : toyValue);
+        return negative ? -value : value;
     }
 
     public boolean equals(Object other) {
@@ -273,7 +272,7 @@ public class CalculatorGame implements Game, Mappable {
 
     public String toString() {
         String str = "{";
-        str += " value: " + (int) value + ",";
+        str += " value: " + (int) VALUE + ",";
         str += " goal: " + GOAL + ",";
         str += " movesLeft: " + MOVES_LEFT + ",";
 
@@ -291,7 +290,7 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     public boolean isWon() {
-        return value == GOAL;
+        return VALUE == GOAL;
     }
 
     @Override
