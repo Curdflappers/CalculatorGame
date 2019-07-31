@@ -2,7 +2,7 @@ package com.mathwithmark.calculatorgamesolver.main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,44 +10,44 @@ import com.mathwithmark.calculatorgamesolver.brutesolver.Solver;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.CalculatorGame;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
+import com.mathwithmark.calculatorgamesolver.calculatorgame.Serialize;
 
 public class Developer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         do {
             Main.getInput(new String[] {}, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            List<State> solution = Solver.solve(Main.getCalculatorGame());
-            String solutionString = State.allTransitions(solution);
-            System.out.print(solutionString);
-            promptSaveTestCase(
-                scanner,
-                Main.getCalculatorGame(),
-                solutionString
-            );
+            List<State> solutionStates = Solver.solve(Main.getCalculatorGame());
+            List<String> transitions = State.allTransitions(solutionStates);
+            for (String transition : transitions) {
+                System.out.println(transition);
+            }
+            promptSaveTestCase(scanner, Main.getCalculatorGame(), transitions);
         } while (true);
     }
 
     /**
      * Prompt the user to see if they want to save the test case
      * @param scanner
+     * @throws IOException
      */
     private static void promptSaveTestCase(
         Scanner scanner,
         CalculatorGame game,
-        String solution
-    ) {
+        List<String> solution
+    ) throws IOException {
         System.out.print("Save test case (y/n): ");
         String saveResponse = scanner.nextLine();
         if (saveResponse.length() == 0 || saveResponse.charAt(0) == 'y') {
             do {
-                System.out.print("Filename (\".cgl\" will be added): ");
-                String filename =
-                    Config.TESTCASES_PATH + "/" + scanner.nextLine() + ".cgl";
-                if (fileExists(filename)) {
+                System.out.print("Filename (\".yaml\" will be added): ");
+                String filePath =
+                    Config.TESTCASES_PATH + "/" + scanner.nextLine() + ".yaml";
+                if (fileExists(filePath)) {
                     switch (promptOverwrite(scanner)) {
                         case 'o':
-                            saveTestCase(filename, game, solution);
+                            Serialize.saveTestCase(filePath, game, solution);
                             return;
                         case 'd':
                             continue;
@@ -56,7 +56,7 @@ public class Developer {
                             return;
                     }
                 } else {
-                    saveTestCase(filename, game, solution);
+                    Serialize.saveTestCase(filePath, game, solution);
                     return;
                 }
             } while (true);
@@ -126,25 +126,6 @@ public class Developer {
             return false;
         } finally {
             if (input != null) input.close();
-        }
-    }
-
-    private static void saveTestCase(
-        String filename,
-        CalculatorGame game,
-        String solution
-    ) {
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(filename);
-
-            // Newlines automatically included as part of printed strings
-            writer.print(game);
-            writer.print(solution);
-        } catch (FileNotFoundException e) {
-            System.err.println("Unable to write to " + filename);
-        } finally {
-            if (writer != null) writer.close();
         }
     }
 

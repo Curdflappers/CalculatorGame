@@ -1,0 +1,6 @@
+goal: 17
+solution: [Update Store, SUM, Store, Store, /2, 8=>1, SUM]
+moves: 7
+portals: null
+rules: [8=>1, /2, '0', Store, SUM]
+value: 70

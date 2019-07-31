@@ -1,0 +1,6 @@
+goal: 12
+solution: ['*5', '-7', Inv10]
+moves: 3
+portals: null
+rules: ['-7', '*5', Inv10]
+value: 21

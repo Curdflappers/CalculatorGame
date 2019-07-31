@@ -1,0 +1,6 @@
+goal: 30
+solution: ['-4', '2', Reverse, 2=>3, '-4']
+moves: 5
+portals: null
+rules: ['2', '-4', 2=>3, Reverse]
+value: 8

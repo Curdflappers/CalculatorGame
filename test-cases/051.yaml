@@ -1,0 +1,6 @@
+goal: 3
+solution: [+/-, '+8', +/-, '-5', /7]
+moves: 5
+portals: null
+rules: ['-5', '+8', /7, +/-]
+value: 34

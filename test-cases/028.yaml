@@ -1,0 +1,6 @@
+goal: 222
+solution: ['1', '1', '1', 1=>2]
+moves: 4
+portals: null
+rules: ['1', 1=>2]
+value: 0

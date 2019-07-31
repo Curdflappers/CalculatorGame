@@ -1,0 +1,6 @@
+goal: 45
+solution: ['4', '*3', SUM, 3=>5, '*9']
+moves: 5
+portals: null
+rules: ['*9', '4', '*3', 3=>5, SUM]
+value: 0

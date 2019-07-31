@@ -1,0 +1,6 @@
+goal: 105
+solution: [Update Store, Store, '*3', Inv10, /9]
+moves: 5
+portals: null
+rules: ['*3', /9, Store, Inv10]
+value: 5

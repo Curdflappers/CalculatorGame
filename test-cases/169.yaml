@@ -1,0 +1,6 @@
+goal: 13
+solution: [Mirror, SUM, Mirror, Inv10, SUM, Inv10, SUM]
+moves: 7
+portals: null
+rules: [SUM, Inv10, Mirror]
+value: 15

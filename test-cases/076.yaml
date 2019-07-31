@@ -1,0 +1,6 @@
+goal: -5
+solution: ['+7', +/-, '*3', Reverse, '+7']
+moves: 5
+portals: null
+rules: ['+7', '*3', Reverse, +/-]
+value: 0

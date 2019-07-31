@@ -1,0 +1,6 @@
+goal: 31
+solution: [SUM, '*4', '[+]1', '+4', '+3']
+moves: 5
+portals: null
+rules: ['*4', '+2', '+3', '[+]1', SUM]
+value: 33

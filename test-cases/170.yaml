@@ -1,0 +1,6 @@
+goal: 99
+solution: [/6, Reverse, 1=>6, /6, 6=>11, Inv10]
+moves: 6
+portals: null
+rules: [1=>6, 6=>11, /6, Inv10, Reverse]
+value: 78

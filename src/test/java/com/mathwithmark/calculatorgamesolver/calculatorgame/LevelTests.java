@@ -15,9 +15,9 @@ public class LevelTests {
     void passesAllLevels() {
         boolean success = true;
         for (String testCase : Helpers.testCases()) {
-            System.out.print("Testing " + testCase + ": ");
-            String expectedSolution = Helpers.expectedSolution(testCase);
-            CalculatorGame game = Helpers.loadLevel(testCase);
+            List<String> expectedSolution =
+                Serialize.loadSolution(testCase);
+            CalculatorGame game = Serialize.loadGame(testCase);
 
             if (game == null) {
                 success = false;
@@ -26,17 +26,14 @@ public class LevelTests {
             }
 
             List<State> solutionStates = Solver.solve(game);
-            String solutionString = State.allTransitions(solutionStates);
+            List<String> actualSolution = State.allTransitions(solutionStates);
 
-            if (!solutionString.equals(expectedSolution)) {
+            if (!actualSolution.equals(expectedSolution)) {
                 success = false;
                 System.out.println("FAILED");
                 System.out.println("Expected:\n" + expectedSolution);
-                System.out.println("Actual:\n" + solutionString);
-                continue;
+                System.out.println("Actual:\n" + actualSolution);
             }
-
-            System.out.println("PASSED");
         }
 
         assertTrue(success);

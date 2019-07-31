@@ -1,0 +1,6 @@
+goal: 116
+solution: [SUM, '-3', Mirror, '6']
+moves: 4
+portals: null
+rules: ['-3', '6', Mirror, SUM]
+value: 22

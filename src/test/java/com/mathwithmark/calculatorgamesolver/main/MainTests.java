@@ -360,7 +360,7 @@ public class MainTests {
         String output = Config.SOLUTION_PROMPT + "\n";
         for (int i = 0; i < solution.length; i++) {
             Rule rule = solution[i];
-            output += Config.APPLY_PROMPT + rule.toString() + "\n";
+            output += CalculatorGame.transitionString(rule) + "\n";
         }
         output += Config.AGAIN_PROMPT;
         return output;

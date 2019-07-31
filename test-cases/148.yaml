@@ -1,0 +1,6 @@
+goal: 115
+solution: ['-8', Update Store, '-8', '-8', +/-, Store]
+moves: 6
+portals: null
+rules: ['-8', Store, +/-]
+value: 23

@@ -1,0 +1,6 @@
+goal: 1221
+solution: ['1', '2', Mirror]
+moves: 3
+portals: null
+rules: ['1', '2', Mirror]
+value: 0

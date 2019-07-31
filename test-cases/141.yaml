@@ -1,0 +1,6 @@
+goal: 268
+solution: ['*5', '*2', '[+]1', '+9', '+9']
+moves: 5
+portals: null
+rules: ['+8', '*2', '*5', '[+]1']
+value: 25

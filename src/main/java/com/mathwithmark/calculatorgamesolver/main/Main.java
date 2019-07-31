@@ -29,8 +29,10 @@ public class Main {
             getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
             List<State> solutionStates = Solver.solve(calculatorGame);
-            String solutionString = State.allTransitions(solutionStates);
-            System.out.print(solutionString);
+            List<String> transitions = State.allTransitions(solutionStates);
+            for (String transition : transitions) {
+                System.out.println(transition);
+            }
             promptAgain(scanner);
             args = new String[0]; // can't use the same args again
         } while (again);

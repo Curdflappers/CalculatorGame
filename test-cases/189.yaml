@@ -1,0 +1,6 @@
+goal: 516
+solution: [Reverse, '+10', Mirror, '+10']
+moves: 4
+portals: [3, 1]
+rules: ['+10', Mirror, Reverse]
+value: 45

@@ -1,0 +1,6 @@
+goal: 1991
+solution: [Update Store, Inv10, Store, Update Store, Inv10, Store]
+moves: 6
+portals: null
+rules: [Store, Inv10]
+value: 1

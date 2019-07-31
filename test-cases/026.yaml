@@ -1,0 +1,6 @@
+goal: 11
+solution: ['12', '<<', '12', '<<']
+moves: 4
+portals: null
+rules: ['12', '<<']
+value: 0

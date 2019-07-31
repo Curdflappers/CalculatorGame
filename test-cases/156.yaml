@@ -1,0 +1,6 @@
+goal: 99
+solution: ['1', '1', Inv10]
+moves: 3
+portals: null
+rules: ['1', Inv10]
+value: 0

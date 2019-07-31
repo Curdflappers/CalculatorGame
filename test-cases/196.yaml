@@ -1,0 +1,6 @@
+goal: 550
+solution: [Inv10, '2', Inv10, '*5', '2', Inv10, '*5']
+moves: 7
+portals: [3, 1]
+rules: ['+5', '*5', '2', Inv10]
+value: 60

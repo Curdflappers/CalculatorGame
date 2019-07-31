@@ -1,0 +1,6 @@
+goal: 26
+solution: [Update Store, Store, Inv10, '<<', SUM]
+moves: 5
+portals: null
+rules: ['<<', SUM, Store, Inv10]
+value: 12

@@ -266,11 +266,7 @@ public class CalculatorGame implements Game {
      * @return the string representing the use of the rule
      */
     public static String transitionString(Rule rule) {
-        String s = "";
-        s += Config.APPLY_PROMPT;
-        // space included in prompt
-        s += rule;
-        return s;
+        return rule.toString();
     }
 
     public String toString() {

@@ -1,0 +1,6 @@
+goal: 13
+solution: [Reverse, Shift >, 25=>12, 12=>5, 25=>12, 21=>3]
+moves: 6
+portals: null
+rules: [25=>12, 21=>3, 12=>5, Shift >, Reverse]
+value: 2152

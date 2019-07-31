@@ -1,0 +1,6 @@
+goal: 424
+solution: ['5', 5=>4, /2, '5', Reverse, '5', 5=>4]
+moves: 7
+portals: null
+rules: [/2, '5', 5=>4, Reverse]
+value: 0

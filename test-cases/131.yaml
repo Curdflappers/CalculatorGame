@@ -1,0 +1,6 @@
+goal: 20
+solution: [SUM, Mirror, Mirror, SUM, SUM, Mirror, Mirror, SUM]
+moves: 8
+portals: null
+rules: [Mirror, SUM]
+value: 125

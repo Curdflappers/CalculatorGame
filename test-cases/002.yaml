@@ -1,0 +1,6 @@
+goal: 8
+solution: ['+3', '+3', '+2']
+moves: 3
+portals: null
+rules: ['+2', '+3']
+value: 0

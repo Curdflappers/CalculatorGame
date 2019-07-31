@@ -1,0 +1,6 @@
+goal: 1234
+solution: [Update Store, '*2', '-5', Store, < Shift]
+moves: 5
+portals: null
+rules: ['*2', '-5', Store, < Shift]
+value: 23

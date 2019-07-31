@@ -1,0 +1,6 @@
+goal: 8
+solution: [SUM, '*3', '+4', SUM, '+4']
+moves: 5
+portals: null
+rules: ['+4', '*3', SUM]
+value: 93

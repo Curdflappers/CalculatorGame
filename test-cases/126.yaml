@@ -1,0 +1,6 @@
+goal: 1111
+solution: ['+2', '*6', Mirror, 21=>11, 21=>11]
+moves: 5
+portals: null
+rules: ['+2', '*6', Mirror, 21=>11]
+value: 0

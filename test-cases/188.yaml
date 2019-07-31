@@ -1,0 +1,6 @@
+goal: 822
+solution: [Update Store, '5', Update Store, Mirror, Update Store, Store]
+moves: 6
+portals: [3, 1]
+rules: [Mirror, '5', Store, '<<']
+value: 25

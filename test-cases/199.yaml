@@ -1,0 +1,6 @@
+goal: 3507
+solution: ['7', 3=>5, '7', Shift >, Inv10, '7']
+moves: 6
+portals: [4, 0]
+rules: ['7', 3=>5, Inv10, Shift >]
+value: 3002

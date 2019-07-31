@@ -1,0 +1,6 @@
+goal: 100
+solution: [/9, '9', Reverse, 1=>0, /9]
+moves: 5
+portals: null
+rules: ['9', /9, Reverse, 1=>0]
+value: 99

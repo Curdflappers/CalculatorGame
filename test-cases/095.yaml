@@ -1,0 +1,6 @@
+goal: 143
+solution: [SUM, '+9', '*9', 44=>43]
+moves: 4
+portals: null
+rules: ['*9', '+9', 44=>43, SUM]
+value: 142

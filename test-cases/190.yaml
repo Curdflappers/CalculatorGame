@@ -1,0 +1,6 @@
+goal: 212
+solution: [Shift >, Inv10, '-5', 28=>21]
+moves: 4
+portals: [3, 1]
+rules: [28=>21, '-5', Inv10, Shift >]
+value: 238

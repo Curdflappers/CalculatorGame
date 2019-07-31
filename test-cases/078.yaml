@@ -1,0 +1,6 @@
+goal: 101
+solution: [Reverse, '*2', '0', 0=>1, 2=>10]
+moves: 5
+portals: null
+rules: ['0', '*2', 2=>10, Reverse, 0=>1]
+value: 100

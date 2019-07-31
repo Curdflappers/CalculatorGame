@@ -1,0 +1,6 @@
+goal: 101
+solution: [Inv10, SUM, Inv10, '+4', '+4']
+moves: 5
+portals: null
+rules: ['+4', Inv10, SUM]
+value: 12

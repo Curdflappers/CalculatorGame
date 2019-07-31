@@ -1,0 +1,6 @@
+goal: 101
+solution: ['5', '*6', Update Store, Store, 3=>1, Shift >]
+moves: 6
+portals: null
+rules: ['*6', '5', Shift >, Store, 3=>1]
+value: 0

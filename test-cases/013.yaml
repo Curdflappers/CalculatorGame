@@ -1,0 +1,6 @@
+goal: 23
+solution: ['-9', '<<', '*2', '-9']
+moves: 4
+portals: null
+rules: ['*2', '-9', '<<']
+value: 171

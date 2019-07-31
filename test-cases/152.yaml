@@ -1,0 +1,6 @@
+goal: 12525
+solution: [/5, Update Store, Store, Reverse, '1', Reverse]
+moves: 6
+portals: null
+rules: ['1', /5, Reverse, Store]
+value: 125

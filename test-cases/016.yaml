@@ -1,0 +1,6 @@
+goal: 2
+solution: ['+4', '*9', '<<', '*9', '<<']
+moves: 5
+portals: null
+rules: ['+4', '*9', '<<']
+value: 0

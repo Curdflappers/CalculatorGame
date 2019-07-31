@@ -1,0 +1,6 @@
+goal: 33
+solution: ['*2', '-4', < Shift, Mirror]
+moves: 4
+portals: null
+rules: ['*2', '-4', Mirror, < Shift]
+value: 17

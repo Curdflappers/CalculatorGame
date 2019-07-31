@@ -1,0 +1,6 @@
+goal: 50
+solution: ['*3', '-5', '*2']
+moves: 3
+portals: null
+rules: ['*3', '*2', '-5']
+value: 10

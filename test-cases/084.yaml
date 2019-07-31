@@ -1,0 +1,6 @@
+goal: 196
+solution: ['+12', '<<', '*13', '*13', '1', Reverse, '<<']
+moves: 8
+portals: null
+rules: ['1', '+12', '*13', Reverse, '<<']
+value: 0

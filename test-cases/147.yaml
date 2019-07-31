@@ -1,0 +1,6 @@
+goal: 1025
+solution: ['*2', '<<', Update Store, '*2', '<<', '*2', Store]
+moves: 7
+portals: null
+rules: ['*2', Store, '<<']
+value: 125

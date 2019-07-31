@@ -1,0 +1,6 @@
+goal: 1
+solution: ['*4', SUM, /3, 5=>10, SUM]
+moves: 5
+portals: null
+rules: [/3, '*4', 5=>10, SUM]
+value: 24

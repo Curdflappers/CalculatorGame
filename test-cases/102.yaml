@@ -1,0 +1,6 @@
+goal: 5
+solution: [/3, '*2', 12=>21, /3, '*2', SUM]
+moves: 6
+portals: null
+rules: ['*2', /3, 12=>21, SUM]
+value: 18

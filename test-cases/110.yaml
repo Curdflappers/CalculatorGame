@@ -1,0 +1,6 @@
+goal: 121
+solution: [Shift >, '+2', < Shift]
+moves: 3
+portals: null
+rules: ['+2', Shift >, < Shift]
+value: 101

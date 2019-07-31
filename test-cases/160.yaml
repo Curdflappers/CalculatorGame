@@ -1,0 +1,6 @@
+goal: 13
+solution: [Reverse, '+3', Inv10, Reverse]
+moves: 4
+portals: null
+rules: ['+3', Reverse, Inv10]
+value: 67
