@@ -59,14 +59,11 @@ public abstract class Rule {
     }
 
     public Rule(int operator) {
-        setOperator(operator);
-        setString();
+        this(operator, 0, 0);
     }
 
     public Rule(int operator, int operand1) {
-        setOperator(operator);
-        setOperand1(operand1);
-        setString();
+        this(operator, operand1, 0);
     }
 
     public Rule(int operator, int operand1, int operand2) {
