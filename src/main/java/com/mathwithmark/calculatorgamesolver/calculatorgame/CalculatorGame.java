@@ -1,5 +1,6 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,6 +11,8 @@ import com.mathwithmark.calculatorgamesolver.brutesolver.Game;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
 import com.mathwithmark.calculatorgamesolver.yaml.Mappable;
+
+import org.yaml.snakeyaml.Yaml;
 
 public class CalculatorGame implements Game, Mappable {
     /** The current number for this game */
@@ -261,23 +264,15 @@ public class CalculatorGame implements Game, Mappable {
         return rule.toString();
     }
 
+    /**
+     * The YAML external representation for this object
+     */
+    @Override
     public String toString() {
-        String str = "{";
-        str += " value: " + (int) VALUE + ",";
-        str += " goal: " + GOAL + ",";
-        str += " movesLeft: " + MOVES_LEFT + ",";
-
-        str += " rules: [";
-        for (int i = 0; i < RULES.length; i++) {
-            Rule rule = RULES[i];
-            if (i != 0) str += ", ";
-            str += rule.toString();
-        }
-        str += "],";
-
-        str += " portals: " + Arrays.toString(PORTALS);
-        str += " }";
-        return str;
+        Yaml yaml = new Yaml();
+        StringWriter sb = new StringWriter();
+        yaml.dump(this.toMap(), sb);
+        return sb.toString();
     }
 
     public boolean isWon() {
