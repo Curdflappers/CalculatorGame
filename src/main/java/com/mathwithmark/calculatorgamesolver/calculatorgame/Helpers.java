@@ -86,4 +86,24 @@ public class Helpers {
         }
         return filenames;
     }
+
+    /** Combines the given strings, separated with Config.SEPARATOR */
+    public static String combineStrings(String[] strings) {
+        return combineStrings(strings, Config.SCANNER_SEPARATOR);
+    }
+
+    /**
+     * Creates one string given the array of strings, separated by the given
+     * separator
+     */
+    public static String combineStrings(String[] strings, String separator) {
+        String combinedString = "";
+        int endIndex = -1;
+        for (String string : strings) {
+            combinedString += string + separator;
+        }
+        endIndex = combinedString.length() - separator.length();
+        combinedString = combinedString.substring(0, endIndex);
+        return combinedString;
+    }
 }

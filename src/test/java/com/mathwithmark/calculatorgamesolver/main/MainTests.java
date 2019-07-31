@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 import com.mathwithmark.calculatorgamesolver.calculatorgame.CalculatorGame;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
+import com.mathwithmark.calculatorgamesolver.calculatorgame.Helpers;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
 
 import org.junit.jupiter.api.Test;
@@ -107,7 +108,7 @@ public class MainTests {
             Config.ruleString(Config.SUBTRACT, 2),
             Config.ruleString(Config.MULTIPLY, -3),
         };
-        String rulesString = combineStrings(ruleStrings) + "\n";
+        String rulesString = Helpers.combineStrings(ruleStrings) + "\n";
         Rule[] rules = rules(ruleStrings);
         boolean portalsPresent = false;
         String inputString =
@@ -223,26 +224,6 @@ public class MainTests {
         System.setOut(out);
     }
 
-    /** Combines the given strings, separated with Config.SEPARATOR */
-    String combineStrings(String[] strings) {
-        return combineStrings(strings, Config.SCANNER_SEPARATOR);
-    }
-
-    /**
-     * Creates one string given the array of strings, separated by the given
-     * separator
-     */
-    String combineStrings(String[] strings, String separator) {
-        String combinedString = "";
-        int endIndex = -1;
-        for (String string : strings) {
-            combinedString += string + separator;
-        }
-        endIndex = combinedString.length() - separator.length();
-        combinedString = combinedString.substring(0, endIndex);
-        return combinedString;
-    }
-
     String gamePrompts() {
         return Config.START_PROMPT
             + Config.GOAL_PROMPT
@@ -274,7 +255,7 @@ public class MainTests {
                 + "\n"
                 + moves
                 + "\n"
-                + combineStrings(ruleStrings)
+                + Helpers.combineStrings(ruleStrings)
                 + "\n\n";
 
         if (portals == null) {
@@ -300,7 +281,7 @@ public class MainTests {
     ) {
 
         String rulesString =
-            combineStrings(ruleStrings, Config.CMDLINE_SEPARATOR);
+            Helpers.combineStrings(ruleStrings, Config.CMDLINE_SEPARATOR);
         boolean portalsPresent = portals != null;
         String portalsResponse = portalsPresent ? "y" : "n";
         String leftPortal = portalsPresent ? String.valueOf(portals[0]) : "";
