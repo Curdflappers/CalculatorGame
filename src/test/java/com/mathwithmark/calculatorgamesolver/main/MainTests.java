@@ -211,12 +211,15 @@ public class MainTests {
         String inputString =
             inputString(true, initialValue, goal, moves, ruleStrings, null);
         ByteArrayOutputStream baos = IoUtils.prepareEndToEndTest(inputString);
-        Main.main(TestUtils.args(initialValue, goal, moves, ruleStrings, null));
         String expectedOutput = solutionOutput(solution);
         expectedOutput += gamePrompts();
         expectedOutput += solutionOutput(solution);
+
+        Main.main(TestUtils.args(initialValue, goal, moves, ruleStrings, null));
         String actualOutput = IoUtils.stringFromBaos(baos);
+
         assertEquals(expectedOutput, actualOutput);
+
         System.setOut(out);
     }
 
