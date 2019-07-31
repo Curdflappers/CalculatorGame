@@ -5,11 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -62,7 +60,6 @@ public class MainTests {
     }
 
     /** Generates a basic instance of CalculatorGame to stay DRY */
-    // TODO better way to stay DRY with JUnit-specific logic or final variable?
     private CalculatorGame calculatorGame() {
         Rule[] rules = new Rule[] {
             Rule.makeRule(Config.SIGN)
@@ -108,8 +105,8 @@ public class MainTests {
             Config.ruleString(Config.SUBTRACT, 2),
             Config.ruleString(Config.MULTIPLY, -3),
         };
-        String rulesString = Helpers.combineStrings(ruleStrings) + "\n";
-        Rule[] rules = rules(ruleStrings);
+        String rulesString = Helpers.combineStrings(ruleStrings, "\n") + "\n";
+        Rule[] rules = Helpers.rules(ruleStrings);
         boolean portalsPresent = false;
         String inputString =
             value
@@ -182,9 +179,9 @@ public class MainTests {
     ) {
         String inputString =
             inputString(false, value, goal, moves, ruleStrings, portals);
-        InputStream in = inStream(inputString);
+        InputStream in = IoUtils.inStream(inputString);
         InputStream consoleIn = System.in;
-        Rule[] inputRules = rules(ruleStrings);
+        Rule[] inputRules = Helpers.rules(ruleStrings);
         CalculatorGame expectedGame =
             CalculatorGame
                 .generateGame(value, goal, moves, inputRules, portals);
@@ -195,8 +192,8 @@ public class MainTests {
         assertEquals(expectedGame, Main.getCalculatorGame());
 
         // Creates game as VM args
-        System.setIn(inStream(Config.QUIT));
-        Main.main(args(value, goal, moves, ruleStrings, portals));
+        System.setIn(IoUtils.inStream(Config.QUIT));
+        Main.main(TestUtils.args(value, goal, moves, ruleStrings, portals));
         assertEquals(expectedGame, Main.getCalculatorGame());
 
         System.setIn(consoleIn);
@@ -209,17 +206,16 @@ public class MainTests {
         Rule[] rules,
         Rule[] solution
     ) {
-
-        String[] ruleStrings = ruleStrings(rules);
+        String[] ruleStrings = Helpers.ruleStrings(rules);
         PrintStream out = System.out;
         String inputString =
             inputString(true, initialValue, goal, moves, ruleStrings, null);
-        ByteArrayOutputStream baos = prepareEndToEndTest(inputString);
-        Main.main(args(initialValue, goal, moves, ruleStrings, null));
+        ByteArrayOutputStream baos = IoUtils.prepareEndToEndTest(inputString);
+        Main.main(TestUtils.args(initialValue, goal, moves, ruleStrings, null));
         String expectedOutput = solutionOutput(solution);
         expectedOutput += gamePrompts();
         expectedOutput += solutionOutput(solution);
-        String actualOutput = stringFromBaos(baos);
+        String actualOutput = IoUtils.stringFromBaos(baos);
         assertEquals(expectedOutput, actualOutput);
         System.setOut(out);
     }
@@ -246,7 +242,6 @@ public class MainTests {
         String[] ruleStrings,
         int[] portals
     ) {
-
         String input = repeated ? Config.CONTINUE + "\n" : "";
         input +=
             value
@@ -255,9 +250,8 @@ public class MainTests {
                 + "\n"
                 + moves
                 + "\n"
-                + Helpers.combineStrings(ruleStrings)
+                + Helpers.combineStrings(ruleStrings, "\n")
                 + "\n\n";
-
         if (portals == null) {
             input += "n" + "\n";
         } else {
@@ -265,72 +259,8 @@ public class MainTests {
             input += String.valueOf(portals[0]) + "\n";
             input += String.valueOf(portals[1]) + "\n";
         }
-
         input += Config.QUIT;
-
         return input;
-    }
-
-    /** Simulates VM args */
-    String[] args(
-        int value,
-        int goal,
-        int moves,
-        String[] ruleStrings,
-        int[] portals
-    ) {
-
-        String rulesString =
-            Helpers.combineStrings(ruleStrings, Config.CMDLINE_SEPARATOR);
-        boolean portalsPresent = portals != null;
-        String portalsResponse = portalsPresent ? "y" : "n";
-        String leftPortal = portalsPresent ? String.valueOf(portals[0]) : "";
-        String rightPortal = portalsPresent ? String.valueOf(portals[1]) : "";
-        return new String[] {
-            "" + value,
-            "" + goal,
-            "" + moves,
-            rulesString,
-            portalsResponse,
-            leftPortal,
-            rightPortal
-        };
-    }
-
-    /** Creates an input stream from the given input string */
-    InputStream inStream(String inputString) {
-        return new ByteArrayInputStream(inputString.getBytes());
-    }
-
-    /**
-     * Sets output to print to BAOS, sets input to {@code input}
-     *
-     * @param input the new input String
-     * @return the BAOS to which output is printed
-     */
-    private ByteArrayOutputStream prepareEndToEndTest(String input) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        System.setIn(inStream(input));
-        System.setOut(ps);
-        return baos;
-    }
-
-    /** Creates an array of rules from the given rule strings */
-    Rule[] rules(String[] ruleStrings) {
-        Rule[] rules = new Rule[ruleStrings.length];
-        for (int i = 0; i < ruleStrings.length; i++) {
-            rules[i] = Rule.ruleFromString(ruleStrings[i]);
-        }
-        return rules;
-    }
-
-    String[] ruleStrings(Rule[] rules) {
-        String[] ruleStrings = new String[rules.length];
-        for (int i = 0; i < rules.length; i++) {
-            ruleStrings[i] = rules[i].toString();
-        }
-        return ruleStrings;
     }
 
     /**
@@ -345,11 +275,5 @@ public class MainTests {
         }
         output += Config.AGAIN_PROMPT;
         return output;
-    }
-
-    String stringFromBaos(ByteArrayOutputStream baos) {
-        String rawOutput =
-            new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        return rawOutput.replace("\r", "");
     }
 }

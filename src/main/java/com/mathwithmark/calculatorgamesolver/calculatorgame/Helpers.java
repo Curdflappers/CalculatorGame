@@ -87,11 +87,6 @@ public class Helpers {
         return filenames;
     }
 
-    /** Combines the given strings, separated with Config.SEPARATOR */
-    public static String combineStrings(String[] strings) {
-        return combineStrings(strings, Config.SCANNER_SEPARATOR);
-    }
-
     /**
      * Creates one string given the array of strings, separated by the given
      * separator
@@ -105,5 +100,23 @@ public class Helpers {
         endIndex = combinedString.length() - separator.length();
         combinedString = combinedString.substring(0, endIndex);
         return combinedString;
+    }
+
+    /** Creates an array of rules from the given rule strings */
+    public static Rule[] rules(String[] ruleStrings) {
+        Rule[] rules = new Rule[ruleStrings.length];
+        for (int i = 0; i < ruleStrings.length; i++) {
+            rules[i] = Rule.ruleFromString(ruleStrings[i]);
+        }
+        return rules;
+    }
+
+    /** Creates an array of strings from the given rules */
+    public static String[] ruleStrings(Rule[] rules) {
+        String[] ruleStrings = new String[rules.length];
+        for (int i = 0; i < rules.length; i++) {
+            ruleStrings[i] = rules[i].toString();
+        }
+        return ruleStrings;
     }
 }
