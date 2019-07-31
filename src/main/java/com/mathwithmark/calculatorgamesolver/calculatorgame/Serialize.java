@@ -170,5 +170,6 @@ public class Serialize {
         Map<String, Object> map = testCaseToMap(game, solution);
         FileWriter writer = new FileWriter(filePath);
         yaml.dump(map, writer);
+        writer.close();
     }
 }
