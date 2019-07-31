@@ -223,21 +223,13 @@ public class CalculatorGame implements Game, Mappable {
     /**
      * Get the successors of this as a list of States.
      *
-     * PRECONDITION: parent == null OR parent.getGame().equals(this)
-     * @param predecessor null means no parent, otherwise a state whose game is
-     * equal to this.
+     * @param parent a state whose game is equal to this.
      * @return a list of states with a parent whose game is this. Each game is a
      * successor of this, either by applying a rule or updating a rule. If this
      * game is won, returns an empty list.
      */
-    public List<State> getSuccessors(State predecessor) {
+    public List<State> getSuccessors(State parent) {
         List<State> successors = new ArrayList<>();
-        if (predecessor == null) predecessor = rootState();
-        addSuccessors(predecessor, successors);
-        return successors;
-    }
-
-    private void addSuccessors(State parent, List<State> successors) {
         for (Rule rule : getRules()) {
             CalculatorGame successorGame = getSuccessor(rule);
             if (successorGame == null) continue;
@@ -246,18 +238,17 @@ public class CalculatorGame implements Game, Mappable {
                 new State(successorGame, parent, transitionString);
             successors.add(successorState);
         }
+        return successors;
     }
 
     /**
      * Generates a successor game
-     * @param rule
-     * @param applied
+     * @param rule the rule to apply
      * @return null if the successor would be invalid, otherwise the successor
      */
     private CalculatorGame getSuccessor(Rule rule) {
         if (MOVES_LEFT == 0) return null;
-        CalculatorGame potentialSuccessor = rule.apply(this);
-        return potentialSuccessor;
+        return rule.apply(this);
     }
 
     /**
