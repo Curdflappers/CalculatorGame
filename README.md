@@ -1,6 +1,6 @@
 # Calculator Game Solver
 
-A solver for **Calculator: The Game** by Simple Machine. It supports all 16 rule types. It supports portals. It can solve all 199 levels of the game.
+A solver for __Calculator: The Game__ by Simple Machine. It supports all 16 rule types. It supports portals. It can solve all 199 levels of the game.
 
 It runs through the terminal. The solver prompts for input about a particular level, and outputs a series of steps to complete the given level. It then prompts the user to complete another level or quit the program. This repeats until the user chooses to quit the program.
 
@@ -10,9 +10,9 @@ This document covers the rules of Calculator: The Game and how to use the progra
 
 ![Sample level](docs/assets/sample-level.png)
 
-In **Calculator: The Game** the user is presented with a simple challenge: change the calculator's value to the goal value by pressing the buttons. The player is limited to a certain number of moves. The value is displayed in large digits just above the buttons. Each button corresponds to a rule (detailed below) and changes the value in different ways.
+In __Calculator: The Game__ the user is presented with a simple challenge: change the calculator's value to the goal value by pressing the buttons. The player is limited to a certain number of moves. The value is displayed in large digits just above the buttons. Each button corresponds to a rule (detailed below) and changes the value in different ways.
 
-In later levels, a pair of portals may appear on the level. The left portal will be below the value, and the right portal will be above the value. Each portal corresponds to a place in the value (e.g. thousands place, tens place). The digits will "fall into" the left portal and "fall out of" the right portal, adding to the level's value. This behavior is detailed on [the Portals page of the docs](docs/portals).
+A pair of portals may be part of the level. The left portal will be below one digit in the value, and the right portal will be above a different digit. The portals don't move. The digits will "fall into" the left portal and "fall out of" the right portal, adding to the level's value. This behavior is detailed on [the portals docs](docs/portals).
 
 To solve a level, pass in the details through the terminal, and the solution will be printed to standard output.
 
@@ -21,7 +21,7 @@ To solve a level, pass in the details through the terminal, and the solution wil
 The game has 16 rules, detailed below. The code parentheses wrap placeholder values: replace the placeholder values with digits and leave off the parentheses when giving input to the program.
 
 * Add (`+(op1)`), subtract (`-(op1)`), multiply (`*(op1)`), and divide (`/(op1)`) function as expected
-* Pad (`(op1)`) pads `op1` to the right of value
+* Pad (`(op1)`) pads `op1` to the right of value. `op1` must be positive
   * 1 pad 2 becomes 12
   * 12 pad 34 becomes 1234
 * Sign (`+/-`) changes the sign of `value`
@@ -29,7 +29,7 @@ The game has 16 rules, detailed below. The code parentheses wrap placeholder val
   * 1234 delete becomes 123
 * Convert (`(op1)=>(op2)`, "convert `op1` to `op2`") converts all instances of `op1` to `op2`
   * 1234 convert 34 to 89 becomes 1289
-* Power (`^(op1)` "raised to the power of `op1`") raises `value` to the power of `op1`
+* Power (`^(op1)`) raises `value` to the power of `op1`
 * Reverse (`Reverse`) reverses the order of the digits in `value`
 * Sum (`SUM`) changes `value` into the sum of its digits but preserves the sign of `value`
   * -123 SUM becomes -6 (because 1 + 2 + 3 = 6)
@@ -44,10 +44,9 @@ The game has 16 rules, detailed below. The code parentheses wrap placeholder val
   * Upon updating the Store rule, its operand becomes the value of the level
   * Applying the Store rule functions just like applying the Pad rule
   * The Store rule can be updated any number of times, but updating it does decrease the move counter
-  * Applying the Store rule when its value is negative does not change the value of the game, but does decrease the move counter
 * Inverse Ten (`Inv10`) converts each digit to its "10-additive inverse"
-  * 4 becomes 6, because 4 + 6 = 10
-  * 123 becomes 987, because each digit is evaluated independently
+  * 4 inverse ten becomes 6, because 4 + 6 = 10
+  * 123 inverse ten becomes 987, because each digit is evaluated independently
 
 For more detailed rule documentation, see [the rule docs](docs/rules).
 
