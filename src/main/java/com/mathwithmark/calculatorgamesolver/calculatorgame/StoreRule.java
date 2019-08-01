@@ -9,18 +9,7 @@ public class StoreRule extends Rule {
 
     public CalculatorGame apply(CalculatorGame game) {
         // Do nothing if uninitialized or set to pad negative
-        if (!INITIALIZED) return game;
-
-        if (getOperand1() < 0) {
-            return CalculatorGame
-                .generateGame(
-                    game.getValue(),
-                    game.getGoal(),
-                    game.getMovesLeft() - 1,
-                    game.getRules(),
-                    game.getPortals()
-                );
-        }
+        if (!INITIALIZED || getOperand1() < 0) return null;
 
         // pad the value
         String valString = String.valueOf((int) game.getValue());
