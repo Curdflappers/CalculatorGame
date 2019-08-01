@@ -134,7 +134,7 @@ public class Config {
   public static final String RULES_PROMPT =
     "Enter one rule per line (empty string to mark end of list):\n";
   public static final String PORTALS_PRESENT_PROMPT =
-    "Are there any portals for this game? (y/n): ";
+    "Are there any portals for this level? (y/n): ";
   public static final String LEFT_PORTAL_PROMPT =
     "Enter the distance from the ones place of the portal on the left: ";
   public static final String RIGHT_PORTAL_PROMPT =
