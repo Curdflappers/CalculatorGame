@@ -195,7 +195,6 @@ public class RuleTests {
     @Test
     void applyStore() {
         assertApplyStoreRule(1, 1, 11);
-        assertApplyStoreRule(1, -1, 1);
     }
 
     @Test
