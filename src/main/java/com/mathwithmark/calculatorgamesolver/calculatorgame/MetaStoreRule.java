@@ -27,6 +27,5 @@ class MetaStoreRule extends Rule {
     MetaStoreRule(int storeRuleIndex) {
         super(Config.META_STORE);
         this.storeRuleIndex = storeRuleIndex;
-        // TODO tostring method tells index of store rule if there are multiple
     }
 }

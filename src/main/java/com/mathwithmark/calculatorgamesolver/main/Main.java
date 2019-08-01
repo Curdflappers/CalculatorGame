@@ -124,20 +124,16 @@ public class Main {
      * @param args
      */
     public static void parseInput(String[] args) {
-        try {
-            value = Integer.parseInt(args[0]);
-            goal = Integer.parseInt(args[1]);
-            moves = Integer.parseInt(args[2]);
-            parseRules(Arrays.asList(args[3].split(Config.CMDLINE_SEPARATOR)));
-            if (args[4].equals("y")) {
-                portals = new int[2];
-                portals[0] = Integer.parseInt(args[5]);
-                portals[1] = Integer.parseInt(args[6]);
-            } else {
-                portals = null;
-            }
-        } catch (NumberFormatException e) {
-            // TODO handle bad input (lots of it)
+        value = Integer.parseInt(args[0]);
+        goal = Integer.parseInt(args[1]);
+        moves = Integer.parseInt(args[2]);
+        parseRules(Arrays.asList(args[3].split(Config.CMDLINE_SEPARATOR)));
+        if (args[4].equals("y")) {
+            portals = new int[2];
+            portals[0] = Integer.parseInt(args[5]);
+            portals[1] = Integer.parseInt(args[6]);
+        } else {
+            portals = null;
         }
     }
 

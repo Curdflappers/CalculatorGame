@@ -1,5 +1,6 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,20 +12,22 @@ import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
 import com.mathwithmark.calculatorgamesolver.yaml.Mappable;
 
+import org.yaml.snakeyaml.Yaml;
+
 public class CalculatorGame implements Game, Mappable {
     /** The current number for this game */
-    private int value;
+    private final int VALUE;
 
     /** The goal number for this game */
-    private final int goal;
+    private final int GOAL;
 
     /** The moves left in this game */
-    private final int movesLeft;
+    private final int MOVES_LEFT;
 
     /**
      * The rules that can be used in this game.
      */
-    private final Rule[] validRules;
+    private final Rule[] RULES;
 
     /**
      * The portals present on this game. `null` indicates no portals.
@@ -34,7 +37,7 @@ public class CalculatorGame implements Game, Mappable {
      * of the left portal, the second that same index for the right portal. 0
      * is ones place, 1 is tens place, 2 is hundreds place, etc.
      */
-    private final int[] portals;
+    private final int[] PORTALS;
 
     /**
      * Create a game of the given parameters
@@ -52,12 +55,11 @@ public class CalculatorGame implements Game, Mappable {
         Rule[] rules,
         int[] portals
     ) {
-        this.value = value;
-        this.goal = goal;
-        this.movesLeft = moves;
-        this.validRules = rules;
-        this.portals = portals;
-        applyPortals();
+        this.VALUE = applyPortals(portals, value);
+        this.GOAL = goal;
+        this.MOVES_LEFT = moves;
+        this.RULES = rules;
+        this.PORTALS = portals;
     }
 
     public static CalculatorGame generateGame(
@@ -116,33 +118,29 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     public int getValue() {
-        return value;
-    }
-
-    private void setValue(int value) {
-        this.value = value;
+        return VALUE;
     }
 
     public int getGoal() {
-        return goal;
+        return GOAL;
     }
 
     public int getMovesLeft() {
-        return movesLeft;
+        return MOVES_LEFT;
     }
 
     public boolean isValidRule(Rule rule) {
-        return Arrays.asList(validRules).contains(rule);
+        return Arrays.asList(RULES).contains(rule);
     }
 
     /** The valid rules for this game */
     public Rule[] getRules() {
-        return Arrays.copyOf(validRules, validRules.length);
+        return Arrays.copyOf(RULES, RULES.length);
     }
 
     public int[] getPortals() {
         if (!hasPortals()) return null;
-        return Arrays.copyOf(portals, portals.length);
+        return Arrays.copyOf(PORTALS, PORTALS.length);
     }
 
     /**
@@ -158,32 +156,35 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     /**
-     * Make the digits "fall through" the portals to get the correct value
+     * Make the digits of value "fall through" the portals
+     * @param portals null or a two-element array where the first element is
+     * greater than the second AND the second is at least 0
+     * @param value the value before the digits fall through the portals
+     * @return the value after the digits fall through the portals (the same
+     * value if portals == null)
      */
-    // TODO make static
-    private void applyPortals() {
-        if (!hasPortals()) return;
+    private static int applyPortals(int[] portals, int value) {
+        if (portals == null) return value;
 
-        int toyValue = getValue();
-        boolean negative = toyValue < 0;
-        toyValue = Math.abs(toyValue); // only worry about the positive version
+        boolean negative = value < 0;
+        value = Math.abs(value); // only worry about the positive version
 
         int leftPortalIndex = portals[0];
         int rightPortalIndex = portals[1];
 
-        while (toyValue >= Math.pow(10, leftPortalIndex)) {
+        while (value >= Math.pow(10, leftPortalIndex)) {
             // Have the digit fall
-            int digit = Helpers.getDigit(toyValue, leftPortalIndex);
-            toyValue -= digit * Math.pow(10, leftPortalIndex);
-            toyValue += digit * Math.pow(10, rightPortalIndex);
+            int digit = Helpers.getDigit(value, leftPortalIndex);
+            value -= digit * Math.pow(10, leftPortalIndex);
+            value += digit * Math.pow(10, rightPortalIndex);
 
             // Take digits at left of portal and shift them one right
-            int valueLeft = Helpers.digitsToTheLeft(toyValue, leftPortalIndex);
-            toyValue -= valueLeft * Math.pow(10, leftPortalIndex + 1);
-            toyValue += valueLeft * Math.pow(10, leftPortalIndex);
+            int valueLeft = Helpers.digitsToTheLeft(value, leftPortalIndex);
+            value -= valueLeft * Math.pow(10, leftPortalIndex + 1);
+            value += valueLeft * Math.pow(10, leftPortalIndex);
         }
 
-        setValue(negative ? -toyValue : toyValue);
+        return negative ? -value : value;
     }
 
     public boolean equals(Object other) {
@@ -219,27 +220,19 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     public boolean hasPortals() {
-        return portals != null;
+        return PORTALS != null;
     }
 
     /**
      * Get the successors of this as a list of States.
      *
-     * PRECONDITION: parent == null OR parent.getGame().equals(this)
-     * @param predecessor null means no parent, otherwise a state whose game is
-     * equal to this.
+     * @param parent a state whose game is equal to this.
      * @return a list of states with a parent whose game is this. Each game is a
      * successor of this, either by applying a rule or updating a rule. If this
      * game is won, returns an empty list.
      */
-    public List<State> getSuccessors(State predecessor) {
+    public List<State> getSuccessors(State parent) {
         List<State> successors = new ArrayList<>();
-        if (predecessor == null) predecessor = rootState();
-        addSuccessors(predecessor, successors);
-        return successors;
-    }
-
-    private void addSuccessors(State parent, List<State> successors) {
         for (Rule rule : getRules()) {
             CalculatorGame successorGame = getSuccessor(rule);
             if (successorGame == null) continue;
@@ -248,18 +241,17 @@ public class CalculatorGame implements Game, Mappable {
                 new State(successorGame, parent, transitionString);
             successors.add(successorState);
         }
+        return successors;
     }
 
     /**
      * Generates a successor game
-     * @param rule
-     * @param applied
+     * @param rule the rule to apply
      * @return null if the successor would be invalid, otherwise the successor
      */
     private CalculatorGame getSuccessor(Rule rule) {
-        if (movesLeft == 0) return null;
-        CalculatorGame potentialSuccessor = rule.apply(this);
-        return potentialSuccessor;
+        if (MOVES_LEFT == 0) return null;
+        return rule.apply(this);
     }
 
     /**
@@ -272,27 +264,19 @@ public class CalculatorGame implements Game, Mappable {
         return rule.toString();
     }
 
+    /**
+     * The YAML external representation for this object
+     */
+    @Override
     public String toString() {
-        String str = "{";
-        str += " value: " + (int) value + ",";
-        str += " goal: " + goal + ",";
-        str += " movesLeft: " + movesLeft + ",";
-
-        str += " rules: [";
-        for (int i = 0; i < validRules.length; i++) {
-            Rule rule = validRules[i];
-            if (i != 0) str += ", ";
-            str += rule.toString();
-        }
-        str += "],";
-
-        str += " portals: " + Arrays.toString(portals);
-        str += " }";
-        return str;
+        Yaml yaml = new Yaml();
+        StringWriter sb = new StringWriter();
+        yaml.dump(this.toMap(), sb);
+        return sb.toString();
     }
 
     public boolean isWon() {
-        return value == goal;
+        return VALUE == GOAL;
     }
 
     @Override

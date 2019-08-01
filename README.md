@@ -1,6 +1,6 @@
 # Calculator Game Solver
 
-A solver for **Calculator: The Game** by Simple Machine. It supports all 16 rule types. It supports portals. It can solve all 199 levels of the game.
+A solver for __Calculator: The Game__ by Simple Machine. It supports all 16 rule types. It supports portals. It can solve all 199 levels of the game.
 
 It runs through the terminal. The solver prompts for input about a particular level, and outputs a series of steps to complete the given level. It then prompts the user to complete another level or quit the program. This repeats until the user chooses to quit the program.
 
@@ -8,128 +8,47 @@ This document covers the rules of Calculator: The Game and how to use the progra
 
 ## The Main Program
 
-Pass in the details of the level through the terminal, and the solution will be printed to standard output.
+![Sample level](docs/assets/sample-level.png)
+
+In __Calculator: The Game__ the user is presented with a simple challenge: change the calculator's value to the goal value by pressing the buttons. The player is limited to a certain number of moves. The value is displayed in large digits just above the buttons. Each button corresponds to a rule (detailed below) and changes the value in different ways.
+
+A pair of portals may be part of the level. The left portal will be below one digit in the value, and the right portal will be above a different digit. The portals don't move. The digits will "fall into" the left portal and "fall out of" the right portal, adding to the level's value. This behavior is detailed on [the portals docs](docs/portals).
+
+To solve a level, pass in the details through the terminal, and the solution will be printed to standard output.
 
 ### Rules
 
-Rules are newline-separated. Parentheses are used for visual purposes, do not include them in your input
+The game has 16 rules, detailed below. The code parentheses wrap placeholder values: replace the placeholder values with digits and leave off the parentheses when giving input to the program.
 
-* Add (`+(op1)`) adds `op1` to `value`
-* Subtract (`-(op1)`) subtracts `op1` from `value`
-* Multiply (`*(op1)`) multiplies `value` by `op1`
-* Divide (`/(op1)`) divides `value` by `op1`
-  * Dividing only works if `op1` divides `value`
-* Pad (`(op1)`, "pad `op1`") adds `op1` to the right of value
-  * 1 pad 0 becomes 10
+* Add (`+(op1)`), subtract (`-(op1)`), multiply (`*(op1)`), and divide (`/(op1)`) function as expected
+* Pad (`(op1)`) pads `op1` to the right of value. `op1` must be positive
   * 1 pad 2 becomes 12
   * 12 pad 34 becomes 1234
-  * Padding only works if `op1` is nonnegative
 * Sign (`+/-`) changes the sign of `value`
 * Delete (`<<`) deletes the rightmost digit of `value`
   * 1234 delete becomes 123
-  * -1234 delete becomes -123
-  * 5 delete becomes 0
-  * 0 delete becomes 0 (no change occurs)
 * Convert (`(op1)=>(op2)`, "convert `op1` to `op2`") converts all instances of `op1` to `op2`
-  * 1234 convert 4 to 5 becomes 1235
   * 1234 convert 34 to 89 becomes 1289
-  * 123234 convert 23 to 5 becomes 1554
-  * 1234 convert 5 to 6 becomes 1234 (no change occurs)
-  * 123 convert 2 to 00 becomes 1003 (multiple zeros are supported)
-* Power (`^(op1)` "raised to the power of `op1`") raises `value` to the power of `op1`
-  * 2 raised to the power of 3 becomes 8
+* Power (`^(op1)`) raises `value` to the power of `op1`
 * Reverse (`Reverse`) reverses the order of the digits in `value`
-  * 1234 becomes 4321
-  * -1234 becomes -4321
-  * 1 becomes 1 (no change occurs)
-* Sum (`SUM`) changes `value` into the sum of its digits, not changing the sign of `value`
-  * 123 SUM becomes 6 (because 1 + 2 + 3 = 6)
-  * -123 SUM becomes -6 (the sign will not change)
+* Sum (`SUM`) changes `value` into the sum of its digits but preserves the sign of `value`
+  * -123 SUM becomes -6 (because 1 + 2 + 3 = 6)
 * Shift left (`< Shift`) and shift right (`Shift >`) shift the digits of value one position left or right, respectively
   * 1234 shift left becomes 2341
   * 1234 shift right becomes 4123
 * Mirror (`Mirror`) appends the mirrored value to the end of `value`
   * 23 mirror becomes 2332
-  * -1 mirror becomes -11
-* Meta Add (`[+](op1)`) adds `op1` to each non-meta rule in the game
-* Store (`Store`) is the first rule that can be updated.
-  * The Store rule cannot be applied until it is updated.
-  * Upon updating the Store rule, its operand becomes the value of the game
+* Meta Add (`[+](op1)`) adds `op1` to all operands of non-meta rules in the level
+* Store (`Store`) is the only rule that can be updated
+  * The Store rule cannot be applied until it is updated
+  * Upon updating the Store rule, its operand becomes the value of the level
   * Applying the Store rule functions just like applying the Pad rule
-  * The Store rule can be updated any number of times, but updating the Store rule does decrease the move counter.
-  * Applying the Store rule when its value is negative does not change the value of the game, but does decrease the move counter.
+  * The Store rule can be updated any number of times, but updating it does decrease the move counter
 * Inverse Ten (`Inv10`) converts each digit to its "10-additive inverse"
-  * 4 becomes 6, because 4 + 6 = 10
-  * 123 becomes 987, because each digit is evaluated independently
-  * 5 becomes 5 (no change occurs)
-  * 0 becomes 0 (no change occurs)
-  * -123 becomes -987 (the sign does not change)
+  * 4 inverse ten becomes 6, because 4 + 6 = 10
+  * 123 inverse ten becomes 987, because each digit is evaluated independently
 
-### Portals
-
-Portals are a complexifying mechanic in the game. Some games have portals: a pair of them, to be exact. One portal sits below the value, another floats above it. Each portal corresponds to exactly one position in the game's value, the ones position, tens positions, hundreds position, etc. The portal on the bottom will always be to the right of the portal on the top.
-
-When the value of the game is such that there is a digit directly above the bottom portal, that digit falls through the bottom portal and is re-added to the value through the right portal. For example, if the portals are represented with a `Y`:
-
-```txt
-  Y
- 12
-Y
-```
-
-Nothing happens, this game is **stable**. But if we were to pad 3 to this value:
-
-```txt
-  Y
-123
-Y
-```
-
-This game is unstable. Since the `1` is directly above the lower portal, it will fall:
-
-```txt
-  Y
- 24
-Y
-```
-
-It gets added to the `3`, so the new digit is `4`. If there was a carry (say, a `2` being added to a `9`), it would be used. This can result in a **cascade** (multiple iterations of falling before the game is stable):
-
-```txt
-  Y
-991
-Y
-
-  Y
-100
-Y
-
-  Y
-  1
-Y
-```
-
-If _multiple digits are to the left of the bottom portal_, they each fall individually:
-
-```txt
-   Y
-1232
-  Y
-
-   Y
- 125
-  Y
-
-   Y
-  17
-  Y
-
-   Y
-   8
-  Y
-```
-
-In this game, portals are represented by their distance from the ones position. In the example above, the left portal is represented with the value `1` since it is one spot away from the ones position, and the right portal is represented with the value `0`.
+For more detailed rule documentation, see [the rule docs](docs/rules).
 
 ### Sample Use Case
 
@@ -165,11 +84,9 @@ Shift >
 Solve again (y/n): n
 ```
 
-#### Explanation
-
 To go from 2 to 5 in at most 3 moves using the rules "add 2" and "add 1", a solution is to first add 1, then add 2. Although 3 moves are allowed, only 2 moves are needed. Other solutions exist, but this one is the first one found by the program, so it is the one output.
 
-Let's examine the second case (going from 3002 to 3507):
+Let's examine the second part of the above use case (going from 3002 to 3507):
 
 ```txt
 Start:
@@ -217,17 +134,19 @@ Running the developer mode allows for test cases to be written automatically via
 
 ## Roadmap
 
-This program is enough to beat the original game. I want to do more.
+This program is enough to beat the original game and any custom level. I want to do more.
 
 Eventually, I'd like to:
 
+* Have users play the game
 * Add a feature to only display hints on demand
-* Add a good UI (and restrict bad input)
-* Be able to play the game
-* Generate my own levels
-* Create instructions
-* Share levels with friends
+* Generate my own levels and custom rules
+* Share levels and rules with friends
+* Show detailed instructions
+* Present through a good UI (and restrict bad input)
+
+View [the productivity board on Trello](https://trello.com/b/3mBPd4RG/calculator-game-solver).
 
 ## Further Documentation
 
-All further documentation is found in the `docs` folder, with a convenient index [here](./docs/index.md).
+All further documentation is found in the `docs` folder indexed [here](./docs/index.md).

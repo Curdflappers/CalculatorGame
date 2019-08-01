@@ -1,6 +1,5 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-// TODO make multiple classes (rules, I/O, testing)
 public class Config {
   /** The path to the directory containing all test cases */
   public static String TEST_CASES_PATH = "test-cases";
