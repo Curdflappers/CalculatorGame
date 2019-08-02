@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.mathwithmark.calculatorgamesolver.brutesolver.Solver;
-import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.CalculatorGame;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
@@ -27,12 +26,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         do {
             getInput(args, scanner);
-            System.out.println(Config.SOLUTION_PROMPT);
-            List<State> solutionStates = Solver.solve(calculatorGame);
-            List<String> transitions = State.allTransitions(solutionStates);
-            for (String transition : transitions) {
-                System.out.println(transition);
-            }
+            List<List<String>> solutions =
+                Solver.getAllSolutions(calculatorGame);
+            printSolutions(solutions);
             promptAgain(scanner);
             args = new String[0]; // can't use the same args again
         } while (again);
@@ -48,6 +44,34 @@ public class Main {
 
         calculatorGame =
             CalculatorGame.generateGame(value, goal, moves, rules, portals);
+    }
+
+    /**
+     * Prints all solutions. Each solution is preceded by Config.SOLUTION_PROMPT
+     * on its own line. Then each transition string is printed, and finally a
+     * blank line for readability
+     * @param solutions the solutions to print
+     */
+    public static void printSolutions(List<List<String>> solutions) {
+        if (solutions.isEmpty()) System.out.println(Config.UNSOLVABLE_PROMPT);
+
+        for (List<String> solution : solutions) {
+            System.out.print(solutionPrintString(solution));
+        }
+    }
+
+    /**
+     * @param solution the solution to print to console
+     * @return the string to be printed to the console to represent this solution
+     */
+    public static String solutionPrintString(List<String> solution) {
+        String s = "";
+        s += Config.SOLUTION_PROMPT;
+        for (String transition : solution) {
+            s += "\n" + transition;
+        }
+        s += "\n\n"; // end with blank line for readability
+        return s;
     }
 
     private static void promptAgain(Scanner scanner) {

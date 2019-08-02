@@ -4,7 +4,7 @@ A solver for __Calculator: The Game__ by Simple Machine. It supports all 16 rule
 
 It runs through the terminal. The solver prompts for input about a particular level, and outputs a series of steps to complete the given level. It then prompts the user to complete another level or quit the program. This repeats until the user chooses to quit the program.
 
-This document covers the rules of Calculator: The Game and how to use the program. For installation instructions, see the [further documentation](./docs/index.md). If you have any issues with the program (installation or otherwise), feel free to open an issue on the repository.
+This document covers the rules of Calculator: The Game and how to use the program. For installation instructions, see [the usage docs](./docs/usage.md). If you have any issues with the program, feel free to open an issue on the repository.
 
 ## The Main Program
 
@@ -44,6 +44,7 @@ The game has 16 rules, detailed below. The code parentheses wrap placeholder val
   * Upon updating the Store rule, its operand becomes the value of the level
   * Applying the Store rule functions just like applying the Pad rule
   * The Store rule can be updated any number of times, but updating it does decrease the move counter
+  * There can only be one Store rule in a level
 * Inverse Ten (`Inv10`) converts each digit to its "10-additive inverse"
   * 4 inverse ten becomes 6, because 4 + 6 = 10
   * 123 inverse ten becomes 987, because each digit is evaluated independently

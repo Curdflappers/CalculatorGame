@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.mathwithmark.calculatorgamesolver.brutesolver.Solver;
-import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.CalculatorGame;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
 import com.mathwithmark.calculatorgamesolver.yaml.Serialize;
@@ -17,13 +16,11 @@ public class Developer {
         Scanner scanner = new Scanner(System.in);
         do {
             Main.getInput(args, scanner);
-            System.out.println(Config.SOLUTION_PROMPT);
-            List<State> solutionStates = Solver.solve(Main.getCalculatorGame());
-            List<String> transitions = State.allTransitions(solutionStates);
-            for (String transition : transitions) {
-                System.out.println(transition);
-            }
-            promptSaveTestCase(scanner, Main.getCalculatorGame(), transitions);
+            List<List<String>> solutions =
+                Solver.getAllSolutions(Main.getCalculatorGame());
+            List<String> solution = solutions.get(0);
+            Main.printSolutions(solutions);
+            promptSaveTestCase(scanner, Main.getCalculatorGame(), solution);
             System.out
                 .print(
                     "Enter '"

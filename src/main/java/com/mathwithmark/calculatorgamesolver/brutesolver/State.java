@@ -1,7 +1,5 @@
 package com.mathwithmark.calculatorgamesolver.brutesolver;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -76,36 +74,5 @@ public class State {
             }
         }
         return successors;
-    }
-
-    /**
-     * Returns all ancestor states and endState ordered by ancestry, with the
-     * oldest ancestor (root) at index 0 and the given endState at the end.
-     *
-     * @param endState the terminal state
-     * @return an ordered list of ancestor states from root to endState
-     */
-    public static List<State> orderedStates(State endState) {
-        List<State> states = new LinkedList<>();
-        while (endState != null) {
-            states.add(0, endState); // add more recent to beginning of list
-            endState = endState.getParent();
-        }
-        return states;
-    }
-
-    /**
-     * Returns a string that represents all transitions from one state to the
-     * next to the game. Each transition string is separated by a newline
-     * character.
-     */
-    public static List<String> allTransitions(List<State> states) {
-        List<String> transitionStrings = new ArrayList<>();
-        for (State state : states) {
-            if (state.getParent() != null) {
-                transitionStrings.add(state.getTransitionString());
-            }
-        }
-        return transitionStrings;
     }
 }
