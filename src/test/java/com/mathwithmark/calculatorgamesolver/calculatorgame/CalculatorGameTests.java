@@ -1,5 +1,6 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -94,5 +95,37 @@ public class CalculatorGameTests {
             CalculatorGame.generateGame(value, 0, 0, new Rule[] {}, portals);
 
         assertEquals(expected, game.getValue(), 0.001);
+    }
+}
+
+class RuleSanitationTests {
+    private static CalculatorGame generateLevelWith(Rule[] rules) {
+        return CalculatorGame.generateGame(1, 1, 1, rules, null);
+    }
+
+    @Test
+    void rulesExactlyCopied() {
+        Rule[] expectedRules = {
+            Rule.makeRule(Config.ADD),
+        };
+
+        CalculatorGame level = generateLevelWith(expectedRules);
+
+        assertArrayEquals(expectedRules, level.getRules());
+    }
+
+    @Test
+    void noDuplicateSimpleRules() {
+        Rule rule = Rule.makeRule(Config.ADD);
+        Rule[] inputRules = {
+            rule, rule,
+        };
+        Rule[] expectedRules = {
+            rule,
+        };
+
+        CalculatorGame level = generateLevelWith(inputRules);
+
+        assertArrayEquals(expectedRules, level.getRules());
     }
 }

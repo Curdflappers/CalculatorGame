@@ -25,7 +25,7 @@ public class Config {
   public static final int META_ADD = 14;
   public static final int STORE = 15;
   public static final int INVERSE_TEN = 16;
-  static final int META_STORE = 17; // hidden rule
+  static final int UPDATE_STORE = 17; // hidden rule
 
   /** The string for a rule with an invalid operator */
   static final String INVALID_STRING = "INVALID";
@@ -68,7 +68,7 @@ public class Config {
     1, // META_ADD
     0, // STORE (takes zero on creation)
     0, // INVERSE_TEN
-    0, // META_STORE
+    0, // UPDATE_STORE
   };
 
   /** The maximum number of digits in a CalculatorGame */

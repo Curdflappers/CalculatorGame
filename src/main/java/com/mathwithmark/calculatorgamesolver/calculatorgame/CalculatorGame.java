@@ -95,11 +95,10 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     /**
-     * Returns a version of the rules with the meta store rules added for each
-     * store rule present. Returns the original array if no store rules are
-     * present. Ensures no double meta store rules exist.
-     * @param rules the rules to which to add meta store rules.
-     * @return an array of rules with meta store rules added
+     * Returns a version of the rules with the update store rules added if a
+     * store rule is present. Returns the original array if no store rule is
+     * present. Ensures no duplicate rules are present
+     * @return an array of sanitized rules
      */
     private static Rule[] sanitize(Rule[] rules) {
         List<Rule> newRules = new ArrayList<>();
@@ -107,9 +106,8 @@ public class CalculatorGame implements Game, Mappable {
             Rule rule = rules[i];
             if (newRules.indexOf(rule) != -1) continue; // don't add duplicate
             newRules.add(rule);
-            // Add meta store rule to update store rule
             if (rule.getOperator() == Config.STORE) {
-                newRules.add(new MetaStoreRule(i));
+                newRules.add(new UpdateStoreRule(i));
             }
         }
         return newRules.toArray(new Rule[0]);
@@ -306,10 +304,10 @@ class MappableUtils {
      * Whether this rule should be serialized as part the external
      * representation of the game.
      * @param rule not null
-     * @return true unless the rule is a Meta Store rule
+     * @return true unless the rule is an Update Store rule
      */
     private static boolean isExternal(Rule rule) {
-        return rule.getOperator() != Config.META_STORE;
+        return rule.getOperator() != Config.UPDATE_STORE;
     }
 
     /**

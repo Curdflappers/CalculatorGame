@@ -3,7 +3,7 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
 /**
  * Custom rule to modify the state of the Store rule for a given game
  */
-class MetaStoreRule extends Rule {
+class UpdateStoreRule extends Rule {
     int storeRuleIndex;
 
     public CalculatorGame apply(CalculatorGame game) {
@@ -24,8 +24,8 @@ class MetaStoreRule extends Rule {
             );
     }
 
-    MetaStoreRule(int storeRuleIndex) {
-        super(Config.META_STORE);
+    UpdateStoreRule(int storeRuleIndex) {
+        super(Config.UPDATE_STORE);
         this.storeRuleIndex = storeRuleIndex;
     }
 }
