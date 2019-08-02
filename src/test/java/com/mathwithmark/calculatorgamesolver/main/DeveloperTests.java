@@ -13,9 +13,8 @@ import com.mathwithmark.calculatorgamesolver.calculatorgame.LevelTests;
 import org.junit.jupiter.api.Test;
 
 public class DeveloperTests {
-    private static final String TEST_DIR = "test";
-    private static final String TEST_CASE_NAME = TEST_DIR + "/test";
-    private static final String TEST_CASE_FILENAME = TEST_CASE_NAME + ".yaml";
+    private static final String TEST_DIR_NAME = "test/";
+    private static final String TEST_CASE_NAME = TEST_DIR_NAME + "test";
 
     /** A set of VM arguments for a basic game */
     String[] defaultArgs() {
@@ -49,23 +48,18 @@ public class DeveloperTests {
      * @throws IOException if the command executes poorly
      */
     boolean createTestDirectory() {
-        return new File(Config.TEST_CASES_PATH + "/" + TEST_DIR).mkdirs();
+        return new File(Config.TEST_CASES_PATH + TEST_DIR_NAME).mkdirs();
     }
 
     /** Remove the test directory so there are no test artifacts */
     void removeTestDirectory() throws IOException {
-        File directory = new File(Config.TEST_CASES_PATH + "/" + TEST_DIR);
-        String[] entries = directory.list();
+        File testDirectory = new File(Config.TEST_CASES_PATH + TEST_DIR_NAME);
+        String[] entries = testDirectory.list();
         for (String s : entries) {
-            File currentFile = new File(directory.getPath(), s);
+            File currentFile = new File(testDirectory.getPath(), s);
             Files.delete(currentFile.toPath());
         }
-        directory.delete();
-    }
-
-    private boolean testDirHasFile() {
-        File directory = new File(Config.TEST_CASES_PATH + "/" + TEST_DIR);
-        return directory.list().length == 1;
+        testDirectory.delete();
     }
 
     @Test
@@ -76,8 +70,11 @@ public class DeveloperTests {
         try {
             createTestDirectory();
             Developer.main(defaultArgs());
-            assertTrue(LevelTests.passesLevel(TEST_CASE_FILENAME));
-            assertTrue(testDirHasFile());
+            String testCasePath =
+                Config.TEST_CASES_PATH
+                    + TEST_CASE_NAME
+                    + Config.TEST_CASE_FILE_EXTENSION;
+            assertTrue(LevelTests.passesLevel(testCasePath));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

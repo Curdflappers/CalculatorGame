@@ -1,7 +1,6 @@
 package com.mathwithmark.calculatorgamesolver.main;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -45,9 +44,16 @@ public class Developer {
         String saveResponse = scanner.nextLine();
         if (saveResponse.length() == 0 || saveResponse.charAt(0) == 'y') {
             do {
-                System.out.print("Filename (\".yaml\" will be added): ");
+                System.out
+                    .print(
+                        "Filename (\""
+                            + Config.TEST_CASE_FILE_EXTENSION
+                            + "\" will be added): "
+                    );
                 String filePath =
-                    Config.TEST_CASES_PATH + "/" + scanner.nextLine() + ".yaml";
+                    Config.TEST_CASES_PATH
+                        + scanner.nextLine()
+                        + Config.TEST_CASE_FILE_EXTENSION;
                 if (fileExists(filePath)) {
                     switch (promptOverwrite(scanner)) {
                         case 'o':
@@ -120,17 +126,9 @@ public class Developer {
         return c == 'o' || c == 'd' || c == 's';
     }
 
-    private static boolean fileExists(String filename) {
-        File file = new File(filename);
-        Scanner input = null;
-        try {
-            input = new Scanner(file);
-            return true;
-        } catch (FileNotFoundException e) {
-            return false;
-        } finally {
-            if (input != null) input.close();
-        }
+    private static boolean fileExists(String pathname) {
+        File file = new File(pathname);
+        return file.exists();
     }
 
     private static void skipTestCase() {
