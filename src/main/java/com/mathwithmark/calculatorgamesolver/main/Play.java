@@ -13,36 +13,36 @@ public class Play {
     // None of these final Strings end with newline characters
 
     // Special inputs to track
-    private static final String QUIT_INPUT = "quit";
-    private static final String RESTART_LEVEL_INPUT = "clear";
+    static final char QUIT_GAME_INPUT = 'n';
+    static final String QUIT_LEVEL_INPUT = "quit";
+    static final String RESTART_LEVEL_INPUT = "clear";
 
     // Messages do not prompt for user input
-    private static final String GOODBYE_MESSAGE = "Goodbye!";
-    private static final String HIGHEST_LEVEL_MESSAGE = "You got to level %d.";
-    private static final String LEVEL_TITLE_MESSAGE = "Level %d";
-    private static final String LEVEL_WON_MESSAGE =
-    "Congratulations, you beat the level!";
+    static final String GOODBYE_MESSAGE = "Goodbye!";
+    static final String HIGHEST_LEVEL_MESSAGE = "You got to level %d.";
+    static final String LEVEL_TITLE_MESSAGE = "Level %d";
+    static final String LEVEL_WON_MESSAGE =
+        "Congratulations, you beat the level!";
     /**
      * Message to display when the user enters invalid input for the rule prompt
      */
-    private static final String VALID_RULE_MESSAGE =
+    static final String VALID_RULE_MESSAGE =
         String
             .format(
                 "Please enter a valid rule, '%s', or '%s'.",
-                QUIT_INPUT,
+                QUIT_LEVEL_INPUT,
                 RESTART_LEVEL_INPUT
             );
-    private static final String WELCOME_MESSAGE =
-        "Welcome to Calculator: The Game!";
+    static final String WELCOME_MESSAGE = "Welcome to Calculator: The Game!";
 
     // Prompts prompt for user input, and always end with ": "
-    private static final String NEXT_LEVEL_PROMPT = "Next level? (%c/%c): ";
-    private static final String RULE_PROMPT =
+    static final String NEXT_LEVEL_PROMPT = "Next level? (%c/%c): ";
+    static final String RULE_PROMPT =
         String
             .format(
                 "Enter rule to apply "
                     + "('%s' to quit, '%s' to restart the level): ",
-                QUIT_INPUT,
+                QUIT_LEVEL_INPUT,
                 RESTART_LEVEL_INPUT
             );
 
@@ -102,7 +102,7 @@ public class Play {
      */
     private static boolean validRuleInput(String input, CalculatorGame level) {
         return ruleStrings(level).contains(input)
-            || input.equals(QUIT_INPUT)
+            || input.equals(QUIT_LEVEL_INPUT)
             || input.equals(RESTART_LEVEL_INPUT);
     }
 
@@ -125,7 +125,7 @@ public class Play {
                 System.out.println(VALID_RULE_MESSAGE);
                 continue;
             }
-            if (input.equals(QUIT_INPUT)) return false;
+            if (input.equals(QUIT_LEVEL_INPUT)) return false;
             if (input.equals(RESTART_LEVEL_INPUT)) {
                 level = originalLevel;
                 continue;
@@ -143,19 +143,18 @@ public class Play {
      */
     private static boolean nextLevel(Scanner scanner) {
         char againChar = 'y';
-        char quitChar = 'n';
         char inputChar = '\0';
-        while (inputChar != againChar && inputChar != quitChar) {
-            System.out.printf(NEXT_LEVEL_PROMPT, againChar, quitChar);
+        while (inputChar != againChar && inputChar != QUIT_GAME_INPUT) {
+            System.out.printf(NEXT_LEVEL_PROMPT, againChar, QUIT_GAME_INPUT);
             String input = scanner.nextLine();
             if (input.length() != 1) {
                 System.out.println("Please enter exactly one character");
                 continue;
             }
             inputChar = Character.toLowerCase(input.charAt(0));
-            if (inputChar != againChar && inputChar != quitChar) {
+            if (inputChar != againChar && inputChar != QUIT_GAME_INPUT) {
                 System.out
-                    .printf("Please enter '%c' or '%c'\n", againChar, quitChar);
+                    .printf("Please enter '%c' or '%c'\n", againChar, QUIT_GAME_INPUT);
                 continue;
             }
         }
