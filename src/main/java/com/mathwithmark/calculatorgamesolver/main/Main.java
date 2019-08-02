@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.mathwithmark.calculatorgamesolver.brutesolver.Solver;
-import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.CalculatorGame;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
@@ -27,7 +26,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         do {
             getInput(args, scanner);
-            List<List<State>> solutions =
+            List<List<String>> solutions =
                 Solver.getAllSolutions(calculatorGame);
             printSolutions(solutions);
             promptAgain(scanner);
@@ -53,24 +52,26 @@ public class Main {
      * blank line for readability
      * @param solutions the solutions to print
      */
-    public static void printSolutions(List<List<State>> solutions) {
+    public static void printSolutions(List<List<String>> solutions) {
         if (solutions.isEmpty()) System.out.println(Config.UNSOLVABLE_PROMPT);
 
-        for (List<State> solution : solutions) {
-            System.out.println(Config.SOLUTION_PROMPT);
-            printSolution(solution);
-            System.out.println();
+        for (List<String> solution : solutions) {
+            System.out.print(solutionPrintString(solution));
         }
     }
 
     /**
-     * Prints the transition strings of the solution, each on its own line.
+     * @param solution the solution to print to console
+     * @return the string to be printed to the console to represent this solution
      */
-    public static void printSolution(List<State> solution) {
-        List<String> transitions = State.allTransitions(solution);
-        for (String transition : transitions) {
-            System.out.println(transition);
+    public static String solutionPrintString(List<String> solution) {
+        String s = "";
+        s += Config.SOLUTION_PROMPT;
+        for (String transition : solution) {
+            s += "\n" + transition;
         }
+        s += "\n\n"; // end with blank line for readability
+        return s;
     }
 
     private static void promptAgain(Scanner scanner) {

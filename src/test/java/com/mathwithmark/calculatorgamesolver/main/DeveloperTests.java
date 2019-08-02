@@ -14,7 +14,8 @@ import org.junit.jupiter.api.Test;
 
 public class DeveloperTests {
     private static final String TEST_DIR = "test";
-    private static final String TEST_CASE_FILENAME = TEST_DIR + "/test";
+    private static final String TEST_CASE_NAME = TEST_DIR + "/test";
+    private static final String TEST_CASE_FILENAME = TEST_CASE_NAME + ".yaml";
 
     /** A set of VM arguments for a basic game */
     String[] defaultArgs() {
@@ -32,7 +33,7 @@ public class DeveloperTests {
     String saveAsNewFileInput() {
         String input = "";
         input += "y\n"; // Yes to save test case
-        input += TEST_CASE_FILENAME + "\n";
+        input += TEST_CASE_NAME + "\n";
         return input;
     }
 

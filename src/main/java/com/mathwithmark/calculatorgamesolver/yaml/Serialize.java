@@ -64,7 +64,7 @@ public class Serialize {
      */
     private static Map<String, Object> loadMap(String filename) {
         Yaml yaml = new Yaml();
-        String path = Config.TEST_CASES_PATH + "/" + filename + ".yaml";
+        String path = Config.TEST_CASES_PATH + "/" + filename;
         String fileContents = fileContents(path);
         Map<String, Object> map = yaml.load(fileContents);
         return map;

@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -159,9 +160,8 @@ public class MainTests {
         Rule[] rules = {
             rule
         };
-        Rule[] solution = new Rule[] {
-            rule
-        };
+        List<String> solution = new ArrayList<>();
+        solution.add(CalculatorGame.transitionString(rule));
         assertMainAgainWorks(value, goal, moves, rules, solution);
     }
 
@@ -204,7 +204,7 @@ public class MainTests {
         int goal,
         int moves,
         Rule[] rules,
-        Rule[] solution
+        List<String> solution
     ) {
         String[] ruleStrings = Helpers.ruleStrings(rules);
         PrintStream out = System.out;
@@ -270,13 +270,8 @@ public class MainTests {
      * Returns the output for the given solution
      * Includes again prompt
      */
-    String solutionOutput(Rule[] solution) {
-        String output = Config.SOLUTION_PROMPT + "\n";
-        for (int i = 0; i < solution.length; i++) {
-            Rule rule = solution[i];
-            output += CalculatorGame.transitionString(rule) + "\n";
-        }
-        output += "\n";
+    String solutionOutput(List<String> solution) {
+        String output = Main.solutionPrintString(solution);
         output += Config.AGAIN_PROMPT;
         return output;
     }
