@@ -71,27 +71,6 @@ public class Config {
     0, // META_STORE
   };
 
-  static final boolean[] EXTERNAL = {
-    true, // ADD
-    true, // SUBTRACT
-    true, // MULTIPLY
-    true, // DIVIDE
-    true, // PAD
-    true, // SIGN
-    true, // DELETE
-    true, // CONVERT
-    true, // POWER
-    true, // REVERSE
-    true, // SUM
-    true, // SHIFT_RIGHT
-    true, // SHIFT_LEFT
-    true, // MIRROR
-    true, // META_ADD
-    true, // STORE
-    true, // INVERSE_TEN
-    false, // META_STORE
-  };
-
   /** The maximum number of digits in a CalculatorGame */
   static final int MAX_DIGITS = 6;
 

@@ -303,12 +303,22 @@ public class CalculatorGame implements Game, Mappable {
  */
 class MappableUtils {
     /**
+     * Whether this rule should be serialized as part the external
+     * representation of the game.
+     * @param rule not null
+     * @return true unless the rule is a Meta Store rule
+     */
+    private static boolean isExternal(Rule rule) {
+        return rule.getOperator() != Config.META_STORE;
+    }
+
+    /**
      * Creates an external representation of the rules of the game
      */
     private static List<String> externalRuleStrings(Rule[] rules) {
         List<String> ruleStrings = new ArrayList<String>();
         for (int i = 0; i < rules.length; i++) {
-            if (rules[i].EXTERNAL) ruleStrings.add(rules[i].toString());
+            if (isExternal(rules[i])) ruleStrings.add(rules[i].toString());
         }
         return ruleStrings;
     }

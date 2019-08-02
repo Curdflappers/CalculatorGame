@@ -9,7 +9,6 @@ public abstract class Rule {
     /** The index associated with the operator */
     private int operator;
     private String string;
-    public final boolean EXTERNAL;
 
     public static Rule ruleFromString(String ruleString) {
         int operator = Config.INVALID, operand1 = 0, operand2 = 0;
@@ -72,7 +71,6 @@ public abstract class Rule {
         setOperand1(operand1);
         setOperand2(operand2);
         setString();
-        EXTERNAL = Config.EXTERNAL[operator];
     }
 
     public static Rule makeRule(int operator) {
