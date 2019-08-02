@@ -18,11 +18,10 @@ public class Developer {
         do {
             Main.getInput(args, scanner);
             System.out.println(Config.SOLUTION_PROMPT);
-            List<State> solutionStates = Solver.solve(Main.getCalculatorGame());
-            List<String> transitions = State.allTransitions(solutionStates);
-            for (String transition : transitions) {
-                System.out.println(transition);
-            }
+            List<List<State>> solutions =
+                Solver.getAllSolutions(Main.getCalculatorGame());
+            List<String> transitions = State.allTransitions(solutions.get(0));
+            Main.printSolutions(solutions);
             promptSaveTestCase(scanner, Main.getCalculatorGame(), transitions);
             System.out
                 .print(

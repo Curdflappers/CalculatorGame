@@ -149,4 +149,7 @@ public class Config {
 
   /** The separator for rule input through command-line arguments */
   public static final String CMDLINE_SEPARATOR = ",";
+
+  /** What to display when the level is unsolvable */
+  public static final String UNSOLVABLE_PROMPT = "Level unsolvable";
 }

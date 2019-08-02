@@ -8,11 +8,13 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
+import com.mathwithmark.calculatorgamesolver.calculatorgame.LevelTests;
 
 import org.junit.jupiter.api.Test;
 
 public class DeveloperTests {
     private static final String TEST_DIR = "test";
+    private static final String TEST_CASE_FILENAME = TEST_DIR + "/test";
 
     /** A set of VM arguments for a basic game */
     String[] defaultArgs() {
@@ -29,10 +31,8 @@ public class DeveloperTests {
     /** Input for promptSaveTestCase to save under new file name */
     String saveAsNewFileInput() {
         String input = "";
-        String testCaseName =
-            TEST_DIR + "/" + String.valueOf(System.currentTimeMillis());
-        input += "y\n"; // Save test case
-        input += testCaseName + "\n"; // Name of test case
+        input += "y\n"; // Yes to save test case
+        input += TEST_CASE_FILENAME + "\n";
         return input;
     }
 
@@ -75,6 +75,7 @@ public class DeveloperTests {
         try {
             createTestDirectory();
             Developer.main(defaultArgs());
+            assertTrue(LevelTests.passesLevel(TEST_CASE_FILENAME));
             assertTrue(testDirHasFile());
         } catch (IOException e) {
             e.printStackTrace();

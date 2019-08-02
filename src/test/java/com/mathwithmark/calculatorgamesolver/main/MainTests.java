@@ -276,6 +276,7 @@ public class MainTests {
             Rule rule = solution[i];
             output += CalculatorGame.transitionString(rule) + "\n";
         }
+        output += "\n";
         output += Config.AGAIN_PROMPT;
         return output;
     }

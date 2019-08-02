@@ -27,12 +27,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         do {
             getInput(args, scanner);
-            System.out.println(Config.SOLUTION_PROMPT);
-            List<State> solutionStates = Solver.solve(calculatorGame);
-            List<String> transitions = State.allTransitions(solutionStates);
-            for (String transition : transitions) {
-                System.out.println(transition);
-            }
+            List<List<State>> solutions =
+                Solver.getAllSolutions(calculatorGame);
+            printSolutions(solutions);
             promptAgain(scanner);
             args = new String[0]; // can't use the same args again
         } while (again);
@@ -48,6 +45,32 @@ public class Main {
 
         calculatorGame =
             CalculatorGame.generateGame(value, goal, moves, rules, portals);
+    }
+
+    /**
+     * Prints all solutions. Each solution is preceded by Config.SOLUTION_PROMPT
+     * on its own line. Then each transition string is printed, and finally a
+     * blank line for readability
+     * @param solutions the solutions to print
+     */
+    public static void printSolutions(List<List<State>> solutions) {
+        if (solutions.isEmpty()) System.out.println(Config.UNSOLVABLE_PROMPT);
+
+        for (List<State> solution : solutions) {
+            System.out.println(Config.SOLUTION_PROMPT);
+            printSolution(solution);
+            System.out.println();
+        }
+    }
+
+    /**
+     * Prints the transition strings of the solution, each on its own line.
+     */
+    public static void printSolution(List<State> solution) {
+        List<String> transitions = State.allTransitions(solution);
+        for (String transition : transitions) {
+            System.out.println(transition);
+        }
     }
 
     private static void promptAgain(Scanner scanner) {
