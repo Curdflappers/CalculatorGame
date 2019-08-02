@@ -69,14 +69,14 @@ public class Helpers {
         return value / (int) Math.pow(10, digitIndex + 1);
     }
 
-    /** Returns the name of every file in Config.TEST_CASES_PATH */
-    static List<String> testCaseFilenames() {
+    /** Returns the paths to every file in Config.TEST_CASES_PATH */
+    static List<String> testCasePaths() {
         final File DIRECTORY = new File(Config.TEST_CASES_PATH);
-        List<String> filenames = new ArrayList<>();
+        List<String> testCasePaths = new ArrayList<>();
         for (final File FILE_ENTRY : DIRECTORY.listFiles()) {
-            filenames.add(FILE_ENTRY.getName());
+            testCasePaths.add(FILE_ENTRY.getAbsolutePath());
         }
-        return filenames;
+        return testCasePaths;
     }
 
     /**

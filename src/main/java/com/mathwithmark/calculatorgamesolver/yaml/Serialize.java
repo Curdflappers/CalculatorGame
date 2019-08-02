@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.mathwithmark.calculatorgamesolver.calculatorgame.CalculatorGame;
-import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.TestCase;
 
 import org.yaml.snakeyaml.Yaml;
@@ -21,11 +20,11 @@ import org.yaml.snakeyaml.Yaml;
 public class Serialize {
     /**
      * Converts the contents of the given file at the given path to a string
-     * @param filePath the path to the file to convert
+     * @param absolutePath the path to the file to convert
      * @return the contents of the file at the given path
      */
-    public static String fileContents(String filePath) {
-        File file = new File(filePath);
+    public static String fileContents(String absolutePath) {
+        File file = new File(absolutePath);
         Scanner scanner = null;
         String fileContents = "";
         try {
@@ -59,13 +58,12 @@ public class Serialize {
 
     /**
      * Loads a given map from the file within the test-cases directory
-     * @param filename the name of the YAML file
+     * @param absolutePath the absolute path of the YAML file
      * @return a map of the loaded YAML
      */
-    private static Map<String, Object> loadMap(String filename) {
+    private static Map<String, Object> loadMapFromFile(String absolutePath) {
         Yaml yaml = new Yaml();
-        String path = Config.TEST_CASES_PATH + "/" + filename;
-        String fileContents = fileContents(path);
+        String fileContents = fileContents(absolutePath);
         Map<String, Object> map = yaml.load(fileContents);
         return map;
     }
@@ -90,8 +88,8 @@ public class Serialize {
         writer.close();
     }
 
-    public static TestCase loadTestCase(String testCaseString) {
-        Map<String, Object> map = loadMap(testCaseString);
+    public static TestCase loadTestCase(String testCasePath) {
+        Map<String, Object> map = loadMapFromFile(testCasePath);
         return TestCase.from(map);
     }
 }

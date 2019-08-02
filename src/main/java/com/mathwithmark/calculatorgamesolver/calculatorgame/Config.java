@@ -2,7 +2,9 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
 public class Config {
   /** The path to the directory containing all test cases */
-  public static String TEST_CASES_PATH = "test-cases";
+  public static String TEST_CASES_PATH = "test-cases/";
+  /** The file extension for every test case file */
+  public static String TEST_CASE_FILE_EXTENSION = ".yaml";
 
   /** Operator index. INVALID must remain < 0 */
   static final int INVALID = -1;
