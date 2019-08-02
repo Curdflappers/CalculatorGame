@@ -69,14 +69,6 @@ public class Helpers {
         return value / (int) Math.pow(10, digitIndex + 1);
     }
 
-    public static <T> List<T> copyAsList(T[] array) {
-        List<T> list = new ArrayList<>();
-        for (T element : array) {
-            list.add(element);
-        }
-        return list;
-    }
-
     /** Returns the name of every file in Config.TEST_CASES_PATH */
     static List<String> testCaseFilenames() {
         final File DIRECTORY = new File(Config.TEST_CASES_PATH);

@@ -102,19 +102,17 @@ public class CalculatorGame implements Game, Mappable {
      * @return an array of rules with meta store rules added
      */
     private static Rule[] sanitize(Rule[] rules) {
-        List<Rule> newRules = Helpers.copyAsList(rules);
+        List<Rule> newRules = new ArrayList<>();
         for (int i = 0; i < rules.length; i++) {
             Rule rule = rules[i];
+            if (newRules.indexOf(rule) != -1) continue; // don't add duplicate
+            newRules.add(rule);
+            // Add meta store rule to update store rule
             if (rule.getOperator() == Config.STORE) {
-                MetaStoreRule metaStoreRule = new MetaStoreRule(i);
-                if (newRules.indexOf(metaStoreRule) == -1) {
-                    newRules.add(new MetaStoreRule(i));
-                }
+                newRules.add(new MetaStoreRule(i));
             }
         }
-        Rule[] newRulesArray = new Rule[newRules.size()];
-        newRules.toArray(newRulesArray);
-        return newRulesArray;
+        return newRules.toArray(new Rule[0]);
     }
 
     public int getValue() {
