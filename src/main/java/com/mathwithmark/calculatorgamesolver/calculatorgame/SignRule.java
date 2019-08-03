@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class SignRule extends Rule {
+class SignRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         return CalculatorGame
             .generateGame(
@@ -12,7 +13,7 @@ public class SignRule extends Rule {
             );
     }
 
-    public SignRule() {
+    SignRule() {
         super(Config.SIGN);
     }
 }

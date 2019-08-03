@@ -54,19 +54,15 @@ public abstract class Rule {
         return makeRule(operator, operand1, operand2);
     }
 
-    public Rule() {
-        this(Config.INVALID, 0, 0);
-    }
-
-    public Rule(int operator) {
+    Rule(int operator) {
         this(operator, 0, 0);
     }
 
-    public Rule(int operator, int operand1) {
+    Rule(int operator, int operand1) {
         this(operator, operand1, 0);
     }
 
-    public Rule(int operator, int operand1, int operand2) {
+    Rule(int operator, int operand1, int operand2) {
         setOperator(operator);
         setOperand1(operand1);
         setOperand2(operand2);

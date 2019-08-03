@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class SumRule extends Rule {
+class SumRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         int value = game.getValue();
         int sum = 0;
@@ -18,7 +19,7 @@ public class SumRule extends Rule {
             );
     }
 
-    public SumRule() {
+    SumRule() {
         super(Config.SUM);
     }
 }

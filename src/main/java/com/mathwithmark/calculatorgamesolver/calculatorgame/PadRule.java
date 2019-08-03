@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class PadRule extends Rule {
+class PadRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         String valString = String.valueOf((int) game.getValue());
         valString += getOperand1();
@@ -14,7 +15,7 @@ public class PadRule extends Rule {
             );
     }
 
-    public PadRule(int operand1) {
+    PadRule(int operand1) {
         super(Config.PAD, operand1);
     }
 }

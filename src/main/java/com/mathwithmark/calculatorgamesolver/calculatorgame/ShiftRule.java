@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public abstract class ShiftRule extends Rule {
+abstract class ShiftRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         boolean negative = game.getValue() < 0;
         int[] digits = Helpers.digits(game.getValue());
@@ -17,11 +18,11 @@ public abstract class ShiftRule extends Rule {
             );
     }
 
-    public ShiftRule(boolean left) {
+    ShiftRule(boolean left) {
         super(left ? Config.SHIFT_LEFT : Config.SHIFT_RIGHT);
     }
 
-    protected abstract void rotate(int[] digits);
+    abstract void rotate(int[] digits);
 
     /**
      * Rotates the given array right once
@@ -31,7 +32,7 @@ public abstract class ShiftRule extends Rule {
      *
      * @param digits an array of integers
      */
-    protected static void rotateRight(int[] digits) {
+    static void rotateRight(int[] digits) {
         int last = digits[digits.length - 1];
         for (int i = digits.length - 1; i > 0; i--) {
             digits[i] = digits[i - 1];
@@ -47,7 +48,7 @@ public abstract class ShiftRule extends Rule {
      *
      * @param digits an array of integers
      */
-    protected static void rotateLeft(int[] digits) {
+    static void rotateLeft(int[] digits) {
         int first = digits[0];
         for (int i = 0; i < digits.length - 1; i++) {
             digits[i] = digits[i + 1];
@@ -67,7 +68,7 @@ public abstract class ShiftRule extends Rule {
      * PRECONDITION: no chance of integer overflow
      * @param digits the array to evaluate
      */
-    protected static int valueOf(int[] digits) {
+    static int valueOf(int[] digits) {
         int value = 0;
 
         for (int i = 0; i < digits.length; i++) {

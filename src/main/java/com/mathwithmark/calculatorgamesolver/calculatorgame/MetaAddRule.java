@@ -4,7 +4,8 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
  * Adds to the operands of the other rules, does not change the value of the
  * game.
  */
-public class MetaAddRule extends Rule {
+class MetaAddRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         Rule[] oldRules = game.getRules();
         Rule[] newRules = new Rule[oldRules.length];
@@ -31,7 +32,7 @@ public class MetaAddRule extends Rule {
             );
     }
 
-    public MetaAddRule(int operand1) {
+    MetaAddRule(int operand1) {
         super(Config.META_ADD, operand1);
     }
 }

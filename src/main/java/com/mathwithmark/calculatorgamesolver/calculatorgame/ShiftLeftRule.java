@@ -1,11 +1,11 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class ShiftLeftRule extends ShiftRule {
+class ShiftLeftRule extends ShiftRule {
     protected void rotate(int[] digits) {
         rotateLeft(digits);
     }
 
-    public ShiftLeftRule() {
+    ShiftLeftRule() {
         super(true); // is left
     }
 }

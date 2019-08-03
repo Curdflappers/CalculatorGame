@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class AddRule extends Rule {
+class AddRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         return CalculatorGame
             .generateGame(
@@ -12,7 +13,7 @@ public class AddRule extends Rule {
             );
     }
 
-    public AddRule(int operand1) {
+    AddRule(int operand1) {
         super(Config.ADD, operand1);
     }
 }

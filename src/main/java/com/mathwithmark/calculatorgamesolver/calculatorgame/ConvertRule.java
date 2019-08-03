@@ -1,13 +1,13 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class ConvertRule extends Rule {
-
+class ConvertRule extends Rule {
     private final String OP_STRING_1;
-    private String OP_STRING_2;
+    private final String OP_STRING_2;
 
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         int value = game.getValue();
-        String valString = String.valueOf((int) value);
+        String valString = String.valueOf(value);
         valString = valString.replace(OP_STRING_1, OP_STRING_2);
         return CalculatorGame
             .generateGame(
@@ -19,7 +19,7 @@ public class ConvertRule extends Rule {
             );
     }
 
-    public ConvertRule(int operand1, int operand2) {
+    ConvertRule(int operand1, int operand2) {
         super(Config.CONVERT, operand1, operand2);
         OP_STRING_1 = String.valueOf(getOperand1());
         OP_STRING_2 = String.valueOf(getOperand2());
@@ -32,7 +32,7 @@ public class ConvertRule extends Rule {
      * @param opString1 the "from" operand
      * @param opString2 the "to" operand
      */
-    public ConvertRule(String opString1, String opString2) {
+    ConvertRule(String opString1, String opString2) {
         super(
             Config.CONVERT,
             Integer.parseInt(opString1),

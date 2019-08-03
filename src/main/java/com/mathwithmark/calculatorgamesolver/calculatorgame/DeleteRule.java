@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class DeleteRule extends Rule {
+class DeleteRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         String valString = String.valueOf((int) game.getValue());
         valString = valString.substring(0, valString.length() - 1);
@@ -15,7 +16,7 @@ public class DeleteRule extends Rule {
             );
     }
 
-    public DeleteRule() {
+    DeleteRule() {
         super(Config.DELETE);
     }
 }
