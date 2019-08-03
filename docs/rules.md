@@ -1,6 +1,6 @@
 # Rules
 
-Rules are newline-separated. Parentheses are used for visual purposes, do not include them in your input.
+Parentheses are used for visual purposes, do not include them in your input.
 
 * Add (`+(op1)`) adds `op1` to `value`
 * Subtract (`-(op1)`) subtracts `op1` from `value`
@@ -41,6 +41,7 @@ Rules are newline-separated. Parentheses are used for visual purposes, do not in
   * -1 mirror becomes -11
 * Meta Add (`[+](op1)`) adds `op1` to each non-meta rule in the game
 * Store (`Store`) is the first rule that can be updated.
+  * To update the Store rule, enter `Update Store`
   * The Store rule cannot be applied until it is updated.
   * Upon updating the Store rule, its operand becomes the value of the game
   * Applying the Store rule functions just like applying the Pad rule

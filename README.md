@@ -1,8 +1,10 @@
-# Calculator Game Solver
+# Calculator Game
 
-A solver for __Calculator: The Game__ by Simple Machine. It supports all 16 rule types. It supports portals. It can solve all 199 levels of the game.
+A clone and solver of __Calculator: The Game__ by Simple Machine. It supports all 16 rule types. It supports portals. Users can play and solve all 199 levels of the game, plus any custom level they want to create. It runs through the terminal.
 
-It runs through the terminal. The solver prompts for input about a particular level, and outputs a series of steps to complete the given level. It then prompts the user to complete another level or quit the program. This repeats until the user chooses to quit the program.
+The solver prompts for input about a particular level, and then beats the level. It outputs all solutions to the user. It then prompts the user to complete another level or quit the program. This repeats until the user chooses to quit.
+
+The clone prompts for a first level (1 to 199), and then displays that level. The user is able to enter a rule, quit the game, or restart the level at any time. If the user beats a level, the clone prompts the user to continue to the next level or quit. This repeats until the user quits or beats level 199.
 
 This document covers the rules of Calculator: The Game and how to use the program. For installation instructions, see [the usage docs](./docs/usage.md). If you have any issues with the program, feel free to open an issue on the repository.
 
@@ -10,7 +12,7 @@ This document covers the rules of Calculator: The Game and how to use the progra
 
 ![Sample level](docs/assets/sample-level.png)
 
-In __Calculator: The Game__ the user is presented with a simple challenge: change the calculator's value to the goal value by pressing the buttons. The player is limited to a certain number of moves. The value is displayed in large digits just above the buttons. Each button corresponds to a rule (detailed below) and changes the value in different ways.
+In __Calculator: The Game__ the user is presented with a simple challenge: change the calculator's value to the goal value by pressing the buttons (AKA applying the rules). The player is limited to a number of total moves before they lose the game. The value is displayed in large digits just above the buttons. Each button corresponds to a rule (detailed below) and changes the value in different ways.
 
 A pair of portals may be part of the level. The left portal will be below one digit in the value, and the right portal will be above a different digit. The portals don't move. The digits will "fall into" the left portal and "fall out of" the right portal, adding to the level's value. This behavior is detailed on [the portals docs](docs/portals).
 
@@ -40,6 +42,7 @@ The game has 16 rules, detailed below. The code parentheses wrap placeholder val
   * 23 mirror becomes 2332
 * Meta Add (`[+](op1)`) adds `op1` to all operands of non-meta rules in the level
 * Store (`Store`) is the only rule that can be updated
+  * To update the Store rule, enter `Update Store`
   * The Store rule cannot be applied until it is updated
   * Upon updating the Store rule, its operand becomes the value of the level
   * Applying the Store rule functions just like applying the Pad rule
@@ -51,7 +54,35 @@ The game has 16 rules, detailed below. The code parentheses wrap placeholder val
 
 For more detailed rule documentation, see [the rule docs](docs/rules).
 
-### Sample Use Case
+## Use Case
+
+### Sample Play Use Case
+
+```txt
+Welcome to Calculator: The Game!
+Enter the first level: (1 to 199, inclusive): 1
+Level 1
+goal: 2
+moves: 2
+portals: null
+rules: ['+1']
+value: 0
+
+Enter rule to apply ('quit' to quit, 'clear' to restart the level): +1
+goal: 2
+moves: 1
+portals: null
+rules: ['+1']
+value: 1
+
+Enter rule to apply ('quit' to quit, 'clear' to restart the level): +1
+Congratulations, you beat the level!
+Next level? (y/n): n
+You got to level 2.
+Goodbye!
+```
+
+### Sample Solver Use Case
 
 ```txt
 Enter start value: 2
@@ -131,7 +162,7 @@ Y
 
 ## Developer Mode
 
-Running the developer mode allows for test cases to be written automatically via a test factory while using the program as normal. For more information, see [Testing: Test Cases](./docs/testing.md#test-cases)
+Running the developer mode allows for test cases to be written automatically via a test factory while using the solver as normal. For more information, see [Testing: Test Cases](./docs/testing.md#test-cases)
 
 ## Roadmap
 
@@ -139,14 +170,13 @@ This program is enough to beat the original game and any custom level. I want to
 
 Eventually, I'd like to:
 
-* Have users play the game
 * Add a feature to only display hints on demand
-* Generate my own levels and custom rules
+* Write my own levels and custom rules
 * Share levels and rules with friends
 * Show detailed instructions
 * Present through a good UI (and restrict bad input)
 
-View [the productivity board on Trello](https://trello.com/b/3mBPd4RG/calculator-game-solver).
+View [the project board](https://github.com/mark-wiemer/calculator-game-solver/projects/1) to see what's in development.
 
 ## Further Documentation
 
