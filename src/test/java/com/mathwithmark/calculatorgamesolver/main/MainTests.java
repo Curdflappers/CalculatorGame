@@ -46,8 +46,7 @@ public class MainTests {
         int value = 1, goal = 2, movesLeft = 3;
 
         CalculatorGame game =
-            CalculatorGame
-                .generateGame(value, goal, movesLeft, validRules, null);
+            new CalculatorGame(value, goal, movesLeft, validRules, null);
 
         assertEquals(value, game.getValue());
         assertEquals(goal, game.getGoal());
@@ -66,7 +65,7 @@ public class MainTests {
             Rule.makeRule(Config.SIGN)
         };
         int value = 1, goal = 2, movesLeft = 3;
-        return CalculatorGame.generateGame(value, goal, movesLeft, rules, null);
+        return new CalculatorGame(value, goal, movesLeft, rules, null);
     }
 
     /** Generates a basic instance of CalculatorGame to stay DRY */
@@ -183,8 +182,7 @@ public class MainTests {
         InputStream consoleIn = System.in;
         Rule[] inputRules = Helpers.rules(ruleStrings);
         CalculatorGame expectedGame =
-            CalculatorGame
-                .generateGame(value, goal, moves, inputRules, portals);
+            new CalculatorGame(value, goal, moves, inputRules, portals);
 
         // Creates game as user input
         Scanner scanner = new Scanner(in);

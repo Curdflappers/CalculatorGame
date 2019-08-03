@@ -6,14 +6,13 @@ class DeleteRule extends Rule {
         String valString = String.valueOf((int) game.getValue());
         valString = valString.substring(0, valString.length() - 1);
         if (valString.length() == 0 || valString.equals("-")) valString = "0";
-        return CalculatorGame
-            .generateGame(
-                valString,
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                game.getRules(),
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            valString,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
     }
 
     DeleteRule() {

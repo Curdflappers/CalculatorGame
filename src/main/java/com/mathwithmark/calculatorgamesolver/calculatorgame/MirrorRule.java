@@ -12,14 +12,13 @@ class MirrorRule extends Rule {
         // add reversed string to end of current string
         valString += new StringBuilder(valString).reverse().toString();
         valString = negative ? "-" + valString : valString;
-        return CalculatorGame
-            .generateGame(
-                valString,
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                game.getRules(),
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            valString,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
     }
 
     MirrorRule() {

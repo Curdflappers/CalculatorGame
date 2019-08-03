@@ -262,7 +262,7 @@ public class RuleTests {
      */
     void assertApplyRule(int expected, Rule rule, int value) {
         CalculatorGame originalGame =
-            CalculatorGame.generateGame(value, 0, 0, new Rule[] {}, null);
+            new CalculatorGame(value, 0, 1, new Rule[] {}, null);
         int newValue = rule.apply(originalGame).getValue();
         assertEquals(expected, newValue, rule.toString());
     }
@@ -279,11 +279,10 @@ public class RuleTests {
         int moves = 9; // some value > 0
 
         CalculatorGame oldGame =
-            CalculatorGame.generateGame(value, goal, moves, oldRules, null);
+            new CalculatorGame(value, goal, moves, oldRules, null);
         CalculatorGame newGame = rule.apply(oldGame);
         CalculatorGame expectedGame =
-            CalculatorGame
-                .generateGame(value, goal, moves - 1, expectedRules, null);
+            new CalculatorGame(value, goal, moves - 1, expectedRules, null);
         assertEquals(expectedGame, newGame);
     }
 

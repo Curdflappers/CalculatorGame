@@ -8,17 +8,15 @@ class ReverseRule extends Rule {
         if (negative) {
             valString = valString.substring(1); // shave off minus sign
         }
-        // Reverse the string
         valString = new StringBuilder(valString).reverse().toString();
         valString = negative ? "-" + valString : valString; // fix the sign
-        return CalculatorGame
-            .generateGame(
-                valString,
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                game.getRules(),
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            valString,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
     }
 
     ReverseRule() {

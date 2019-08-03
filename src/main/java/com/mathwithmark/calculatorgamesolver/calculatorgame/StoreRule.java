@@ -15,14 +15,13 @@ class StoreRule extends Rule {
         // pad the value
         String valString = String.valueOf((int) game.getValue());
         valString += getOperand1();
-        return CalculatorGame
-            .generateGame(
-                valString,
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                game.getRules(),
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            valString,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
     }
 
     StoreRule() {

@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class HelperTests {
+}
+
+class GetDigitTests {
     @Test
     void getDigit() {
         int value = 12345;
@@ -15,7 +18,9 @@ public class HelperTests {
 
         assertEquals(expected, actual);
     }
+}
 
+class DigitsToTheLeftTests {
     @Test
     void digitsToTheLeft() {
         int value = 12345;
@@ -26,43 +31,55 @@ public class HelperTests {
 
         assertEquals(expected, actual);
     }
+}
 
+class NumDigitsTests {
     @Test
-    void numDigitsNegativeSign() {
-        String valString = "-";
-        int expected = 0;
-
-        int actual = Helpers.numDigits(valString);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void numDigitsPositiveOneDigit() {
-        String valString = "1";
+    void valueZero() {
+        int value = 0;
         int expected = 1;
 
-        int actual = Helpers.numDigits(valString);
+        int actual = Helpers.numDigits(value);
 
         assertEquals(expected, actual);
     }
 
     @Test
-    void numDigitsPositiveMultipleDigits() {
-        String valString = "12345";
-        int expected = 5;
+    void valueOne() {
+        int value = 1;
+        int expected = 1;
 
-        int actual = Helpers.numDigits(valString);
+        int actual = Helpers.numDigits(value);
 
         assertEquals(expected, actual);
     }
 
     @Test
-    void numDigitsNegativeMultipleDigits() {
-        String valString = "-12345";
+    void valueNine() {
+        int value = 9;
+        int expected = 1;
+
+        int actual = Helpers.numDigits(value);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void valueTen() {
+        int value = 10;
+        int expected = 2;
+
+        int actual = Helpers.numDigits(value);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void multipleDigits() {
+        int value = 12345;
         int expected = 5;
 
-        int actual = Helpers.numDigits(valString);
+        int actual = Helpers.numDigits(value);
 
         assertEquals(expected, actual);
     }

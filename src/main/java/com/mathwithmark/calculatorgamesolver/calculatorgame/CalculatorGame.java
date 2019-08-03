@@ -40,75 +40,32 @@ public class CalculatorGame implements Game, Mappable {
     private final int[] PORTALS;
 
     /**
-     * Create a game of the given parameters
+     * Create a level of the given parameters
      *
-     * @param value The start state
-     * @param goal The end state
+     * If any of the parameters are invalid, throws an exception
+     *
+     * @param value The start value
+     * @param goal The goal value
      * @param moves The number of moves to be used
-     * @param rules The rules that can be used
-     * @param portals The portals of this game
+     * @param rules The rules that can be applied
+     * @param portals The portals of this level
+     *
+     * @throws IllegalArgumentException if any parameters are invalid
      */
-    private CalculatorGame(
+    public CalculatorGame(
         int value,
         int goal,
         int moves,
         Rule[] rules,
         int[] portals
-    ) {
+    )
+        throws IllegalArgumentException {
+        ValidateUtils.validateParameters(value, goal, moves, rules, portals);
         this.VALUE = applyPortals(portals, value);
         this.GOAL = goal;
         this.MOVES_LEFT = moves;
-        this.RULES = rules;
+        this.RULES = sanitize(rules);
         this.PORTALS = portals;
-    }
-
-    public static CalculatorGame generateGame(
-        int value,
-        int goal,
-        int moves,
-        Rule[] rules,
-        int[] portals
-    ) {
-        return generateGame(String.valueOf(value), goal, moves, rules, portals);
-    }
-
-    public static CalculatorGame generateGame(
-        String valueString,
-        int goal,
-        int moves,
-        Rule[] rules,
-        int[] portals
-    ) {
-        int numDigits = Helpers.numDigits(valueString);
-        if (
-            numDigits <= Config.MAX_DIGITS
-                && validPortals(portals)
-                && validRules(rules)
-        ) {
-            int value = Integer.parseInt(valueString);
-            if (value != Integer.MAX_VALUE && value != Integer.MIN_VALUE) {
-                rules = sanitize(rules);
-                return new CalculatorGame(value, goal, moves, rules, portals);
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Ensures that the given rules array is valid and can be sanitized. Does
-     * not check for duplicate rules. Ensures there is no Update Store rule
-     * without a corresponding Store rule
-     */
-    private static boolean validRules(Rule[] rules) {
-        return !rulesContains(rules, Config.UPDATE_STORE)
-            || rulesContains(rules, Config.STORE);
-    }
-
-    private static boolean rulesContains(Rule[] rules, int operator) {
-        for (Rule rule : rules) {
-            if (rule.getOperator() == operator) return true;
-        }
-        return false;
     }
 
     /**
@@ -154,18 +111,6 @@ public class CalculatorGame implements Game, Mappable {
     public int[] getPortals() {
         if (!hasPortals()) return null;
         return Arrays.copyOf(PORTALS, PORTALS.length);
-    }
-
-    /**
-     * Valid portals are (null) OR (a two-element array where the first element
-     * is greater than the second AND the second is at least 0)
-     * @param portals the array to check
-     * @return true iff the parameter is valid
-     */
-    static boolean validPortals(int[] portals) {
-        if (portals == null) return true;
-        if (portals.length != 2) return false;
-        return portals[0] > portals[1] && portals[1] >= 0;
     }
 
     /**
@@ -221,14 +166,13 @@ public class CalculatorGame implements Game, Mappable {
      */
     public boolean equalsExceptMoves(CalculatorGame other) {
         CalculatorGame newOther =
-            CalculatorGame
-                .generateGame(
-                    other.getValue(),
-                    other.getGoal(),
-                    getMovesLeft(),
-                    other.getRules(),
-                    other.getPortals()
-                );
+            new CalculatorGame(
+                other.getValue(),
+                other.getGoal(),
+                getMovesLeft(),
+                other.getRules(),
+                other.getPortals()
+            );
         return equals(newOther);
     }
 
@@ -381,13 +325,123 @@ class MappableUtils {
      * Returns null if the given map isn't of the correct format
      */
     static CalculatorGame mapToGame(Map<String, Object> map) {
-        return CalculatorGame
-            .generateGame(
-                (int) map.get("value"),
-                (int) map.get("goal"),
-                (int) map.get("moves"),
-                toRulesArray(map.get("rules")),
-                toPortalsArray(map.get("portals"))
+        return new CalculatorGame(
+            (int) map.get("value"),
+            (int) map.get("goal"),
+            (int) map.get("moves"),
+            toRulesArray(map.get("rules")),
+            toPortalsArray(map.get("portals"))
+        );
+    }
+}
+
+/**
+ * Utility functions to validate parameters used to instantiate CalculatorGame
+ */
+class ValidateUtils {
+    /**
+     * Validates the given parameters. Does nothing if valid, throws exception
+     * if any parameters are invalid.
+     * @throws IllegalArgumentException if any parameters are invalid
+     */
+    static void validateParameters(
+        int value,
+        int goal,
+        int moves,
+        Rule[] rules,
+        int[] portals
+    )
+        throws IllegalArgumentException {
+
+        if (Helpers.numDigits(value) > Config.MAX_DIGITS) {
+            throwException(
+                "Too many digits in '%d', max %d",
+                value,
+                Config.MAX_DIGITS
             );
+        }
+        if (moves < 0) {
+            throwException(
+                "Cannot have negative moves remaining, must be at least 0"
+            );
+        }
+        validateRules(rules);
+        validatePortals(portals);
+    }
+
+    /**
+     * Ensures that the given rules array is valid and can be sanitized. Does
+     * not check for duplicate rules. Throws an exception if there is an Update
+     * Store rule but no Store rule.
+     *
+     * @throws IllegalArgumentException if the rules are invalid
+     */
+    private static void validateRules(Rule[] rules)
+        throws IllegalArgumentException {
+
+        if (
+            rulesContains(rules, Config.UPDATE_STORE)
+                && !rulesContains(rules, Config.STORE)
+        ) {
+            throwException(
+                "Illegal rules: '%s'. "
+                    + "Cannot have an Update Store rule without a Store rule",
+                Arrays.toString(rules)
+            );
+        }
+    }
+
+    /**
+     * Validates the given portals, ensuring they can be used in a game. Does
+     * nothing if the portals are valid, throws an exception if they aren't.
+     * @param portals the portals to validate
+     * @throws IllegalArgumentException if the portals are invalid
+     */
+    private static void validatePortals(int[] portals)
+        throws IllegalArgumentException {
+        if (!validPortals(portals)) {
+            throwException(
+                "Illegal portals: '%s'. "
+                    + "Must be two integers, "
+                    + "the first larger than the second, both >= 0",
+                Arrays.toString(portals)
+            );
+        }
+    }
+
+    /**
+     * Formats the message and throws an {@code IllegalArgumentException}
+     * @param message the message to format
+     * @param args the args to fill in the placeholder values
+     * @throws IllegalArgumentException with the formatted version of the
+     * message
+     */
+    private static void throwException(String message, Object... args)
+        throws IllegalArgumentException {
+
+        String formattedMessage = String.format(message, args);
+        throw new IllegalArgumentException(formattedMessage);
+    }
+
+    /**
+     * @return true iff the array contains a rule with the given operator
+     */
+    private static boolean rulesContains(Rule[] rules, int operator) {
+        for (Rule rule : rules) {
+            if (rule.getOperator() == operator) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Valid portals are (null) OR (a two-element array where the first element
+     * is greater than the second AND the second is at least 0)
+     * @param portals the array to check
+     * @return true iff the parameter is valid
+     */
+    private static boolean validPortals(int[] portals) {
+        if (portals == null) return true;
+        if (portals.length != 2) return false;
+        return portals[0] > portals[1] && portals[1] >= 0;
     }
 }
