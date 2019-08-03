@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class ReverseRule extends Rule {
+class ReverseRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         boolean negative = game.getValue() < 0;
         String valString = String.valueOf((int) game.getValue());
@@ -20,7 +21,7 @@ public class ReverseRule extends Rule {
             );
     }
 
-    public ReverseRule() {
+    ReverseRule() {
         super(Config.REVERSE);
     }
 }

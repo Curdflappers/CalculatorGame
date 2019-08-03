@@ -1,7 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class InverseTenRule extends Rule {
-
+class InverseTenRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         char[] valCharArr = String.valueOf((int) game.getValue()).toCharArray();
 
@@ -25,7 +25,7 @@ public class InverseTenRule extends Rule {
             );
     }
 
-    public InverseTenRule() {
+    InverseTenRule() {
         super(Config.INVERSE_TEN);
     }
 }

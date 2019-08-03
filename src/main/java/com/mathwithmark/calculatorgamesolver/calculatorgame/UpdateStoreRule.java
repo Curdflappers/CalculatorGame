@@ -19,6 +19,7 @@ class UpdateStoreRule extends Rule {
         );
     }
 
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         // Replace this with initialized version and update successor game
         StoreRule updatedStoreRule = new StoreRule(game.getValue());

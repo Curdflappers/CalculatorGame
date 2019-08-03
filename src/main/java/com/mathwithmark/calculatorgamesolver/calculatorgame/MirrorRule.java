@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
-public class MirrorRule extends Rule {
+class MirrorRule extends Rule {
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         int value = game.getValue();
         boolean negative = value < 0;
@@ -21,7 +22,7 @@ public class MirrorRule extends Rule {
             );
     }
 
-    public MirrorRule() {
+    MirrorRule() {
         super(Config.MIRROR);
     }
 }

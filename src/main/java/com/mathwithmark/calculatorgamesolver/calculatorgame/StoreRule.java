@@ -4,9 +4,10 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
  * Operates similar to the PadRule, but employs the update method to change the
  * value to be padded.
  */
-public class StoreRule extends Rule {
+class StoreRule extends Rule {
     final boolean INITIALIZED;
 
+    @Override
     public CalculatorGame apply(CalculatorGame game) {
         // Do nothing if uninitialized or set to pad negative
         if (!INITIALIZED || getOperand1() < 0) return null;
@@ -24,12 +25,12 @@ public class StoreRule extends Rule {
             );
     }
 
-    public StoreRule() {
+    StoreRule() {
         super(Config.STORE);
         INITIALIZED = false;
     }
 
-    public StoreRule(int value) {
+    StoreRule(int value) {
         super(Config.STORE, value);
         INITIALIZED = true;
     }
