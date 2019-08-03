@@ -125,6 +125,8 @@ public abstract class Rule {
                 return new StoreRule();
             case Config.INVERSE_TEN:
                 return new InverseTenRule();
+            case Config.UPDATE_STORE:
+                return new UpdateStoreRule();
             default:
                 throw new RuntimeException("invalid operator: " + operator);
         }

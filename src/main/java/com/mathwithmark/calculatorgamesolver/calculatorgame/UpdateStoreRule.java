@@ -4,16 +4,26 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
  * Custom rule to modify the state of the Store rule for a given game
  */
 class UpdateStoreRule extends Rule {
-    int storeRuleIndex;
+    /**
+     * @return the index of the Store rule of this game. Throws exception if
+     * there isn't one
+     */
+    private static int getStoreRuleIndex(CalculatorGame game) {
+        for (int i = 0; i < game.getRules().length; i++) {
+            if (game.getRules()[i].getOperator() == Config.STORE) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException(
+            "The given game must have a Store rule"
+        );
+    }
 
     public CalculatorGame apply(CalculatorGame game) {
-        StoreRule storeRule = (StoreRule) game.getRules()[storeRuleIndex];
-        if (storeRule == null) return null;
-
         // Replace this with initialized version and update successor game
-        StoreRule newRule = new StoreRule(game.getValue());
+        StoreRule updatedStoreRule = new StoreRule(game.getValue());
         Rule[] newValidRules = game.getRules();
-        newValidRules[storeRuleIndex] = newRule;
+        newValidRules[getStoreRuleIndex(game)] = updatedStoreRule;
         return CalculatorGame
             .generateGame(
                 game.getValue(),
@@ -24,8 +34,7 @@ class UpdateStoreRule extends Rule {
             );
     }
 
-    UpdateStoreRule(int storeRuleIndex) {
+    UpdateStoreRule() {
         super(Config.UPDATE_STORE);
-        this.storeRuleIndex = storeRuleIndex;
     }
 }

@@ -107,7 +107,7 @@ public class CalculatorGame implements Game, Mappable {
             if (newRules.indexOf(rule) != -1) continue; // don't add duplicate
             newRules.add(rule);
             if (rule.getOperator() == Config.STORE) {
-                newRules.add(new UpdateStoreRule(i));
+                newRules.add(Rule.makeRule(Config.UPDATE_STORE));
             }
         }
         return newRules.toArray(new Rule[0]);
