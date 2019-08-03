@@ -2,74 +2,93 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
 public class CalculatorGameTests {
+}
 
-    ///////////////////
-    // VALID PORTALS //
-    ///////////////////
-
+class ValidatePortalsTests {
     @Test
     void oneAndZeroAreValid() {
-        int[] validPortals = {
+        int[] sut = {
             1, 0
         };
 
-        assertTrue(CalculatorGame.validPortals(validPortals));
+        validatePortals(sut);
     }
 
     @Test
     void negativesAreInvalid() {
-        int[] negatives = {
+        int[] sut = {
             -2, -3
         };
 
-        assertFalse(CalculatorGame.validPortals(negatives));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> validatePortals(sut)
+        );
     }
 
     @Test
     void zerosAreInvalid() {
-        int[] zeros = {
+        int[] sut = {
             0, 0
         };
 
-        assertFalse(CalculatorGame.validPortals(zeros));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> validatePortals(sut)
+        );
     }
 
     @Test
     void lengthZeroIsInvalid() {
-        int[] zeroLength = new int[0];
+        int[] sut = new int[0];
 
-        assertFalse(CalculatorGame.validPortals(zeroLength));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> validatePortals(sut)
+        );
     }
 
     @Test
     void lengthOneIsInvalid() {
-        int[] lengthOne = {
+        int[] sut = {
             1
         };
 
-        assertFalse(CalculatorGame.validPortals(lengthOne));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> validatePortals(sut)
+        );
     }
 
     @Test
     void anyNegativeIsInvalid() {
-        int[] aNegative = {
+        int[] sut = {
             1, -1
         };
 
-        assertFalse(CalculatorGame.validPortals(aNegative));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> validatePortals(sut)
+        );
     }
 
-    ///////////////////
-    // APPLY PORTALS //
-    ///////////////////
+    private static void validatePortals(int[] portals)
+        throws IllegalArgumentException {
 
+        int value = 1;
+        int goal = 1;
+        int moves = 1;
+        Rule[] rules = {};
+        new CalculatorGame(value, goal, moves, rules, portals);
+    }
+}
+
+class ApplyPortalsTests {
     @Test
     void multipleCarriesAndFalls() {
         int value = 991;
@@ -78,10 +97,10 @@ public class CalculatorGameTests {
         };
         int expected = 1;
 
-        CalculatorGame game =
-            CalculatorGame.generateGame(value, 0, 0, new Rule[] {}, portals);
+        CalculatorGame sut =
+            new CalculatorGame(value, 0, 0, new Rule[] {}, portals);
 
-        assertEquals(expected, (int) game.getValue());
+        assertEquals(expected, (int) sut.getValue());
     }
 
     @Test
@@ -92,16 +111,16 @@ public class CalculatorGameTests {
         };
         int expected = 113;
 
-        CalculatorGame game =
-            CalculatorGame.generateGame(value, 0, 0, new Rule[] {}, portals);
+        CalculatorGame sut =
+            new CalculatorGame(value, 0, 0, new Rule[] {}, portals);
 
-        assertEquals(expected, game.getValue(), 0.001);
+        assertEquals(expected, sut.getValue(), 0.001);
     }
 }
 
 class RuleSanitationTests {
-    private static CalculatorGame generateLevelWith(Rule[] rules) {
-        return CalculatorGame.generateGame(1, 1, 1, rules, null);
+    private static CalculatorGame constructLevelWith(Rule[] rules) {
+        return new CalculatorGame(1, 1, 1, rules, null);
     }
 
     @Test
@@ -110,7 +129,7 @@ class RuleSanitationTests {
             Rule.makeRule(Config.ADD),
         };
 
-        CalculatorGame level = generateLevelWith(expectedRules);
+        CalculatorGame level = constructLevelWith(expectedRules);
 
         assertArrayEquals(expectedRules, level.getRules());
     }
@@ -125,7 +144,7 @@ class RuleSanitationTests {
             rule,
         };
 
-        CalculatorGame level = generateLevelWith(inputRules);
+        CalculatorGame level = constructLevelWith(inputRules);
 
         assertArrayEquals(expectedRules, level.getRules());
     }
@@ -141,20 +160,20 @@ class RuleSanitationTests {
             storeRule, updateStoreRule,
         };
 
-        CalculatorGame level = generateLevelWith(inputRules);
+        CalculatorGame level = constructLevelWith(inputRules);
 
         assertArrayEquals(expectedRules, level.getRules());
     }
 
     @Test
-    void updateStoreWithoutStoreGeneratesNull() {
+    void updateStoreWithoutStoreThrowsIllegalArgumentException() {
         Rule updateStoreRule = Rule.makeRule(Config.UPDATE_STORE);
         Rule[] inputRules = {
             updateStoreRule,
         };
 
-        CalculatorGame level = generateLevelWith(inputRules);
-
-        assertNull(level);
+        assertThrows(IllegalArgumentException.class, () -> {
+            constructLevelWith(inputRules);
+        });
     }
 }

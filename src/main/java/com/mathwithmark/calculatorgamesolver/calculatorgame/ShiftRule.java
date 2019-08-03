@@ -8,14 +8,13 @@ abstract class ShiftRule extends Rule {
         rotate(digits);
         int newValue = valueOf(digits);
         newValue = negative ? -newValue : newValue;
-        return CalculatorGame
-            .generateGame(
-                newValue,
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                game.getRules(),
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            newValue,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
     }
 
     ShiftRule(boolean left) {

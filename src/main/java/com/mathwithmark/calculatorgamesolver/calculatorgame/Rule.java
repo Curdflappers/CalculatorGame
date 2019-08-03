@@ -226,6 +226,52 @@ public abstract class Rule {
      */
     public abstract CalculatorGame apply(CalculatorGame game);
 
+    /**
+     * @return a level made from the given parameters. Returns null if any
+     * parameters are invalid
+     */
+    protected static CalculatorGame makeCalculatorGame(
+        Integer value,
+        Integer goal,
+        Integer moves,
+        Rule[] rules,
+        int[] portals
+    ) {
+        return makeCalculatorGame(
+            value.toString(),
+            goal,
+            moves,
+            rules,
+            portals
+        );
+    }
+
+    /**
+     * @return a level made from the given parameters. Returns null if any
+     * parameters are invalid
+     */
+    protected static CalculatorGame makeCalculatorGame(
+        String valueString,
+        Integer goal,
+        Integer moves,
+        Rule[] rules,
+        int[] portals
+    ) {
+        try {
+            return new CalculatorGame(
+                Integer.parseInt(valueString),
+                goal,
+                moves,
+                rules,
+                portals
+            );
+        } catch (NumberFormatException e) {
+            return null;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other instanceof Rule) {

@@ -7,16 +7,15 @@ class ConvertRule extends Rule {
     @Override
     public CalculatorGame apply(CalculatorGame game) {
         int value = game.getValue();
-        String valString = String.valueOf(value);
-        valString = valString.replace(OP_STRING_1, OP_STRING_2);
-        return CalculatorGame
-            .generateGame(
-                valString,
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                game.getRules(),
-                game.getPortals()
-            );
+        String valString =
+            String.valueOf(value).replace(OP_STRING_1, OP_STRING_2);
+        return makeCalculatorGame(
+            valString,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
     }
 
     ConvertRule(int operand1, int operand2) {

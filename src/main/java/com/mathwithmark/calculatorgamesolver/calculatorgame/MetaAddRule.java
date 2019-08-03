@@ -22,14 +22,13 @@ class MetaAddRule extends Rule {
             newRules[i] =
                 Rule.makeRule(oldRule.getOperator(), newOperand1, newOperand2);
         }
-        return CalculatorGame
-            .generateGame(
-                game.getValue(),
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                newRules,
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            game.getValue(),
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            newRules,
+            game.getPortals()
+        );
     }
 
     MetaAddRule(int operand1) {

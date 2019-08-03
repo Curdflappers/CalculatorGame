@@ -25,14 +25,13 @@ class UpdateStoreRule extends Rule {
         StoreRule updatedStoreRule = new StoreRule(game.getValue());
         Rule[] newValidRules = game.getRules();
         newValidRules[getStoreRuleIndex(game)] = updatedStoreRule;
-        return CalculatorGame
-            .generateGame(
-                game.getValue(),
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                newValidRules,
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            game.getValue(),
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            newValidRules,
+            game.getPortals()
+        );
     }
 
     UpdateStoreRule() {

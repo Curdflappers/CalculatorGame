@@ -43,7 +43,7 @@ public class Main {
         }
 
         calculatorGame =
-            CalculatorGame.generateGame(value, goal, moves, rules, portals);
+            new CalculatorGame(value, goal, moves, rules, portals);
     }
 
     /**

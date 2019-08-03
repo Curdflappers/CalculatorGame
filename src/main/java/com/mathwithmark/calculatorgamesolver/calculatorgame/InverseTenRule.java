@@ -15,14 +15,13 @@ class InverseTenRule extends Rule {
             }
         }
 
-        return CalculatorGame
-            .generateGame(
-                new String(valCharArr),
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                game.getRules(),
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            new String(valCharArr),
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
     }
 
     InverseTenRule() {

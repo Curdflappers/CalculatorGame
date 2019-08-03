@@ -9,14 +9,13 @@ class SumRule extends Rule {
             sum += value % 10;
             value /= 10;
         }
-        return CalculatorGame
-            .generateGame(
-                sum,
-                game.getGoal(),
-                game.getMovesLeft() - 1,
-                game.getRules(),
-                game.getPortals()
-            );
+        return makeCalculatorGame(
+            sum,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
     }
 
     SumRule() {

@@ -5,18 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Helpers {
-
     /**
-     * Returns the number of digits in the given string.
-     *
-     * PRECONDITION the string matches the regex -?[0-9]*
-     * @param valueString the string to evaluate
-     * @return the number of digits in the string
+     * @return the number of digits in the given integer
      */
-    public static int numDigits(String valueString) {
-        int digits = (valueString.charAt(0) == '-') ? -1 : 0;
-        digits += valueString.length();
-        return digits;
+    public static int numDigits(int value) {
+        if (value == 0) return 1;
+        return (int) Math.floor(Math.log10(Math.abs(value))) + 1;
     }
 
     /**
@@ -33,7 +27,7 @@ public class Helpers {
      */
     public static int[] digits(int value) {
         value = Math.abs(value); // only interested in its digits, not its sign
-        int numDigits = numDigits(String.valueOf(value));
+        int numDigits = numDigits(value);
         int[] digits = new int[numDigits];
 
         for (int i = numDigits - 1; i >= 0; i--) { // start at the end, go back
