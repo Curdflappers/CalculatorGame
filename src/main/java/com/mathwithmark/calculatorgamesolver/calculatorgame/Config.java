@@ -25,7 +25,7 @@ public class Config {
   public static final int META_ADD = 14;
   public static final int STORE = 15;
   public static final int INVERSE_TEN = 16;
-  static final int META_STORE = 17; // hidden rule
+  static final int UPDATE_STORE = 17; // hidden rule
 
   /** The string for a rule with an invalid operator */
   static final String INVALID_STRING = "INVALID";
@@ -68,28 +68,7 @@ public class Config {
     1, // META_ADD
     0, // STORE (takes zero on creation)
     0, // INVERSE_TEN
-    0, // META_STORE
-  };
-
-  static final boolean[] EXTERNAL = {
-    true, // ADD
-    true, // SUBTRACT
-    true, // MULTIPLY
-    true, // DIVIDE
-    true, // PAD
-    true, // SIGN
-    true, // DELETE
-    true, // CONVERT
-    true, // POWER
-    true, // REVERSE
-    true, // SUM
-    true, // SHIFT_RIGHT
-    true, // SHIFT_LEFT
-    true, // MIRROR
-    true, // META_ADD
-    true, // STORE
-    true, // INVERSE_TEN
-    false, // META_STORE
+    0, // UPDATE_STORE
   };
 
   /** The maximum number of digits in a CalculatorGame */
