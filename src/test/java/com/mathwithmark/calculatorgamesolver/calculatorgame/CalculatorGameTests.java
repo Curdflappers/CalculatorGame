@@ -3,6 +3,7 @@ package com.mathwithmark.calculatorgamesolver.calculatorgame;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -127,5 +128,33 @@ class RuleSanitationTests {
         CalculatorGame level = generateLevelWith(inputRules);
 
         assertArrayEquals(expectedRules, level.getRules());
+    }
+
+    @Test
+    void noDuplicateStoreOrUpdateStoreRules() {
+        Rule storeRule = Rule.makeRule(Config.STORE);
+        Rule updateStoreRule = Rule.makeRule(Config.UPDATE_STORE);
+        Rule[] inputRules = {
+            storeRule, storeRule, updateStoreRule, updateStoreRule,
+        };
+        Rule[] expectedRules = {
+            storeRule, updateStoreRule,
+        };
+
+        CalculatorGame level = generateLevelWith(inputRules);
+
+        assertArrayEquals(expectedRules, level.getRules());
+    }
+
+    @Test
+    void updateStoreWithoutStoreGeneratesNull() {
+        Rule updateStoreRule = Rule.makeRule(Config.UPDATE_STORE);
+        Rule[] inputRules = {
+            updateStoreRule,
+        };
+
+        CalculatorGame level = generateLevelWith(inputRules);
+
+        assertNull(level);
     }
 }

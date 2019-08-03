@@ -83,7 +83,7 @@ public class CalculatorGame implements Game, Mappable {
         if (
             numDigits <= Config.MAX_DIGITS
                 && validPortals(portals)
-                && rules != null
+                && validRules(rules)
         ) {
             int value = Integer.parseInt(valueString);
             if (value != Integer.MAX_VALUE && value != Integer.MIN_VALUE) {
@@ -95,8 +95,26 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     /**
+     * Ensures that the given rules array is valid and can be sanitized. Does
+     * not check for duplicate rules. Ensures there is no Update Store rule
+     * without a corresponding Store rule
+     */
+    private static boolean validRules(Rule[] rules) {
+        return !rulesContains(rules, Config.UPDATE_STORE)
+            || rulesContains(rules, Config.STORE);
+    }
+
+    private static boolean rulesContains(Rule[] rules, int operator) {
+        for (Rule rule : rules) {
+            if (rule.getOperator() == operator) return true;
+        }
+        return false;
+    }
+
+    /**
      * Returns a version of the rules with an update store rule present if a
      * store rule is present. Ensures no duplicate rules are present
+     * @param rules a valid rules array
      * @return an array of sanitized rules
      */
     private static Rule[] sanitize(Rule[] rules) {
