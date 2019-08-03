@@ -95,9 +95,8 @@ public class CalculatorGame implements Game, Mappable {
     }
 
     /**
-     * Returns a version of the rules with the update store rules added if a
-     * store rule is present. Returns the original array if no store rule is
-     * present. Ensures no duplicate rules are present
+     * Returns a version of the rules with an update store rule present if a
+     * store rule is present. Ensures no duplicate rules are present
      * @return an array of sanitized rules
      */
     private static Rule[] sanitize(Rule[] rules) {
