@@ -2,7 +2,7 @@
 
 This document covers running tests.
 
-This program was developed on Windows 10.
+This program was developed on Windows 10, but it should work on any operating system.
 
 Testing is done with JUnit 5 and comprehensive unit tests and integration tests are found in `src/test/**/*.java`. All tests should pass.
 
@@ -16,4 +16,4 @@ Test cases for level-solving are stored in the `test-cases` directory. The files
 
 ## Developer Mode
 
-Running the program in developer mode allows the user to automatically write new test cases. Once a level is solved, the user is prompted to save the level as a test case. If they choose to do so, they can then enter a filename. A file under the given name is then saved in the `/test-cases` directory with the file extension `.yaml`. These test cases are automatically tested in [`LevelTests.java`](/src/test/java/com/mathwithmark/calculatorgamesolver/calculatorgame/LevelTests.java).
+Running Developer mode allows the user to automatically write new test cases. Once a level is solved, the user is prompted to save the level as a test case. If they choose to do so, they can then enter a filename. A file under the given name is then saved in the `/test-cases` directory with the file extension `.yaml`. These test cases are automatically tested in [`LevelTests.java`](/src/test/java/com/mathwithmark/calculatorgamesolver/calculatorgame/LevelTests.java).
