@@ -93,15 +93,4 @@ public class Serialize {
         Map<String, Object> map = loadMapFromFile(testCasePath);
         return TestCase.from(map);
     }
-
-    /**
-     * @param levelPath the path to a level file (contains a map to a
-     * CalculatorGame instance under the key "game")
-     * @return the level loaded from the given file
-     */
-    @SuppressWarnings("unchecked")
-    public static CalculatorGame loadLevel(String levelPath) {
-        Map<String, Object> map = loadMapFromFile(levelPath);
-        return CalculatorGame.from((Map<String, Object>) map.get("game"));
-    }
 }

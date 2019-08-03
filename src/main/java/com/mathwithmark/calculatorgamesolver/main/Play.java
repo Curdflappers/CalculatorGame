@@ -1,6 +1,7 @@
 package com.mathwithmark.calculatorgamesolver.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,11 +14,14 @@ public class Play {
     // None of these final Strings end with newline characters
 
     // Special inputs to track
-    static final char QUIT_GAME_INPUT = 'n';
+    static final char YES_INPUT = 'y';
+    static final char NO_INPUT = 'n';
     static final String QUIT_LEVEL_INPUT = "quit";
     static final String RESTART_LEVEL_INPUT = "clear";
 
     // Messages do not prompt for user input
+    static final String GAME_WON_MESSAGE =
+        "Congratulations, you beat the game!";
     static final String GOODBYE_MESSAGE = "Goodbye!";
     static final String HIGHEST_LEVEL_MESSAGE = "You got to level %d.";
     static final String LEVEL_TITLE_MESSAGE = "Level %d";
@@ -46,6 +50,8 @@ public class Play {
                 RESTART_LEVEL_INPUT
             );
 
+    static final int NUM_LEVELS = 199;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int levelIndex = 1;
@@ -55,8 +61,13 @@ public class Play {
             boolean completed = playLevel(scanner, levelIndex);
             if (!completed) break;
             levelIndex++;
-        } while (nextLevel(scanner));
-        System.out.printf(HIGHEST_LEVEL_MESSAGE + "\n", levelIndex);
+        } while (levelIndex <= NUM_LEVELS && nextLevel(scanner));
+
+        if (levelIndex > NUM_LEVELS) {
+            System.out.println(GAME_WON_MESSAGE);
+        } else {
+            System.out.printf(HIGHEST_LEVEL_MESSAGE + "\n", levelIndex);
+        }
         System.out.println(GOODBYE_MESSAGE);
     }
 
@@ -113,7 +124,7 @@ public class Play {
      */
     private static boolean playLevel(Scanner scanner, int levelIndex) {
         String levelPath = levelPathFrom(levelIndex);
-        CalculatorGame originalLevel = Serialize.loadLevel(levelPath);
+        CalculatorGame originalLevel = Serialize.loadTestCase(levelPath).GAME;
         CalculatorGame level = originalLevel;
         System.out.printf(LEVEL_TITLE_MESSAGE + "\n", levelIndex);
         do {
@@ -130,7 +141,13 @@ public class Play {
                 level = originalLevel;
                 continue;
             }
-            Rule rule = Rule.ruleFromString(input);
+            Rule rule =
+                Arrays
+                    .asList(level.getRules())
+                    .stream()
+                    .filter(r -> r.toString().equals(input))
+                    .findFirst()
+                    .get();
             level = rule.apply(level);
         } while (!level.isWon());
         System.out.println(LEVEL_WON_MESSAGE);
@@ -142,22 +159,21 @@ public class Play {
      * @return true if the user wants to go to the next level
      */
     private static boolean nextLevel(Scanner scanner) {
-        char againChar = 'y';
         char inputChar = '\0';
-        while (inputChar != againChar && inputChar != QUIT_GAME_INPUT) {
-            System.out.printf(NEXT_LEVEL_PROMPT, againChar, QUIT_GAME_INPUT);
+        while (inputChar != YES_INPUT && inputChar != NO_INPUT) {
+            System.out.printf(NEXT_LEVEL_PROMPT, YES_INPUT, NO_INPUT);
             String input = scanner.nextLine();
             if (input.length() != 1) {
                 System.out.println("Please enter exactly one character");
                 continue;
             }
             inputChar = Character.toLowerCase(input.charAt(0));
-            if (inputChar != againChar && inputChar != QUIT_GAME_INPUT) {
+            if (inputChar != YES_INPUT && inputChar != NO_INPUT) {
                 System.out
-                    .printf("Please enter '%c' or '%c'\n", againChar, QUIT_GAME_INPUT);
+                    .printf("Please enter '%c' or '%c'\n", YES_INPUT, NO_INPUT);
                 continue;
             }
         }
-        return inputChar == againChar;
+        return inputChar == YES_INPUT;
     }
 }
