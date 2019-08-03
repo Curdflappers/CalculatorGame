@@ -12,14 +12,18 @@ import com.mathwithmark.calculatorgamesolver.yaml.Serialize;
 import org.junit.jupiter.api.Test;
 
 public class PlayTests {
-    /**
-     * @return the input string to quit a level, then to quit the game
-     */
-    private static String quitGameFromLevelInput() {
-        String s = "";
-        s += Play.QUIT_LEVEL_INPUT + "\n";
-        s += Play.NO_INPUT + "\n";
-        return s;
+    @Test
+    void playAllLevels() {
+        PrintStream out = System.out;
+        ByteArrayOutputStream baos =
+            IoUtils.prepareEndToEndTest(playAllLevelsInput());
+        try {
+            Play.main(new String[0]);
+        } finally {
+            System.setOut(out);
+        }
+
+        assertTrue(baos.toString().contains(Play.GAME_WON_MESSAGE));
     }
 
     @Test
@@ -32,6 +36,16 @@ public class PlayTests {
         } finally {
             System.setOut(out);
         }
+    }
+
+    /**
+     * @return the input string to quit a level, then to quit the game
+     */
+    private static String quitGameFromLevelInput() {
+        String s = "";
+        s += Play.QUIT_LEVEL_INPUT + "\n";
+        s += Play.NO_INPUT + "\n";
+        return s;
     }
 
     /**
@@ -48,19 +62,5 @@ public class PlayTests {
             s += Play.YES_INPUT + "\n"; // yes to next level
         }
         return s;
-    }
-
-    @Test
-    void playAllLevels() {
-        PrintStream out = System.out;
-        ByteArrayOutputStream baos =
-            IoUtils.prepareEndToEndTest(playAllLevelsInput());
-        try {
-            Play.main(new String[0]);
-        } finally {
-            System.setOut(out);
-        }
-
-        assertTrue(baos.toString().contains(Play.GAME_WON_MESSAGE));
     }
 }
