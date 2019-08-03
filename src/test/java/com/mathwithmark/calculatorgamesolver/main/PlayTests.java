@@ -43,8 +43,8 @@ public class PlayTests {
      */
     private static String quitGameFromLevelInput() {
         String s = "";
+        s += 1 + "\n"; // first level index
         s += Play.QUIT_LEVEL_INPUT + "\n";
-        s += Play.NO_INPUT + "\n";
         return s;
     }
 
@@ -53,6 +53,7 @@ public class PlayTests {
      */
     private static String playAllLevelsInput() {
         String s = "";
+        s += 1 + "\n"; // first level index
         for (String testCasePath : Helpers.testCasePaths()) {
             List<String> solution =
                 Serialize.loadTestCase(testCasePath).SOLUTION;

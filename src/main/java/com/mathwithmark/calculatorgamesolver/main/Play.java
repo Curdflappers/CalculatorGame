@@ -11,6 +11,8 @@ import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
 import com.mathwithmark.calculatorgamesolver.yaml.Serialize;
 
 public class Play {
+    static final int NUM_LEVELS = 199;
+
     // None of these final Strings end with newline characters
 
     // Special inputs to track
@@ -24,6 +26,8 @@ public class Play {
         "Congratulations, you beat the game!";
     static final String GOODBYE_MESSAGE = "Goodbye!";
     static final String HIGHEST_LEVEL_MESSAGE = "You got to level %d.";
+    private static final String INT_MESSAGE =
+        "Please enter an integer between %d and %d, inclusive";
     static final String LEVEL_TITLE_MESSAGE = "Level %d";
     static final String LEVEL_WON_MESSAGE =
         "Congratulations, you beat the level!";
@@ -40,6 +44,13 @@ public class Play {
     static final String WELCOME_MESSAGE = "Welcome to Calculator: The Game!";
 
     // Prompts prompt for user input, and always end with ": "
+    private static final String FIRST_LEVEL_PROMPT =
+        String
+            .format(
+                "Enter the first level: (%d to %d, inclusive): ",
+                1,
+                NUM_LEVELS
+            );
     static final String NEXT_LEVEL_PROMPT = "Next level? (%c/%c): ";
     static final String RULE_PROMPT =
         String
@@ -50,13 +61,11 @@ public class Play {
                 RESTART_LEVEL_INPUT
             );
 
-    static final int NUM_LEVELS = 199;
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int levelIndex = 1;
 
         System.out.println(WELCOME_MESSAGE);
+        int levelIndex = getFirstLevel(scanner);
         do {
             boolean completed = playLevel(scanner, levelIndex);
             if (!completed) break;
@@ -69,6 +78,42 @@ public class Play {
             System.out.printf(HIGHEST_LEVEL_MESSAGE + "\n", levelIndex);
         }
         System.out.println(GOODBYE_MESSAGE);
+    }
+
+    /**
+     * @param prompt display before asking for input
+     * @param min lowest acceptable value
+     * @param max highest acceptable value
+     * @return the number input by the user once it's in range
+     */
+    private static int getNumberInRange(
+        Scanner scanner,
+        String prompt,
+        int min,
+        int max
+    ) {
+        Integer number = null;
+        do {
+            System.out.print(prompt);
+            try {
+                number = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                // swallow exception for now, print message later to stay DRY
+            }
+            if(number != null && number >= min && number <= max) {
+                break;
+            } else {
+                System.out.printf(INT_MESSAGE + "\n", min, max);
+            }
+        } while (true);
+        return number;
+    }
+
+    /**
+     * Return the 1-based index of the first level the play wants to play
+     */
+    private static int getFirstLevel(Scanner scanner) {
+        return getNumberInRange(scanner, FIRST_LEVEL_PROMPT, 1, NUM_LEVELS);
     }
 
     /**
