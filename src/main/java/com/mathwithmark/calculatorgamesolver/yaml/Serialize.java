@@ -81,6 +81,7 @@ public class Serialize {
         List<String> solution
     )
         throws IOException {
+
         Yaml yaml = new Yaml();
         Map<String, Object> map = testCaseToMap(game, solution);
         FileWriter writer = new FileWriter(filePath);

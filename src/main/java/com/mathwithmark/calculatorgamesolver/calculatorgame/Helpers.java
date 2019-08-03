@@ -70,7 +70,7 @@ public class Helpers {
     }
 
     /** Returns the paths to every file in Config.TEST_CASES_PATH */
-    static List<String> testCasePaths() {
+    public static List<String> testCasePaths() {
         final File DIRECTORY = new File(Config.TEST_CASES_PATH);
         List<String> testCasePaths = new ArrayList<>();
         for (final File FILE_ENTRY : DIRECTORY.listFiles()) {

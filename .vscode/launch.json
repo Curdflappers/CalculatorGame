@@ -15,6 +15,14 @@
             "mainClass": "com.mathwithmark.calculatorgamesolver.main.Main",
             "projectName": "calculator-game-solver",
             "console": "externalTerminal",
-        }
+        },
+        {
+            "type": "java",
+            "name": "Play",
+            "request": "launch",
+            "mainClass": "com.mathwithmark.calculatorgamesolver.main.Play",
+            "projectName": "calculator-game-solver",
+            "console": "externalTerminal"
+        },
     ]
 }
