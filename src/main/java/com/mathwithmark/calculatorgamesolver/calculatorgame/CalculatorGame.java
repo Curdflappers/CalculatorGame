@@ -232,8 +232,13 @@ public class CalculatorGame implements Game, Mappable {
         return sb.toString();
     }
 
+    @Override
     public boolean isWon() {
         return VALUE == GOAL;
+    }
+
+    public boolean isLost() {
+        return MOVES_LEFT <= 0 && !isWon();
     }
 
     @Override

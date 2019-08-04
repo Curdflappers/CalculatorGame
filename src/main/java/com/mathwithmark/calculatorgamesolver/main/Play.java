@@ -28,9 +28,13 @@ public class Play {
     static final String HIGHEST_LEVEL_MESSAGE = "You got to level %d.";
     private static final String INT_MESSAGE =
         "Please enter an integer between %d and %d, inclusive";
+    private static final String LEVEL_BROKE_MESSAGE =
+        "Oops! Applying that rule broke the level.";
+    private static final String LEVEL_LOST_MESSAGE = "You lost the level.";
     static final String LEVEL_TITLE_MESSAGE = "Level %d";
     static final String LEVEL_WON_MESSAGE =
         "Congratulations, you beat the level!";
+    private static String RESTARTING_LEVEL_MESSAGE = "Restarting the level.";
     /**
      * Message to display when the user enters invalid input for the rule prompt
      */
@@ -100,7 +104,7 @@ public class Play {
             } catch (NumberFormatException e) {
                 // swallow exception for now, print message later to stay DRY
             }
-            if(number != null && number >= min && number <= max) {
+            if (number != null && number >= min && number <= max) {
                 break;
             } else {
                 System.out.printf(INT_MESSAGE + "\n", min, max);
@@ -183,7 +187,7 @@ public class Play {
             }
             if (input.equals(QUIT_LEVEL_INPUT)) return false;
             if (input.equals(RESTART_LEVEL_INPUT)) {
-                level = originalLevel;
+                level = restartLevel(originalLevel);
                 continue;
             }
             Rule rule =
@@ -194,9 +198,23 @@ public class Play {
                     .findFirst()
                     .get();
             level = rule.apply(level);
+            if (level == null) {
+                System.out.println(LEVEL_BROKE_MESSAGE);
+                level = restartLevel(originalLevel);
+            }
+            if (level.isLost()) {
+                System.out.println(level);
+                System.out.println(LEVEL_LOST_MESSAGE);
+                level = restartLevel(originalLevel);
+            }
         } while (!level.isWon());
         System.out.println(LEVEL_WON_MESSAGE);
         return true;
+    }
+
+    private static CalculatorGame restartLevel(CalculatorGame originalLevel) {
+        System.out.println(RESTARTING_LEVEL_MESSAGE);
+        return originalLevel;
     }
 
     /**
