@@ -296,7 +296,7 @@ class MappableUtils {
         ArrayList<?> list = (ArrayList<?>) obj;
         Rule[] rules = new Rule[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            rules[i] = Rule.ruleFromString(list.get(i).toString());
+            rules[i] = Rule.of(list.get(i).toString());
         }
         return rules;
     }

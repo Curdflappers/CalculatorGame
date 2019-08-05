@@ -62,7 +62,7 @@ public class RuleTests {
         int operand1,
         int operand2
     ) {
-        Rule rule = Rule.ruleFromString(str);
+        Rule rule = Rule.of(str);
         assertEquals(Rule.makeRule(operator, operand1, operand2), rule);
         assertEquals(str, rule.toString());
     }

@@ -10,7 +10,7 @@ public abstract class Rule {
     private int operator;
     private String string;
 
-    public static Rule ruleFromString(String ruleString) {
+    public static Rule of(String ruleString) {
         int operator = Config.INVALID, operand1 = 0, operand2 = 0;
         String convertString = Config.OPERATOR_STRINGS[Config.CONVERT];
         String inverseTenString = Config.OPERATOR_STRINGS[Config.INVERSE_TEN];
