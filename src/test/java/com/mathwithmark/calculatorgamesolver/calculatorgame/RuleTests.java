@@ -63,7 +63,7 @@ public class RuleTests {
         int operand2
     ) {
         Rule rule = Rule.of(str);
-        assertEquals(Rule.makeRule(operator, operand1, operand2), rule);
+        assertEquals(Rule.of(operator, operand1, operand2), rule);
         assertEquals(str, rule.toString());
     }
 
@@ -177,15 +177,15 @@ public class RuleTests {
         int addOperand = 1;
         int subtractOperand = 2;
         int metaAddOperand = 3;
-        Rule metaAddRule = Rule.makeRule(Config.META_ADD, metaAddOperand);
+        Rule metaAddRule = Rule.of(Config.META_ADD, metaAddOperand);
         Rule[] rules = new Rule[] {
-            Rule.makeRule(Config.ADD, addOperand),
-            Rule.makeRule(Config.SUBTRACT, subtractOperand),
+            Rule.of(Config.ADD, addOperand),
+            Rule.of(Config.SUBTRACT, subtractOperand),
             metaAddRule,
         };
         Rule[] expectedRules = new Rule[] {
-            Rule.makeRule(Config.ADD, addOperand + metaAddOperand),
-            Rule.makeRule(Config.SUBTRACT, subtractOperand + metaAddOperand),
+            Rule.of(Config.ADD, addOperand + metaAddOperand),
+            Rule.of(Config.SUBTRACT, subtractOperand + metaAddOperand),
             metaAddRule,
         };
 
@@ -213,7 +213,7 @@ public class RuleTests {
      * with the given value and no portals results in the expected value
      */
     void assertApplyRule(int expected, int operator, int value) {
-        Rule rule = Rule.makeRule(operator);
+        Rule rule = Rule.of(operator);
         assertApplyRule(expected, rule, value);
     }
 
@@ -222,7 +222,7 @@ public class RuleTests {
      * with the given value and no portals results in the expected value
      */
     void assertApplyRule(int expected, int operator, int operand1, int value) {
-        Rule rule = Rule.makeRule(operator, operand1);
+        Rule rule = Rule.of(operator, operand1);
         assertApplyRule(expected, rule, value);
     }
 
@@ -237,7 +237,7 @@ public class RuleTests {
         int operand2,
         int value
     ) {
-        Rule rule = Rule.makeRule(operator, operand1, operand2);
+        Rule rule = Rule.of(operator, operand1, operand2);
         assertApplyRule(expected, rule, value);
     }
 
@@ -252,7 +252,7 @@ public class RuleTests {
         String opString2,
         int value
     ) {
-        Rule rule = Rule.makeRule(operator, opString1, opString2);
+        Rule rule = Rule.of(operator, opString1, opString2);
         assertApplyRule(expected, rule, value);
     }
 

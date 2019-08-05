@@ -20,7 +20,7 @@ class MetaAddRule extends Rule {
                 newOperand2 += getOperand2();
             }
             newRules[i] =
-                Rule.makeRule(oldRule.getOperator(), newOperand1, newOperand2);
+                Rule.of(oldRule.getOperator(), newOperand1, newOperand2);
         }
         return makeCalculatorGame(
             game.getValue(),

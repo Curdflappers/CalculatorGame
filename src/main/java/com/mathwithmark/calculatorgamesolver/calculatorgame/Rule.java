@@ -26,11 +26,11 @@ public abstract class Rule {
             int arrowIndex = ruleString.indexOf(convertString);
             String op1 = ruleString.substring(0, arrowIndex);
             String op2 = ruleString.substring(arrowIndex + 2);
-            return makeRule(Config.CONVERT, op1, op2);
+            return of(Config.CONVERT, op1, op2);
         }
 
         if (isInverseTenRule) {
-            return makeRule(Config.INVERSE_TEN);
+            return of(Config.INVERSE_TEN);
         }
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
@@ -43,7 +43,7 @@ public abstract class Rule {
             operator = Config.SUBTRACT; // the minus was for subtraction
             // skip the minus sign in the operand
             operand1 = Integer.parseInt(ruleString.substring(1));
-            return makeRule(operator, operand1, operand2);
+            return of(operator, operand1, operand2);
         }
 
         // We have a basic rule of the form "[operator][op1?]"
@@ -51,7 +51,7 @@ public abstract class Rule {
         if (hasOperand) {
             operand1 = Integer.parseInt(matcher.group());
         }
-        return makeRule(operator, operand1, operand2);
+        return of(operator, operand1, operand2);
     }
 
     Rule(int operator) {
@@ -69,12 +69,12 @@ public abstract class Rule {
         setString();
     }
 
-    public static Rule makeRule(int operator) {
-        return makeRule(operator, 0, 0);
+    public static Rule of(int operator) {
+        return of(operator, 0, 0);
     }
 
-    public static Rule makeRule(int operator, int operand1) {
-        return makeRule(operator, operand1, 0);
+    public static Rule of(int operator, int operand1) {
+        return of(operator, operand1, 0);
     }
 
     /**
@@ -85,7 +85,7 @@ public abstract class Rule {
      * @param operand2
      * @return
      */
-    public static Rule makeRule(int operator, int operand1, int operand2) {
+    public static Rule of(int operator, int operand1, int operand2) {
         switch (operator) {
             case Config.ADD:
                 return new AddRule(operand1);
@@ -128,7 +128,7 @@ public abstract class Rule {
         }
     }
 
-    public static Rule makeRule(
+    public static Rule of(
         int operator,
         String opString1,
         String opString2
@@ -136,7 +136,7 @@ public abstract class Rule {
         if (operator == Config.CONVERT) {
             return new ConvertRule(opString1, opString2);
         } else {
-            return makeRule(
+            return of(
                 operator,
                 Integer.parseInt(opString1),
                 Integer.parseInt(opString2)

@@ -34,14 +34,14 @@ public class MainTests {
     @Test
     void gameConstructor() {
         Rule[] validRules = {
-            Rule.makeRule(Config.ADD, 1),
-            Rule.makeRule(Config.SIGN),
-            Rule.makeRule(Config.MULTIPLY, 2),
+            Rule.of(Config.ADD, 1),
+            Rule.of(Config.SIGN),
+            Rule.of(Config.MULTIPLY, 2),
         };
         Rule[] invalidRules = {
-            Rule.makeRule(Config.ADD, 2),
-            Rule.makeRule(Config.REVERSE),
-            Rule.makeRule(Config.MULTIPLY, -2),
+            Rule.of(Config.ADD, 2),
+            Rule.of(Config.REVERSE),
+            Rule.of(Config.MULTIPLY, -2),
         };
         int value = 1, goal = 2, movesLeft = 3;
 
@@ -62,7 +62,7 @@ public class MainTests {
     /** Generates a basic instance of CalculatorGame to stay DRY */
     private CalculatorGame calculatorGame() {
         Rule[] rules = new Rule[] {
-            Rule.makeRule(Config.SIGN)
+            Rule.of(Config.SIGN)
         };
         int value = 1, goal = 2, movesLeft = 3;
         return new CalculatorGame(value, goal, movesLeft, rules, null);
@@ -155,7 +155,7 @@ public class MainTests {
     @Test
     void testMainAgain() {
         int value = 1, goal = 2, moves = 1;
-        Rule rule = Rule.makeRule(Config.ADD, 1);
+        Rule rule = Rule.of(Config.ADD, 1);
         Rule[] rules = {
             rule
         };
