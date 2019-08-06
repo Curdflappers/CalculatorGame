@@ -126,7 +126,7 @@ class RuleSanitationTests {
     @Test
     void rulesExactlyCopied() {
         Rule[] expectedRules = {
-            Rule.makeRule(Config.ADD),
+            Rule.of(Config.ADD),
         };
 
         CalculatorGame level = constructLevelWith(expectedRules);
@@ -136,7 +136,7 @@ class RuleSanitationTests {
 
     @Test
     void noDuplicateSimpleRules() {
-        Rule rule = Rule.makeRule(Config.ADD);
+        Rule rule = Rule.of(Config.ADD);
         Rule[] inputRules = {
             rule, rule,
         };
@@ -151,8 +151,8 @@ class RuleSanitationTests {
 
     @Test
     void noDuplicateStoreOrUpdateStoreRules() {
-        Rule storeRule = Rule.makeRule(Config.STORE);
-        Rule updateStoreRule = Rule.makeRule(Config.UPDATE_STORE);
+        Rule storeRule = Rule.of(Config.STORE);
+        Rule updateStoreRule = Rule.of(Config.UPDATE_STORE);
         Rule[] inputRules = {
             storeRule, storeRule, updateStoreRule, updateStoreRule,
         };
@@ -167,7 +167,7 @@ class RuleSanitationTests {
 
     @Test
     void updateStoreWithoutStoreThrowsIllegalArgumentException() {
-        Rule updateStoreRule = Rule.makeRule(Config.UPDATE_STORE);
+        Rule updateStoreRule = Rule.of(Config.UPDATE_STORE);
         Rule[] inputRules = {
             updateStoreRule,
         };

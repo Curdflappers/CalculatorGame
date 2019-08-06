@@ -92,7 +92,7 @@ public class Helpers {
     public static Rule[] rules(String[] ruleStrings) {
         Rule[] rules = new Rule[ruleStrings.length];
         for (int i = 0; i < ruleStrings.length; i++) {
-            rules[i] = Rule.ruleFromString(ruleStrings[i]);
+            rules[i] = Rule.of(ruleStrings[i]);
         }
         return rules;
     }

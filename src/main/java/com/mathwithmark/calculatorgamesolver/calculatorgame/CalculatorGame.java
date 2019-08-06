@@ -81,7 +81,7 @@ public class CalculatorGame implements Game, Mappable {
             if (newRules.indexOf(rule) != -1) continue; // don't add duplicate
             newRules.add(rule);
             if (rule.getOperator() == Config.STORE) {
-                newRules.add(Rule.makeRule(Config.UPDATE_STORE));
+                newRules.add(Rule.of(Config.UPDATE_STORE));
             }
         }
         return newRules.toArray(new Rule[0]);
@@ -296,7 +296,7 @@ class MappableUtils {
         ArrayList<?> list = (ArrayList<?>) obj;
         Rule[] rules = new Rule[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            rules[i] = Rule.ruleFromString(list.get(i).toString());
+            rules[i] = Rule.of(list.get(i).toString());
         }
         return rules;
     }
