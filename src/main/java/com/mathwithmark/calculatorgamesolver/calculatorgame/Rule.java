@@ -10,6 +10,21 @@ public abstract class Rule {
     private int operator;
     private String string;
 
+    Rule(int operator) {
+        this(operator, 0, 0);
+    }
+
+    Rule(int operator, int operand1) {
+        this(operator, operand1, 0);
+    }
+
+    Rule(int operator, int operand1, int operand2) {
+        setOperator(operator);
+        setOperand1(operand1);
+        setOperand2(operand2);
+        setString();
+    }
+
     public static Rule of(String ruleString) {
         int operator = Config.INVALID, operand1 = 0, operand2 = 0;
         String convertString = Config.OPERATOR_STRINGS[Config.CONVERT];
@@ -52,21 +67,6 @@ public abstract class Rule {
             operand1 = Integer.parseInt(matcher.group());
         }
         return of(operator, operand1, operand2);
-    }
-
-    Rule(int operator) {
-        this(operator, 0, 0);
-    }
-
-    Rule(int operator, int operand1) {
-        this(operator, operand1, 0);
-    }
-
-    Rule(int operator, int operand1, int operand2) {
-        setOperator(operator);
-        setOperand1(operand1);
-        setOperand2(operand2);
-        setString();
     }
 
     public static Rule of(int operator) {
