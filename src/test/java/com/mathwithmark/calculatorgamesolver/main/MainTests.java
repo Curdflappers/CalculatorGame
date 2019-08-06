@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +72,8 @@ public class MainTests {
 
     @Test
     void parseInput() {
+        PrintStream out = System.out;
+        IoUtils.prepareEndToEndTest("");
         int value = 1, goal = 2, movesLeft = 3;
         String[] ruleStrings = {
             Config.ruleString(Config.ADD, 1),
@@ -104,6 +105,8 @@ public class MainTests {
         for (Rule rule : rules) {
             assertTrue(parsedRulesList.contains(rule));
         }
+
+        System.setOut(out);
     }
 
     /**
@@ -152,20 +155,8 @@ public class MainTests {
         return new State(calculatorGame());
     }
 
-    private String transitionString() {
-        return "";
-    }
-
-    void stateConstructorParentGameTransitionString() {
-        State parent = state();
-        State sut = new State(calculatorGame(), parent, transitionString());
-        assertEquals(calculatorGame(), sut);
-        assertEquals(parent, sut.getParent());
-        assertEquals(transitionString(), sut.getTransitionString());
-    }
-
     /** Asserts that the given parameters create the given game in Main.main */
-    void assertCreatesGame(
+    private void assertCreatesGame(
         int value,
         int goal,
         int moves,
@@ -174,26 +165,22 @@ public class MainTests {
     ) {
         String inputString =
             inputString(false, value, goal, moves, ruleStrings, portals);
-        InputStream in = IoUtils.inStream(inputString);
-        InputStream consoleIn = System.in;
         Rule[] inputRules = Helpers.rules(ruleStrings);
         CalculatorGame expectedGame =
             new CalculatorGame(value, goal, moves, inputRules, portals);
 
         // Creates game as user input
-        Scanner scanner = new Scanner(in);
+        Scanner scanner = new Scanner(inputString);
+        IoUtils.prepareEndToEndTest(Config.QUIT);
         Main.getInput(new String[0], scanner); // with no vm args
         assertEquals(expectedGame, Main.getCalculatorGame());
 
         // Creates game as VM args
-        System.setIn(IoUtils.inStream(Config.QUIT));
         Main.main(TestUtils.args(value, goal, moves, ruleStrings, portals));
         assertEquals(expectedGame, Main.getCalculatorGame());
-
-        System.setIn(consoleIn);
     }
 
-    void assertMainAgainWorks(
+    private void assertMainAgainWorks(
         int initialValue,
         int goal,
         int moves,
@@ -217,7 +204,7 @@ public class MainTests {
         System.setOut(out);
     }
 
-    String gamePrompts() {
+    private String gamePrompts() {
         return Config.START_PROMPT
             + Config.GOAL_PROMPT
             + Config.MOVES_PROMPT
@@ -231,7 +218,7 @@ public class MainTests {
      * @param repeated whether this is for a repeat run-through. If true,
      * prefixes string with Config.CONTINUE
      */
-    String inputString(
+    private String inputString(
         boolean repeated,
         int value,
         int goal,
@@ -264,7 +251,7 @@ public class MainTests {
      * Returns the output for the given solution
      * Includes again prompt
      */
-    String solutionOutput(List<String> solution) {
+    private String solutionOutput(List<String> solution) {
         String output = Main.solutionPrintString(solution);
         output += Config.AGAIN_PROMPT;
         return output;
