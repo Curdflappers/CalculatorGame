@@ -59,38 +59,12 @@ public class MainTests {
         }
     }
 
-    /** Generates a basic instance of CalculatorGame to stay DRY */
-    private CalculatorGame calculatorGame() {
-        Rule[] rules = new Rule[] {
-            Rule.of(Config.SIGN)
-        };
-        int value = 1, goal = 2, movesLeft = 3;
-        return new CalculatorGame(value, goal, movesLeft, rules, null);
-    }
-
-    /** Generates a basic instance of CalculatorGame to stay DRY */
-    private State state() {
-        return new State(calculatorGame());
-    }
-
-    private String transitionString() {
-        return "";
-    }
-
     @Test
     void stateConstructorGame() {
         State sut = state();
         assertEquals(calculatorGame(), sut.getGame());
         assertNull(sut.getParent());
         assertNull(sut.getTransitionString());
-    }
-
-    void stateConstructorParentGameTransitionString() {
-        State parent = state();
-        State sut = new State(calculatorGame(), parent, transitionString());
-        assertEquals(calculatorGame(), sut);
-        assertEquals(parent, sut.getParent());
-        assertEquals(transitionString(), sut.getTransitionString());
     }
 
     //////////
@@ -164,9 +138,31 @@ public class MainTests {
         assertMainAgainWorks(value, goal, moves, rules, solution);
     }
 
-    // --------//
-    // Helpers //
-    // --------//
+    /** Generates a basic instance of CalculatorGame to stay DRY */
+    private CalculatorGame calculatorGame() {
+        Rule[] rules = new Rule[] {
+            Rule.of(Config.SIGN)
+        };
+        int value = 1, goal = 2, movesLeft = 3;
+        return new CalculatorGame(value, goal, movesLeft, rules, null);
+    }
+
+    /** Generates a basic instance of CalculatorGame to stay DRY */
+    private State state() {
+        return new State(calculatorGame());
+    }
+
+    private String transitionString() {
+        return "";
+    }
+
+    void stateConstructorParentGameTransitionString() {
+        State parent = state();
+        State sut = new State(calculatorGame(), parent, transitionString());
+        assertEquals(calculatorGame(), sut);
+        assertEquals(parent, sut.getParent());
+        assertEquals(transitionString(), sut.getTransitionString());
+    }
 
     /** Asserts that the given parameters create the given game in Main.main */
     void assertCreatesGame(
