@@ -11,10 +11,14 @@ import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
 import com.mathwithmark.calculatorgamesolver.yaml.Serialize;
 
 public class Developer {
+    static final char QUIT_INPUT = 'q';
+
     private static final String QUIT_PROMPT =
-        "Enter '"
-            + Config.QUIT
-            + "' to quit. Enter anything else to continue: ";
+        String
+            .format(
+                "Enter '%c' to quit. Enter anything else to continue: ",
+                QUIT_INPUT
+            );
     private static final String TEST_CASE_NAME_PROMPT =
         "Filename (\""
             + Config.TEST_CASE_FILE_EXTENSION
@@ -29,6 +33,8 @@ public class Developer {
     private static final String VALID_FILE_EXISTS_RESPONSE_PROMPT =
         "Please enter 'o', 'd', or 's' only (case-insensitive)";
 
+    private static final String GOODBYE_MESSAGE = "Exiting program. Goodbye!";
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         do {
@@ -38,8 +44,18 @@ public class Developer {
             List<String> solution = solutions.get(0);
             Main.printSolutions(solutions);
             promptSaveTestCase(scanner, Main.getCalculatorGame(), solution);
-            System.out.print(QUIT_PROMPT);
-        } while (!scanner.nextLine().equalsIgnoreCase(Config.QUIT));
+        } while (!promptQuit(scanner));
+        System.out.println(GOODBYE_MESSAGE);
+    }
+
+    /**
+     * Prompts the user to quit
+     * @return true iff the user enters the quit input
+     */
+    private static boolean promptQuit(Scanner scanner) {
+        System.out.print(QUIT_PROMPT);
+        String input = scanner.nextLine();
+        return (input.length() == 1 && input.charAt(0) == QUIT_INPUT);
     }
 
     /**
