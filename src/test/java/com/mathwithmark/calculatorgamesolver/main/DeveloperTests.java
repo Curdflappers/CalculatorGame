@@ -40,7 +40,7 @@ public class DeveloperTests {
     String endToEndSaveInput() {
         String input = "";
         input += saveAsNewFileInput();
-        input += Config.QUIT;
+        input += Developer.QUIT_INPUT + "\n";
         return input;
     }
 
