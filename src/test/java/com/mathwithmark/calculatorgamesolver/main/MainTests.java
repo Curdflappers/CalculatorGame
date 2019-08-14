@@ -253,7 +253,7 @@ public class MainTests {
      */
     private String solutionOutput(List<String> solution) {
         String output = Main.solutionPrintString(solution);
-        output += Config.AGAIN_PROMPT;
+        output += Main.AGAIN_PROMPT + " (y/n): ";
         return output;
     }
 }

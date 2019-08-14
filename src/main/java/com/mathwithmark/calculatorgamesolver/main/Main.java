@@ -22,6 +22,8 @@ public class Main {
     private static CalculatorGame calculatorGame;
     private static boolean again;
 
+    static final String AGAIN_PROMPT = "Solve again?";
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         do {
@@ -75,9 +77,7 @@ public class Main {
     }
 
     private static void promptAgain(Scanner scanner) {
-        System.out.print(Config.AGAIN_PROMPT);
-        String answer = scanner.nextLine();
-        again = answer.charAt(0) == 'y';
+        again = IO.nextCharInList(scanner, AGAIN_PROMPT, 'y', 'n') == 'y';
     }
 
     public static CalculatorGame getCalculatorGame() {
@@ -128,7 +128,7 @@ public class Main {
         parseRules(ruleStrings);
 
         System.out.print(Config.PORTALS_PRESENT_PROMPT);
-        portalsPresent = scanner.nextLine().charAt(0) == 'y';
+        portalsPresent = IO.firstCharOfNextLine(scanner) == 'y';
         if (portalsPresent) {
             portals = new int[2];
             System.out.print(Config.LEFT_PORTAL_PROMPT);
