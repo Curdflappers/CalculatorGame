@@ -26,8 +26,6 @@ public class Play {
         "Congratulations, you beat the game!";
     static final String GOODBYE_MESSAGE = "Goodbye!";
     static final String HIGHEST_LEVEL_MESSAGE = "You got to level %d.";
-    private static final String INT_MESSAGE =
-        "Please enter an integer between %d and %d, inclusive";
     private static final String LEVEL_BROKE_MESSAGE =
         "Oops! Applying that rule broke the level.";
     private static final String LEVEL_LOST_MESSAGE = "You lost the level.";
@@ -55,7 +53,7 @@ public class Play {
                 1,
                 NUM_LEVELS
             );
-    static final String NEXT_LEVEL_PROMPT = "Next level? (%c/%c): ";
+    static final String NEXT_LEVEL_PROMPT = "Next level?";
     static final String RULE_PROMPT =
         String
             .format(
@@ -85,39 +83,10 @@ public class Play {
     }
 
     /**
-     * @param prompt display before asking for input
-     * @param min lowest acceptable value
-     * @param max highest acceptable value
-     * @return the number input by the user once it's in range
-     */
-    private static int getNumberInRange(
-        Scanner scanner,
-        String prompt,
-        int min,
-        int max
-    ) {
-        Integer number = null;
-        do {
-            System.out.print(prompt);
-            try {
-                number = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                // swallow exception for now, print message later to stay DRY
-            }
-            if (number != null && number >= min && number <= max) {
-                break;
-            } else {
-                System.out.printf(INT_MESSAGE + "\n", min, max);
-            }
-        } while (true);
-        return number;
-    }
-
-    /**
      * Return the 1-based index of the first level the play wants to play
      */
     private static int getFirstLevel(Scanner scanner) {
-        return getNumberInRange(scanner, FIRST_LEVEL_PROMPT, 1, NUM_LEVELS);
+        return IO.nextIntInRange(scanner, FIRST_LEVEL_PROMPT, 1, NUM_LEVELS);
     }
 
     /**
@@ -222,21 +191,12 @@ public class Play {
      * @return true if the user wants to go to the next level
      */
     private static boolean nextLevel(Scanner scanner) {
-        char inputChar = '\0';
-        while (inputChar != YES_INPUT && inputChar != NO_INPUT) {
-            System.out.printf(NEXT_LEVEL_PROMPT, YES_INPUT, NO_INPUT);
-            String input = scanner.nextLine();
-            if (input.length() != 1) {
-                System.out.println("Please enter exactly one character");
-                continue;
-            }
-            inputChar = Character.toLowerCase(input.charAt(0));
-            if (inputChar != YES_INPUT && inputChar != NO_INPUT) {
-                System.out
-                    .printf("Please enter '%c' or '%c'\n", YES_INPUT, NO_INPUT);
-                continue;
-            }
-        }
-        return inputChar == YES_INPUT;
+        return IO
+            .nextCharInList(
+                scanner,
+                NEXT_LEVEL_PROMPT,
+                YES_INPUT,
+                NO_INPUT
+            ) == YES_INPUT;
     }
 }

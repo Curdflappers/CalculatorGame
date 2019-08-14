@@ -27,11 +27,9 @@ public class Developer {
         "Save test case (y/n): ";
     private static final String FILE_EXISTS_PROMPT =
         "That file already exists. "
-            + "[O]verwrite it? "
             + "Save under [D]ifferent name? "
-            + "[S]kip this test case? (o/d/s): ";
-    private static final String VALID_FILE_EXISTS_RESPONSE_PROMPT =
-        "Please enter 'o', 'd', or 's' only (case-insensitive)";
+            + "[O]verwrite it? "
+            + "[S]kip this test case?";
 
     private static final String GOODBYE_MESSAGE = "Exiting program. Goodbye!";
 
@@ -54,8 +52,7 @@ public class Developer {
      */
     private static boolean promptQuit(Scanner scanner) {
         System.out.print(QUIT_PROMPT);
-        String input = scanner.nextLine();
-        return (input.length() == 1 && input.charAt(0) == QUIT_INPUT);
+        return IO.firstCharOfNextLine(scanner) == QUIT_INPUT;
     }
 
     /**
@@ -70,8 +67,7 @@ public class Developer {
     )
         throws IOException {
         System.out.print(SAVE_TEST_CASE_PROMPT);
-        String saveResponse = scanner.nextLine();
-        if (saveResponse.length() == 0 || saveResponse.charAt(0) == 'y') {
+        if (IO.firstCharOfNextLine(scanner) == 'y') {
             do {
                 System.out.print(TEST_CASE_NAME_PROMPT);
                 String filePath =
@@ -101,40 +97,15 @@ public class Developer {
 
     /**
      * Returns what the save option selected by the user when the file already
-     * exists. 'o' for overwrite, 'd' for save under different name, 's' for
+     * exists. 'd' for save under different name, 'o' for overwrite, 's' for
      * skip this test case.
      *
      * Loops if the user does not enter one of those three options.
      *
-     * Returns 'o', 'd', or 's'
+     * Returns 'd', 'o', or 's'
      */
     private static char promptOverwrite(Scanner scanner) {
-        char firstChar = '\n';
-        while (!validOverwriteResponse(firstChar)) {
-            System.out.print(FILE_EXISTS_PROMPT);
-            String response = scanner.nextLine();
-            if (response.length() == 0) {
-                System.out.println("Please enter a response.");
-                continue;
-            }
-            if (response.length() != 1) {
-                System.out.println("Please enter a one-character response");
-                continue;
-            }
-            firstChar = Character.toLowerCase(response.charAt(0));
-            if (!validOverwriteResponse(firstChar)) {
-                System.out.println(VALID_FILE_EXISTS_RESPONSE_PROMPT);
-            }
-        }
-        return firstChar;
-    }
-
-    /**
-     * Returns whether the given character is a valid response for the overwrite
-     * prompt
-     */
-    private static boolean validOverwriteResponse(char c) {
-        return c == 'o' || c == 'd' || c == 's';
+        return IO.nextCharInList(scanner, FILE_EXISTS_PROMPT, 'd', 'o', 's');
     }
 
     private static boolean fileExists(String pathname) {
