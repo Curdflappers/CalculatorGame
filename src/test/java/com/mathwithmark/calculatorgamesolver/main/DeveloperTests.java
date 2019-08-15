@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Files;
 
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
@@ -64,7 +63,6 @@ public class DeveloperTests {
 
     @Test
     void saveTestCaseHappyPath() {
-        PrintStream out = System.out;
         IoUtils.prepareEndToEndTest(endToEndSaveInput());
 
         try {
@@ -83,7 +81,6 @@ public class DeveloperTests {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.setOut(out);
         }
     }
 }

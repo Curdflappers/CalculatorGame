@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,7 +70,6 @@ public class MainTests {
 
     @Test
     void parseInput() {
-        PrintStream out = System.out;
         IoUtils.prepareEndToEndTest("");
         int value = 1, goal = 2, movesLeft = 3;
         String[] ruleStrings = {
@@ -105,8 +102,6 @@ public class MainTests {
         for (Rule rule : rules) {
             assertTrue(parsedRulesList.contains(rule));
         }
-
-        System.setOut(out);
     }
 
     /**
@@ -188,20 +183,16 @@ public class MainTests {
         List<String> solution
     ) {
         String[] ruleStrings = Helpers.ruleStrings(rules);
-        PrintStream out = System.out;
         String inputString =
             inputString(true, initialValue, goal, moves, ruleStrings, null);
-        ByteArrayOutputStream baos = IoUtils.prepareEndToEndTest(inputString);
+        IoUtils.prepareEndToEndTest(inputString);
         String expectedOutput = solutionOutput(solution);
         expectedOutput += gamePrompts();
         expectedOutput += solutionOutput(solution);
 
         Main.main(TestUtils.args(initialValue, goal, moves, ruleStrings, null));
-        String actualOutput = IoUtils.stringFromBaos(baos);
 
-        assertEquals(expectedOutput, actualOutput);
-
-        System.setOut(out);
+        assertEquals(expectedOutput, IoUtils.output());
     }
 
     private String gamePrompts() {

@@ -2,8 +2,6 @@ package com.mathwithmark.calculatorgamesolver.main;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.List;
 
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Helpers;
@@ -14,28 +12,19 @@ import org.junit.jupiter.api.Test;
 public class PlayTests {
     @Test
     void playAllLevels() {
-        PrintStream out = System.out;
-        ByteArrayOutputStream baos =
-            IoUtils.prepareEndToEndTest(playAllLevelsInput());
-        try {
-            Play.main(new String[0]);
-        } finally {
-            System.setOut(out);
-        }
+        IoUtils.prepareEndToEndTest(playAllLevelsInput());
 
-        assertTrue(baos.toString().contains(Play.GAME_WON_MESSAGE));
+        Play.main(new String[0]);
+
+        assertTrue(IoUtils.output().contains(Play.GAME_WON_MESSAGE));
     }
 
     @Test
     void loadsAndQuits() {
-        PrintStream out = System.out;
         IoUtils.prepareEndToEndTest(quitGameFromLevelInput());
 
-        try {
-            Play.main(new String[0]);
-        } finally {
-            System.setOut(out);
-        }
+        // if this does not throw an exception or infinite loop, the test passes
+        Play.main(new String[0]);
     }
 
     /**
