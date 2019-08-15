@@ -2,7 +2,6 @@ package com.mathwithmark.calculatorgamesolver.main;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
@@ -10,9 +9,10 @@ import java.nio.charset.StandardCharsets;
  * Contains utility functions for input and output manipulation
  */
 public class IoUtils {
-    /** Creates an input stream from the given input string */
-    static InputStream inStream(String inputString) {
-        return new ByteArrayInputStream(inputString.getBytes());
+    private static ByteArrayOutputStream baos = null;
+
+    static String output() {
+        return baos.toString();
     }
 
     /**
@@ -21,12 +21,11 @@ public class IoUtils {
      * @param input the new input String
      * @return the BAOS to which output is printed
      */
-    static ByteArrayOutputStream prepareEndToEndTest(String input) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    static void prepareEndToEndTest(String input) {
+        baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
-        System.setIn(inStream(input));
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
         System.setOut(ps);
-        return baos;
     }
 
     /**
