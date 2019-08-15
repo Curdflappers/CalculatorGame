@@ -3,7 +3,6 @@ package com.mathwithmark.calculatorgamesolver.main;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Contains utility functions for input and output manipulation
@@ -26,16 +25,5 @@ public class IoUtils {
         PrintStream ps = new PrintStream(baos);
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         System.setOut(ps);
-    }
-
-    /**
-     * Returns the string constructed from the given baos
-     *
-     * Uses UTF-8 and removes all '\r' characters
-     */
-    static String stringFromBaos(ByteArrayOutputStream baos) {
-        String rawOutput =
-            new String(baos.toByteArray(), StandardCharsets.UTF_8);
-        return rawOutput.replace("\r", "");
     }
 }
