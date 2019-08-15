@@ -290,17 +290,4 @@ public class RuleTests {
         StoreRule rule = new StoreRule(operand1);
         assertApplyRule(newValue, rule, gameValue);
     }
-
-    ///////////
-    // OTHER //
-    ///////////
-
-    @Test
-    void shiftRecognizesZero() {
-        int[] zeroDigits = Helpers.digits(0);
-
-        assertEquals(1, zeroDigits.length);
-        assertEquals(0, zeroDigits[0]);
-    }
-
 }

@@ -1,5 +1,8 @@
 package com.mathwithmark.calculatorgamesolver.calculatorgame;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -98,41 +101,37 @@ public abstract class Rule {
             case Config.PAD:
                 return new PadRule(operand1);
             case Config.SIGN:
-                return new SignRule();
+                return new ZeroRule(Config.SIGN);
             case Config.DELETE:
-                return new DeleteRule();
+                return new ZeroRule(Config.DELETE);
             case Config.CONVERT:
                 return new ConvertRule(operand1, operand2);
             case Config.POWER:
                 return new PowerRule(operand1);
             case Config.REVERSE:
-                return new ReverseRule();
+                return new ZeroRule(Config.REVERSE);
             case Config.SUM:
-                return new SumRule();
+                return new ZeroRule(Config.SUM);
             case Config.SHIFT_RIGHT:
-                return new ShiftRightRule();
+                return new ZeroRule(Config.SHIFT_RIGHT);
             case Config.SHIFT_LEFT:
-                return new ShiftLeftRule();
+                return new ZeroRule(Config.SHIFT_LEFT);
             case Config.MIRROR:
-                return new MirrorRule();
+                return new ZeroRule(Config.MIRROR);
             case Config.META_ADD:
                 return new MetaAddRule(operand1);
             case Config.STORE:
                 return new StoreRule();
             case Config.INVERSE_TEN:
-                return new InverseTenRule();
+                return new ZeroRule(Config.INVERSE_TEN);
             case Config.UPDATE_STORE:
-                return new UpdateStoreRule();
+                return new ZeroRule(Config.UPDATE_STORE);
             default:
                 throw new RuntimeException("invalid operator: " + operator);
         }
     }
 
-    public static Rule of(
-        int operator,
-        String opString1,
-        String opString2
-    ) {
+    public static Rule of(int operator, String opString1, String opString2) {
         if (operator == Config.CONVERT) {
             return new ConvertRule(opString1, opString2);
         } else {
@@ -281,5 +280,271 @@ public abstract class Rule {
                 && otherRule.getOperand2() == getOperand2();
         }
         return false;
+    }
+}
+
+class ZeroRule extends Rule {
+    /**
+     * The application functions for zero rules. Access via getApplyFuncs() as
+     * it is a singleton
+     */
+    private static Map<
+        Integer,
+        BiFunction<CalculatorGame, ZeroRule, CalculatorGame>> applyFuncs = null;
+
+    private BiFunction<CalculatorGame, ZeroRule, CalculatorGame> applyFunc;
+
+    /**
+     * Creates a new ZeroRule from the given operator
+     * @param operator must be an operator that corresponds to a rule with zero
+     * operands
+     */
+    ZeroRule(int operator) {
+        super(operator);
+        applyFunc = getApplyFuncs().get(operator);
+    }
+
+    @Override
+    public CalculatorGame apply(CalculatorGame game) {
+        return applyFunc.apply(game, this);
+    }
+
+    /**
+     * @return the apply functions for ZeroRule instances
+     */
+    private static
+        Map<Integer, BiFunction<CalculatorGame, ZeroRule, CalculatorGame>>
+        getApplyFuncs() {
+
+        if (applyFuncs != null) return applyFuncs;
+        applyFuncs = new HashMap<>();
+        applyFuncs.put(Config.SIGN, (g, r) -> {
+            return makeCalculatorGame(
+                -g.getValue(),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(Config.DELETE, (g, r) -> {
+            String valString = String.valueOf((int) g.getValue());
+            valString = valString.substring(0, valString.length() - 1);
+            if (valString.length() == 0 || valString.equals("-"))
+                valString = "0";
+            return makeCalculatorGame(
+                valString,
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(Config.REVERSE, (g, r) -> {
+            boolean negative = g.getValue() < 0;
+            String valString = String.valueOf((int) g.getValue());
+            if (negative) {
+                valString = valString.substring(1); // shave off minus sign
+            }
+            valString = new StringBuilder(valString).reverse().toString();
+            valString = negative ? "-" + valString : valString; // fix the sign
+            return makeCalculatorGame(
+                valString,
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(Config.SUM, (g, r) -> {
+            int value = g.getValue();
+            int sum = 0;
+            while (value != 0) {
+                sum += value % 10;
+                value /= 10;
+            }
+            return makeCalculatorGame(
+                sum,
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(Config.SHIFT_RIGHT, (g, r) -> {
+            return makeCalculatorGame(
+                RuleUtils.shiftRight(g.getValue()),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(Config.SHIFT_LEFT, (g, r) -> {
+            return makeCalculatorGame(
+                RuleUtils.shiftLeft(g.getValue()),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(Config.MIRROR, (g, r) -> {
+            int value = g.getValue();
+            boolean negative = value < 0;
+            String valString = String.valueOf((int) value);
+            if (negative) {
+                valString = valString.substring(1); // shave off minus sign
+            }
+            // add reversed string to end of current string
+            valString += new StringBuilder(valString).reverse().toString();
+            valString = negative ? "-" + valString : valString;
+            return makeCalculatorGame(
+                valString,
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(Config.INVERSE_TEN, (g, r) -> {
+            char[] valCharArr =
+                String.valueOf((int) g.getValue()).toCharArray();
+
+            for (int i = 0; i < valCharArr.length; i++) {
+                char element = valCharArr[i];
+                if (Character.isDigit(element)) { // why we need chars, not ints
+                    int digit = element - '0'; // convert to digit
+                    digit = (10 - digit) % 10;
+                    // assign new value as character into array
+                    valCharArr[i] = (char) (digit + '0');
+                }
+            }
+
+            return makeCalculatorGame(
+                new String(valCharArr),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(Config.UPDATE_STORE, (g, r) -> {
+            StoreRule updatedStoreRule = new StoreRule(g.getValue());
+            Rule[] newRules = g.getRules();
+            int storeRuleIndex = RuleUtils.getStoreRuleIndex(g.getRules());
+            newRules[storeRuleIndex] = updatedStoreRule;
+            return makeCalculatorGame(
+                g.getValue(),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                newRules,
+                g.getPortals()
+            );
+        });
+        return applyFuncs;
+    }
+}
+
+class RuleUtils {
+    /**
+     * @return the index of the Store rule of this game.
+     * @throws IllegalArgumentException if there isn't a store rule
+     */
+    static int getStoreRuleIndex(Rule[] rules) {
+        for (int i = 0; i < rules.length; i++) {
+            if (rules[i].getOperator() == Config.STORE) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException(
+            "The given array must have a Store rule"
+        );
+    }
+
+    /**
+     * Shifts each digit in the value one left.
+     * f(1234) -> 2341.
+     * PRECONDITION: no chance of integer overflow (i.e. not shifting >=
+     * 1,220,000,000)
+     * @return the shifted value
+     */
+    static int shiftLeft(int value) {
+        return shift(value, true);
+    }
+
+    /**
+     * Shifts each digit in the value one right.
+     * f(1234) -> 4123.
+     * PRECONDITION: no chance of integer overflow (i.e. not shifting >=
+     * 1,000,000,003)
+     * @return the shifted value
+     */
+    static int shiftRight(int value) {
+        return shift(value, false);
+    }
+
+    /**
+     * Returns the value represented by the given array.
+     * f([1, 2, 3, 4]) -> 1234.
+     * f([]) -> undefined.
+     * f(null) -> undefined.
+     * PRECONDITION: no chance of integer overflow
+     * @param digits the array to evaluate
+     */
+    static int valueOf(int[] digits) {
+        int value = 0;
+
+        for (int i = 0; i < digits.length; i++) {
+            value *= 10;
+            value += digits[i];
+        }
+
+        return value;
+    }
+
+    /**
+     * Returns an array of digits for this value
+     * f(1234) -> [1, 2, 3, 4].
+     * f(-2) -> [2].
+     * f(0) -> [0].
+     *
+     * @return an array representation of the absolute value of the given value
+     */
+    private static int[] digits(int value) {
+        value = Math.abs(value); // only interested in its digits, not its sign
+        int numDigits = Helpers.numDigits(value);
+        int[] digits = new int[numDigits];
+
+        for (int i = numDigits - 1; i >= 0; i--) { // start at the end, go back
+            digits[i] = value % 10;
+            value /= 10;
+        }
+
+        return digits;
+    }
+
+    private static int shift(int value, boolean left) {
+        boolean positive = value >= 0;
+        int[] digits = digits(value);
+
+        // shift the digits
+        if (left) {
+            int first = digits[0];
+            for (int i = 0; i < digits.length - 1; i++) {
+                digits[i] = digits[i + 1];
+            }
+            digits[digits.length - 1] = first; // and the first shall be last
+        } else {
+            int last = digits[digits.length - 1];
+            for (int i = digits.length - 1; i > 0; i--) {
+                digits[i] = digits[i - 1];
+            }
+            digits[0] = last; // and the last shall be first
+        }
+
+        int newValue = RuleUtils.valueOf(digits);
+        return positive ? newValue : -newValue;
+
     }
 }
