@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.mathwithmark.calculatorgamesolver.brutesolver.Game;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
-import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
 import com.mathwithmark.calculatorgamesolver.yaml.Mappable;
 
 import org.yaml.snakeyaml.Yaml;
@@ -80,8 +79,8 @@ public class CalculatorGame implements Game, Mappable {
             Rule rule = rules[i];
             if (newRules.indexOf(rule) != -1) continue; // don't add duplicate
             newRules.add(rule);
-            if (rule.getOperator() == Config.STORE) {
-                newRules.add(Rule.of(Config.UPDATE_STORE));
+            if (rule.getOperator() == Rule.STORE) {
+                newRules.add(Rule.of(Rule.UPDATE_STORE));
             }
         }
         return newRules.toArray(new Rule[0]);
@@ -273,7 +272,7 @@ class MappableUtils {
      * @return true unless the rule is an Update Store rule
      */
     private static boolean isExternal(Rule rule) {
-        return rule.getOperator() != Config.UPDATE_STORE;
+        return rule.getOperator() != Rule.UPDATE_STORE;
     }
 
     /**
@@ -385,8 +384,8 @@ class ValidateUtils {
         throws IllegalArgumentException {
 
         if (
-            rulesContains(rules, Config.UPDATE_STORE)
-                && !rulesContains(rules, Config.STORE)
+            rulesContains(rules, Rule.UPDATE_STORE)
+                && !rulesContains(rules, Rule.STORE)
         ) {
             throwException(
                 "Illegal rules: '%s'. "

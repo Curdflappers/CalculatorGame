@@ -15,6 +15,6 @@ class PadRule extends Rule {
     }
 
     PadRule(int operand1) {
-        super(Config.PAD, operand1);
+        super(PAD, operand1);
     }
 }

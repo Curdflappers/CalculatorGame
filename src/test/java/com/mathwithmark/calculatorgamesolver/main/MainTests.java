@@ -31,14 +31,14 @@ public class MainTests {
     @Test
     void gameConstructor() {
         Rule[] validRules = {
-            Rule.of(Config.ADD, 1),
-            Rule.of(Config.SIGN),
-            Rule.of(Config.MULTIPLY, 2),
+            Rule.of(Rule.ADD, 1),
+            Rule.of(Rule.SIGN),
+            Rule.of(Rule.MULTIPLY, 2),
         };
         Rule[] invalidRules = {
-            Rule.of(Config.ADD, 2),
-            Rule.of(Config.REVERSE),
-            Rule.of(Config.MULTIPLY, -2),
+            Rule.of(Rule.ADD, 2),
+            Rule.of(Rule.REVERSE),
+            Rule.of(Rule.MULTIPLY, -2),
         };
         int value = 1, goal = 2, movesLeft = 3;
 
@@ -73,9 +73,9 @@ public class MainTests {
         IoUtils.prepareEndToEndTest("");
         int value = 1, goal = 2, movesLeft = 3;
         String[] ruleStrings = {
-            Config.ruleString(Config.ADD, 1),
-            Config.ruleString(Config.SUBTRACT, 2),
-            Config.ruleString(Config.MULTIPLY, -3),
+            Config.ruleString(Rule.ADD, 1),
+            Config.ruleString(Rule.SUBTRACT, 2),
+            Config.ruleString(Rule.MULTIPLY, -3),
         };
         String rulesString = Helpers.combineStrings(ruleStrings, "\n") + "\n";
         Rule[] rules = Helpers.rules(ruleStrings);
@@ -111,9 +111,9 @@ public class MainTests {
     void mainCreatesGame() {
         int value = 1, goal = 2, moves = 3;
         String[] ruleStrings = {
-            Config.ruleString(Config.ADD, 1),
-            Config.ruleString(Config.SUBTRACT, 2),
-            Config.ruleString(Config.MULTIPLY, 3),
+            Config.ruleString(Rule.ADD, 1),
+            Config.ruleString(Rule.SUBTRACT, 2),
+            Config.ruleString(Rule.MULTIPLY, 3),
         };
         int[] portals = {
             1, 0
@@ -127,7 +127,7 @@ public class MainTests {
     @Test
     void testMainAgain() {
         int value = 1, goal = 2, moves = 1;
-        Rule rule = Rule.of(Config.ADD, 1);
+        Rule rule = Rule.of(Rule.ADD, 1);
         Rule[] rules = {
             rule
         };
@@ -139,7 +139,7 @@ public class MainTests {
     /** Generates a basic instance of CalculatorGame to stay DRY */
     private CalculatorGame calculatorGame() {
         Rule[] rules = new Rule[] {
-            Rule.of(Config.SIGN)
+            Rule.of(Rule.SIGN)
         };
         int value = 1, goal = 2, movesLeft = 3;
         return new CalculatorGame(value, goal, movesLeft, rules, null);

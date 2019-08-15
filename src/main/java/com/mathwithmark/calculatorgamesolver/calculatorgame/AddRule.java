@@ -13,6 +13,6 @@ class AddRule extends Rule {
     }
 
     AddRule(int operand1) {
-        super(Config.ADD, operand1);
+        super(ADD, operand1);
     }
 }

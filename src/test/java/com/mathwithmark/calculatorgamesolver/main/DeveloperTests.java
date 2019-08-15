@@ -8,6 +8,7 @@ import java.nio.file.Files;
 
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.LevelTests;
+import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +21,7 @@ public class DeveloperTests {
         int value = 1;
         int goal = 2;
         int moves = 1;
-        String[] ruleStrings = {
-            Config.ruleString(Config.ADD, 1)
-        };
+        String[] ruleStrings = Config.ruleString(Rule.ADD, 1).split(" ");
         int[] portals = null;
         return TestUtils.args(value, goal, moves, ruleStrings, portals);
     }

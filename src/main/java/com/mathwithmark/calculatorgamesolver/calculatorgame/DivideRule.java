@@ -17,6 +17,6 @@ class DivideRule extends Rule {
     }
 
     DivideRule(int operand1) {
-        super(Config.DIVIDE, operand1);
+        super(DIVIDE, operand1);
     }
 }

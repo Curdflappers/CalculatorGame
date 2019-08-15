@@ -13,6 +13,6 @@ class PowerRule extends Rule {
     }
 
     PowerRule(int operand1) {
-        super(Config.POWER, operand1);
+        super(POWER, operand1);
     }
 }

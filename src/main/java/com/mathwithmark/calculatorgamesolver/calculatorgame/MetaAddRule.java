@@ -15,7 +15,7 @@ class MetaAddRule extends Rule {
             newOperand1 = oldRule.getOperand1();
             newOperand2 = oldRule.getOperand2();
             // Changes the operands of all non-"Meta add" rules
-            if (oldRule.getOperator() != Config.META_ADD) {
+            if (oldRule.getOperator() != META_ADD) {
                 newOperand1 += getOperand1();
                 newOperand2 += getOperand2();
             }
@@ -32,6 +32,6 @@ class MetaAddRule extends Rule {
     }
 
     MetaAddRule(int operand1) {
-        super(Config.META_ADD, operand1);
+        super(META_ADD, operand1);
     }
 }

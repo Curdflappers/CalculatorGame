@@ -13,6 +13,6 @@ class MultiplyRule extends Rule {
     }
 
     MultiplyRule(int operand1) {
-        super(Config.MULTIPLY, operand1);
+        super(MULTIPLY, operand1);
     }
 }

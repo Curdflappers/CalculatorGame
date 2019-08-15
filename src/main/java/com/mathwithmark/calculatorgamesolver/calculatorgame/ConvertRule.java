@@ -19,7 +19,7 @@ class ConvertRule extends Rule {
     }
 
     ConvertRule(int operand1, int operand2) {
-        super(Config.CONVERT, operand1, operand2);
+        super(CONVERT, operand1, operand2);
         OP_STRING_1 = String.valueOf(getOperand1());
         OP_STRING_2 = String.valueOf(getOperand2());
     }
@@ -33,7 +33,7 @@ class ConvertRule extends Rule {
      */
     ConvertRule(String opString1, String opString2) {
         super(
-            Config.CONVERT,
+            CONVERT,
             Integer.parseInt(opString1),
             Integer.parseInt(opString2)
         );
@@ -44,7 +44,7 @@ class ConvertRule extends Rule {
     public String toString() {
         String s = "";
         s += OP_STRING_1;
-        s += Config.OPERATOR_STRINGS[Config.CONVERT];
+        s += Config.OPERATOR_STRINGS[CONVERT];
         s += OP_STRING_2;
         return s;
     }

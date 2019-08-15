@@ -25,12 +25,12 @@ class StoreRule extends Rule {
     }
 
     StoreRule() {
-        super(Config.STORE);
+        super(STORE);
         INITIALIZED = false;
     }
 
     StoreRule(int value) {
-        super(Config.STORE, value);
+        super(STORE, value);
         INITIALIZED = true;
     }
 

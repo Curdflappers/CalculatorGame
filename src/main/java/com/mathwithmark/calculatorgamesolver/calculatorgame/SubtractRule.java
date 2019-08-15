@@ -13,6 +13,6 @@ class SubtractRule extends Rule {
     }
 
     SubtractRule(int operand1) {
-        super(Config.SUBTRACT, operand1);
+        super(SUBTRACT, operand1);
     }
 }

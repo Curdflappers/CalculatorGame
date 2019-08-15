@@ -7,6 +7,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Rule {
+    // Operator keys for the applyFuncs maps in subclasses. Must all be unique
+    static final int INVALID = -1;
+    public static final int ADD = 0;
+    public static final int SUBTRACT = 1;
+    public static final int MULTIPLY = 2;
+    public static final int DIVIDE = 3;
+    public static final int PAD = 4;
+    public static final int SIGN = 5;
+    public static final int DELETE = 6;
+    public static final int CONVERT = 7;
+    public static final int POWER = 8;
+    public static final int REVERSE = 9;
+    public static final int SUM = 10;
+    public static final int SHIFT_RIGHT = 11;
+    public static final int SHIFT_LEFT = 12;
+    public static final int MIRROR = 13;
+    public static final int META_ADD = 14;
+    public static final int STORE = 15;
+    public static final int INVERSE_TEN = 16;
+    static final int UPDATE_STORE = 17;
+
     private int operand1;
     private int operand2; // for convert op1 to op2 rules
     /** The index associated with the operator */
@@ -29,9 +50,9 @@ public abstract class Rule {
     }
 
     public static Rule of(String ruleString) {
-        int operator = Config.INVALID, operand1 = 0, operand2 = 0;
-        String convertString = Config.OPERATOR_STRINGS[Config.CONVERT];
-        String inverseTenString = Config.OPERATOR_STRINGS[Config.INVERSE_TEN];
+        int operator = INVALID, operand1 = 0, operand2 = 0;
+        String convertString = Config.OPERATOR_STRINGS[CONVERT];
+        String inverseTenString = Config.OPERATOR_STRINGS[INVERSE_TEN];
         Matcher convertMatcher =
             Pattern
                 .compile("\\d+" + convertString + "\\d+")
@@ -44,11 +65,11 @@ public abstract class Rule {
             int arrowIndex = ruleString.indexOf(convertString);
             String op1 = ruleString.substring(0, arrowIndex);
             String op2 = ruleString.substring(arrowIndex + 2);
-            return of(Config.CONVERT, op1, op2);
+            return of(CONVERT, op1, op2);
         }
 
         if (isInverseTenRule) {
-            return of(Config.INVERSE_TEN);
+            return of(INVERSE_TEN);
         }
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
@@ -58,7 +79,7 @@ public abstract class Rule {
         String operatorString =
             hasOperand ? ruleString.substring(0, matcher.start()) : ruleString;
         if (operatorString.equals("") && ruleString.charAt(0) == '-') {
-            operator = Config.SUBTRACT; // the minus was for subtraction
+            operator = SUBTRACT; // the minus was for subtraction
             // skip the minus sign in the operand
             operand1 = Integer.parseInt(ruleString.substring(1));
             return of(operator, operand1, operand2);
@@ -90,49 +111,49 @@ public abstract class Rule {
      */
     public static Rule of(int operator, int operand1, int operand2) {
         switch (operator) {
-            case Config.ADD:
+            case ADD:
                 return new AddRule(operand1);
-            case Config.SUBTRACT:
+            case SUBTRACT:
                 return new SubtractRule(operand1);
-            case Config.MULTIPLY:
+            case MULTIPLY:
                 return new MultiplyRule(operand1);
-            case Config.DIVIDE:
+            case DIVIDE:
                 return new DivideRule(operand1);
-            case Config.PAD:
+            case PAD:
                 return new PadRule(operand1);
-            case Config.SIGN:
-                return new ZeroRule(Config.SIGN);
-            case Config.DELETE:
-                return new ZeroRule(Config.DELETE);
-            case Config.CONVERT:
+            case SIGN:
+                return new ZeroRule(SIGN);
+            case DELETE:
+                return new ZeroRule(DELETE);
+            case CONVERT:
                 return new ConvertRule(operand1, operand2);
-            case Config.POWER:
+            case POWER:
                 return new PowerRule(operand1);
-            case Config.REVERSE:
-                return new ZeroRule(Config.REVERSE);
-            case Config.SUM:
-                return new ZeroRule(Config.SUM);
-            case Config.SHIFT_RIGHT:
-                return new ZeroRule(Config.SHIFT_RIGHT);
-            case Config.SHIFT_LEFT:
-                return new ZeroRule(Config.SHIFT_LEFT);
-            case Config.MIRROR:
-                return new ZeroRule(Config.MIRROR);
-            case Config.META_ADD:
+            case REVERSE:
+                return new ZeroRule(REVERSE);
+            case SUM:
+                return new ZeroRule(SUM);
+            case SHIFT_RIGHT:
+                return new ZeroRule(SHIFT_RIGHT);
+            case SHIFT_LEFT:
+                return new ZeroRule(SHIFT_LEFT);
+            case MIRROR:
+                return new ZeroRule(MIRROR);
+            case META_ADD:
                 return new MetaAddRule(operand1);
-            case Config.STORE:
+            case STORE:
                 return new StoreRule();
-            case Config.INVERSE_TEN:
-                return new ZeroRule(Config.INVERSE_TEN);
-            case Config.UPDATE_STORE:
-                return new ZeroRule(Config.UPDATE_STORE);
+            case INVERSE_TEN:
+                return new ZeroRule(INVERSE_TEN);
+            case UPDATE_STORE:
+                return new ZeroRule(UPDATE_STORE);
             default:
                 throw new RuntimeException("invalid operator: " + operator);
         }
     }
 
     public static Rule of(int operator, String opString1, String opString2) {
-        if (operator == Config.CONVERT) {
+        if (operator == CONVERT) {
             return new ConvertRule(opString1, opString2);
         } else {
             return of(
@@ -318,7 +339,7 @@ class ZeroRule extends Rule {
 
         if (applyFuncs != null) return applyFuncs;
         applyFuncs = new HashMap<>();
-        applyFuncs.put(Config.SIGN, (g, r) -> {
+        applyFuncs.put(SIGN, (g, r) -> {
             return makeCalculatorGame(
                 -g.getValue(),
                 g.getGoal(),
@@ -327,7 +348,7 @@ class ZeroRule extends Rule {
                 g.getPortals()
             );
         });
-        applyFuncs.put(Config.DELETE, (g, r) -> {
+        applyFuncs.put(DELETE, (g, r) -> {
             String valString = String.valueOf((int) g.getValue());
             valString = valString.substring(0, valString.length() - 1);
             if (valString.length() == 0 || valString.equals("-"))
@@ -340,7 +361,7 @@ class ZeroRule extends Rule {
                 g.getPortals()
             );
         });
-        applyFuncs.put(Config.REVERSE, (g, r) -> {
+        applyFuncs.put(REVERSE, (g, r) -> {
             boolean negative = g.getValue() < 0;
             String valString = String.valueOf((int) g.getValue());
             if (negative) {
@@ -356,7 +377,7 @@ class ZeroRule extends Rule {
                 g.getPortals()
             );
         });
-        applyFuncs.put(Config.SUM, (g, r) -> {
+        applyFuncs.put(SUM, (g, r) -> {
             int value = g.getValue();
             int sum = 0;
             while (value != 0) {
@@ -371,7 +392,7 @@ class ZeroRule extends Rule {
                 g.getPortals()
             );
         });
-        applyFuncs.put(Config.SHIFT_RIGHT, (g, r) -> {
+        applyFuncs.put(SHIFT_RIGHT, (g, r) -> {
             return makeCalculatorGame(
                 RuleUtils.shiftRight(g.getValue()),
                 g.getGoal(),
@@ -380,7 +401,7 @@ class ZeroRule extends Rule {
                 g.getPortals()
             );
         });
-        applyFuncs.put(Config.SHIFT_LEFT, (g, r) -> {
+        applyFuncs.put(SHIFT_LEFT, (g, r) -> {
             return makeCalculatorGame(
                 RuleUtils.shiftLeft(g.getValue()),
                 g.getGoal(),
@@ -389,7 +410,7 @@ class ZeroRule extends Rule {
                 g.getPortals()
             );
         });
-        applyFuncs.put(Config.MIRROR, (g, r) -> {
+        applyFuncs.put(MIRROR, (g, r) -> {
             int value = g.getValue();
             boolean negative = value < 0;
             String valString = String.valueOf((int) value);
@@ -407,7 +428,7 @@ class ZeroRule extends Rule {
                 g.getPortals()
             );
         });
-        applyFuncs.put(Config.INVERSE_TEN, (g, r) -> {
+        applyFuncs.put(INVERSE_TEN, (g, r) -> {
             char[] valCharArr =
                 String.valueOf((int) g.getValue()).toCharArray();
 
@@ -429,7 +450,7 @@ class ZeroRule extends Rule {
                 g.getPortals()
             );
         });
-        applyFuncs.put(Config.UPDATE_STORE, (g, r) -> {
+        applyFuncs.put(UPDATE_STORE, (g, r) -> {
             StoreRule updatedStoreRule = new StoreRule(g.getValue());
             Rule[] newRules = g.getRules();
             int storeRuleIndex = RuleUtils.getStoreRuleIndex(g.getRules());
@@ -453,7 +474,7 @@ class RuleUtils {
      */
     static int getStoreRuleIndex(Rule[] rules) {
         for (int i = 0; i < rules.length; i++) {
-            if (rules[i].getOperator() == Config.STORE) {
+            if (rules[i].getOperator() == Rule.STORE) {
                 return i;
             }
         }
