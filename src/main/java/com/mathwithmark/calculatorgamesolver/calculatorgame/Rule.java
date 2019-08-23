@@ -252,7 +252,7 @@ class ZeroRule extends Rule {
      */
     ZeroRule(int operator) {
         super(operator);
-        applyFunc = getApplyFuncs().get(operator);
+        applyFunc = getApplyFunctions().get(operator);
     }
 
     @Override
@@ -265,7 +265,7 @@ class ZeroRule extends Rule {
      */
     private static
         Map<Integer, BiFunction<CalculatorGame, ZeroRule, CalculatorGame>>
-        getApplyFuncs() {
+        getApplyFunctions() {
 
         if (applyFuncs != null) return applyFuncs;
         applyFuncs = new HashMap<>();
@@ -408,7 +408,7 @@ class OneRule extends Rule {
     OneRule(int operator, int operand) {
         super(operator);
         OPERAND = operand;
-        applyFunc = getApplyFuncs().get(operator);
+        applyFunc = getApplyFunctions().get(operator);
     }
 
     public int getOperand() {
@@ -435,7 +435,7 @@ class OneRule extends Rule {
 
     private static
         Map<Integer, BiFunction<CalculatorGame, OneRule, CalculatorGame>>
-        getApplyFuncs() {
+        getApplyFunctions() {
 
         if (applyFuncs != null) return applyFuncs;
         applyFuncs = new HashMap<>();
