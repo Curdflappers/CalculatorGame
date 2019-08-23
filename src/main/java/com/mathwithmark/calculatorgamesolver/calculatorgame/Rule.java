@@ -610,7 +610,9 @@ class ConvertRule extends Rule {
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof ConvertRule)) return false;
-        return toString().equals(other.toString());
+        ConvertRule otherConvertRule = (ConvertRule) other;
+        return OP_STRING_1.equals(otherConvertRule.OP_STRING_1)
+            && OP_STRING_2.equals(otherConvertRule.OP_STRING_2);
     }
 }
 
