@@ -112,15 +112,15 @@ public abstract class Rule {
     public static Rule of(int operator, int operand1, int operand2) {
         switch (operator) {
             case ADD:
-                return new AddRule(operand1);
+                return new OneRule(ADD, operand1);
             case SUBTRACT:
-                return new SubtractRule(operand1);
+                return new OneRule(SUBTRACT, operand1);
             case MULTIPLY:
-                return new MultiplyRule(operand1);
+                return new OneRule(MULTIPLY, operand1);
             case DIVIDE:
-                return new DivideRule(operand1);
+                return new OneRule(DIVIDE, operand1);
             case PAD:
-                return new PadRule(operand1);
+                return new OneRule(PAD, operand1);
             case SIGN:
                 return new ZeroRule(SIGN);
             case DELETE:
@@ -128,7 +128,7 @@ public abstract class Rule {
             case CONVERT:
                 return new ConvertRule(operand1, operand2);
             case POWER:
-                return new PowerRule(operand1);
+                return new OneRule(POWER, operand1);
             case REVERSE:
                 return new ZeroRule(REVERSE);
             case SUM:
@@ -140,7 +140,7 @@ public abstract class Rule {
             case MIRROR:
                 return new ZeroRule(MIRROR);
             case META_ADD:
-                return new MetaAddRule(operand1);
+                return new OneRule(META_ADD, operand1);
             case STORE:
                 return new StoreRule();
             case INVERSE_TEN:
@@ -464,6 +464,212 @@ class ZeroRule extends Rule {
             );
         });
         return applyFuncs;
+    }
+}
+
+class OneRule extends Rule {
+    private static Map<
+        Integer,
+        BiFunction<CalculatorGame, OneRule, CalculatorGame>> applyFuncs = null;
+
+    private BiFunction<CalculatorGame, OneRule, CalculatorGame> applyFunc;
+
+    OneRule(int operator, int operand) {
+        super(operator, operand);
+        applyFunc = getApplyFuncs().get(operator);
+    }
+
+    public int getOperand() {
+        return getOperand1();
+    }
+
+    @Override
+    public CalculatorGame apply(CalculatorGame game) {
+        return applyFunc.apply(game, this);
+    }
+
+    private static
+        Map<Integer, BiFunction<CalculatorGame, OneRule, CalculatorGame>>
+        getApplyFuncs() {
+
+        if (applyFuncs != null) return applyFuncs;
+        applyFuncs = new HashMap<>();
+        applyFuncs.put(ADD, (g, r) -> {
+            return makeCalculatorGame(
+                g.getValue() + r.getOperand(),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(SUBTRACT, (g, r) -> {
+            return makeCalculatorGame(
+                g.getValue() - r.getOperand(),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(MULTIPLY, (g, r) -> {
+            return makeCalculatorGame(
+                g.getValue() * r.getOperand(),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(DIVIDE, (g, r) -> {
+            return makeCalculatorGame(
+                g.getValue() / r.getOperand(),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(PAD, (g, r) -> {
+            return makeCalculatorGame(
+                String.valueOf(g.getValue()) + r.getOperand(),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(POWER, (g, r) -> {
+            return makeCalculatorGame(
+                (int) Math.pow(g.getValue(), r.getOperand()),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                g.getRules(),
+                g.getPortals()
+            );
+        });
+        applyFuncs.put(META_ADD, (g, r) -> {
+            Rule[] oldRules = g.getRules();
+            Rule[] newRules = new Rule[oldRules.length];
+            int newOperand1;
+            for (int i = 0; i < newRules.length; i++) {
+                Rule oldRule = oldRules[i];
+                // Changes the operands of all non-"Meta add" rules
+                if (
+                    oldRule instanceof OneRule
+                        && oldRule.getOperator() != META_ADD
+                ) {
+                    newOperand1 = ((OneRule) oldRule).getOperand();
+                    newOperand1 += r.getOperand();
+                    newRules[i] = Rule.of(oldRule.getOperator(), newOperand1);
+                } else {
+                    newRules[i] = oldRules[i];
+                }
+            }
+            return makeCalculatorGame(
+                g.getValue(),
+                g.getGoal(),
+                g.getMovesLeft() - 1,
+                newRules,
+                g.getPortals()
+            );
+        });
+
+        return applyFuncs;
+    }
+}
+
+class ConvertRule extends Rule {
+    private final String OP_STRING_1;
+    private final String OP_STRING_2;
+
+    @Override
+    public CalculatorGame apply(CalculatorGame game) {
+        int value = game.getValue();
+        String valString =
+            String.valueOf(value).replace(OP_STRING_1, OP_STRING_2);
+        return makeCalculatorGame(
+            valString,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
+    }
+
+    ConvertRule(int operand1, int operand2) {
+        super(CONVERT, operand1, operand2);
+        OP_STRING_1 = String.valueOf(getOperand1());
+        OP_STRING_2 = String.valueOf(getOperand2());
+    }
+
+    /**
+     * Creates a Convert Rule with the given operand strings
+     *
+     * Assumes each operand string is a valid integer
+     * @param opString1 the "from" operand
+     * @param opString2 the "to" operand
+     */
+    ConvertRule(String opString1, String opString2) {
+        super(
+            CONVERT,
+            Integer.parseInt(opString1),
+            Integer.parseInt(opString2)
+        );
+        OP_STRING_1 = opString1;
+        OP_STRING_2 = opString2;
+    }
+
+    public String toString() {
+        String s = "";
+        s += OP_STRING_1;
+        s += Config.OPERATOR_STRINGS[CONVERT];
+        s += OP_STRING_2;
+        return s;
+    }
+}
+
+/**
+ * Operates similar to the PadRule, but must be initialized. Also, it can change
+ * operand
+ */
+class StoreRule extends Rule {
+    final boolean INITIALIZED;
+
+    @Override
+    public CalculatorGame apply(CalculatorGame game) {
+        // Do nothing if uninitialized or set to pad negative
+        if (!INITIALIZED || getOperand1() < 0) return null;
+
+        // pad the value
+        String valString = String.valueOf((int) game.getValue());
+        valString += getOperand1();
+        return makeCalculatorGame(
+            valString,
+            game.getGoal(),
+            game.getMovesLeft() - 1,
+            game.getRules(),
+            game.getPortals()
+        );
+    }
+
+    StoreRule() {
+        super(STORE);
+        INITIALIZED = false;
+    }
+
+    StoreRule(int value) {
+        super(STORE, value);
+        INITIALIZED = true;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (super.equals(other)) {
+            StoreRule otherStoreRule = (StoreRule) other;
+            return INITIALIZED == otherStoreRule.INITIALIZED;
+        }
+        return false;
     }
 }
 
