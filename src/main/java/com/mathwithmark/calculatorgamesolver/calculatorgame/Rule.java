@@ -561,11 +561,12 @@ class ConvertRule extends Rule {
 
     @Override
     public String toString() {
-        String s = "";
-        s += OP_STRING_1;
-        s += Config.OPERATOR_STRINGS[CONVERT];
-        s += OP_STRING_2;
-        return s;
+        StringBuilder sb = new StringBuilder();
+        return sb
+            .append(OP_STRING_1)
+            .append(Config.OPERATOR_STRINGS[CONVERT])
+            .append(OP_STRING_2)
+            .toString();
     }
 
     @Override
