@@ -36,27 +36,22 @@ public abstract class Rule {
     }
 
     public static Rule of(String ruleString) {
-        int operator = INVALID, operand1 = 0;
+        int operator = INVALID, operand = 0;
         String convertString = Config.OPERATOR_STRINGS[CONVERT];
-        String inverseTenString = Config.OPERATOR_STRINGS[INVERSE_TEN];
         Matcher convertMatcher =
             Pattern
                 .compile("\\d+" + convertString + "\\d+")
                 .matcher(ruleString);
-        Matcher inverseTenMatcher =
-            Pattern.compile(inverseTenString).matcher(ruleString);
         boolean isConvertRule = convertMatcher.find();
-        boolean isInverseTenRule = inverseTenMatcher.find();
+        boolean isInverseTenRule =
+            ruleString.indexOf(Config.OPERATOR_STRINGS[INVERSE_TEN]) >= 0;
         if (isConvertRule) {
             int arrowIndex = ruleString.indexOf(convertString);
             String op1 = ruleString.substring(0, arrowIndex);
             String op2 = ruleString.substring(arrowIndex + 2);
             return of(CONVERT, op1, op2);
         }
-
-        if (isInverseTenRule) {
-            return of(INVERSE_TEN);
-        }
+        if (isInverseTenRule) return of(INVERSE_TEN);
 
         Matcher matcher = Pattern.compile("-?\\d+").matcher(ruleString);
         boolean hasOperand = matcher.find();
@@ -67,16 +62,14 @@ public abstract class Rule {
         if (operatorString.equals("") && ruleString.charAt(0) == '-') {
             operator = SUBTRACT; // the minus was for subtraction
             // skip the minus sign in the operand
-            operand1 = Integer.parseInt(ruleString.substring(1));
-            return of(operator, operand1);
+            operand = Integer.parseInt(ruleString.substring(1));
+            return of(operator, operand);
         }
 
         // We have a basic rule of the form "[operator][op1?]"
         operator = toOperator(operatorString);
-        if (hasOperand) {
-            operand1 = Integer.parseInt(matcher.group());
-        }
-        return of(operator, operand1);
+        if (hasOperand) operand = Integer.parseInt(matcher.group());
+        return of(operator, operand);
     }
 
     public static Rule of(int operator) {
