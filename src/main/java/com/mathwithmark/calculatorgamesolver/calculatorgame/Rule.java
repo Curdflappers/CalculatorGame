@@ -251,14 +251,14 @@ public abstract class Rule {
      * parameters are invalid
      */
     protected static CalculatorGame makeCalculatorGame(
-        Integer value,
-        Integer goal,
-        Integer moves,
+        int value,
+        int goal,
+        int moves,
         Rule[] rules,
         int[] portals
     ) {
         return makeCalculatorGame(
-            value.toString(),
+            String.valueOf(value),
             goal,
             moves,
             rules,
@@ -272,8 +272,8 @@ public abstract class Rule {
      */
     protected static CalculatorGame makeCalculatorGame(
         String valueString,
-        Integer goal,
-        Integer moves,
+        int goal,
+        int moves,
         Rule[] rules,
         int[] portals
     ) {
