@@ -75,17 +75,6 @@ public class Config {
     return Config.OPERATOR_STRINGS[operator] + operand1;
   }
 
-  /**
-   * Returns the rule string for the given operand and operands
-   * If the operator doesn't take exactly 2 operands, this throws an exception
-   */
-  static String ruleString(int operator, int operand1, int operand2) {
-    if (NUM_OPERANDS[operator] != 2) {
-      throw new RuntimeException("invalid number of operands");
-    }
-    return operand1 + Config.OPERATOR_STRINGS[operator] + operand2;
-  }
-
   static final int NUM_OPERATORS = OPERATOR_STRINGS.length;
 
   public static final String START_PROMPT = "Enter start value: ";

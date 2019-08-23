@@ -27,7 +27,8 @@ public class RuleTests {
                     assertStringCreatesRule(ruleString, i, operand1);
                     break;
                 case 2:
-                    ruleString = Config.ruleString(i, operand1, operand2);
+                    ruleString =
+                        operand1 + Config.OPERATOR_STRINGS[i] + operand2;
                     assertStringCreatesRule(ruleString, i, operand1, operand2);
                     break;
             }

@@ -29,28 +29,22 @@ public abstract class Rule {
     static final int UPDATE_STORE = 17;
 
     private int operand1;
-    private int operand2; // for convert op1 to op2 rules
     /** The index associated with the operator */
     private int operator;
     private String string;
 
     Rule(int operator) {
-        this(operator, 0, 0);
+        this(operator, 0);
     }
 
     Rule(int operator, int operand1) {
-        this(operator, operand1, 0);
-    }
-
-    Rule(int operator, int operand1, int operand2) {
         setOperator(operator);
         setOperand1(operand1);
-        setOperand2(operand2);
         setString();
     }
 
     public static Rule of(String ruleString) {
-        int operator = INVALID, operand1 = 0, operand2 = 0;
+        int operator = INVALID, operand1 = 0;
         String convertString = Config.OPERATOR_STRINGS[CONVERT];
         String inverseTenString = Config.OPERATOR_STRINGS[INVERSE_TEN];
         Matcher convertMatcher =
@@ -82,7 +76,7 @@ public abstract class Rule {
             operator = SUBTRACT; // the minus was for subtraction
             // skip the minus sign in the operand
             operand1 = Integer.parseInt(ruleString.substring(1));
-            return of(operator, operand1, operand2);
+            return of(operator, operand1);
         }
 
         // We have a basic rule of the form "[operator][op1?]"
@@ -90,7 +84,7 @@ public abstract class Rule {
         if (hasOperand) {
             operand1 = Integer.parseInt(matcher.group());
         }
-        return of(operator, operand1, operand2);
+        return of(operator, operand1);
     }
 
     public static Rule of(int operator) {
@@ -190,20 +184,12 @@ public abstract class Rule {
         this.operand1 = operand1;
     }
 
-    private void setOperand2(int operand2) {
-        this.operand2 = operand2;
-    }
-
     public int getOperator() {
         return operator;
     }
 
     public int getOperand1() {
         return operand1;
-    }
-
-    public int getOperand2() {
-        return operand2;
     }
 
     private void setString() {
@@ -220,7 +206,6 @@ public abstract class Rule {
                 string = Config.ruleString(operator, operand1);
                 return;
             case 2:
-                string = Config.ruleString(operator, operand1, operand2);
                 return;
             default:
                 throw new RuntimeException(
@@ -297,8 +282,7 @@ public abstract class Rule {
         if (other instanceof Rule) {
             Rule otherRule = (Rule) other;
             return otherRule.getOperator() == getOperator()
-                && otherRule.getOperand1() == getOperand1()
-                && otherRule.getOperand2() == getOperand2();
+                && otherRule.getOperand1() == getOperand1();
         }
         return false;
     }
@@ -598,9 +582,7 @@ class ConvertRule extends Rule {
     }
 
     ConvertRule(int operand1, int operand2) {
-        super(CONVERT, operand1, operand2);
-        OP_STRING_1 = String.valueOf(getOperand1());
-        OP_STRING_2 = String.valueOf(getOperand2());
+        this(String.valueOf(operand1), String.valueOf(operand2));
     }
 
     /**
@@ -611,21 +593,24 @@ class ConvertRule extends Rule {
      * @param opString2 the "to" operand
      */
     ConvertRule(String opString1, String opString2) {
-        super(
-            CONVERT,
-            Integer.parseInt(opString1),
-            Integer.parseInt(opString2)
-        );
+        super(CONVERT);
         OP_STRING_1 = opString1;
         OP_STRING_2 = opString2;
     }
 
+    @Override
     public String toString() {
         String s = "";
         s += OP_STRING_1;
         s += Config.OPERATOR_STRINGS[CONVERT];
         s += OP_STRING_2;
         return s;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof ConvertRule)) return false;
+        return toString().equals(other.toString());
     }
 }
 
