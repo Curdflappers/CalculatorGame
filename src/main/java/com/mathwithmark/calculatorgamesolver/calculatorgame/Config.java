@@ -6,27 +6,6 @@ public class Config {
   /** The file extension for every test case file */
   public static String TEST_CASE_FILE_EXTENSION = ".yaml";
 
-  /** Operator index. INVALID must remain < 0 */
-  static final int INVALID = -1;
-  public static final int ADD = 0;
-  public static final int SUBTRACT = 1;
-  public static final int MULTIPLY = 2;
-  public static final int DIVIDE = 3;
-  public static final int PAD = 4;
-  public static final int SIGN = 5;
-  public static final int DELETE = 6;
-  public static final int CONVERT = 7;
-  public static final int POWER = 8;
-  public static final int REVERSE = 9;
-  public static final int SUM = 10;
-  public static final int SHIFT_RIGHT = 11;
-  public static final int SHIFT_LEFT = 12;
-  public static final int MIRROR = 13;
-  public static final int META_ADD = 14;
-  public static final int STORE = 15;
-  public static final int INVERSE_TEN = 16;
-  static final int UPDATE_STORE = 17; // hidden rule
-
   /** The string for a rule with an invalid operator */
   static final String INVALID_STRING = "INVALID";
   static final String[] OPERATOR_STRINGS = {
@@ -76,35 +55,16 @@ public class Config {
 
   /**
    * Returns the rule string for the given operator
-   * If the operator takes operands, this throws an exception
    */
   static String ruleString(int operator) {
-    if (NUM_OPERANDS[operator] != 0) {
-      throw new RuntimeException("invalid number of operands");
-    }
     return Config.OPERATOR_STRINGS[operator];
   }
 
   /**
    * Returns the rule string for the given operator and operand
-   * If the operator doesn't take exactly 1 operand, this throws an exception
    */
   public static String ruleString(int operator, int operand1) {
-    if (NUM_OPERANDS[operator] != 1) {
-      throw new RuntimeException("invalid number of operands");
-    }
     return Config.OPERATOR_STRINGS[operator] + operand1;
-  }
-
-  /**
-   * Returns the rule string for the given operand and operands
-   * If the operator doesn't take exactly 2 operands, this throws an exception
-   */
-  static String ruleString(int operator, int operand1, int operand2) {
-    if (NUM_OPERANDS[operator] != 2) {
-      throw new RuntimeException("invalid number of operands");
-    }
-    return operand1 + Config.OPERATOR_STRINGS[operator] + operand2;
   }
 
   static final int NUM_OPERATORS = OPERATOR_STRINGS.length;

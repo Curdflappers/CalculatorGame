@@ -27,7 +27,8 @@ public class RuleTests {
                     assertStringCreatesRule(ruleString, i, operand1);
                     break;
                 case 2:
-                    ruleString = Config.ruleString(i, operand1, operand2);
+                    ruleString =
+                        operand1 + Config.OPERATOR_STRINGS[i] + operand2;
                     assertStringCreatesRule(ruleString, i, operand1, operand2);
                     break;
             }
@@ -36,8 +37,8 @@ public class RuleTests {
         // "*-2" used to parse as "*-", leading to invalid operator
         operand1 = -2; // or any negative number
         // note the lack of space between operator and operand
-        ruleString = Config.ruleString(Config.MULTIPLY, operand1);
-        assertStringCreatesRule(ruleString, Config.MULTIPLY, operand1);
+        ruleString = Config.ruleString(Rule.MULTIPLY, operand1);
+        assertStringCreatesRule(ruleString, Rule.MULTIPLY, operand1);
     }
 
     /**
@@ -73,103 +74,103 @@ public class RuleTests {
 
     @Test
     void applyAdd() {
-        assertApplyRule(3, Config.ADD, 2, 1);
-        assertApplyRule(-3, Config.ADD, 4, -7);
+        assertApplyRule(3, Rule.ADD, 2, 1);
+        assertApplyRule(-3, Rule.ADD, 4, -7);
     }
 
     @Test
     void applySubtract() {
-        assertApplyRule(3, Config.SUBTRACT, 4, 7);
-        assertApplyRule(-3, Config.SUBTRACT, 5, 2);
+        assertApplyRule(3, Rule.SUBTRACT, 4, 7);
+        assertApplyRule(-3, Rule.SUBTRACT, 5, 2);
     }
 
     @Test
     void applyMultiply() {
-        assertApplyRule(12, Config.MULTIPLY, 3, 4);
-        assertApplyRule(-27, Config.MULTIPLY, -9, 3);
+        assertApplyRule(12, Rule.MULTIPLY, 3, 4);
+        assertApplyRule(-27, Rule.MULTIPLY, -9, 3);
     }
 
     @Test
     void applyDivide() {
-        assertApplyRule(353, Config.DIVIDE, 2, 706);
-        assertApplyRule(-535, Config.DIVIDE, -3, 535 * 3);
+        assertApplyRule(353, Rule.DIVIDE, 2, 706);
+        assertApplyRule(-535, Rule.DIVIDE, -3, 535 * 3);
     }
 
     @Test
     void applyPad() {
-        assertApplyRule(12, Config.PAD, 2, 1);
-        assertApplyRule(1210, Config.PAD, 10, 12);
-        assertApplyRule(3, Config.PAD, 3, 0);
-        assertApplyRule(30, Config.PAD, 0, 3);
+        assertApplyRule(12, Rule.PAD, 2, 1);
+        assertApplyRule(1210, Rule.PAD, 10, 12);
+        assertApplyRule(3, Rule.PAD, 3, 0);
+        assertApplyRule(30, Rule.PAD, 0, 3);
     }
 
     @Test
     void applySign() {
-        assertApplyRule(-1, Config.SIGN, 1);
-        assertApplyRule(1, Config.SIGN, -1);
-        assertApplyRule(-0, Config.SIGN, 0);
+        assertApplyRule(-1, Rule.SIGN, 1);
+        assertApplyRule(1, Rule.SIGN, -1);
+        assertApplyRule(-0, Rule.SIGN, 0);
     }
 
     @Test
     void applyDelete() {
-        assertApplyRule(1, Config.DELETE, 12);
-        assertApplyRule(0, Config.DELETE, 1);
-        assertApplyRule(0, Config.DELETE, 0);
-        assertApplyRule(-1, Config.DELETE, -12);
-        assertApplyRule(0, Config.DELETE, -1);
-        assertApplyRule(0, Config.DELETE, 0);
+        assertApplyRule(1, Rule.DELETE, 12);
+        assertApplyRule(0, Rule.DELETE, 1);
+        assertApplyRule(0, Rule.DELETE, 0);
+        assertApplyRule(-1, Rule.DELETE, -12);
+        assertApplyRule(0, Rule.DELETE, -1);
+        assertApplyRule(0, Rule.DELETE, 0);
     }
 
     @Test
     void applyConvert() {
-        assertApplyRule(3, Config.CONVERT, 5, 3, 5);
-        assertApplyRule(12, Config.CONVERT, 3, 1, 32);
-        assertApplyRule(236523, Config.CONVERT, 56, 23, 566556);
-        assertApplyRule(1, Config.CONVERT, 2, 3, 1);
-        assertApplyRule(-3, Config.CONVERT, 5, 3, -5);
-        assertApplyRule(-12, Config.CONVERT, 3, 1, -32);
-        assertApplyRule(-236523, Config.CONVERT, 56, 23, -566556);
-        assertApplyRule(-1, Config.CONVERT, 2, 3, -1);
-        assertApplyRule(3001, Config.CONVERT, "31", "00", 3311);
+        assertApplyRule(3, Rule.CONVERT, 5, 3, 5);
+        assertApplyRule(12, Rule.CONVERT, 3, 1, 32);
+        assertApplyRule(236523, Rule.CONVERT, 56, 23, 566556);
+        assertApplyRule(1, Rule.CONVERT, 2, 3, 1);
+        assertApplyRule(-3, Rule.CONVERT, 5, 3, -5);
+        assertApplyRule(-12, Rule.CONVERT, 3, 1, -32);
+        assertApplyRule(-236523, Rule.CONVERT, 56, 23, -566556);
+        assertApplyRule(-1, Rule.CONVERT, 2, 3, -1);
+        assertApplyRule(3001, Rule.CONVERT, "31", "00", 3311);
     }
 
     @Test
     void applyPower() {
-        assertApplyRule(8, Config.POWER, 3, 2);
+        assertApplyRule(8, Rule.POWER, 3, 2);
     }
 
     @Test
     void applyReverse() {
-        assertApplyRule(35, Config.REVERSE, 53);
-        assertApplyRule(0, Config.REVERSE, 0);
-        assertApplyRule(-12, Config.REVERSE, -21);
+        assertApplyRule(35, Rule.REVERSE, 53);
+        assertApplyRule(0, Rule.REVERSE, 0);
+        assertApplyRule(-12, Rule.REVERSE, -21);
     }
 
     @Test
     void applySum() {
-        assertApplyRule(1 + 2 + 3, Config.SUM, 123);
-        assertApplyRule(0, Config.SUM, 0);
+        assertApplyRule(1 + 2 + 3, Rule.SUM, 123);
+        assertApplyRule(0, Rule.SUM, 0);
     }
 
     @Test
     void applyShiftRight() {
-        assertApplyRule(4123, Config.SHIFT_RIGHT, 1234);
-        assertApplyRule(-4123, Config.SHIFT_RIGHT, -1234);
-        assertApplyRule(-2, Config.SHIFT_RIGHT, -2);
+        assertApplyRule(4123, Rule.SHIFT_RIGHT, 1234);
+        assertApplyRule(-4123, Rule.SHIFT_RIGHT, -1234);
+        assertApplyRule(-2, Rule.SHIFT_RIGHT, -2);
     }
 
     @Test
     void applyShiftLeft() {
-        assertApplyRule(2341, Config.SHIFT_LEFT, 1234);
-        assertApplyRule(-2341, Config.SHIFT_LEFT, -1234);
-        assertApplyRule(-2, Config.SHIFT_LEFT, -2);
+        assertApplyRule(2341, Rule.SHIFT_LEFT, 1234);
+        assertApplyRule(-2341, Rule.SHIFT_LEFT, -1234);
+        assertApplyRule(-2, Rule.SHIFT_LEFT, -2);
     }
 
     @Test
     void applyMirror() {
-        assertApplyRule(2332, Config.MIRROR, 23);
-        assertApplyRule(0, Config.MIRROR, 0);
-        assertApplyRule(-11, Config.MIRROR, -1);
+        assertApplyRule(2332, Rule.MIRROR, 23);
+        assertApplyRule(0, Rule.MIRROR, 0);
+        assertApplyRule(-11, Rule.MIRROR, -1);
     }
 
     @Test
@@ -177,15 +178,15 @@ public class RuleTests {
         int addOperand = 1;
         int subtractOperand = 2;
         int metaAddOperand = 3;
-        Rule metaAddRule = Rule.of(Config.META_ADD, metaAddOperand);
+        Rule metaAddRule = Rule.of(Rule.META_ADD, metaAddOperand);
         Rule[] rules = new Rule[] {
-            Rule.of(Config.ADD, addOperand),
-            Rule.of(Config.SUBTRACT, subtractOperand),
+            Rule.of(Rule.ADD, addOperand),
+            Rule.of(Rule.SUBTRACT, subtractOperand),
             metaAddRule,
         };
         Rule[] expectedRules = new Rule[] {
-            Rule.of(Config.ADD, addOperand + metaAddOperand),
-            Rule.of(Config.SUBTRACT, subtractOperand + metaAddOperand),
+            Rule.of(Rule.ADD, addOperand + metaAddOperand),
+            Rule.of(Rule.SUBTRACT, subtractOperand + metaAddOperand),
             metaAddRule,
         };
 
@@ -199,9 +200,9 @@ public class RuleTests {
 
     @Test
     void applyInverseTen() {
-        assertApplyRule(123456, Config.INVERSE_TEN, 987654);
-        assertApplyRule(10, Config.INVERSE_TEN, 90);
-        assertApplyRule(-10, Config.INVERSE_TEN, -90);
+        assertApplyRule(123456, Rule.INVERSE_TEN, 987654);
+        assertApplyRule(10, Rule.INVERSE_TEN, 90);
+        assertApplyRule(-10, Rule.INVERSE_TEN, -90);
     }
 
     // ------- //
@@ -290,17 +291,4 @@ public class RuleTests {
         StoreRule rule = new StoreRule(operand1);
         assertApplyRule(newValue, rule, gameValue);
     }
-
-    ///////////
-    // OTHER //
-    ///////////
-
-    @Test
-    void shiftRecognizesZero() {
-        int[] zeroDigits = Helpers.digits(0);
-
-        assertEquals(1, zeroDigits.length);
-        assertEquals(0, zeroDigits[0]);
-    }
-
 }

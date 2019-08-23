@@ -1,6 +1,6 @@
 # Calculator Game
 
-A clone and solver of __Calculator: The Game__ by Simple Machine. It supports all 16 rule types. It supports portals. Users can play and solve all 199 levels of the game, plus any custom level they want to create. It runs through the terminal.
+A clone and solver of __Calculator: The Game__ by Simple Machine. It supports all 17 rule types. It supports portals. Users can play and solve all 199 levels of the game, plus any custom level they want to create. It runs through the terminal.
 
 The solver prompts for input about a particular level, and then beats the level. It outputs all solutions to the user. It then prompts the user to complete another level or quit the program. This repeats until the user chooses to quit.
 
