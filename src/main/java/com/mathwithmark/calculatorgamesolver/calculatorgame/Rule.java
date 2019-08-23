@@ -28,19 +28,11 @@ public abstract class Rule {
     public static final int INVERSE_TEN = 16;
     static final int UPDATE_STORE = 17;
 
-    private int operand1;
     /** The index associated with the operator */
     private int operator;
-    private String string;
 
     Rule(int operator) {
-        this(operator, 0);
-    }
-
-    Rule(int operator, int operand1) {
         setOperator(operator);
-        setOperand1(operand1);
-        setString();
     }
 
     public static Rule of(String ruleString) {
@@ -180,49 +172,8 @@ public abstract class Rule {
         this.operator = operatorIndex;
     }
 
-    private void setOperand1(int operand1) {
-        this.operand1 = operand1;
-    }
-
     public int getOperator() {
         return operator;
-    }
-
-    public int getOperand1() {
-        return operand1;
-    }
-
-    private void setString() {
-        if (operator < 0) {
-            string = "INVALID";
-            return;
-        }
-        int numOperands = Config.NUM_OPERANDS[operator];
-        switch (numOperands) {
-            case 0:
-                string = Config.ruleString(operator);
-                return;
-            case 1:
-                string = Config.ruleString(operator, operand1);
-                return;
-            case 2:
-                return;
-            default:
-                throw new RuntimeException(
-                    "Unexpected number of operands: " + numOperands
-                );
-        }
-    }
-
-    /**
-     * Returns a string representation of this rule.
-     * <p>
-     * In the form [operator][operand1] (no spaces) e.g. "+1", "*2"
-     * <p>
-     * Operators are: ADD: "+", SUBTRACT: "-", MULTIPLY: "*", DIVIDE: "/"
-     */
-    public String toString() {
-        return string;
     }
 
     /**
@@ -230,6 +181,18 @@ public abstract class Rule {
      * game.
      */
     public abstract CalculatorGame apply(CalculatorGame game);
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Rule)) return false;
+        Rule otherOneRule = (Rule) other;
+        return otherOneRule.getOperator() == getOperator();
+    }
+
+    @Override
+    public String toString() {
+        return Config.ruleString(getOperator());
+    }
 
     /**
      * @return a level made from the given parameters. Returns null if any
@@ -275,16 +238,6 @@ public abstract class Rule {
         } catch (IllegalArgumentException e) {
             return null;
         }
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof Rule) {
-            Rule otherRule = (Rule) other;
-            return otherRule.getOperator() == getOperator()
-                && otherRule.getOperand1() == getOperand1();
-        }
-        return false;
     }
 }
 
@@ -452,6 +405,7 @@ class ZeroRule extends Rule {
 }
 
 class OneRule extends Rule {
+    private final int OPERAND;
     private static Map<
         Integer,
         BiFunction<CalculatorGame, OneRule, CalculatorGame>> applyFuncs = null;
@@ -459,17 +413,31 @@ class OneRule extends Rule {
     private BiFunction<CalculatorGame, OneRule, CalculatorGame> applyFunc;
 
     OneRule(int operator, int operand) {
-        super(operator, operand);
+        super(operator);
+        OPERAND = operand;
         applyFunc = getApplyFuncs().get(operator);
     }
 
     public int getOperand() {
-        return getOperand1();
+        return OPERAND;
     }
 
     @Override
     public CalculatorGame apply(CalculatorGame game) {
         return applyFunc.apply(game, this);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof OneRule)) return false;
+        OneRule otherOneRule = (OneRule) other;
+        return otherOneRule.getOperator() == getOperator()
+            && otherOneRule.getOperand() == getOperand();
+    }
+
+    @Override
+    public String toString() {
+        return Config.ruleString(getOperator(), getOperand());
     }
 
     private static
@@ -620,17 +588,17 @@ class ConvertRule extends Rule {
  * Operates similar to the PadRule, but must be initialized. Also, it can change
  * operand
  */
-class StoreRule extends Rule {
+class StoreRule extends OneRule {
     final boolean INITIALIZED;
 
     @Override
     public CalculatorGame apply(CalculatorGame game) {
         // Do nothing if uninitialized or set to pad negative
-        if (!INITIALIZED || getOperand1() < 0) return null;
+        if (!INITIALIZED || getOperand() < 0) return null;
 
         // pad the value
         String valString = String.valueOf((int) game.getValue());
-        valString += getOperand1();
+        valString += getOperand();
         return makeCalculatorGame(
             valString,
             game.getGoal(),
@@ -641,7 +609,7 @@ class StoreRule extends Rule {
     }
 
     StoreRule() {
-        super(STORE);
+        super(STORE, 0);
         INITIALIZED = false;
     }
 
@@ -652,11 +620,14 @@ class StoreRule extends Rule {
 
     @Override
     public boolean equals(Object other) {
-        if (super.equals(other)) {
-            StoreRule otherStoreRule = (StoreRule) other;
-            return INITIALIZED == otherStoreRule.INITIALIZED;
-        }
-        return false;
+        if (!super.equals(other)) return false;
+        StoreRule otherStoreRule = (StoreRule) other;
+        return INITIALIZED == otherStoreRule.INITIALIZED;
+    }
+
+    @Override
+    public String toString() {
+        return Config.OPERATOR_STRINGS[STORE];
     }
 }
 
