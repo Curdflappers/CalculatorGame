@@ -55,23 +55,15 @@ public class Config {
 
   /**
    * Returns the rule string for the given operator
-   * If the operator takes operands, this throws an exception
    */
   static String ruleString(int operator) {
-    if (NUM_OPERANDS[operator] != 0) {
-      throw new RuntimeException("invalid number of operands");
-    }
     return Config.OPERATOR_STRINGS[operator];
   }
 
   /**
    * Returns the rule string for the given operator and operand
-   * If the operator doesn't take exactly 1 operand, this throws an exception
    */
   public static String ruleString(int operator, int operand1) {
-    if (NUM_OPERANDS[operator] != 1) {
-      throw new RuntimeException("invalid number of operands");
-    }
     return Config.OPERATOR_STRINGS[operator] + operand1;
   }
 
