@@ -5,10 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
+import com.mathwithmark.calculatorgamesolver.brutesolver.Solver;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Config;
-import com.mathwithmark.calculatorgamesolver.calculatorgame.LevelTests;
 import com.mathwithmark.calculatorgamesolver.calculatorgame.Rule;
+import com.mathwithmark.calculatorgamesolver.calculatorgame.TestCase;
+import com.mathwithmark.calculatorgamesolver.yaml.Serialize;
 
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +74,7 @@ public class DeveloperTests {
                 Config.TEST_CASES_PATH
                     + TEST_CASE_NAME
                     + Config.TEST_CASE_FILE_EXTENSION;
-            assertTrue(LevelTests.passesLevel(testCasePath));
+            assertTrue(passesLevel(testCasePath));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -81,5 +84,18 @@ public class DeveloperTests {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * @param testCasePath the path of the file to test
+     * @return whether the given test case can be solved
+     */
+    public static boolean passesLevel(String testCasePath) {
+        TestCase testCase = Serialize.loadTestCase(testCasePath);
+        List<String> expectedSolutionString = testCase.SOLUTION;
+
+        List<List<String>> solutions = Solver.getAllSolutions(testCase.GAME);
+
+        return solutions.contains(expectedSolutionString);
     }
 }
