@@ -30,7 +30,7 @@ public class PlayTests {
     /**
      * @return the input string to quit a level, then to quit the game
      */
-    private static String quitGameFromLevelInput() {
+    private String quitGameFromLevelInput() {
         StringBuilder sb = new StringBuilder();
         sb.append(1).append("\n"); // first level index
         sb.append(Play.QUIT_LEVEL_INPUT).append("\n");
@@ -40,7 +40,7 @@ public class PlayTests {
     /**
      * @return the input required to play and beat all levels
      */
-    private static String playAllLevelsInput() {
+    private String playAllLevelsInput() {
         StringBuilder sb = new StringBuilder();
         sb.append(1).append("\n"); // first level index
         for (String testCasePath : Helpers.testCasePaths()) {

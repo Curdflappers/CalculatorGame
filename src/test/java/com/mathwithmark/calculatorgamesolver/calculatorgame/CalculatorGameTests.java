@@ -119,10 +119,6 @@ class ApplyPortalsTests {
 }
 
 class RuleSanitationTests {
-    private static CalculatorGame constructLevelWith(Rule[] rules) {
-        return new CalculatorGame(1, 1, 1, rules, null);
-    }
-
     @Test
     void rulesExactlyCopied() {
         Rule[] expectedRules = {
@@ -175,5 +171,9 @@ class RuleSanitationTests {
         assertThrows(IllegalArgumentException.class, () -> {
             constructLevelWith(inputRules);
         });
+    }
+
+    private CalculatorGame constructLevelWith(Rule[] rules) {
+        return new CalculatorGame(1, 1, 1, rules, null);
     }
 }

@@ -20,54 +20,6 @@ import org.junit.jupiter.api.Test;
 import com.mathwithmark.calculatorgamesolver.brutesolver.State;
 
 public class MainTests {
-    Rule[] rules, solution;
-    boolean[] apply;
-    int[] portals;
-
-    //////////////////
-    // CONSTRUCTORS //
-    //////////////////
-
-    @Test
-    void gameConstructor() {
-        Rule[] validRules = {
-            Rule.of(Rule.ADD, 1),
-            Rule.of(Rule.SIGN),
-            Rule.of(Rule.MULTIPLY, 2),
-        };
-        Rule[] invalidRules = {
-            Rule.of(Rule.ADD, 2),
-            Rule.of(Rule.REVERSE),
-            Rule.of(Rule.MULTIPLY, -2),
-        };
-        int value = 1, goal = 2, movesLeft = 3;
-
-        CalculatorGame game =
-            new CalculatorGame(value, goal, movesLeft, validRules, null);
-
-        assertEquals(value, game.getValue());
-        assertEquals(goal, game.getGoal());
-        assertEquals(movesLeft, game.getMovesLeft());
-        for (Rule rule : validRules) {
-            assertTrue(game.isValidRule(rule));
-        }
-        for (Rule rule : invalidRules) {
-            assertFalse(game.isValidRule(rule));
-        }
-    }
-
-    @Test
-    void stateConstructorGame() {
-        State sut = state();
-        assertEquals(calculatorGame(), sut.getGame());
-        assertNull(sut.getParent());
-        assertNull(sut.getTransitionString());
-    }
-
-    //////////
-    // MAIN //
-    //////////
-
     @Test
     void parseInput() {
         IoUtils.prepareEndToEndTest("");
@@ -134,20 +86,6 @@ public class MainTests {
         List<String> solution = new ArrayList<>();
         solution.add(CalculatorGame.transitionString(rule));
         assertMainAgainWorks(value, goal, moves, rules, solution);
-    }
-
-    /** Generates a basic instance of CalculatorGame to stay DRY */
-    private CalculatorGame calculatorGame() {
-        Rule[] rules = new Rule[] {
-            Rule.of(Rule.SIGN)
-        };
-        int value = 1, goal = 2, movesLeft = 3;
-        return new CalculatorGame(value, goal, movesLeft, rules, null);
-    }
-
-    /** Generates a basic instance of CalculatorGame to stay DRY */
-    private State state() {
-        return new State(calculatorGame());
     }
 
     /** Asserts that the given parameters create the given game in Main.main */
@@ -246,5 +184,57 @@ public class MainTests {
         String output = Main.solutionPrintString(solution);
         output += Main.AGAIN_PROMPT + " (y/n): ";
         return output;
+    }
+}
+
+class MainConstructorTests {
+    @Test
+    void gameConstructor() {
+        Rule[] validRules = {
+            Rule.of(Rule.ADD, 1),
+            Rule.of(Rule.SIGN),
+            Rule.of(Rule.MULTIPLY, 2),
+        };
+        Rule[] invalidRules = {
+            Rule.of(Rule.ADD, 2),
+            Rule.of(Rule.REVERSE),
+            Rule.of(Rule.MULTIPLY, -2),
+        };
+        int value = 1, goal = 2, movesLeft = 3;
+
+        CalculatorGame game =
+            new CalculatorGame(value, goal, movesLeft, validRules, null);
+
+        assertEquals(value, game.getValue());
+        assertEquals(goal, game.getGoal());
+        assertEquals(movesLeft, game.getMovesLeft());
+        for (Rule rule : validRules) {
+            assertTrue(game.isValidRule(rule));
+        }
+        for (Rule rule : invalidRules) {
+            assertFalse(game.isValidRule(rule));
+        }
+    }
+
+    @Test
+    void stateConstructorGame() {
+        State sut = state();
+        assertEquals(calculatorGame(), sut.getGame());
+        assertNull(sut.getParent());
+        assertNull(sut.getTransitionString());
+    }
+
+    /** Generates a basic instance of CalculatorGame to stay DRY */
+    private CalculatorGame calculatorGame() {
+        Rule[] rules = new Rule[] {
+            Rule.of(Rule.SIGN)
+        };
+        int value = 1, goal = 2, movesLeft = 3;
+        return new CalculatorGame(value, goal, movesLeft, rules, null);
+    }
+
+    /** Generates a basic instance of CalculatorGame to stay DRY */
+    private State state() {
+        return new State(calculatorGame());
     }
 }
