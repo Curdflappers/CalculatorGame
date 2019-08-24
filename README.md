@@ -176,7 +176,7 @@ Eventually, I'd like to:
 * Show detailed instructions
 * Present through a good UI (and restrict bad input)
 
-View [the project board](https://github.com/mark-wiemer/calculator-game-solver/projects/1) to see what's in development.
+View [the issues and PRs](https://github.com/mark-wiemer/calculator-game-solver/issues) to see what's in development.
 
 ## Further Documentation
 
