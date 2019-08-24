@@ -31,26 +31,26 @@ public class PlayTests {
      * @return the input string to quit a level, then to quit the game
      */
     private static String quitGameFromLevelInput() {
-        String s = "";
-        s += 1 + "\n"; // first level index
-        s += Play.QUIT_LEVEL_INPUT + "\n";
-        return s;
+        StringBuilder sb = new StringBuilder();
+        sb.append(1).append("\n"); // first level index
+        sb.append(Play.QUIT_LEVEL_INPUT).append("\n");
+        return sb.toString();
     }
 
     /**
      * @return the input required to play and beat all levels
      */
     private static String playAllLevelsInput() {
-        String s = "";
-        s += 1 + "\n"; // first level index
+        StringBuilder sb = new StringBuilder();
+        sb.append(1).append("\n"); // first level index
         for (String testCasePath : Helpers.testCasePaths()) {
             List<String> solution =
                 Serialize.loadTestCase(testCasePath).SOLUTION;
             for (String step : solution) {
-                s += step + "\n";
+                sb.append(step).append("\n");
             }
-            s += Play.YES_INPUT + "\n"; // yes to next level
+            sb.append(Play.YES_INPUT).append("\n"); // yes to next level
         }
-        return s;
+        return sb.toString();
     }
 }
