@@ -5,10 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class RuleTests {
-    //////////////////
-    // CONSTRUCTORS //
-    //////////////////
+}
 
+class RuleConstructorTests {
     @Test
     void ruleConstructor() {
         int operand1 = 1;
@@ -45,7 +44,7 @@ public class RuleTests {
      * Asserts that the given string creates a rule with the given operator and
      * that both operands are 0
      */
-    void assertStringCreatesRule(String str, int operator) {
+    private void assertStringCreatesRule(String str, int operator) {
         assertStringCreatesRule(str, operator, 0, 0);
     }
 
@@ -53,11 +52,15 @@ public class RuleTests {
      * Asserts that the given string creates a rule with the given operator and
      * that both operands are 0
      */
-    void assertStringCreatesRule(String str, int operator, int operand1) {
+    private void assertStringCreatesRule(
+        String str,
+        int operator,
+        int operand1
+    ) {
         assertStringCreatesRule(str, operator, operand1, 0);
     }
 
-    void assertStringCreatesRule(
+    private void assertStringCreatesRule(
         String str,
         int operator,
         int operand1,
@@ -67,11 +70,9 @@ public class RuleTests {
         assertEquals(Rule.of(operator, operand1, operand2), rule);
         assertEquals(str, rule.toString());
     }
+}
 
-    ///////////
-    // APPLY //
-    ///////////
-
+class RuleApplyTests {
     @Test
     void applyAdd() {
         assertApplyRule(3, Rule.ADD, 2, 1);
@@ -205,15 +206,11 @@ public class RuleTests {
         assertApplyRule(-10, Rule.INVERSE_TEN, -90);
     }
 
-    // ------- //
-    // Helpers //
-    // ------- //
-
     /**
      * Asserts that the result of applying the given non-meta rule to a game
      * with the given value and no portals results in the expected value
      */
-    void assertApplyRule(int expected, int operator, int value) {
+    private void assertApplyRule(int expected, int operator, int value) {
         Rule rule = Rule.of(operator);
         assertApplyRule(expected, rule, value);
     }
@@ -222,7 +219,12 @@ public class RuleTests {
      * Asserts that the result of applying the given non-meta rule to a game
      * with the given value and no portals results in the expected value
      */
-    void assertApplyRule(int expected, int operator, int operand1, int value) {
+    private void assertApplyRule(
+        int expected,
+        int operator,
+        int operand1,
+        int value
+    ) {
         Rule rule = Rule.of(operator, operand1);
         assertApplyRule(expected, rule, value);
     }
@@ -231,7 +233,7 @@ public class RuleTests {
      * Asserts that the result of applying the given non-meta rule to a game
      * with the given value and no portals results in the expected value
      */
-    void assertApplyRule(
+    private void assertApplyRule(
         int expected,
         int operator,
         int operand1,
@@ -246,7 +248,7 @@ public class RuleTests {
      * Asserts that the result of applying the given non-meta rule to a game
      * with the given value and no portals results in the expected value
      */
-    void assertApplyRule(
+    private void assertApplyRule(
         int expected,
         int operator,
         String opString1,
@@ -261,7 +263,7 @@ public class RuleTests {
      * Asserts that the result of applying the given non-meta rule to a game
      * with the given value and no portals results in the expected value
      */
-    void assertApplyRule(int expected, Rule rule, int value) {
+    private void assertApplyRule(int expected, Rule rule, int value) {
         CalculatorGame originalGame =
             new CalculatorGame(value, 0, 1, new Rule[] {}, null);
         int newValue = rule.apply(originalGame).getValue();
@@ -274,7 +276,11 @@ public class RuleTests {
      * @param rule
      * @param oldRules
      */
-    void assertApplyMetaRule(Rule[] expectedRules, Rule rule, Rule[] oldRules) {
+    private void assertApplyMetaRule(
+        Rule[] expectedRules,
+        Rule rule,
+        Rule[] oldRules
+    ) {
         int value = -1;
         int goal = -2;
         int moves = 9; // some value > 0
@@ -287,7 +293,11 @@ public class RuleTests {
         assertEquals(expectedGame, newGame);
     }
 
-    void assertApplyStoreRule(int gameValue, int operand1, int newValue) {
+    private void assertApplyStoreRule(
+        int gameValue,
+        int operand1,
+        int newValue
+    ) {
         StoreRule rule = new StoreRule(operand1);
         assertApplyRule(newValue, rule, gameValue);
     }
